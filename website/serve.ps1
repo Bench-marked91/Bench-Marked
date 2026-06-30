@@ -11,7 +11,7 @@ try { $listener.Start() } catch {
   exit 1
 }
 Write-Host "Serving $root at $prefix" -ForegroundColor Green
-Write-Host "Open:  ${prefix}preview.html" -ForegroundColor Cyan
+Write-Host "Open:  ${prefix}" -ForegroundColor Cyan
 Write-Host "Press Ctrl+C in this window to stop." -ForegroundColor DarkGray
 
 $types = @{
@@ -25,7 +25,7 @@ while ($listener.IsListening) {
     $ctx = $listener.GetContext()
   } catch { break }
   $rel = [System.Uri]::UnescapeDataString($ctx.Request.Url.AbsolutePath.TrimStart('/'))
-  if ([string]::IsNullOrWhiteSpace($rel)) { $rel = "preview.html" }
+  if ([string]::IsNullOrWhiteSpace($rel)) { $rel = "index.html" }
   $path = Join-Path $root $rel
   $res = $ctx.Response
   $res.Headers["Cache-Control"] = "no-store"
