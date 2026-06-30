@@ -139,7 +139,8 @@ def main():
         records.append(rec)
 
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    OUT_FILE.write_text(json.dumps(records, indent=2, ensure_ascii=False), encoding="utf-8")
+    # Always write LF (no trailing CRLF on Windows) so local and CI output match.
+    OUT_FILE.write_text(json.dumps(records, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
     graded = sum(1 for r in records if r.get("overallGrade"))
     with_source = sum(1 for r in records if r.get("source"))
