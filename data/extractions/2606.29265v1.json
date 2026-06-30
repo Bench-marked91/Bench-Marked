@@ -1,0 +1,35 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "MIThinker: A Plug-and-Play Policy-Optimized Thinker For Motivational Interviewing Counseling",
+  "paper_link": "http://arxiv.org/abs/2606.29265v1",
+  "open_vs_closed_source": "Mixed",
+  "month_year": "June 2026",
+  "authors": [
+    "Yizhe Yang",
+    "Palakorn Achananuparp",
+    "Heyan Huang",
+    "Jing Jiang",
+    "Ee-Peng Lim"
+  ],
+  "institutions": "Beijing Institute of Technology; Singapore Management University; Australian National University",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "AnnoMI dataset (Wu et al., 2022, 2023) \u2014 110 high-quality expert-annotated MI counseling sessions with annotated MI strategy labels; oracle thoughts reverse-engineered via GPT-4o pipeline (AugR1-MI)",
+  "size_of_benchmark": "2,322 context-response pairs from 110 sessions; 31,444 oracle thoughts derived; test set: 258 context-response pairs from 10 sessions",
+  "what_assessed_skills": "MI counseling competency; Theory of Mind (ToM) assessment (belief, desire, intention, emotion, trust); MI strategy selection and alignment; therapeutic reasoning; response generation quality; change talk elicitation",
+  "tasks_assessed": "Counselor thought generation (ToM assessment + MI strategy reasoning); MI counseling response generation; MI strategy classification; simulated client interaction; session-level MI competency evaluation",
+  "population_represented": "Simulated counseling clients with diverse behavior change topics (health, economy, relationship, law, education); based on staged AnnoMI demonstrations by trained actors",
+  "languages": "English",
+  "num_domains": "5",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Both (Automated + Human). Automated: behavior code classifier (R/Q, %OQ, %CR, %MIC, %TTT); GPT-4o MITI global scores (Cultivating Change Talk, Softening Sustain Talk, Partnership, Empathy on 5-point Likert); BLEU, ROUGE, BERTScore, Strategy Fit Ratio, Bias; success rate. Human: 10 MI experts assessed thought quality (ToM accuracy, strategy rationality), pairwise thought comparisons, and session-level MITI ratings across 60 contexts and 30 sessions per method.",
+  "num_llms_assessed": "7",
+  "llms_evaluated": "GPT-4o; LLaMA3-70B (LLaMA 3.1 70B); LLaMA3-3B-Instruct (MIThinker backbone); DeepSeek-R1 distilled model (R1-Dist); MindfulMI_SFT (LLaMA3-3B fine-tuned with SFT); MindfulMI_SFT+RL (LLaMA3-3B fine-tuned with SFT+GRPO); CAMI (Yang et al., 2025, multi-module)",
+  "mental_health_conditions": "Substance use / behavior change (alcohol consumption reduction, smoking cessation, drug use, marijuana use); motivational interviewing for general behavior change motivation",
+  "performance_scores": "MindfulMI (GPT-4o backbone): R/Q=1.17, %OQ=72.1%, %CR=63.1%, %MIC=94.7%, %TTT=44.1%; MITI global scores ~3.07\u20133.17; success rate=46.8%; BLEU-2=7.26, ROUGE-L=19.04, BERTScore=88.90, SFR=44.04. MIThinker thought accuracy: Belief=0.80, Intention=0.81 (vs oracle 0.71, 0.78). Expert session evaluation: MindfulMI comparable to CAMI across CCT, SST, PAT, EMP, REA dimensions.",
+  "short_summary": "This paper proposes MIThinker, a lightweight plug-and-play thinking model that generates explicit therapeutic counselor thoughts (Theory of Mind assessment + MI strategy reasoning) to guide LLM-based Motivational Interviewing (MI) counseling agents. To address the absence of counselor thought data, the authors build the AugR1-MI dataset (31,444 oracle thoughts from 110 AnnoMI sessions) via an automated reverse-engineering pipeline using GPT-4o. MIThinker is trained on LLaMA3-3B-Instruct via two-stage SFT and GRPO reinforcement learning with composite reward functions (format, alignment, reasonableness). The resulting MindfulMI agent is evaluated on simulated MI sessions using automated metrics (MITI behavior codes, BLEU/ROUGE/BERTScore, success rate) and human expert annotation (ToM accuracy, pairwise thought comparison, session MITI ratings). MindfulMI achieves MI competency comparable to state-of-the-art CAMI with an order of magnitude less computation, and MIThinker outperforms oracle thoughts on several ToM dimensions.",
+  "missing_or_uncertain_fields": [
+    "llms_evaluated \u2014 CAMI and R1-Dist are systems/methods rather than single standalone LLMs; exact DeepSeek-R1 distilled model version not specified",
+    "num_llms_assessed \u2014 count depends on whether backbone variants are counted separately; 7 is an approximation",
+    "performance_scores \u2014 expert session-level Likert scores for MindfulMI not given as precise numbers in text (only radar chart Figure 4b)"
+  ]
+}

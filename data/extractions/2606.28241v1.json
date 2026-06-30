@@ -1,0 +1,37 @@
+{
+  "relevance_flag": "Might Be Related",
+  "benchmark_name": "Functional outcomes and naturalistic engagement with a purpose-built conversational AI for mental health (Ash)",
+  "paper_link": "http://arxiv.org/abs/2606.28241v1",
+  "open_vs_closed_source": "",
+  "month_year": "2026",
+  "authors": [
+    "Kristen M. Van Swearingen",
+    "Thomas D. Hull",
+    "Karthik V. Sarma",
+    "Caitlin A. Stamatis"
+  ],
+  "institutions": "Health Psychology Doctoral Program, The University of North Carolina at Charlotte; Slingshot AI, New York, NY; AI in Mental Health Research Group, Department of Psychiatry and Behavioral Sciences, University of California, San Francisco",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "In-app single-item validated questionnaire responses from real-world users (self-report), collected at baseline and Week 4; drawn from validated measures (OECD well-being item, Snyder et al. sleep quality scale, Atroszko et al. relationship satisfaction item, Joseph et al. behavioral activation item, Specific Psychotic Experiences Questionnaire grandiosity subscale, Working Alliance Inventory goals subscale)",
+  "size_of_benchmark": "1,284 participants; 6 outcome measures \u00d7 2 time points; 4 engagement metrics",
+  "what_assessed_skills": "Psychological functioning outcomes of a purpose-built conversational AI for mental health (Ash): life satisfaction, relationship satisfaction, sleep quality, behavioral activation, working alliance, grandiosity (inflated self-perception); engagement-outcome associations",
+  "tasks_assessed": "Within-person change in psychological functioning (life satisfaction, relationship satisfaction, sleep quality, behavioral activation) over 4 weeks of AI chatbot use; within-person change in working alliance and grandiosity; association of engagement metrics (active days, total sessions, total user messages, total session minutes) with Week 4 outcomes",
+  "population_represented": "Real-world adult users of the Ash mental health AI app who onboarded January\u2013June 2026; distressed/subclinical population (below-average life satisfaction, fair sleep quality); demographics available for subset (n=91): majority female (73.6%), age range 18\u201365+, primarily 35\u201354",
+  "languages": "English (implied; not explicitly stated)",
+  "num_domains": "",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Automated (statistical): paired-sample t-tests for within-person change (baseline to Week 4); ANCOVAs for engagement-outcome associations controlling for baseline. Metrics: Cohen's d, % change, t-statistics, p-values, partial R\u00b2. User self-report questionnaires collected in-app. \u2014 Automated",
+  "num_llms_assessed": "1",
+  "llms_evaluated": "Ash (purpose-built conversational AI for mental health by Slingshot AI; base model and architecture not specified in paper)",
+  "mental_health_conditions": "General psychological distress (subclinical/non-clinical); stress; sleep difficulties; interpersonal challenges; worry; no specific clinical diagnoses assessed",
+  "performance_scores": "Life satisfaction: d=0.20, +10.16% (p<.001); Relationship satisfaction: d=0.25, +11.63% (p<.001); Sleep quality: d=0.26, +14.69% (p<.001); Behavioral activation: d=0.14, +5.58% (p<.001); Working alliance: d=0.20, +7.73% (p<.001); Grandiosity: d=-0.02, -0.75% (p=0.477, ns). Engagement partial R\u00b2 range: 0.58\u20132.15% across significant predictors.",
+  "short_summary": "This observational cohort study examined within-person changes in psychological functioning among 1,284 real-world users of Ash, a purpose-built conversational AI for mental health, over four weeks of naturalistic use. The study assessed life satisfaction, relationship satisfaction, sleep quality, behavioral activation, working alliance, and grandiosity at baseline and Week 4 using validated single-item in-app measures. Significant improvements were found across all psychological functioning indicators and working alliance (d=0.14\u20130.26, all p<.001), with no change in grandiosity. Evaluation was fully automated using paired-sample t-tests and ANCOVAs with engagement metrics as predictors. Consistency of engagement (active days, total sessions, total session minutes) predicted better Week 4 outcomes, while message volume did not, suggesting regularity of use matters more than conversation depth for functioning improvements.",
+  "missing_or_uncertain_fields": [
+    "LLMs evaluated: base model/architecture of Ash not specified",
+    "open_vs_closed_source: proprietary purpose-built model, classification unclear",
+    "journal_venue: no journal publication confirmed, appears to be preprint (arXiv link provided)",
+    "month_year: paper references 2026 data collection but exact publication month not stated",
+    "languages: English assumed but not explicitly stated",
+    "paper_link: provided by user, not confirmed in document"
+  ]
+}

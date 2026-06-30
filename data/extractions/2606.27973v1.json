@@ -1,0 +1,39 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "From Black-Box to Clinical Insight: A Multi-Stage Explainable Framework for Speech-Based Cognitive Impairment Detection",
+  "paper_link": "http://arxiv.org/abs/2606.27973v1",
+  "open_vs_closed_source": "Open",
+  "month_year": "June 2026",
+  "authors": [
+    "Yasaman Haghbin",
+    "Sina Rashidi",
+    "Ali Zolnour",
+    "Fatemeh Taherinezhad",
+    "Ali Fartoot",
+    "Hossein Azadmaleki",
+    "James M Noble",
+    "Maryam Dadkhah",
+    "Maryam Zolnoori"
+  ],
+  "institutions": "Independent Researcher; Columbia University, United States; Chalmers University of Technology, Sweden",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "NIA PREPARE benchmark dataset \u2014 speech recordings from 2,058 participants (1,646 training, 412 testing) labeled as Control, MCI, or AD; sourced from multiple corpora",
+  "size_of_benchmark": "2,058 participants (1,646 training, 412 testing); 70 English samples used for clinical validity evaluation of explainability framework",
+  "what_assessed_skills": "Explainability of cognitive impairment detection: SHAP-based token attribution mapped to cognitive-linguistic dimensions (lexical richness, syntactic complexity, disfluencies/repetition, semantic coherence, spatial reasoning difficulty, executive function); clinical interpretability of LLM-generated narratives; usability for clinical workflow integration",
+  "tasks_assessed": "Speech-based cognitive impairment detection (Control vs. MCI vs. AD classification); SHAP token attribution; LLM-based clinical narrative generation (4-stage pipeline); physician evaluation of explanation alignment with patient cognitive profiles",
+  "population_represented": "Adults with cognitive impairment (MCI, AD) and healthy controls; 1,140 controls, 268 MCI, 650 AD; English, Spanish, Mandarin speakers; age groups: mid-life (46\u201365), older adults (66\u201380), elderly (80+)",
+  "languages": "English, Spanish, Mandarin (dataset); explainability evaluation on English only (70 samples)",
+  "num_domains": "4",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Both \u2014 Automated: SpeechCARE-AGF model evaluated on NIA PREPARE test set (AUC, F1-score); Human: Two primary care physicians independently evaluated LLM-generated explanation reports for 70 stratified English samples under blinded conditions (inter-rater agreement via Cohen's \u03ba); usability assessed by 5 clinicians via System Usability Scale (SUS) and think-aloud sessions",
+  "num_llms_assessed": "1",
+  "llms_evaluated": "LLaMA-3.1-70B-Instruct (used across all 4 pipeline stages)",
+  "mental_health_conditions": "Mild Cognitive Impairment (MCI); Alzheimer's Disease (AD)",
+  "performance_scores": "Screening model (SpeechCARE-AGF): AUC = 86.83%, F1 = 72.11% on NIA PREPARE test set; Physician agreement on explainability reports: 98% agreement, Cohen's \u03ba = 0.85; System Usability Scale (SUS): 82/100",
+  "short_summary": "This paper proposes a multi-stage explainability framework that converts black-box transformer predictions for speech-based cognitive impairment detection into clinically interpretable narratives. The framework integrates SHAP-based token attribution, theory-informed linguistic feature extraction across four cognitive-linguistic dimensions, and a four-stage sequential LLM reasoning pipeline using LLaMA-3.1-70B-Instruct. It is built on top of the SpeechCARE-AGF multimodal screening model (F1=72.11%, AUC=86.83%) evaluated on the NIA PREPARE benchmark dataset (2,058 participants with Control, MCI, and AD labels). Clinical validity was assessed by two blinded physicians on 70 stratified English samples, yielding 98% agreement (Cohen's \u03ba=0.85), and a usability study with 5 clinicians produced a SUS score of 82/100, indicating strong potential for clinical workflow integration.",
+  "missing_or_uncertain_fields": [
+    "Performance scores for LLM explanation quality beyond physician agreement are not separately reported",
+    "No ablation metrics comparing individual LLM pipeline stages",
+    "Exact size of validation subset used for prompt refinement not fully specified beyond '329 participants'"
+  ]
+}
