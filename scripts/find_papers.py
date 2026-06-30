@@ -59,7 +59,7 @@ DATA_DIR.mkdir(exist_ok=True)
 SEEN_FILE = DATA_DIR / "seen-papers.json"
 OUTPUT_FILE = DATA_DIR / "latest_findings.json"
 
-ARXIV_API = "http://export.arxiv.org/api/query"
+ARXIV_API = "https://export.arxiv.org/api/query"
 ATOM = "{http://www.w3.org/2005/Atom}"  # XML namespace used by arXiv
 
 
@@ -85,7 +85,10 @@ def fetch_arxiv():
     }
     url = f"{ARXIV_API}?{urllib.parse.urlencode(params)}"
     print(f"Querying arXiv ...\n  {url}\n")
-    req = urllib.request.Request(url, headers={"User-Agent": "MH-Benchmark-Finder/1.0"})
+    req = urllib.request.Request(url, headers={
+        "User-Agent": "MH-Benchmark-Finder/1.0 (mailto:datvuz123@gmail.com)",
+        "Accept": "application/atom+xml",
+    })
     with urllib.request.urlopen(req, timeout=60, context=SSL_CONTEXT) as resp:
         return resp.read().decode("utf-8")
 
