@@ -1,0 +1,35 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "Expresso-AI: Explainable Video-Based Deep Learning Models for Depression Diagnosis",
+  "paper_link": "http://arxiv.org/abs/2606.25606v1",
+  "open_vs_closed_source": "Open",
+  "month_year": "2023",
+  "authors": [
+    "Felipe Moreno",
+    "Sharifa Alghowinem",
+    "Hae Won Park",
+    "Cynthia Breazeal"
+  ],
+  "institutions": "Media Lab, MIT, Cambridge, USA",
+  "journal_venue": "Published \u2014 2023 11th International Conference on Affective Computing and Intelligent Interaction (ACII)",
+  "ground_truth_source": "Beck Depression Inventory-II (BDI-II) scores from AVEC 2014 dataset (150 participants, 300 video recordings)",
+  "size_of_benchmark": "300 video recordings (150 participants, AVEC 2014)",
+  "what_assessed_skills": "Automatic depression severity prediction from facial videos; explainability/interpretability of deep video models via saliency maps, temporal attributions, region-wise attributions, and action unit cross-correlation",
+  "tasks_assessed": "Depression severity regression from facial video clips; video-based saliency map generation; temporal attribution analysis; region-wise facial attribution analysis; action unit cross-correlation analysis",
+  "population_represented": "150 participants performing reading-aloud and freeform speech tasks (AVEC 2014); general adult population, no specific demographic breakdown reported",
+  "languages": "English (inferred from AVEC 2014 dataset context)",
+  "num_domains": "",
+  "single_vs_multi_turn": "Single-Turn",
+  "evaluation_method": "Automated evaluation; models fine-tuned on AVEC 2014 facial video clips and evaluated on test set using Mean Absolute Error (MAE) and Root Mean Squared Error (RMSE) against BDI-II ground truth scores; interpretability assessed via DeepLift attribution maps, Kendall Tau correlation with Action Units, and region-wise relevance pooling",
+  "num_llms_assessed": "0",
+  "llms_evaluated": "None \u2014 paper evaluates deep convolutional video models (R3D, R(2+1)D, Wide ResNet), not LLMs",
+  "mental_health_conditions": "Depression (severity: minimal, mild, moderate, severe)",
+  "performance_scores": "Best model R(2+1)D (Kinetics-700 + MiT, depth 50): MAE=6.626, RMSE=8.543; previous benchmark DepressNet-Full: MAE=6.60, RMSE=8.88",
+  "short_summary": "This paper presents Expresso-AI, a framework for explainable automatic depression diagnosis (ADD) from facial videos using deep convolutional neural networks. The authors fine-tune ResNet-based 3D video architectures (R3D, R(2+1)D, Wide ResNet) pre-trained on large action recognition datasets on the AVEC 2014 depression dataset. The framework uses the DeepLift algorithm to generate attribution maps, enabling temporal, spatial, and region-wise interpretability of model decisions. Performance is evaluated via MAE and RMSE against BDI-II scores (Automated). The best model (R(2+1)D, Kinetics-700+MiT) achieves MAE=6.626 and RMSE=8.543, outperforming prior single-face benchmarks, and qualitative/quantitative analysis reveals correlations between specific facial action units (e.g., AU9, AU4) and depression severity levels.",
+  "missing_or_uncertain_fields": [
+    "llms_evaluated \u2014 no LLMs evaluated; paper uses deep CNN video models only",
+    "num_llms_assessed \u2014 0, not an LLM benchmark",
+    "languages \u2014 not explicitly stated in paper",
+    "month_year \u2014 year 2023 confirmed from conference, exact month not stated"
+  ]
+}

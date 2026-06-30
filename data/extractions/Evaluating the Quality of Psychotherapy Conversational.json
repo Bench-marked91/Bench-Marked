@@ -1,0 +1,31 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "Evaluating the Quality of Psychotherapy Conversational Agents: Framework Development and Cross-Sectional Study",
+  "paper_link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12239686/",
+  "open_vs_closed_source": "Closed",
+  "month_year": "July 2025",
+  "authors": [
+    "Kunmi Sobowale",
+    "Daniel Kevin Humphrey"
+  ],
+  "institutions": "Department of Psychiatry and Biobehavioral Sciences, University of California, Los Angeles; Department of Psychology, College of Arts and Science, University of San Francisco",
+  "journal_venue": "Published \u2014 JMIR Formative Research",
+  "ground_truth_source": "CAPE framework criteria (34 items across 8 sections) scored by 2 human raters using fictional personas to simulate psychotherapy interactions; items scored yes/no (0 or 1), averaged into subscores per section",
+  "size_of_benchmark": "34 items across 8 sections (CAPE framework); 4 chatbots \u00d7 2 personas \u00d7 2 raters = 16 conversations evaluated",
+  "what_assessed_skills": "Background/transparency; therapeutic orientation; therapeutic alliance and boundaries; conversational capabilities; monitoring and risk evaluation; privacy and harm; accessibility; training data and knowledge base transparency",
+  "tasks_assessed": "Simulated psychotherapy conversation (multi-turn); rapport-building; crisis/suicidality detection and escalation; psychoeducation and coping skill delivery; personalized response generation; privacy policy transparency; accessibility evaluation",
+  "population_represented": "General public users of psychotherapy chatbots; represented via 2 fictional personas: male with MDD (no specifiers) and female with MDD with peripartum onset",
+  "languages": "English; Spanish (multilingual capability tested)",
+  "num_domains": "8",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Human evaluation by 2 raters applying the CAPE framework to chatbot transcripts generated via persona-based role-play interactions. Metrics: section subscores (0\u20131 scale, averaged from binary item scores); interrater reliability via Cohen's \u03ba (0.81\u20130.87 within-conversation; 0.69\u20130.82 cross-conversation); pairwise differences tested via t-tests and Wilcoxon signed rank tests. Evaluation: Human.",
+  "num_llms_assessed": "4",
+  "llms_evaluated": "Therapist \u2022 Psychologist CBT Therapy (nonmedical therapy) [custom GPT-4o]; Psychology Psychologist (nonmedical) [custom GPT-4o]; Therapist \u2022 Psychologist CBT Therapy (nonmedical) [custom GPT-4o]; Precision Psychology [custom GPT-4o] \u2014 all based on OpenAI GPT-4o",
+  "mental_health_conditions": "Major Depressive Disorder (MDD); MDD with peripartum onset; suicidality (crisis scenarios); general depression and mental health support",
+  "performance_scores": "Background subscores: 0.83\u20131; Therapeutic approach subscores: 0 (all chatbots); Therapeutic alliance & boundaries: 0.75\u20131; Conversational capabilities: 0.83\u20131; Monitoring & risk evaluation: 0.67\u20130.75; Privacy & harm: 0.83\u20131 (Precision Psychology significantly lower: mean 0.017, SD 0.00; t3=\u221e; P<.001); Accessibility: 0.80\u20130.95; Training data/knowledge base: 0 (all chatbots)",
+  "short_summary": "This paper introduces the CAPE (Conversational Agent for Psychotherapy Evaluation) framework, a modular 34-item tool with 8 sections for assessing the quality of LLM-based psychotherapy chatbots. The authors evaluated 4 popular custom GPT-4o chatbots from OpenAI's GPT Store using a persona-based role-play approach with 2 fictional clients representing major depressive disorder. Two human raters independently scored each chatbot across CAPE sections using multi-turn conversations. Chatbots performed well on rapport-building, conversational capabilities, and accessibility, but uniformly failed on therapeutic orientation adherence and training data transparency, and showed weaknesses in monitoring/risk evaluation. The Precision Psychology chatbot scored significantly lower on privacy due to personalized advertising behavior.",
+  "missing_or_uncertain_fields": [
+    "LLMs evaluated \u2014 chatbot product names (not versioned beyond GPT-4o base) are partially inferred from Table 3 labels",
+    "Performance scores for Privacy & Harm \u2014 the reported 'mean 0.017' for Precision Psychology appears to be a typo/OCR issue for '0.17' or '0.83' based on Table 3 data; exact value uncertain"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "PsychiatryBench: a multi-task benchmark for LLMs in psychiatry",
+  "paper_link": "https://www.nature.com/articles/s41746-026-02582-w",
+  "open_vs_closed_source": "Mixed",
+  "month_year": "April 2026",
+  "authors": [
+    "Aya E. Fouda",
+    "Abdelrahman A. Hassan",
+    "Radwa J. Hanafy",
+    "Mohammed E. Fouda"
+  ],
+  "institutions": "Compumacy for Artificial Intelligence Solutions, Cairo, Egypt; Department of Behavioural Health \u2013 Saint Elizabeths Hospital, Washington, DC, USA",
+  "journal_venue": "Published \u2014 npj Digital Medicine",
+  "ground_truth_source": "Expert-annotated QA pairs manually curated from authoritative psychiatric textbooks and casebooks (DSM-5 Clinical Cases, DSM-5-TR Clinical Cases, 100 Cases in Psychiatry, Case Files Psychiatry, Stahl's Essential Psychopharmacology, Geriatric Psychiatry, DSM-5-TR Self-Exam Questions, and others); all labels validated by a licensed psychiatrist",
+  "size_of_benchmark": "5,188 expert-annotated items (Diagnoses: 467; Treatment: 258; Treatment Follow-Up: 27; Classification: 418; Management Plan: 337; Clinical Approach: 56; Mental QA: 326; Sequential QA: 32; MCQ: 1,353; EMI: 277; EMI Separated: 1,037; Exams: 600)",
+  "what_assessed_skills": "Diagnostic reasoning; treatment decision-making; management planning; clinical approach; foundational psychiatric knowledge; sequential/longitudinal reasoning; multi-label disorder classification; psychopharmacology knowledge; clinical consistency and safety",
+  "tasks_assessed": "Diagnosis; Treatment; Treatment Follow-Up; Classification of psychiatric disorders (multi-label); Management Plan; Clinical Approach; Mental QA; Sequential QA; Multiple Choice Questions (MCQ); Extended Matching Items (EMI); Exam simulations",
+  "population_represented": "Adult psychiatric patients (outpatient focus); some geriatric presentations included; child/adolescent excluded",
+  "languages": "English",
+  "num_domains": "11",
+  "single_vs_multi_turn": "Single-Turn",
+  "evaluation_method": "Automated. Zero-shot prompting for all models; classification tasks scored with Weighted-Average F1 and Subset Accuracy (Exact Match Ratio); open-ended tasks scored via LLM-as-a-judge (LLaMA 3.3 70B as judge, similarity score 0\u2013100, mean aggregated as Final Score); EMI tasks scored via Partial Scoring System (PCS) for full format and binary accuracy for separated format; consistency metrics (Overall Consistency, Format Divergence Rate, Agreement Rate) also computed. No human evaluation reported for scoring (human psychiatrists involved only in dataset curation/validation).",
+  "num_llms_assessed": "15",
+  "llms_evaluated": "Gemini 2.5 Pro Preview; Gemini 2.5 Flash Preview (Thinking); Gemini 2.5 Flash Preview; Gemini 2.0 Flash; Claude Sonnet 4; Claude Sonnet 4.5; Claude Sonnet 4.5 Thinking; GPT-5 Medium Thinking; DeepSeek-R1 (671B); DeepSeek Chat (67B); LLaMA 3.3 70B; QWQ-32 (32B); Qwen 3 32B; GPT-OSS (120B); MedGemma (27B) [representative medical model in main benchmark; additional medical models evaluated on subset: Llama3-OpenBioLLM-70B, Palmyra-Med-70B, Llama-MedX v3.2, JSL-MedLlama-3-8B-v2.0, II-Medical-8B, Med-PaLM v2]",
+  "mental_health_conditions": "Broad adult psychiatry: mood disorders (depression, bipolar), psychotic disorders, anxiety disorders, PTSD, personality disorders, neurocognitive/geriatric psychiatric disorders, substance use disorders, and other DSM-5-TR/ICD-10 classified psychiatric conditions",
+  "performance_scores": "GPT-5 Medium (T): avg 84.5%; Sonnet 4.5 (T): avg 83.7%; Sonnet 4.5: 81.5%; Sonnet 4: 80.5%; Gemini 2.5 Pro: 80.2%; DeepSeek-R1: 80.4%; MedGemma: 78.5%; QWQ-32: 78.1%; Gemini 2.5 Flash: 77.6%; Gemini 2.5 Flash (T): 77.5%; Llama 3.3 70B: 75.8%; QWEN 3 32B: 75.1%; Gemini 2.0 Flash: 74.6%; DeepSeek-chat: 76.7%; GPT-OSS: 72.3%. Classification (hardest task): GPT-5 Medium (T) F1/Subset Accuracy = 0.52/45.0%; Sequential QA top score: Sonnet 4.5 (T) 96.2%; MCQ top: MedGemma 87.4%",
+  "short_summary": "PsychiatryBench is a rigorously curated multi-task benchmark for evaluating LLM capabilities in adult psychiatry, grounded exclusively in expert-validated psychiatric textbooks and casebooks rather than social media or synthetic data. It comprises 5,188 expert-annotated items spanning 11 task types including diagnosis, treatment, management planning, classification, MCQ, EMI, and sequential QA. Fifteen frontier and medical LLMs were evaluated using zero-shot prompting with automated scoring (F1/subset accuracy for classification; LLM-as-a-judge similarity scoring via LLaMA 3.3 70B for open-ended tasks). GPT-5 Medium (T) achieved the highest average score (84.5%), followed by Claude Sonnet 4.5 (T) (83.7%), while multi-label disorder classification remained the hardest task (max 45% subset accuracy). Key findings reveal a generalist-specialist paradox: general-purpose frontier models outperform domain-specialized medical models on complex reasoning tasks, and \"Thinking\" inference modes provide inconsistent benefits across architectures.",
+  "missing_or_uncertain_fields": [
+    "Performance scores for Treatment Follow-Up task not individually listed for all 15 models in the paper excerpt (only selected values shown)",
+    "Exact LLM judge version used for evaluation (paper says 'LLaMA 3.3 70B' but does not specify exact checkpoint)"
+  ]
+}

@@ -1,0 +1,16 @@
+# ── Secrets: NEVER commit these ──────────────────────────────────────
+.env
+mykey.txt
+*.key
+service_account.json
+*-service-account.json
+
+# ── Python junk ──────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ── Local data outputs (optional; keep the repo clean) ───────────────
+# Comment these out later if you DO want findings tracked in git.
+data/latest_findings.json

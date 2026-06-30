@@ -1,0 +1,12 @@
+# Python packages this project needs.
+# Install once with:
+#   python -m pip install --only-binary=cryptography -r requirements.txt
+# (the --only-binary flag avoids a slow source build of cryptography on ARM64 Windows)
+
+anthropic            # talks to Claude (filter + extract)
+python-dotenv        # reads the .env file (API keys, sheet id)
+certifi              # trusted https certificates for downloads
+
+# Phase 4 - Google Sheets ("AI Inbox")
+gspread              # simple Google Sheets client
+google-auth          # service-account (robot) login

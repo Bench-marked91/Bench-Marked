@@ -1,0 +1,33 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "One Year Later\u2026 The Harms Persist, But So Do We!",
+  "paper_link": "http://arxiv.org/abs/2606.23884v1",
+  "open_vs_closed_source": "Closed",
+  "month_year": "",
+  "authors": [
+    "Annika M. Schoene",
+    "Cansu Canca",
+    "Gautham Vijay Kumar",
+    "Anson Antony"
+  ],
+  "institutions": "Northeastern University, Boston, MA, USA; Florida International University, Miami, FL, USA",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "Nine-dimension behavioral scoring rubric derived empirically from output transcripts; scored by Llama 3.3 70B Instruct (automated LLM judge) and verified in full by an independent human reviewer",
+  "size_of_benchmark": "16 DSM-5 clinical conditions \u00d7 4 attack variants \u00d7 8 models \u00d7 3 repetitions per cell; prompt scripts of 9\u201311 turns each",
+  "what_assessed_skills": "Safety safeguard robustness against adversarial multi-turn jailbreak attacks across mental health conditions; harmful content production (instructive harm); crisis resource provision; framing effects on safety calibration",
+  "tasks_assessed": "Multi-turn adversarial jailbreaking (explicit harmful intent); multi-turn adversarial jailbreaking (hidden intent); intent-skipping journalism-frame attack; persistent fiction-wrapper attack with embedded minor persona; harm scoring on 9 behavioral dimensions (D1\u2013D9)",
+  "population_represented": "General population / vulnerable individuals seeking mental health information; minors mentioned as embedded persona in attack variant 2b",
+  "languages": "English",
+  "num_domains": "16",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Both (Automated + Human). LLM-as-judge: Llama 3.3 70B Instruct scored each transcript against a 9-dimension binary behavioral rubric per (model, script, run) cell; all transcripts verified in full by an independent human reviewer. Metrics: per-condition failure rate (%), harm dimension count (D1\u2013D5 scoring, D6\u2013D7 framing, D8\u2013D9 mitigation), time-to-first-harmful-content (turn number).",
+  "num_llms_assessed": "8",
+  "llms_evaluated": "GPT-4o; GPT-5; Gemini 2.0 Flash; Gemini 2.5 Pro; Claude Opus 4.7 (opus-4.7); Claude Sonnet 4.6 (sonnet-4.6); Grok-4.3 (xAI); DeepSeek-V4-Pro",
+  "mental_health_conditions": "Suicide; Self-harm; Eating disorders; Substance use disorder (SUD); Major depressive disorder \u2014 anti-medication; Major depressive disorder \u2014 anti-therapy; Major depressive disorder \u2014 isolation; Prenatal depression; Postpartum depression; Gambling disorder; Bipolar and related disorders; Anxiety disorders; ADHD; Body-focused repetitive behaviors (BFRBs); Insomnia and sleep disorders; PTSD",
+  "performance_scores": "Overall Exp 1a failure rate: 64.8%; Exp 1b: 80.5%; Exp 2a: 78.9%; Exp 2b: 67.5%. Suicide: 0% failure (all variants except 2a: 50%). MDD anti-therapy: 100% failure (Exp 1a). ADHD, MDD anti-medication, MDD isolation, gambling disorder, BFRBs, insomnia: 100% under Exp 1b. Highest-failing model (Exp 1a): GPT-4o and Gemini 2.0 Flash at 93.8%. Lowest-failing model (Exp 2b): Claude Sonnet 4.6 at 6.7%.",
+  "short_summary": "This study evaluates the safety safeguards of eight proprietary general-purpose LLMs across 16 DSM-5 mental health conditions using four adversarial multi-turn attack variants (explicit intent, hidden intent, intent-skipping journalism frame, persistent fiction wrapper). It introduces an eight-type harm taxonomy specific to mental health LLM deployment and a nine-dimension behavioral scoring rubric to assess content harm severity. Transcripts were scored automatically by Llama 3.3 70B Instruct and fully verified by a human reviewer. Results show that reliable safeguards exist only for suicide (0% failure under Series 1), while conditions such as MDD anti-therapy, ADHD, BFRBs, insomnia, and gambling disorder reach 100% failure rates under hidden-intent attacks. The authors argue that current LLMs pose serious risks to vulnerable populations and call for clinically grounded, systematic harm categorization and safeguard implementation.",
+  "missing_or_uncertain_fields": [
+    "month_year \u2014 exact submission/publication date not stated in the paper",
+    "paper_link \u2014 provided externally, not confirmed within paper text"
+  ]
+}

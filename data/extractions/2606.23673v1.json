@@ -1,0 +1,38 @@
+{
+  "relevance_flag": "Might Be Related",
+  "benchmark_name": "PsyBridge: A Hybrid Intelligent Framework for Multi-Dimensional Mental Health Assessment and Decision Support",
+  "paper_link": "http://arxiv.org/abs/2606.23673v1",
+  "open_vs_closed_source": "",
+  "month_year": "June 2026",
+  "authors": [
+    "Sunil Wanjari",
+    "Manish Thakre",
+    "Aayushi Jayant Asole",
+    "Sharwari Raut",
+    "Kwabena Adu-Duodu",
+    "Yinhao Li",
+    "Stanly Wilson"
+  ],
+  "institutions": "St. Vincent Pallotti College of Engineering and Technology, Nagpur, India; Government Medical College (GMC), Chandrapur, India; Newcastle University, UK",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "Ground truth labels assigned according to clinically established PHQ-9 and GAD-7 severity thresholds; moderate-to-severe outcomes mapped to elevated risk categories",
+  "size_of_benchmark": "500 patient profiles (semi-synthetic dataset)",
+  "what_assessed_skills": "Multi-dimensional mental health risk classification; integration of clinical screening (PHQ-9, GAD-7), cognitive assessment (Digit Span), and personality profiling (MBTI); interpretable weighted decision-making",
+  "tasks_assessed": "Mental health risk classification (Low/Moderate/High); depression severity assessment (PHQ-9); anxiety severity assessment (GAD-7); cognitive assessment; personality profiling",
+  "population_represented": "Simulated patient profiles representing varying mental health severity levels (low, moderate, high risk)",
+  "languages": "English",
+  "num_domains": "3",
+  "single_vs_multi_turn": "Single-Turn",
+  "evaluation_method": "Automated evaluation using accuracy, precision, recall, and F1-score on a semi-synthetic dataset; confusion matrix analysis; ablation study; sensitivity analysis. No LLMs were directly evaluated \u2014 the system is a rule-based/weighted hybrid framework, not an LLM benchmark.",
+  "num_llms_assessed": "0",
+  "llms_evaluated": "",
+  "mental_health_conditions": "Depression; Anxiety; Cognitive impairment",
+  "performance_scores": "PsyBridge accuracy: 0.84, F1-score: 0.81; PHQ-9 only: accuracy 0.72, F1 0.69; GAD-7 only: accuracy 0.70; Clinical+Cognitive: accuracy 0.80, F1 0.78",
+  "short_summary": "PsyBridge is a hybrid intelligent decision-support framework for multi-dimensional mental health assessment that integrates PHQ-9, GAD-7, cognitive (Digit Span), and personality (MBTI) modules via a weighted aggregation mechanism. It was motivated by the limitation of single-domain screening tools that miss broader cognitive and behavioural context. The framework was evaluated on a semi-synthetic dataset of 500 patient profiles using accuracy, precision, recall, and F1-score metrics, with ablation and sensitivity analyses also conducted. No LLMs are directly benchmarked; the paper references LLMs only in the literature review. PsyBridge achieves 0.84 accuracy and 0.81 F1-score, outperforming standalone PHQ-9 (0.72) and GAD-7 (0.70) baselines.",
+  "missing_or_uncertain_fields": [
+    "LLMs evaluated \u2014 no LLMs are tested; paper is a framework/system paper not an LLM benchmark",
+    "open_vs_closed_source \u2014 not applicable as no LLMs are assessed",
+    "num_llms_assessed \u2014 zero; framework does not evaluate any LLMs",
+    "Precision and Recall exact values for all configurations not fully reported in text"
+  ]
+}
