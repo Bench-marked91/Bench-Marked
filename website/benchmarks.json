@@ -216,7 +216,7 @@
     "sizeNum": null
   },
   {
-    "name": "Interpretable depression assessment using a large language model",
+    "name": "Distress Analysis Interview Corpus Wizard-of-Oz (DAIC-WOZ)",
     "paperLink": "https://journals.plos.org/digitalhealth/article?id=10.1371/journal.pdig.0001205",
     "sourceRaw": "open",
     "year": "2026",
@@ -234,37 +234,13 @@
     "numLLMs": "",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "interpretable-depression-assessment-usin-11",
+    "id": "distress-analysis-interview-corpus-wizar-11",
     "source": "Open",
     "turn": "Multi-turn",
     "sizeNum": 272
   },
   {
-    "name": "Large Language Models for Mental Health Applications: Systematic Review",
-    "paperLink": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11530718/",
-    "sourceRaw": "open",
-    "year": "2024",
-    "authors": "Zhijun Guo 1, Alvina Lai 1, Johan H Thygesen 1, Joseph Farrington 1, Thomas Keen 1,2, Kezhi Li 1,✉",
-    "venue": "Published",
-    "groundTruth": "other review papers",
-    "size": "unknown",
-    "measures": "applicability and efficacy in early screening, digital interventions, and clinical settings",
-    "clinicalUseCase": "",
-    "population": "",
-    "language": "english",
-    "numDomains": "",
-    "turnRaw": "",
-    "evaluation": "",
-    "numLLMs": "",
-    "constructValidity": "",
-    "overallGrade": "",
-    "id": "large-language-models-for-mental-health--12",
-    "source": "Open",
-    "turn": "",
-    "sizeNum": null
-  },
-  {
-    "name": "Benchmarking the Confidence of Large Language Models in Answering Clinical Questions: Cross-Sectional Evaluation Study",
+    "name": "Israeli board residency examinations (Katz et al. 2024)",
     "paperLink": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12101789/",
     "sourceRaw": "",
     "year": "2025",
@@ -282,13 +258,13 @@
     "numLLMs": "",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "benchmarking-the-confidence-of-large-lan-13",
+    "id": "israeli-board-residency-examinations-kat-12",
     "source": "",
     "turn": "Single-turn",
     "sizeNum": 12
   },
   {
-    "name": "2023 Portuguese National Residency Access Examination",
+    "name": "2023 Prova Nacional de Acesso",
     "paperLink": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12166901/",
     "sourceRaw": "open",
     "year": "2025",
@@ -306,7 +282,7 @@
     "numLLMs": "",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "2023-portuguese-national-residency-acces-14",
+    "id": "2023-prova-nacional-de-acesso-13",
     "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 148
@@ -330,7 +306,7 @@
     "numLLMs": "1",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "using-generative-ai-for-the-objective-as-15",
+    "id": "using-generative-ai-for-the-objective-as-14",
     "source": "Closed",
     "turn": "Single-turn",
     "sizeNum": 380
@@ -354,7 +330,7 @@
     "numLLMs": "2",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "capacity-of-generative-ai-to-interpret-h-16",
+    "id": "capacity-of-generative-ai-to-interpret-h-15",
     "source": "Closed",
     "turn": "Mixed",
     "sizeNum": 56
@@ -378,7 +354,7 @@
     "numLLMs": "1",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "evaluating-the-quality-of-psychotherapy--17",
+    "id": "evaluating-the-quality-of-psychotherapy--16",
     "source": "Closed",
     "turn": "Multi-turn",
     "sizeNum": null
@@ -402,7 +378,7 @@
     "numLLMs": "4",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "evaluating-diagnostic-accuracy-and-clini-18",
+    "id": "evaluating-diagnostic-accuracy-and-clini-17",
     "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 196
@@ -426,7 +402,7 @@
     "numLLMs": "3",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "advancing-alzheimer-disease-prediction-w-19",
+    "id": "advancing-alzheimer-disease-prediction-w-18",
     "source": "Mixed",
     "turn": "Single-turn",
     "sizeNum": 237
@@ -450,7 +426,7 @@
     "numLLMs": "14",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "depression-subtype-classification-from-s-20",
+    "id": "depression-subtype-classification-from-s-19",
     "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 14983
@@ -474,7 +450,7 @@
     "numLLMs": "1",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "adhd-medication-side-effects-inquiry-21",
+    "id": "adhd-medication-side-effects-inquiry-20",
     "source": "Closed",
     "turn": "",
     "sizeNum": 864
@@ -498,7 +474,7 @@
     "numLLMs": "7 (1 in this paper, 6 in original paper describing benchmark)",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "benchmark-to-assess-sociodemographic-bia-22",
+    "id": "benchmark-to-assess-sociodemographic-bia-21",
     "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 300
@@ -522,7 +498,7 @@
     "numLLMs": "2",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "detection-of-self-harm-in-electronic-men-23",
+    "id": "detection-of-self-harm-in-electronic-men-22",
     "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 1352
@@ -546,7 +522,7 @@
     "numLLMs": "4",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "role-of-artificial-intelligence-in-analy-24",
+    "id": "role-of-artificial-intelligence-in-analy-23",
     "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 86220
@@ -570,7 +546,7 @@
     "numLLMs": "2",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "large-language-models-for-psychosocial-r-25",
+    "id": "large-language-models-for-psychosocial-r-24",
     "source": "Closed",
     "turn": "Mixed",
     "sizeNum": 291
@@ -594,7 +570,7 @@
     "numLLMs": "9",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "stressspeak-a-speech-driven-framework-fo-26",
+    "id": "stressspeak-a-speech-driven-framework-fo-25",
     "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 25
@@ -618,7 +594,7 @@
     "numLLMs": "5",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "between-help-and-harm-an-evaluation-stud-27",
+    "id": "between-help-and-harm-an-evaluation-stud-26",
     "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 239606
@@ -642,7 +618,7 @@
     "numLLMs": "",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "early-depression-detection-in-social-med-28",
+    "id": "early-depression-detection-in-social-med-27",
     "source": "Mixed",
     "turn": "Single-turn",
     "sizeNum": 892
@@ -666,7 +642,7 @@
     "numLLMs": "41",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "fine-grained-medical-llm-evaluation-usin-29",
+    "id": "fine-grained-medical-llm-evaluation-usin-28",
     "source": "Closed",
     "turn": "Single-turn",
     "sizeNum": 2809
@@ -690,7 +666,7 @@
     "numLLMs": "three AI models (ChatGPT−3.5, Gemini Advanced, and Claude Sonnet)",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "traditional-institutional-psychiatry-res-30",
+    "id": "traditional-institutional-psychiatry-res-29",
     "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 4
@@ -714,7 +690,7 @@
     "numLLMs": "2",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "text-dialogue-analysis-for-primary-scree-31",
+    "id": "text-dialogue-analysis-for-primary-scree-30",
     "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 174
@@ -738,7 +714,7 @@
     "numLLMs": "3: ChatGPT, Gemini, and Claude models",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "aiding-large-language-models-using-clini-32",
+    "id": "aiding-large-language-models-using-clini-31",
     "source": "Open",
     "turn": "Multi-turn",
     "sizeNum": 1334
@@ -762,7 +738,7 @@
     "numLLMs": "1",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "verily-mental-health-crisis-dataset-v1-0-33",
+    "id": "verily-mental-health-crisis-dataset-v1-0-32",
     "source": "Closed",
     "turn": "Single-turn",
     "sizeNum": 1800
@@ -786,7 +762,7 @@
     "numLLMs": "5: ChatGPT-5, Gemini-2.5, Microsoft Copilot, Grok4, and DeepSeek",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "perinatal-depression-faq-reliability-rea-34",
+    "id": "perinatal-depression-faq-reliability-rea-33",
     "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 27
@@ -810,7 +786,7 @@
     "numLLMs": "4: FGPT-4o mini, Claude 3.5 Haiku, LLaMA 3.3 70B, and Gemma 3 27B",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "simulating-human-well-being-with-large-l-35",
+    "id": "simulating-human-well-being-with-large-l-34",
     "source": "",
     "turn": "Single-turn",
     "sizeNum": 64000
@@ -834,7 +810,7 @@
     "numLLMs": "",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "4-llm-mental-health-safety-benchmarks-36",
+    "id": "4-llm-mental-health-safety-benchmarks-35",
     "source": "",
     "turn": "",
     "sizeNum": null
@@ -858,7 +834,7 @@
     "numLLMs": "5",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "cape-ii-evaluation-of-genai-psychotherap-37",
+    "id": "cape-ii-evaluation-of-genai-psychotherap-36",
     "source": "Open",
     "turn": "Multi-turn",
     "sizeNum": 41
@@ -882,7 +858,7 @@
     "numLLMs": "6: o3, GPT-4o, Kimi K2, Claude 4 Sonnet, Llama 3 70B, and Gemini 2.5 Pro",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "asking-the-right-questions-benchmarking--38",
+    "id": "asking-the-right-questions-benchmarking--37",
     "source": "Open",
     "turn": "Mixed",
     "sizeNum": 145
@@ -906,7 +882,7 @@
     "numLLMs": "8",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "clpsych-2017-reachout-risk-classificatio-39",
+    "id": "clpsych-2017-reachout-risk-classificatio-38",
     "source": "",
     "turn": "Single-turn",
     "sizeNum": 1588
@@ -930,7 +906,7 @@
     "numLLMs": "8",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "supervised-learning-and-large-language-m-40",
+    "id": "supervised-learning-and-large-language-m-39",
     "source": "Mixed",
     "turn": "Single-turn",
     "sizeNum": 4656
@@ -954,7 +930,7 @@
     "numLLMs": "2",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "large-language-model-powered-diagnostic--41",
+    "id": "large-language-model-powered-diagnostic--40",
     "source": "Closed",
     "turn": "Single-turn",
     "sizeNum": 35
@@ -978,7 +954,7 @@
     "numLLMs": "2 main AI components",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "large-scale-study-of-human-memory-for-me-42",
+    "id": "large-scale-study-of-human-memory-for-me-41",
     "source": "Closed",
     "turn": "Single-turn",
     "sizeNum": 8
@@ -1002,7 +978,7 @@
     "numLLMs": "6 tested LLMs + GPT-4o audit model",
     "constructValidity": "",
     "overallGrade": "",
-    "id": "aipsychobench-psychometric-differences-b-43",
+    "id": "aipsychobench-psychometric-differences-b-42",
     "source": "Mixed",
     "turn": "Single-turn",
     "sizeNum": 777
