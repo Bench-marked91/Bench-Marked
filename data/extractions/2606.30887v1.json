@@ -1,0 +1,37 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "Training Therapeutic Judges and Multi-Agent Systems for Human-Aligned Mental Health Support",
+  "paper_link": "http://arxiv.org/abs/2606.30887v1",
+  "open_vs_closed_source": "Mixed",
+  "month_year": "June 2026",
+  "authors": [
+    "Mizanur Rahman",
+    "Abeer Badawi",
+    "Elahe Rahimi",
+    "Laleh Seyyed-Kalantari",
+    "Frank Rudzicz",
+    "Enamul Hoque",
+    "Elham Dolatabadi"
+  ],
+  "institutions": "York University, Ontario, Canada; Vector Institute, Ontario, Canada; Connected Minds, Ontario, Canada; Dalhousie University, Nova Scotia, Canada",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "Human-annotated data from the Mental-Align-100K dataset (Badawi et al., 2025b); clinician ratings across 7 therapeutic dimensions by licensed mental health clinicians",
+  "size_of_benchmark": "10,000 conversations for evaluator training (8,000 train / 2,000 test); 267 samples for human evaluation of TheraAgent refinement",
+  "what_assessed_skills": "Multi-dimensional therapeutic response quality: Guidance, Informativeness, Relevance, Safety, Empathy, Helpfulness, Understanding; human-alignment of LLM-as-a-judge; iterative response refinement via multi-agent collaboration",
+  "tasks_assessed": "Therapeutic response evaluation (LLM-as-a-judge across 7 dimensions); therapeutic response generation and iterative refinement; preference-based optimization of an open-source evaluator (TheraJudge via GRPO)",
+  "population_represented": "Users seeking mental health support (emotional distress, crisis support, relationship issues, general well-being); diverse mental health scenarios from clinical and online sources",
+  "languages": "English",
+  "num_domains": "1",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Both. Automated: ICC(C,1) and ICC(A,1) between model predictions and clinician ratings, MSE, RMSE across 7 therapeutic dimensions. Human: Blind evaluation by licensed clinicians rating initial and refined responses on a 1\u20135 scale across 7 dimensions (n=267); inter-rater reliability (IRR) analysis with 3 independent clinicians (96% exact agreement, 100% majority agreement); paired t-tests (Bonferroni-corrected \u03b1=0.007) for before-after improvement.",
+  "num_llms_assessed": "7",
+  "llms_evaluated": "TheraJudge (Qwen2.5-7B fine-tuned via GRPO, gen 4/8/16); Qwen2.5-7B-Instruct (zero-shot); Qwen2.5-7B-SFT; GPT-4o; Claude 3.7 Sonnet; Gemini 2.5 Flash; o4-mini; LLaMA 3.1-8B-Instruct (response generator in TheraAgent)",
+  "mental_health_conditions": "General mental health support; emotional distress; crisis support; relationship issues; general well-being; derealization/dissociation (example case); hopelessness",
+  "performance_scores": "TheraJudge (gen 16) avg ICC(C,1)=0.949 (best overall); Safety ICC(C,1)=0.879, Guidance=0.989, Informativeness=0.983, Relevance=0.960, Empathy=0.932, Helpfulness=0.945, Understanding=0.960. TheraAgent: overall mean human score 4.26\u21924.69 (+0.43, p<0.001); low-quality responses (\u22643) improve by +2.45 points; 94% recovery rate; Safety improvement +3.19 (1.74\u21924.93); Safety and Relevance 100% recovery rate. MSE=0.67, RMSE=0.82 for TheraJudge vs. SFT baseline RMSE=0.96, zero-shot RMSE=1.17.",
+  "short_summary": "This paper introduces TheraJudge and TheraAgent, a two-stage framework for human-aligned mental health response generation. TheraJudge is an open-source therapeutic evaluator trained on 10,000 mental health conversations via group-based preference optimization (GRPO), producing structured ratings across 7 clinically grounded dimensions. TheraAgent uses TheraJudge's evaluations to guide a multi-agent (Critic, Coach, Therapist) iterative refinement pipeline, targeting weak dimensions in LLM-generated therapeutic responses. Evaluation combined automated ICC analysis against clinician ratings and blind human evaluation by licensed clinicians. TheraJudge achieves ICC(C,1)=0.879\u20130.989, outperforming closed-source models (GPT-4o, Claude 3.7 Sonnet, Gemini 2.5 Flash, o4-mini), and TheraAgent improves overall human-rated quality by +0.43 points with a 94% recovery rate for initially low-quality responses.",
+  "missing_or_uncertain_fields": [
+    "LLMs evaluated: LLaMA 3.1-8B serves as response generator (not a judge being benchmarked), role is ambiguous for count purposes",
+    "Performance scores: per-dimension Cohen's d effect sizes are reported but not all closed-source model individual scores are fully tabulated in extractable form",
+    "Languages: English assumed but not explicitly stated in paper"
+  ]
+}

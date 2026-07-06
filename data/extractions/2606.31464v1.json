@@ -1,0 +1,35 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "Team MKC at CLPsych 2026: Capturing and Characterizing Mental Health Changes through Social Media Timeline Dynamics",
+  "paper_link": "http://arxiv.org/abs/2606.31464v1",
+  "open_vs_closed_source": "Open",
+  "month_year": "June 2026",
+  "authors": [
+    "Kyomin Hwang",
+    "Hyeonjin Kim",
+    "Hyunho Lee",
+    "Nojun Kwak"
+  ],
+  "institutions": "Seoul National University, Seoul, Republic of Korea",
+  "journal_venue": "Preprint \u2014 arXiv (CLPsych 2026 shared task, 11th Workshop on Computational Linguistics and Clinical Psychology)",
+  "ground_truth_source": "Dataset subset introduced by Tsakalidis et al. (2022b): longitudinal social media user posts with annotated self-states, moments of change (Switch/Escalation), and ABCD sub-elements; provided by CLPsych 2026 shared task organizers (~500 training samples)",
+  "size_of_benchmark": "~500 training samples (posts from user timelines)",
+  "what_assessed_skills": "Post-level mental state classification (ABCD sub-elements and adaptive/maladaptive self-states); self-state presence rating (Likert scale); temporal moment-of-change detection (Switch/Escalation); sequence summarization of psychological change events; identification of recurrent improvement/deterioration signatures across timelines",
+  "tasks_assessed": "Post-level ABCD sub-element and self-state classification; Self-state presence rating (1\u20135 Likert scale); Moments of Change (MOC) detection (Switch/Escalation); Sequence summarization of change events; Recurrent dynamic signature extraction (improvement/deterioration)",
+  "population_represented": "Social media users with observable mental health dynamics (longitudinal posting histories); general population posting on social media",
+  "languages": "English",
+  "num_domains": "1",
+  "single_vs_multi_turn": "Single-Turn",
+  "evaluation_method": "Automated evaluation; Step 1: subelement-average macro F1; Step 2: RMSE; Step 3: F1 score; Step 4: Consistency, Contradiction, Rouge-L Recall; Step 5: scores for Improvement and Deterioration signatures. Evaluation on held-out validation set (80/20 split) and official CLPsych 2026 test set.",
+  "num_llms_assessed": "4",
+  "llms_evaluated": "Qwen3-4B-Embedding (Qwen Embed); Qwen3-8B; Qwen3-4B-Instruct-2507; Qwen3.5-4B; Qwen3.5-9B",
+  "mental_health_conditions": "General mental health / psychological well-being; mood/self-state changes (adaptive and maladaptive states including depression, anxiety, self-harm, loneliness, etc.); moments of change in longitudinal mental health",
+  "performance_scores": "Step 1 (F1): best = 0.361 (Qwen3-4B w/ K-fold Mean); Step 2 (RMSE): best = 1.003 (Qwen Embed, no adaptive, K-fold Voting); Step 3 (F1): best = 0.55 (Qwen3-4B w/ K-fold); Step 4: Qwen3.5-4B Consistency=0.669, Contradiction=0.857, Rouge-L Recall=0.290; Baseline Consistency=0.763, Contradiction=0.753, Rouge-L Recall=0.255; Step 5: Improvement=0.7266, Deterioration=0.2301",
+  "short_summary": "This paper presents a five-step LLM-based pipeline developed for the CLPsych 2026 shared task, targeting comprehensive mental health analysis over longitudinal social media post sequences. The pipeline jointly performs post-level ABCD sub-element and self-state classification, self-state presence rating, moments-of-change (Switch/Escalation) detection, sequence summarization, and recurrent improvement/deterioration signature extraction. Models used include fine-tuned Qwen3-4B-Embedding (with LoRA and K-fold ensembling for Steps 1\u20133), Qwen3-4B-Instruct and Qwen3.5-4B (SFT for Step 4), and zero-shot Qwen3.5-9B (Step 5). Evaluation is fully automated using macro F1, RMSE, Consistency, Contradiction, and Rouge-L Recall on the official CLPsych 2026 test set. Key results show K-fold ensembling and adaptive loss weighting benefit classification, while fine-tuned summarization models underperform the zero-shot baseline, likely due to very limited training data (~500 samples) and error propagation from upstream steps.",
+  "missing_or_uncertain_fields": [
+    "num_llms_assessed: paper uses 5 model variants but Qwen3-4B-Embedding is an embedding model used as feature extractor (borderline LLM); count of 4 true generative LLMs is an interpretation",
+    "llms_evaluated: Qwen3.5-4B and Qwen3.5-9B version details not fully specified beyond team report citation",
+    "size_of_benchmark: only training set size (~500) mentioned; test set size not reported",
+    "languages: English inferred from context but not explicitly stated in paper"
+  ]
+}

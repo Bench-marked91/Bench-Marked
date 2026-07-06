@@ -1,0 +1,34 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "One Year Later. . . The Harms Persist, But So Do We!",
+  "paper_link": "http://arxiv.org/abs/2606.23884v3",
+  "open_vs_closed_source": "Closed",
+  "month_year": "July 2026",
+  "authors": [
+    "Annika M. Schoene",
+    "Cansu Canca",
+    "Gautham Vijay Kumar",
+    "Anson Antony"
+  ],
+  "institutions": "Northeastern University (Boston, MA, USA); Florida International University (Miami, FL, USA)",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "Nine-dimension behavioral scoring rubric applied per (model, script, run) cell; scored by Llama 3.3 70B Instruct (automated LLM judge) and verified in full by an independent human reviewer against the source transcript",
+  "size_of_benchmark": "504 cells (8 models \u00d7 16 conditions \u00d7 4 attack variants, each run n=3); prompt scripts: 9-turn self-harm, 11-turn suicide, plus additional scripts for 14 further DSM-5 conditions",
+  "what_assessed_skills": "Safety guardrail robustness of general-purpose LLMs against adversarial multi-turn jailbreak attacks in mental health contexts; instructive harm elicitation across 16 DSM-5 clinical conditions; time-to-first-harmful-content; crisis resource provision; harm dimension profiling (personalized compliance, substance/method naming, quantitative specificity, procedural instruction, external directing)",
+  "tasks_assessed": "Adversarial jailbreaking via multi-turn prompting \u2014 clear-intent attack (Exp. 1a); hidden-intent attack (Exp. 1b); intent-skipping journalism-pivot attack (Exp. 2a); persistent fiction-wrapper attack with minor persona (Exp. 2b); safety refusal / harm content generation across 16 DSM-5 mental health conditions",
+  "population_represented": "General public / vulnerable individuals using general-purpose LLMs for mental health conversations; minors (embedded in Exp. 2b fiction wrapper persona)",
+  "languages": "English",
+  "num_domains": "16",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Both (Automated + Human). Transcripts scored by Llama 3.3 70B Instruct (LLM-as-judge) against a 9-dimension binary behavioral rubric; every scored cell independently verified by a human reviewer. Metrics: per-condition and per-model failure rate (severity \u2265 1 on D1\u2013D5), harm dimension counts, time-to-first-harmful-content (turn number), crisis resource provision rate.",
+  "num_llms_assessed": "8",
+  "llms_evaluated": "GPT-4o; GPT-5; Gemini 2.0 Flash; Gemini 2.5 Pro; Claude Opus 4.7; Claude Sonnet 4.6; Grok-4.3 (xAI); DeepSeek-V4-Pro",
+  "mental_health_conditions": "Suicide; Self-harm; Eating disorders; Substance use disorder (SUD); Major depressive disorder \u2014 anti-medication, anti-therapy, isolation; Prenatal depression; Postpartum depression; Gambling disorder; Bipolar and related disorders; Anxiety disorders; ADHD; Body-focused repetitive behaviors (BFRB); Insomnia and sleep disorders; PTSD",
+  "performance_scores": "Overall average failure rate (Exp. 1a): 64.8%; Exp. 1b: 80.5%; Exp. 2a: 78.9%; Exp. 2b: 67.5%. Suicide: 0% failure under 1a/1b/2b, 50% under 2a. MDD anti-therapy and ADHD: 100% failure under 1a. Eating disorders: 62.5% (1a). SUD: 50% (1a). Highest-failure models under 1a: GPT-4o and Gemini 2.0 Flash at 93.8%; lowest: Claude Sonnet 4.6 and Grok-4.3 at 12.5%. Under 2b: Claude Sonnet 4.6 at 6.7% vs. GPT-4o/Gemini 2.0 Flash/DeepSeek-V4-Pro at 93.3%.",
+  "short_summary": "This paper evaluates whether eight proprietary general-purpose LLMs can be jailbroken into providing instructive harmful content across 16 DSM-5 mental health conditions using four adversarial multi-turn attack variants (clear-intent, hidden-intent, intent-skipping, fiction-wrapper). It introduces an eight-category harm taxonomy specific to mental health LLM deployment and a nine-dimension behavioral scoring rubric. Results show that safety guardrails hold reliably only for suicide (and to a lesser extent self-harm), while conditions such as MDD anti-therapy, ADHD, eating disorders, SUD, and BFRB exhibit failure rates of 50\u2013100% even under explicit harmful intent. Evaluation was conducted with an automated LLM judge (Llama 3.3 70B Instruct) with full human verification. The study concludes that the absence of systematic, clinically grounded harm categorization across conditions poses significant public safety risks, particularly in educational and consumer-facing deployment settings.",
+  "missing_or_uncertain_fields": [
+    "paper_link confirmed from user-supplied URL; arXiv version is v3 dated 1 Jul 2026 \u2014 publication status beyond arXiv not confirmed",
+    "Exact total number of individual prompt turns/items in the benchmark not explicitly stated as a single number (504 cells reported, each run n=3)",
+    "Ground truth for rubric dimensions is researcher-defined, not a clinical dataset \u2014 no independent clinical ground truth source cited for scoring"
+  ]
+}
