@@ -146,7 +146,7 @@ const tierRank = { strong: 0, moderate: 1, limited: 2 };
 
 /* Benchmarks recreated as a live, browser-only "Run" experience (grows over time). */
 const RUNNABLE = {
-  "depression-subtype-classification-from-s-20": "./run.html",
+  "depression-subtype-classification-from-t-18": "./run.html",
 };
 
 /* Lightweight task categorization (keyword heuristic) — powers the catalog
