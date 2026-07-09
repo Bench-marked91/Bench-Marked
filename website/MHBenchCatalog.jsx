@@ -144,10 +144,15 @@ function scoreBenchmark(b) {
 
 const tierRank = { strong: 0, moderate: 1, limited: 2 };
 
-/* Benchmarks recreated as a live, browser-only "Run" experience (grows over time). */
+/* Benchmarks recreated as a live, browser-only "Run" experience (grows over time).
+   Keyed by the paper's stable DOI/link — NOT the catalog `id`, which the pipeline
+   regenerates on every refresh. Use runHrefFor(b) to look up a benchmark. */
 const RUNNABLE = {
-  "depression-subtype-classification-from-t-18": "./run.html",
+  "https://doi.org/10.3389/fdgth.2026.1790533": "./run.html", // Depression subtype (tweets)
 };
+function runHrefFor(b) {
+  return b ? RUNNABLE[b.paperLink] : undefined;
+}
 
 /* Lightweight task categorization (keyword heuristic) — powers the catalog
    category filter and the row tags. Falls back to "General" when nothing matches. */
@@ -577,9 +582,9 @@ function LandingPage({ go, data }) {
     color: accessPalette[k],
   })).filter((d) => d.value > 0);
 
-  const runnableCount = data.filter((b) => RUNNABLE[b.id]).length;
+  const runnableCount = data.filter((b) => runHrefFor(b)).length;
   const featured = [...data]
-    .sort((a, b) => (RUNNABLE[b.id] ? 1 : 0) - (RUNNABLE[a.id] ? 1 : 0) || (b.sizeNum || 0) - (a.sizeNum || 0))
+    .sort((a, b) => (runHrefFor(b) ? 1 : 0) - (runHrefFor(a) ? 1 : 0) || (b.sizeNum || 0) - (a.sizeNum || 0))
     .slice(0, 6);
 
   return (
@@ -680,9 +685,9 @@ function LandingPage({ go, data }) {
         <div style={{ display: "flex", gap: 18, overflowX: "auto", paddingBottom: 10 }}>
           {featured.map((b) => (
             <button key={b.id} onClick={() => go("catalog")} className="edcard" style={{ textAlign: "left", cursor: "pointer", flex: "0 0 300px", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 3, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-              <div style={{ height: 7, background: RUNNABLE[b.id] ? C.lime : bandColor(b.id) }} />
+              <div style={{ height: 7, background: runHrefFor(b) ? C.lime : bandColor(b.id) }} />
               <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                {RUNNABLE[b.id] && (
+                {runHrefFor(b) && (
                   <span style={{ alignSelf: "flex-start", fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: C.ink, background: C.lime, borderRadius: 999, padding: "3px 9px" }}>Runnable</span>
                 )}
                 <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".07em", textTransform: "uppercase", color: C.muted }}>
@@ -1054,7 +1059,7 @@ function VChip({ label, on, onClick }) {
 function BenchTile({ b, showRigor, onClick }) {
   const cat = deriveCategory(b);
   const band = showRigor && b.score.tier ? TIER[b.score.tier].color : bandColor(b.id);
-  const runnable = !!RUNNABLE[b.id];
+  const runnable = !!runHrefFor(b);
   const onDark = runnable ? C.ink : "#F3F1EA";
   return (
     <button onClick={onClick} className="edtile" style={{
@@ -1117,7 +1122,7 @@ function BenchRow({ b, showRigor, onClick }) {
       <div>
         <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
           <h3 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(20px, 2.4vw, 28px)", fontWeight: 600, letterSpacing: "-.025em", lineHeight: 1.1, margin: 0, color: ED.ink }}>{b.name}</h3>
-          {RUNNABLE[b.id] && (
+          {runHrefFor(b) && (
             <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: C.ink, background: C.lime, borderRadius: 999, padding: "3px 9px" }}>Runnable</span>
           )}
         </div>
@@ -1194,7 +1199,7 @@ function Detail({ b, showRigor, onClose }) {
     ["Overall grade (human)", b.overallGrade],
   ].filter(([k, v]) => v && (showRigor || !["Construct validity (human)", "Overall grade (human)"].includes(k)));
 
-  const runHref = RUNNABLE[b.id]; // module-level map
+  const runHref = runHrefFor(b); // module-level map
 
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(20,32,28,0.44)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 50 }}>
