@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Run Benchmark — Mental Health Benchmarks</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%231A73E8'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='6'%20fill='white'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    html, body, #root { height: 100%; margin: 0; }
+    body { background: #D1D1C7; }
+    #err {
+      font-family: ui-monospace, monospace; white-space: pre-wrap;
+      color: #b00020; background: #fff3f3; padding: 16px; margin: 16px;
+      border: 1px solid #f0c0c0; border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script>
+    const TARGET = "./BenchmarkRunner.jsx";
+
+    function showError(msg) {
+      const el = document.createElement("div");
+      el.id = "err";
+      el.textContent = "Runner error:\n\n" + msg;
+      document.body.prepend(el);
+    }
+
+    async function boot() {
+      try {
+        window.__React = React;
+        const res = await fetch(TARGET + "?t=" + Date.now());
+        if (!res.ok) throw new Error("Could not load " + TARGET + " (HTTP " + res.status + ")");
+        let code = await res.text();
+
+        code = code.replace(
+          /import\s+React\s*,\s*\{([^}]*)\}\s*from\s*["']react["'];?/,
+          "const React = window.__React; const {$1} = React;"
+        );
+        code = code.replace(
+          /import\s+React\s+from\s*["']react["'];?/,
+          "const React = window.__React;"
+        );
+        code = code.replace(/export\s+default\s+function\s+App/, "function App");
+        code = code.replace(/export\s+default\s+App\s*;?/, "");
+        code += "\n;window.__App = App;";
+
+        const out = Babel.transform(code, {
+          presets: [["react", { runtime: "classic" }]],
+          filename: "BenchmarkRunner.jsx",
+        }).code;
+
+        new Function(out)();
+        ReactDOM.createRoot(document.getElementById("root")).render(
+          React.createElement(window.__App)
+        );
+      } catch (e) {
+        showError(e && e.stack ? e.stack : String(e));
+      }
+    }
+    boot();
+  </script>
+</body>
+</html>

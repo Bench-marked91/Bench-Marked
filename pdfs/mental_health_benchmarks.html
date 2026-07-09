@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="slides-format" content="viewport">
+    <title>Mental Health Benchmarks — Automated AI Research Catalog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300..700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-bg: #0d1520;
+            --color-bg-deep: #07101a;
+            --color-surface: #152033;
+            --color-text: #e8f4fd;
+            --color-text-secondary: #a8c4d8;
+            --color-text-muted: #6b8fa8;
+            --color-accent-1: #38bdf8;
+            --color-accent-2: #818cf8;
+            --color-accent-3: #34d399;
+            --color-glass-bg: rgba(255,255,255,0.05);
+            --color-glass-border: rgba(255,255,255,0.08);
+            --color-vignette: rgba(0,0,0,0.45);
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Inter', system-ui, sans-serif;
+        }
+    </style>
+    <style>
+        :root { --color-bg: #0d1520; --color-text: #e8f4fd; --glow-color-rgb: 56,189,248; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { background: var(--color-bg); margin: 0; }
+        body { font-family: var(--font-body); color: var(--color-text); overflow: hidden; height: 100vh; width: 100vw; }
+        .deck { width: 100vw; height: 100vh; position: relative; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--color-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: scale(0.95); transition: opacity 0.7s ease, transform 0.7s ease; pointer-events: none; overflow: hidden; }
+        .slide.active { opacity: 1; transform: scale(1); pointer-events: all; }
+        .slide > .content { position: relative; z-index: 2; width: 100%; max-width: 1100px; padding: clamp(1.5rem, 4vw, 3.5rem); }
+        .nav-controls { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; z-index: 100; background: rgba(13,21,32,0.85); backdrop-filter: blur(12px); padding: 10px 24px; border-radius: 40px; border: 1px solid rgba(56,189,248,0.15); }
+        .nav-btn { width: 38px; height: 38px; border: none; background: rgba(56,189,248,0.1); color: #38bdf8; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+        .nav-btn:hover { background: rgba(56,189,248,0.2); }
+        .slide-dots { display: flex; gap: 7px; }
+        .slide-dots .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(56,189,248,0.2); cursor: pointer; transition: background 0.3s, transform 0.3s; }
+        .slide-dots .dot.active { background: #38bdf8; transform: scale(1.3); }
+        .slide-counter { font-size: 0.78rem; color: #6b8fa8; min-width: 38px; text-align: center; font-family: 'Inter', sans-serif; }
+        .reveal { opacity: 0; transform: translateY(20px); }
+        .text-glow { text-shadow: 0 0 20px rgba(56,189,248,0.5), 0 0 40px rgba(56,189,248,0.2); }
+        .stat-glow { text-shadow: 0 0 30px rgba(56,189,248,0.6), 0 0 60px rgba(56,189,248,0.25); }
+        @keyframes glow-pulse {
+            0%,100% { text-shadow: 0 0 20px rgba(56,189,248,0.5), 0 0 40px rgba(56,189,248,0.2); }
+            50% { text-shadow: 0 0 30px rgba(56,189,248,0.8), 0 0 60px rgba(56,189,248,0.3); }
+        }
+        .glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+        @keyframes float-slow {
+            0% { transform: translate(0,0) scale(1); } 25% { transform: translate(60px,-50px) scale(1.12); }
+            50% { transform: translate(-40px,40px) scale(0.9); } 75% { transform: translate(50px,20px) scale(1.08); } 100% { transform: translate(0,0) scale(1); }
+        }
+        @keyframes float-drift {
+            0% { transform: translate(0,0) scale(1) rotate(0deg); } 33% { transform: translate(-50px,-60px) scale(1.15) rotate(3deg); }
+            66% { transform: translate(40px,30px) scale(0.88) rotate(-2deg); } 100% { transform: translate(0,0) scale(1) rotate(0deg); }
+        }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+        .gradient-mesh { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); animation: float-slow 10s ease-in-out infinite; }
+        .blob:nth-child(2) { animation: float-drift 14s ease-in-out infinite; }
+        .blob:nth-child(3) { animation: float-slow 18s ease-in-out infinite reverse; }
+        .blob:nth-child(4) { animation: float-drift 22s ease-in-out infinite reverse; }
+        .slide::before { content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-repeat:repeat; background-size:256px 256px; opacity:0.03; mix-blend-mode:overlay; }
+        .slide::after { content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background:radial-gradient(ellipse at center, transparent 50%, var(--color-vignette) 100%); }
+        .bar-fill { border-radius: 4px; height: 100%; background: linear-gradient(90deg, #38bdf8, #818cf8); }
+        .bar-track { background: rgba(255,255,255,0.06); border-radius: 6px; height: 10px; overflow: hidden; flex: 1; }
+        .loop-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.25); border-radius: 20px; padding: 4px 14px; font-size: 0.78rem; color: #38bdf8; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+        .status-done { color: #34d399; }
+        .status-next { color: #fbbf24; }
+        .deco-shape { pointer-events: none; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } }
+    </style>
+</head>
+<body>
+
+<div class="mouse-spotlight" style="position:fixed;inset:0;z-index:99;pointer-events:none;"></div>
+
+<div class="deck">
+
+    <!-- SLIDE 1: TITLE -->
+    <div class="slide slide-1 active" data-slide="1">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:520px;height:520px;top:-120px;right:-100px;background:#38bdf8;opacity:0.12;"></div>
+            <div class="blob" style="width:340px;height:340px;bottom:-80px;left:-80px;background:#818cf8;opacity:0.10;"></div>
+            <div class="blob" style="width:220px;height:220px;top:45%;left:12%;background:#34d399;opacity:0.08;"></div>
+        </div>
+        <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+        <div class="content text-center">
+            <div style="font-size:96px;margin-bottom:1.2rem;animation:float 3s ease-in-out infinite;" class="reveal">🧠</div>
+            <h1 class="font-display text-[clamp(2.6rem,6vw,4.8rem)] font-black bg-linear-to-br from-accent-1 via-accent-2 to-accent-1 bg-clip-text text-transparent tracking-tight mb-4 reveal" style="line-height:1.08;">Mental Health Benchmarks</h1>
+            <p class="text-[clamp(0.95rem,1.6vw,1.25rem)] font-light text-text-muted tracking-[5px] uppercase mb-6 reveal">An Automated System for Cataloging Mental-Health AI Research</p>
+            <div class="flex justify-center gap-4 flex-wrap reveal">
+                <span class="loop-badge">🤖 Built to run itself</span>
+                <span class="loop-badge">👤 Humans stay in control</span>
+            </div>
+            <p class="text-text-muted text-sm mt-5 italic reveal" style="font-family:'Instrument Serif',serif;">"This is how we find, vet, and publish mental-health AI benchmarks — mostly automatically."</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: THE PROBLEM -->
+    <div class="slide slide-2" data-slide="2">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:380px;height:380px;top:-80px;right:-60px;background:#818cf8;opacity:0.08;"></div>
+            <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-40px;background:#38bdf8;opacity:0.07;"></div>
+        </div>
+        <div class="deco-shape" data-speed="0.03" style="position:absolute;width:300px;height:300px;border-radius:50%;border:1px solid rgba(56,189,248,0.06);top:10%;right:8%;pointer-events:none;z-index:0;"></div>
+        <div class="content">
+            <div class="loop-badge mb-5 reveal">The Problem</div>
+            <h2 class="font-display text-[clamp(2rem,4.5vw,3.2rem)] font-bold mb-8 reveal" style="line-height:1.1;">Keeping Up by Hand<br><span class="bg-linear-to-r from-accent-1 to-accent-2 bg-clip-text text-transparent">Is Impossible</span></h2>
+            <div class="grid grid-cols-1 gap-4 reveal">
+                <div class="flex items-start gap-4 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5">
+                    <span style="font-size:1.8rem;flex-shrink:0;">📄</span>
+                    <div>
+                        <div class="font-semibold text-text mb-1">New papers appear constantly</div>
+                        <div class="text-text-secondary text-sm">Mental-health AI is one of the fastest-growing research domains — hundreds of new arXiv submissions every month.</div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 reveal">
+                    <span style="font-size:1.8rem;flex-shrink:0;">⏱️</span>
+                    <div>
+                        <div class="font-semibold text-text mb-1">Manual reading doesn't scale</div>
+                        <div class="text-text-secondary text-sm">Reading, filtering, and cataloging papers by hand is time-consuming, inconsistent, and prone to gaps.</div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 reveal">
+                    <span style="font-size:1.8rem;flex-shrink:0;">🗂️</span>
+                    <div>
+                        <div class="font-semibold text-text mb-1">We need a current, trustworthy, browsable catalog</div>
+                        <div class="text-text-secondary text-sm">The field needs a living reference — not a stale spreadsheet or a once-a-year literature review.</div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-text-muted text-sm italic mt-5 reveal" style="font-family:'Instrument Serif',serif;">"The field moves fast; keeping up by hand is impossible."</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: THE IDEA -->
+    <div class="slide slide-3" data-slide="3">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:420px;height:420px;top:-100px;left:-80px;background:#34d399;opacity:0.08;"></div>
+            <div class="blob" style="width:280px;height:280px;bottom:-60px;right:-50px;background:#38bdf8;opacity:0.07;"></div>
+        </div>
+        <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+        <div class="content text-center">
+            <div class="loop-badge mb-5 reveal" style="display:inline-flex;">The Core Idea</div>
+            <h2 class="font-display text-[clamp(2rem,4.5vw,3.2rem)] font-bold mb-10 reveal" style="line-height:1.1;">Automation does the heavy lifting.<br><span class="bg-linear-to-r from-accent-3 to-accent-1 bg-clip-text text-transparent">People make the judgment calls.</span></h2>
+            <div class="grid grid-cols-3 gap-5 reveal">
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-6 hover:-translate-y-1 hover:shadow-xl transition">
+                    <div style="font-size:2.4rem;margin-bottom:0.75rem;">🤖</div>
+                    <div class="font-semibold text-accent-1 mb-2" style="font-size:0.95rem;">Robot Finds &amp; Reads</div>
+                    <div class="text-text-secondary text-sm">Discovers new papers and drafts the catalog facts automatically</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-6 hover:-translate-y-1 hover:shadow-xl transition" style="border-color:rgba(129,140,248,0.25);">
+                    <div style="font-size:2.4rem;margin-bottom:0.75rem;">🧑‍💼</div>
+                    <div class="font-semibold text-accent-2 mb-2" style="font-size:0.95rem;">Humans Approve</div>
+                    <div class="text-text-secondary text-sm">Team reviews proposals and promotes the good ones to the official catalog</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-6 hover:-translate-y-1 hover:shadow-xl transition" style="border-color:rgba(52,211,153,0.25);">
+                    <div style="font-size:2.4rem;margin-bottom:0.75rem;">🌐</div>
+                    <div class="font-semibold text-accent-3 mb-2" style="font-size:0.95rem;">Robot Publishes</div>
+                    <div class="text-text-secondary text-sm">A second robot pushes the approved catalog to the live website automatically</div>
+                </div>
+            </div>
+            <p class="text-text-muted text-sm italic mt-7 reveal" style="font-family:'Instrument Serif',serif;">"Automation does the heavy lifting; people make the judgment calls."</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: TWO LOOPS -->
+    <div class="slide slide-4" data-slide="4">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:350px;height:350px;top:-70px;right:-60px;background:#38bdf8;opacity:0.08;"></div>
+            <div class="blob" style="width:240px;height:240px;bottom:-50px;left:-40px;background:#818cf8;opacity:0.07;"></div>
+        </div>
+        <div class="content">
+            <div class="loop-badge mb-4 reveal">Architecture Overview</div>
+            <h2 class="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-bold mb-7 reveal">Two Loops, <span class="bg-linear-to-r from-accent-1 to-accent-2 bg-clip-text text-transparent">One Human Gate</span></h2>
+            <div class="grid grid-cols-2 gap-5">
+                <!-- Loop A -->
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-2xl p-6 reveal" style="border-color:rgba(56,189,248,0.2);">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span style="font-size:1.4rem;">🔍</span>
+                        <span class="font-bold text-accent-1" style="font-size:1.05rem;">Loop A — Discovery</span>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-sm text-text-secondary py-1.5 border-b border-glass-border">
+                            <span class="text-accent-3 font-mono text-xs">01</span>
+                            <span>Find papers on arXiv</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-text-secondary py-1.5 border-b border-glass-border">
+                            <span class="text-accent-3 font-mono text-xs">02</span>
+                            <span>AI filters relevance</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-text-secondary py-1.5 border-b border-glass-border">
+                            <span class="text-accent-3 font-mono text-xs">03</span>
+                            <span>AI extracts catalog fields</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-text-secondary py-1.5">
+                            <span class="text-accent-3 font-mono text-xs">04</span>
+                            <span>Drops to <strong class="text-text">AI Inbox</strong> sheet</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Human Gate -->
+                <div class="reveal" style="display:flex;flex-direction:column;gap:14px;">
+                    <div class="bg-glass-bg backdrop-blur-xl border rounded-2xl p-5" style="border-color:rgba(251,191,36,0.3);background:rgba(251,191,36,0.06);">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span style="font-size:1.3rem;">🔒</span>
+                            <span class="font-bold" style="color:#fbbf24;font-size:0.95rem;">Human Gate</span>
+                        </div>
+                        <div class="text-text-secondary text-sm">Review Inbox → Promote good rows → <strong class="text-text">Master Catalog</strong><br>Add quality grades — AI leaves these blank</div>
+                    </div>
+                    <!-- Loop B -->
+                    <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-2xl p-5" style="border-color:rgba(52,211,153,0.2);">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span style="font-size:1.3rem;">🚀</span>
+                            <span class="font-bold text-accent-3" style="font-size:0.95rem;">Loop B — Publish</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-text-secondary">
+                            <span>Master Catalog</span>
+                            <span class="text-accent-3">→</span>
+                            <span>data file</span>
+                            <span class="text-accent-3">→</span>
+                            <span class="text-text font-medium">Website</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-text-muted text-sm italic mt-5 reveal" style="font-family:'Instrument Serif',serif;">"Two automated loops with a human approval step in the middle."</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: LOOP A DISCOVERY -->
+    <div class="slide slide-5" data-slide="5">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:400px;height:400px;top:-90px;right:-70px;background:#38bdf8;opacity:0.09;"></div>
+            <div class="blob" style="width:240px;height:240px;bottom:-50px;left:-30px;background:#34d399;opacity:0.07;"></div>
+        </div>
+        <div class="deco-shape" data-speed="0.025" style="position:absolute;width:200px;height:200px;border-radius:50%;border:1px solid rgba(52,211,153,0.08);bottom:15%;left:5%;z-index:0;"></div>
+        <div class="content">
+            <div class="loop-badge mb-4 reveal" style="background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,0.25);">🔍 Loop A — The Discovery Robot</div>
+            <h2 class="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-bold mb-6 reveal">Cheap AI screens.<br><span class="bg-linear-to-r from-accent-3 to-accent-1 bg-clip-text text-transparent">Smart AI does careful reading.</span></h2>
+            <div class="grid grid-cols-1 gap-3">
+                <div class="flex items-start gap-4 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-0.5 transition">
+                    <span style="font-size:1.6rem;flex-shrink:0;">📡</span>
+                    <div><div class="font-semibold text-text mb-0.5">Searches arXiv for new papers</div><div class="text-text-secondary text-sm">No AI needed for discovery — free API, runs on schedule</div></div>
+                </div>
+                <div class="flex items-start gap-4 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-0.5 transition">
+                    <span style="font-size:1.6rem;flex-shrink:0;">⚡</span>
+                    <div><div class="font-semibold text-text mb-0.5">Claude Haiku labels relevance</div><div class="text-text-secondary text-sm">Cheap, fast triage: <strong class="text-accent-3">Definitely</strong> / <strong class="text-accent-1">Might-be</strong> / <strong class="text-text-muted">Not</strong></div></div>
+                </div>
+                <div class="flex items-start gap-4 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-0.5 transition">
+                    <span style="font-size:1.6rem;flex-shrink:0;">🧬</span>
+                    <div><div class="font-semibold text-text mb-0.5">Claude Sonnet reads PDFs &amp; extracts fields</div><div class="text-text-secondary text-sm">Smart AI reads the full paper and structures catalog data</div></div>
+                </div>
+                <div class="flex items-start gap-4 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-0.5 transition">
+                    <span style="font-size:1.6rem;flex-shrink:0;">📥</span>
+                    <div><div class="font-semibold text-text mb-0.5">Results land in AI Inbox, marked "New" — no duplicates ever</div><div class="text-text-secondary text-sm">Robot remembers every paper it has seen using a persistent seen-IDs log</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: HUMAN GATE -->
+    <div class="slide slide-6" data-slide="6">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:380px;height:380px;top:-80px;left:-60px;background:#fbbf24;opacity:0.07;"></div>
+            <div class="blob" style="width:260px;height:260px;bottom:-50px;right:-40px;background:#818cf8;opacity:0.07;"></div>
+        </div>
+        <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+        <div class="content">
+            <div class="loop-badge mb-4 reveal" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.3);color:#fbbf24;">🔒 The Human Approval Gate</div>
+            <h2 class="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-bold mb-6 reveal">The robot proposes.<br><span style="background:linear-gradient(to right,#fbbf24,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">We decide.</span></h2>
+            <div class="grid grid-cols-2 gap-5">
+                <div class="flex flex-col gap-4">
+                    <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 reveal">
+                        <div class="font-semibold text-accent-1 mb-2 text-sm uppercase tracking-wide">What the robot does</div>
+                        <ul class="text-text-secondary text-sm space-y-2">
+                            <li class="flex gap-2"><span class="text-accent-3">✓</span> Writes to <strong class="text-text">AI Inbox</strong> only</li>
+                            <li class="flex gap-2"><span class="text-accent-3">✓</span> Extracts metadata fields</li>
+                            <li class="flex gap-2"><span class="text-red-400">✗</span> Never touches Master Catalog</li>
+                            <li class="flex gap-2"><span class="text-red-400">✗</span> Never fills quality grades</li>
+                        </ul>
+                    </div>
+                    <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 reveal" style="border-color:rgba(251,191,36,0.2);">
+                        <div class="font-semibold mb-2 text-sm uppercase tracking-wide" style="color:#fbbf24;">What the human does</div>
+                        <ul class="text-text-secondary text-sm space-y-2">
+                            <li class="flex gap-2"><span style="color:#fbbf24;">✓</span> Reviews Inbox rows</li>
+                            <li class="flex gap-2"><span style="color:#fbbf24;">✓</span> Promotes good ones → Master Catalog</li>
+                            <li class="flex gap-2"><span style="color:#fbbf24;">✓</span> Adds rigor grades (AI leaves blank)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="bg-glass-bg backdrop-blur-xl border rounded-2xl p-6 h-full flex flex-col justify-center" style="border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.05);">
+                        <div style="font-size:3rem;margin-bottom:1rem;text-align:center;">🧑‍⚖️</div>
+                        <p class="text-center text-text-secondary text-sm leading-relaxed">Nothing goes <strong class="text-text">"official"</strong> or <strong class="text-text">public</strong> without a person reviewing it first. This is our quality control checkpoint.</p>
+                    </div>
+                </div>
+            </div>
+            <p class="text-text-muted text-sm italic mt-4 reveal" style="font-family:'Instrument Serif',serif;">"This is our quality control — the robot proposes, we decide."</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: LOOP B PUBLISHING -->
+    <div class="slide slide-7" data-slide="7">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:380px;height:380px;top:-80px;right:-60px;background:#34d399;opacity:0.08;"></div>
+            <div class="blob" style="width:240px;height:240px;bottom:-50px;left:-40px;background:#38bdf8;opacity:0.07;"></div>
+        </div>
+        <div class="deco-shape" data-speed="0.03" style="position:absolute;width:180px;height:180px;border:1px solid rgba(52,211,153,0.07);border-radius:50%;top:10%;left:8%;z-index:0;"></div>
+        <div class="content">
+            <div class="loop-badge mb-4 reveal" style="background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.3);color:#34d399;">🚀 Loop B — The Publishing Robot</div>
+            <h2 class="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-bold mb-7 reveal">When we update the sheet,<br><span class="bg-linear-to-r from-accent-3 to-accent-1 bg-clip-text text-transparent">the website updates itself.</span></h2>
+            <div class="grid grid-cols-4 gap-4 reveal">
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 text-center hover:-translate-y-1 hover:shadow-xl transition" style="border-color:rgba(52,211,153,0.15);">
+                    <div style="font-size:2rem;margin-bottom:0.5rem;">📊</div>
+                    <div class="font-semibold text-text text-sm mb-1">Reads Master Catalog</div>
+                    <div class="text-text-muted text-xs">Read-only access</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 text-center hover:-translate-y-1 hover:shadow-xl transition">
+                    <div style="font-size:2rem;margin-bottom:0.5rem;">🧹</div>
+                    <div class="font-semibold text-text text-sm mb-1">Cleans Data</div>
+                    <div class="text-text-muted text-xs">Normalizes fields &amp; formats</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 text-center hover:-translate-y-1 hover:shadow-xl transition">
+                    <div style="font-size:2rem;margin-bottom:0.5rem;">📄</div>
+                    <div class="font-semibold text-text text-sm mb-1">Writes benchmarks.json</div>
+                    <div class="text-text-muted text-xs">Single source-of-truth data file</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 text-center hover:-translate-y-1 hover:shadow-xl transition" style="border-color:rgba(52,211,153,0.2);">
+                    <div style="font-size:2rem;margin-bottom:0.5rem;">🌐</div>
+                    <div class="font-semibold text-accent-3 text-sm mb-1">Website Live</div>
+                    <div class="text-text-muted text-xs">Reads the JSON file</div>
+                </div>
+            </div>
+            <div class="mt-5 reveal flex gap-4">
+                <div class="flex-1 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 flex items-center gap-3">
+                    <span style="font-size:1.4rem;">⏰</span>
+                    <div><div class="font-semibold text-text text-sm">Runs daily + on-demand</div><div class="text-text-muted text-xs">Fully scheduled — zero manual steps</div></div>
+                </div>
+                <div class="flex-1 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 flex items-center gap-3" style="border-color:rgba(52,211,153,0.2);">
+                    <span style="font-size:1.4rem;">💚</span>
+                    <div><div class="font-semibold text-accent-3 text-sm">Costs nothing</div><div class="text-text-muted text-xs">Runs entirely on free tiers</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: THE WEBSITE -->
+    <div class="slide slide-8" data-slide="8">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:360px;height:360px;top:-70px;right:-50px;background:#818cf8;opacity:0.09;"></div>
+            <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#38bdf8;opacity:0.07;"></div>
+        </div>
+        <div class="content">
+            <div class="loop-badge mb-4 reveal">🌐 The Website</div>
+            <h2 class="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-bold mb-6 reveal">Fast, simple, and always reflects<br><span class="bg-linear-to-r from-accent-2 to-accent-1 bg-clip-text text-transparent">our latest reviewed data.</span></h2>
+            <div class="grid grid-cols-2 gap-5">
+                <div class="flex flex-col gap-3">
+                    <div class="flex items-start gap-3 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-0.5 transition">
+                        <span style="font-size:1.5rem;flex-shrink:0;">⚡</span>
+                        <div><div class="font-semibold text-text text-sm mb-0.5">Static site — no server, no database</div><div class="text-text-secondary text-xs">Pure HTML/JS; loads instantly from CDN edge nodes</div></div>
+                    </div>
+                    <div class="flex items-start gap-3 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-0.5 transition">
+                        <span style="font-size:1.5rem;flex-shrink:0;">🔍</span>
+                        <div><div class="font-semibold text-text text-sm mb-0.5">Searchable &amp; sortable catalog</div><div class="text-text-secondary text-xs">Every benchmark browsable by name, task, dataset, model type</div></div>
+                    </div>
+                    <div class="flex items-start gap-3 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-0.5 transition">
+                        <span style="font-size:1.5rem;flex-shrink:0;">⭐</span>
+                        <div><div class="font-semibold text-text text-sm mb-0.5">Provisional rigor score until humans grade</div><div class="text-text-secondary text-xs">Shows "Unrated" badge when human grades are not yet assigned</div></div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-2xl p-5 h-full flex flex-col justify-between" style="border-color:rgba(129,140,248,0.2);">
+                        <div>
+                            <div class="font-semibold text-accent-2 text-sm uppercase tracking-wide mb-3">Hosting Stack</div>
+                            <div class="flex flex-col gap-2">
+                                <div class="flex items-center gap-2 text-sm text-text-secondary"><span class="text-accent-3">▸</span> Hosted free on <strong class="text-text">Vercel</strong></div>
+                                <div class="flex items-center gap-2 text-sm text-text-secondary"><span class="text-accent-3">▸</span> Auto-updates from <strong class="text-text">GitHub</strong> on push</div>
+                                <div class="flex items-center gap-2 text-sm text-text-secondary"><span class="text-accent-3">▸</span> Source: single <strong class="text-text">benchmarks.json</strong></div>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 rounded-xl text-center" style="background:rgba(129,140,248,0.1);border:1px solid rgba(129,140,248,0.2);">
+                            <div class="text-accent-2 font-semibold text-sm">$0 / month</div>
+                            <div class="text-text-muted text-xs mt-0.5">Entirely on free tiers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: BUILDING BLOCKS -->
+    <div class="slide slide-9" data-slide="9">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:380px;height:380px;top:-80px;left:-60px;background:#38bdf8;opacity:0.08;"></div>
+            <div class="blob" style="width:250px;height:250px;bottom:-50px;right:-40px;background:#34d399;opacity:0.07;"></div>
+        </div>
+        <div class="content">
+            <div class="loop-badge mb-4 reveal">🧱 The Building Blocks</div>
+            <h2 class="font-display text-[clamp(1.8rem,4vw,2.6rem)] font-bold mb-6 reveal">All off-the-shelf, <span class="bg-linear-to-r from-accent-1 to-accent-3 bg-clip-text text-transparent">mostly free pieces wired together.</span></h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-1 hover:shadow-xl transition">
+                    <div class="font-bold text-text mb-1 flex items-center gap-2"><span style="font-size:1.3rem;">🐙</span> GitHub</div>
+                    <div class="text-text-secondary text-xs">Stores code + data; version-controlled history</div>
+                    <div class="text-accent-3 text-xs font-semibold mt-2">Free</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-1 hover:shadow-xl transition">
+                    <div class="font-bold text-text mb-1 flex items-center gap-2"><span style="font-size:1.3rem;">⚙️</span> GitHub Actions</div>
+                    <div class="text-text-secondary text-xs">Scheduler &amp; runner; no server to manage</div>
+                    <div class="text-accent-3 text-xs font-semibold mt-2">Free tier</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-1 hover:shadow-xl transition">
+                    <div class="font-bold text-text mb-1 flex items-center gap-2"><span style="font-size:1.3rem;">🤖</span> Claude AI</div>
+                    <div class="text-text-secondary text-xs">Haiku (screening) + Sonnet (extraction)</div>
+                    <div class="text-accent-1 text-xs font-semibold mt-2">Cents per run</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-1 hover:shadow-xl transition">
+                    <div class="font-bold text-text mb-1 flex items-center gap-2"><span style="font-size:1.3rem;">📊</span> Google Sheets</div>
+                    <div class="text-text-secondary text-xs">Our database: AI Inbox + Master Catalog</div>
+                    <div class="text-accent-3 text-xs font-semibold mt-2">Free</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-1 hover:shadow-xl transition">
+                    <div class="font-bold text-text mb-1 flex items-center gap-2"><span style="font-size:1.3rem;">🔑</span> Service Account</div>
+                    <div class="text-text-secondary text-xs">Robot Google account for hands-off sheet access</div>
+                    <div class="text-accent-3 text-xs font-semibold mt-2">Free</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 reveal hover:-translate-y-1 hover:shadow-xl transition">
+                    <div class="font-bold text-text mb-1 flex items-center gap-2"><span style="font-size:1.3rem;">▲</span> Vercel</div>
+                    <div class="text-text-secondary text-xs">Free static website hosting; auto-deploys from GitHub</div>
+                    <div class="text-accent-3 text-xs font-semibold mt-2">Free</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: SECURITY -->
+    <div class="slide slide-10" data-slide="10">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:360px;height:360px;top:-70px;right:-50px;background:#818cf8;opacity:0.08;"></div>
+            <div class="blob" style="width:230px;height:230px;bottom:-50px;left:-40px;background:#38bdf8;opacity:0.07;"></div>
+        </div>
+        <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+        <div class="content">
+            <div class="loop-badge mb-4 reveal" style="background:rgba(129,140,248,0.1);border-color:rgba(129,140,248,0.3);color:#818cf8;">🔐 Security</div>
+            <h2 class="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-bold mb-7 reveal">Credentials are locked down<br><span class="bg-linear-to-r from-accent-2 to-accent-1 bg-clip-text text-transparent">and never exposed.</span></h2>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="flex items-start gap-4 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 reveal hover:-translate-y-0.5 transition" style="border-color:rgba(129,140,248,0.2);">
+                    <span style="font-size:1.8rem;flex-shrink:0;">🔒</span>
+                    <div>
+                        <div class="font-semibold text-text mb-1">Secrets stored encrypted in GitHub</div>
+                        <div class="text-text-secondary text-sm">AI key, Google service account key, and Sheet ID all live in GitHub Secrets — <strong class="text-text">never in the codebase</strong></div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 reveal hover:-translate-y-0.5 transition">
+                    <span style="font-size:1.8rem;flex-shrink:0;">⚡</span>
+                    <div>
+                        <div class="font-semibold text-text mb-1">Robot's key is used at runtime, then deleted</div>
+                        <div class="text-text-secondary text-sm">Credentials are injected at execution time as environment variables and not persisted anywhere</div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-5 reveal hover:-translate-y-0.5 transition" style="border-color:rgba(129,140,248,0.2);">
+                    <span style="font-size:1.8rem;flex-shrink:0;">🛡️</span>
+                    <div>
+                        <div class="font-semibold text-text mb-1">Repo is private; sensitive files are .gitignored</div>
+                        <div class="text-text-secondary text-sm">Private repository + .gitignore rules block credential files from ever being committed or uploaded</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 11: COST -->
+    <div class="slide slide-11" data-slide="11">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:400px;height:400px;top:-90px;left:-70px;background:#34d399;opacity:0.09;"></div>
+            <div class="blob" style="width:260px;height:260px;bottom:-60px;right:-40px;background:#38bdf8;opacity:0.07;"></div>
+        </div>
+        <div class="content text-center">
+            <div class="loop-badge mb-5 reveal" style="display:inline-flex;background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.3);color:#34d399;">💰 What It Costs</div>
+            <h2 class="font-display text-[clamp(2rem,4.5vw,3rem)] font-bold mb-8 reveal">Effectively free to operate.</h2>
+            <div class="grid grid-cols-3 gap-5 mb-6">
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-2xl p-7 reveal hover:-translate-y-1 hover:shadow-xl transition" style="border-color:rgba(52,211,153,0.2);">
+                    <div class="text-[clamp(2rem,4vw,3rem)] font-black text-accent-3 stat-glow mb-2" data-count="0" data-prefix="$">$0</div>
+                    <div class="font-semibold text-text mb-1">GitHub</div>
+                    <div class="text-text-muted text-sm">Code, Actions scheduling, version history</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-2xl p-7 reveal hover:-translate-y-1 hover:shadow-xl transition" style="border-color:rgba(52,211,153,0.2);">
+                    <div class="text-[clamp(2rem,4vw,3rem)] font-black text-accent-3 stat-glow mb-2">$0</div>
+                    <div class="font-semibold text-text mb-1">Vercel</div>
+                    <div class="text-text-muted text-sm">Website hosting, auto-deploy on push</div>
+                </div>
+                <div class="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-2xl p-7 reveal hover:-translate-y-1 hover:shadow-xl transition" style="border-color:rgba(56,189,248,0.2);">
+                    <div class="text-[clamp(2rem,4vw,3rem)] font-black text-accent-1 glow-pulse mb-2">¢</div>
+                    <div class="font-semibold text-text mb-1">Claude AI</div>
+                    <div class="text-text-muted text-sm">A few cents per discovery run via API</div>
+                </div>
+            </div>
+            <div class="reveal bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-4 max-w-lg mx-auto">
+                <p class="text-text-secondary text-sm">Runs on free tiers · scales without new infrastructure · total monthly cost ≈ cost of one API screening batch</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 12: STATUS -->
+    <div class="slide slide-12" data-slide="12">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:420px;height:420px;top:-100px;right:-80px;background:#38bdf8;opacity:0.10;"></div>
+            <div class="blob" style="width:280px;height:280px;bottom:-60px;left:-50px;background:#818cf8;opacity:0.08;"></div>
+            <div class="blob" style="width:180px;height:180px;top:40%;left:10%;background:#34d399;opacity:0.07;"></div>
+        </div>
+        <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+        <div class="content">
+            <div class="loop-badge mb-4 reveal">📋 Status &amp; Next Steps</div>
+            <h2 class="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-bold mb-6 reveal">It works today. <span class="bg-linear-to-r from-accent-1 to-accent-3 bg-clip-text text-transparent">Here's what's next.</span></h2>
+            <div class="grid grid-cols-2 gap-5">
+                <div class="reveal">
+                    <div class="text-sm font-semibold text-accent-3 uppercase tracking-wider mb-3">✅ Done</div>
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center gap-3 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-3.5" style="border-color:rgba(52,211,153,0.2);">
+                            <span class="status-done text-lg">✅</span>
+                            <div>
+                                <div class="font-semibold text-text text-sm">Discovery pipeline</div>
+                                <div class="text-text-muted text-xs">Live &amp; tested</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-3.5" style="border-color:rgba(52,211,153,0.2);">
+                            <span class="status-done text-lg">✅</span>
+                            <div>
+                                <div class="font-semibold text-text text-sm">Website</div>
+                                <div class="text-text-muted text-xs">Live data, restyled, with charts</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-3.5" style="border-color:rgba(52,211,153,0.2);">
+                            <span class="status-done text-lg">✅</span>
+                            <div>
+                                <div class="font-semibold text-text text-sm">Both automations running</div>
+                                <div class="text-text-muted text-xs">Discovery loop + publishing loop active</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="text-sm font-semibold text-accent-1 uppercase tracking-wider mb-3">🔜 Coming Up</div>
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center gap-3 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-3.5" style="border-color:rgba(251,191,36,0.2);">
+                            <span class="status-next text-lg">🔜</span>
+                            <div>
+                                <div class="font-semibold text-text text-sm">Finish Vercel deploy</div>
+                                <div class="text-text-muted text-xs">Finalize production deployment</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-3.5" style="border-color:rgba(251,191,36,0.2);">
+                            <span class="status-next text-lg">🔜</span>
+                            <div>
+                                <div class="font-semibold text-text text-sm">Official rigor rubric</div>
+                                <div class="text-text-muted text-xs">Team writes rubric to replace provisional scores</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-glass-bg backdrop-blur-xl border border-glass-border rounded-xl p-3.5" style="border-color:rgba(251,191,36,0.2);">
+                            <span class="status-next text-lg">🔜</span>
+                            <div>
+                                <div class="font-semibold text-text text-sm">Use-case categories</div>
+                                <div class="text-text-muted text-xs">Add groupings to organize the catalog</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-text-muted text-sm italic mt-5 text-center reveal" style="font-family:'Instrument Serif',serif;">"It works today; these are the next improvements."</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="nav-controls">
+    <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+    <div class="slide-dots" id="dots"></div>
+    <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+    <span class="slide-counter" id="counter">1 / 12</span>
+</div>
+
+<script>
+    let current = 1;
+    const total = document.querySelectorAll('.slide').length;
+    const dotsContainer = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+    for (let i = 1; i <= total; i++) { const dot = document.createElement('div'); dot.className = 'dot' + (i === 1 ? ' active' : ''); dot.onclick = () => goToSlide(i); dotsContainer.appendChild(dot); }
+    function goToSlide(n) {
+        const prev = document.querySelector('.slide.active');
+        const next = document.querySelector(`.slide[data-slide="${n}"]`);
+        if (prev) prev.classList.remove('active');
+        if (next) { next.classList.add('active'); animateSlide(next); }
+        current = n; updateNav();
+    }
+    function changeSlide(dir) { let next = current + dir; if (next < 1) next = total; if (next > total) next = 1; goToSlide(next); }
+    function updateNav() { document.querySelectorAll('.dot').forEach((d, i) => { d.classList.toggle('active', i + 1 === current); }); counter.textContent = current + ' / ' + total; }
+    document.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); } });
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', (e) => { const diff = touchStartX - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1); });
+
+    function animateSlide(slide) {
+        slide.querySelectorAll('.reveal').forEach((el, i) => {
+            el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+            el.offsetHeight;
+            const delay = i * 0.07;
+            el.style.transition = `opacity 0.35s ease ${delay}s, transform 0.35s ease ${delay}s`;
+            el.style.opacity = '1'; el.style.transform = 'translateY(0px)';
+        });
+        animateSlideEffects(slide);
+    }
+
+    function animateSlideEffects(slide) {
+        slide.querySelectorAll('[data-count]:not(.counted)').forEach(el => {
+            el.classList.add('counted');
+            const target = parseInt(el.dataset.count), suffix = el.dataset.suffix || '', prefix = el.dataset.prefix || '';
+            let cur = 0; const step = Math.max(target / 40, 1);
+            const timer = setInterval(() => { cur += step; if (cur >= target) { cur = target; clearInterval(timer); } el.textContent = prefix + Math.round(cur).toLocaleString() + suffix; }, 30);
+        });
+        slide.querySelectorAll('.bar-fill:not(.fill-init)').forEach((bar, i) => {
+            bar.classList.add('fill-init');
+            bar.style.width = '0%'; bar.style.transition = `width 0.6s ease ${i * 0.1}s`; bar.offsetHeight; bar.style.width = bar.dataset.width + '%';
+        });
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        const spotlight = document.querySelector('.mouse-spotlight');
+        if (spotlight) spotlight.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(56,189,248,0.05), transparent 40%)`;
+    });
+
+    (function() {
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+        const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+        document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+        (function tick() {
+            const ox = (mouseX - cx) / cx, oy = (mouseY - cy) / cy;
+            document.querySelectorAll('.deco-shape').forEach(shape => {
+                const speed = parseFloat(shape.dataset.speed) || 0.03;
+                shape.style.transform = `translate(${ox * speed * 100}px, ${oy * speed * 100}px)`;
+            });
+            requestAnimationFrame(tick);
+        })();
+    })();
+
+    window.initParticles = function(canvas, options) {
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth || window.innerWidth;
+        canvas.height = canvas.offsetHeight || window.innerHeight;
+        const interactive = options.interactive !== false;
+        const count = options.count || (interactive ? 55 : 18);
+        let mx = -1000, my = -1000;
+        const particles = Array.from({ length: count }, () => ({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+            size: Math.random() * 2.2 + 0.7, alpha: Math.random() * 0.3 + 0.08
+        }));
+        if (interactive) {
+            canvas.addEventListener('mousemove', (e) => { const rect = canvas.getBoundingClientRect(); mx = e.clientX - rect.left; my = e.clientY - rect.top; });
+            canvas.addEventListener('mouseleave', () => { mx = -1000; my = -1000; });
+        }
+        (function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                if (interactive) { const dx = p.x - mx, dy = p.y - my, dist = Math.sqrt(dx*dx + dy*dy); if (dist < 120) { const force = (120-dist)/120*2; p.vx += (dx/dist)*force*0.1; p.vy += (dy/dist)*force*0.1; } }
+                p.vx *= 0.98; p.vy *= 0.98; p.x += p.vx; p.y += p.vy;
+                if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(56,189,248,${p.alpha})`; ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        })();
+    };
+    document.querySelectorAll('.particle-canvas').forEach(c => window.initParticles(c, { interactive: true, count: 55 }));
+    document.querySelectorAll('.particle-canvas-ambient').forEach(c => window.initParticles(c, { interactive: false, count: 18 }));
+
+    try { animateSlide(document.querySelector('.slide.active')); } catch(e) { console.warn('Init anim error:', e); }
+</script>
+</body>
+</html>

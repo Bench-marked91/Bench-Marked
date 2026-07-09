@@ -1,0 +1,3026 @@
+{
+ "benchmark": "Depression subtype classification (recreation)",
+ "sourcePaper": "AlSaad, Alshakhs & Thomas (2026), Frontiers in Digital Health",
+ "sourcePaperUrl": "https://doi.org/10.3389/fdgth.2026.1790533",
+ "dataset": "Zenodo 10.5281/zenodo.14233292 (CC-BY-4.0)",
+ "task": "Given a tweet, classify which depression subtype it expresses.",
+ "classOrder": [
+  "postpartum",
+  "major",
+  "bipolar",
+  "psychotic",
+  "atypical",
+  "none"
+ ],
+ "classDisplay": {
+  "postpartum": "Postpartum depression",
+  "major": "Major depressive disorder",
+  "bipolar": "Bipolar (depression)",
+  "psychotic": "Psychotic depression",
+  "atypical": "Atypical depression",
+  "none": "No depression"
+ },
+ "poolPerClass": 100,
+ "items": [
+  {
+   "id": 508,
+   "text": "it so good the songs are honestly thought was the only one who still jammed out to them so thank you for the validation",
+   "label": "none"
+  },
+  {
+   "id": 177,
+   "text": "I have severe major depressive disorder, anxiety/PTSD/insomnia, and a serious allergy that's had me in the hospital a few times, which require meds and epi-pens. I am actually disabled from an undiagnosed back injury. I need healthcare. What the fuck am I supposed to do.",
+   "label": "major"
+  },
+  {
+   "id": 591,
+   "text": "does everyone have all the facts or simply accepting cnn reports as fact think about it",
+   "label": "none"
+  },
+  {
+   "id": 441,
+   "text": "@xkirasan Nice nice I'm gonna grab the stinky feet pills and call it a night I guess (I have hypersomnia instead of insomnia though so...)",
+   "label": "atypical"
+  },
+  {
+   "id": 61,
+   "text": "There's this constant weight on my chest that won't go away. No matter how much I try to push it down, it keeps resurfacing. #postpartumblues",
+   "label": "postpartum"
+  },
+  {
+   "id": 513,
+   "text": "in one of my fantasy football leagues out of my starters scored at least one td today we were eating good in week",
+   "label": "none"
+  },
+  {
+   "id": 560,
+   "text": "you should if you are comfortable ofcourse youre really pretty",
+   "label": "none"
+  },
+  {
+   "id": 540,
+   "text": "vassegh please explain to me why one move triggered the other may should still be pitching",
+   "label": "none"
+  },
+  {
+   "id": 175,
+   "text": "CW // Mental Illness\n \n Today I got officially diagnosed by my therapist with PTSD  Severe Major Depressive Disorder. I've already known I've had these for a while, but it feels good to have it finally down on paper so I can give it to my doctors  hopefully get more help for it!",
+   "label": "major"
+  },
+  {
+   "id": 232,
+   "text": "Sometimes I feel like I'm walking through a thick fog, unable to see what's in front of me. It's like I'm lost in a maze with no way out.",
+   "label": "bipolar"
+  },
+  {
+   "id": 569,
+   "text": "ugly and liar oh wait ur also pedo lol pedos deserve the electric chair",
+   "label": "none"
+  },
+  {
+   "id": 414,
+   "text": "@hwaoyo me but i have hypersomnia and i literally fall back asleep even if ive already slept 12 hours if i don't have any caffeine 憥",
+   "label": "atypical"
+  },
+  {
+   "id": 246,
+   "text": "I'm done with bipolar disorder really I hate being 2 I wanna be one wanna be cool wanna be awesome.\n I'm also have a dark side but it's so deadly that's freaks me too much and I wanna be okay bye bye bipolar disorder I'm trying my best to have me again mother fucker 枙. https://t.co/FYfAwGy5YV",
+   "label": "bipolar"
+  },
+  {
+   "id": 195,
+   "text": "@Chuckles152 Yes but not all people who have adhd are loud and hyperactive. I was tested in 8th grade and have add/adhd and was recently diagnosed with generalized anxiety disorder and major depressive disorder.. sucks dealing with all of them.",
+   "label": "major"
+  },
+  {
+   "id": 76,
+   "text": "I love my baby more than anything, but I feel like I'm failing her. I can't seem to shake off this feeling of inadequacy. Every time she cries, I wonder if it's because I'm doing something wrong.",
+   "label": "postpartum"
+  },
+  {
+   "id": 253,
+   "text": "It's like I'm living in a world of broken promises, where my moods can make it difficult to follow through on commitments.",
+   "label": "bipolar"
+  },
+  {
+   "id": 495,
+   "text": "I am suffering from hypersomnia ?? https://t.co/kR7EYNHwlH",
+   "label": "atypical"
+  },
+  {
+   "id": 250,
+   "text": "The anxiety I feel is like a never-ending cycle, like there's no way to break free. It's like there's no way to find any liberation.",
+   "label": "bipolar"
+  },
+  {
+   "id": 402,
+   "text": "Starting to think I have hypersomnia. Literally no matter how much sleep I get I feel like passing out at any moment. Its great.",
+   "label": "atypical"
+  },
+  {
+   "id": 233,
+   "text": "My children, Children of God, I have missed you very much, but I am back.\n \n I have many things to tell you, the lesbian-gay community through two of its members injected me with medication for bipolar disorder and they wanted to shut me up, but they couldn't.",
+   "label": "bipolar"
+  },
+  {
+   "id": 238,
+   "text": "It's like I'm living in a world of uncertainty, where my moods can make me question everything and doubt myself.",
+   "label": "bipolar"
+  },
+  {
+   "id": 132,
+   "text": "@JKH62 @nonBPDspouse I'm also on lamictil, lithium,  latuda. I'm not suggesting they will help you, but it's worth asking your doctor about to see if they could be. I have major depressive disorder, panic disorder, general anxiety disorder, seasonal",
+   "label": "major"
+  },
+  {
+   "id": 185,
+   "text": "Everything feels like a chore lately, even things I used to enjoy. I can't seem to find pleasure in anything anymore. I feel like I'm just going through the motions and I can't shake this overwhelming sense of sadness.",
+   "label": "major"
+  },
+  {
+   "id": 345,
+   "text": "I can't seem to find joy in anything anymore. Even the things I used to love feel empty and meaningless. It's like I'm living in a world of gray, where nothing has any color or vibrancy. Sometimes I feel like I'm being watched, like someone is always following me, and it makes me paranoid.",
+   "label": "psychotic"
+  },
+  {
+   "id": 109,
+   "text": "@Brocklesnitch @FreyaDalySad @Meanjin This is such an amazing read. I'm not bipolar, but I have been diagnosed with major depressive disorder (also autism) There is a LOT here that I relate to, so much so that I can't point it all out, but I at least want",
+   "label": "major"
+  },
+  {
+   "id": 308,
+   "text": "@rustypixels I don't have BPD. I was diagnosed with major Depression Disorder with Psychotic episodes",
+   "label": "psychotic"
+  },
+  {
+   "id": 87,
+   "text": "I feel like I'm drowning in responsibilities. Every day is a battle just to get out of bed, and once I do, it's like there's no end to the demands on my time and energy. I love my baby so much, but sometimes I wonder if I'm cut out for this.",
+   "label": "postpartum"
+  },
+  {
+   "id": 499,
+   "text": "58. Hypersomnia can make me feel like I'm in a constant state of jet lag. It's exhausting and disorienting. ?? #sleepdisorder #hypersomnia #jetlag",
+   "label": "atypical"
+  },
+  {
+   "id": 27,
+   "text": "I can't seem to stop the negative thoughts from taking over. Every time I try to focus on the positive, my mind goes to a dark place. I'm struggling to find any light in this tunnel.",
+   "label": "postpartum"
+  },
+  {
+   "id": 599,
+   "text": "yesss this is true by us watching the content on kakao tv they can get more exposure",
+   "label": "none"
+  },
+  {
+   "id": 79,
+   "text": "I used to love going out and socializing with friends, but now the thought of leaving the house and facing other people fills me with dread. I feel like I have nothing interesting to say and no energy to make small talk. It's easier to just stay inside with my baby and avoid the outside world.",
+   "label": "postpartum"
+  },
+  {
+   "id": 347,
+   "text": "The world around me feels so surreal. It's like I'm watching it all through a foggy window.",
+   "label": "psychotic"
+  },
+  {
+   "id": 411,
+   "text": "I must go back to sleep. Nothings wrong. I just have hypersomnia and its a 鉁holiday鉂.",
+   "label": "atypical"
+  },
+  {
+   "id": 328,
+   "text": "I got Psychotic Depression on the quiz What Type of Depression do You Have? https://t.co/58U6FAm8pc",
+   "label": "psychotic"
+  },
+  {
+   "id": 88,
+   "text": "@abdulahadkm @habelphilippe I still have episodes of darkness engulfing me, for me it started as postpartum depression.. But, it's curable, through modern medicine and therapy and right support system..",
+   "label": "postpartum"
+  },
+  {
+   "id": 423,
+   "text": "@BenBuckwalter I Once in a while have anxiety Attacks e.e and i Have Atypical Depression. Nothing Major but It could slowly lead to it.",
+   "label": "atypical"
+  },
+  {
+   "id": 438,
+   "text": "@ellariasnake I'm pretty sure I have some sort of idiopathic hypersomnia or something, because not only does methylphenidate help me function on basic level - it helps keep me awake during the day. Even if I get 10 hours of sleep, I fall asleep at my desk",
+   "label": "atypical"
+  },
+  {
+   "id": 80,
+   "text": "I'm so tired of feeling like I'm failing. I'm not keeping up with the laundry, the dishes are piling up, and I can't seem to get a handle on anything. It's like I'm in a hole I can't climb out of.",
+   "label": "postpartum"
+  },
+  {
+   "id": 451,
+   "text": "@Jazzorcism i might get it checked again but i have a idiopathic hypersomnia so ive had it checked for my fatigue but its definitely worth checking again",
+   "label": "atypical"
+  },
+  {
+   "id": 401,
+   "text": "@Manivelle007 @goddeketal Thank you. I have idiopathic hypersomnia since HrpB, too.",
+   "label": "atypical"
+  },
+  {
+   "id": 537,
+   "text": "am not mistress to anyone and still just supportive friend with respectable boundaries you entities and humans spreading rumors about me to those close to me is utterly disgusting deserving of consumption",
+   "label": "none"
+  },
+  {
+   "id": 573,
+   "text": "taemin is gorgeous he is treasure of all treasures he is the diamond of all diamonds he is the heart of all hearts and the man of many dreams taemin ekp best male choreotaemin",
+   "label": "none"
+  },
+  {
+   "id": 481,
+   "text": "@JoannaNoBanana Ugh this. Being AuDHD impacts my sleep massively as well, I dont think Ive ever established a 鉁regular鉂 sleep routine. I oscillate between hypo/hypersomnia and have periods of insomnia exacerbated by my joint/nerve pain. Its roug",
+   "label": "atypical"
+  },
+  {
+   "id": 419,
+   "text": "@Jennife88005836 Most people say 3 days! I have a sleep disorder (hypersomnia with narcolepsy) and I actually felt normal after 1 17 hour nap lol",
+   "label": "atypical"
+  },
+  {
+   "id": 298,
+   "text": "@Shelly69839779 He increased my Seroquel again, I dont think it helps my Bipolar Disorder though. Im not going to get it refilled, I have a lot of it in different doses and its just a waste of money.",
+   "label": "bipolar"
+  },
+  {
+   "id": 226,
+   "text": "@junglemandan Why is everyone still engaging him??? This man is CLEARLY in a manic episode. I have never seen a more obvious case of undiagnosed Bipolar disorder. I truly hope he is able to get help",
+   "label": "bipolar"
+  },
+  {
+   "id": 237,
+   "text": "Some days it feels like I'm walking through a maze, and it's hard to find my way out. It's like I'm lost in a labyrinth.",
+   "label": "bipolar"
+  },
+  {
+   "id": 179,
+   "text": "@Nhj3332 I have had major depressive disorder since at least a year\n Several years of something close to that as well\n I have had 3 psychologists and 2 psychiatrists\n I don't have much in terms of hope",
+   "label": "major"
+  },
+  {
+   "id": 520,
+   "text": "petition royal commission to ensure strong diverse australian news media auspol sign the petition",
+   "label": "none"
+  },
+  {
+   "id": 494,
+   "text": "@texaswinehouse @HlyAnn_ I have atypical depression which has a lot of overlapping symptoms. Like mood swings and irritability (which Im sure is also common in depression) but mostly sensitivity to rejection.",
+   "label": "atypical"
+  },
+  {
+   "id": 516,
+   "text": "who is playing cuereimagined has been gaining on and now they are tied we are on the edge of our seat over here implaying wearecue cuebold cuechat alludo professional development personalized choice",
+   "label": "none"
+  },
+  {
+   "id": 384,
+   "text": "I used to have so many dreams and aspirations, but now I can't seem to find any joy in life. Everything feels empty and meaningless. I see shadows and hear voices that no one else can hear. It's like I'm living in a never-ending nightmare.",
+   "label": "psychotic"
+  },
+  {
+   "id": 103,
+   "text": "@hm_liyah My grandfather and father both killed themselves. Grandfather when I was 6 and father when I was 20. I also have major depressive disorder and major anxiety, and have been on medication since I was 8. lol 檭 I've had suicidal ideations every 5",
+   "label": "major"
+  },
+  {
+   "id": 577,
+   "text": "minding my own business playing dusk when suddenly was blindsided by this surge of intense yearning for the weird tunnel between the main building and foundation building in ul",
+   "label": "none"
+  },
+  {
+   "id": 473,
+   "text": "@wonhub I have hypersomnia, so if you have any questions about it I'd be glad to help you out.",
+   "label": "atypical"
+  },
+  {
+   "id": 211,
+   "text": "I feel like I'm living in a constant state of uncertainty, like there's no way to predict what's coming next. It's like there's no way to find any security.",
+   "label": "bipolar"
+  },
+  {
+   "id": 10,
+   "text": "I feel like I'm losing touch with myself. Who am I besides a mother? I don't even know anymore.",
+   "label": "postpartum"
+  },
+  {
+   "id": 592,
+   "text": "mean the category definition of black face is used to refer to the practice of wearing makeup to imitate the appearance of black person and that would be what your doing so yeah kinda",
+   "label": "none"
+  },
+  {
+   "id": 579,
+   "text": "because his one vote will sway the elections puhleaze cherish him for his diversity his strength and his wisdom hope you will do that for him",
+   "label": "none"
+  },
+  {
+   "id": 107,
+   "text": "I feel like I'm trapped in my own mind, unable to escape the negative thoughts and feelings that consume me. It's like I'm a prisoner to my own thoughts, unable to break free. The weight of it all is suffocating, and I don't know how much longer I can hold on.",
+   "label": "major"
+  },
+  {
+   "id": 123,
+   "text": "You know whats really frustrating!\n I have Diagnosed Major Depressive Disorder, but am missing one of the main symptoms, depression xDxD \n Turns out you can have Depression without feeling.. depressed ",
+   "label": "major"
+  },
+  {
+   "id": 380,
+   "text": "I can't remember the last time I felt truly happy. It's like all the colors have drained out of my life and everything is gray. Even things that used to bring me joy feel hollow and empty.",
+   "label": "psychotic"
+  },
+  {
+   "id": 119,
+   "text": "this has probably been one of the worst years for growth, i've ever had. considering i didn't have a drive to upload because i was busy with learning about my autism and Major Depressive Disorder. i guess i have an excuse. i don't think next year will be any better sadly. https://t.co/k1p2r84lao",
+   "label": "major"
+  },
+  {
+   "id": 289,
+   "text": "The sadness I feel is like a blanket that's smothering me, like there's no way to find any air. It's like there's no way to find any breath.",
+   "label": "bipolar"
+  },
+  {
+   "id": 333,
+   "text": "I can't shake this feeling that something terrible is about to happen. I'm constantly on edge, waiting for the other shoe to drop. It's exhausting, and I just want to feel safe again.",
+   "label": "psychotic"
+  },
+  {
+   "id": 116,
+   "text": "Sometimes it's hard to explain why I feel so empty inside. Everything around me just seems so dull and lifeless. I try to keep myself busy but it never seems to make a difference. It's like I'm just going through the motions, with no real purpose or meaning.",
+   "label": "major"
+  },
+  {
+   "id": 42,
+   "text": "@opdiva_rx @Bloodclaw12 @BettyBlue168 Same. SSRIs always kind of worked but we made the switch to an SNRI and life changed plus propranolol (I have anxiety but was in the hospital for postpartum depression at the time). Ive been on that combo since 201",
+   "label": "postpartum"
+  },
+  {
+   "id": 460,
+   "text": "@lindy2350 I was a sophomore in high school when my hypersomnia first showed up. My doctor did not take 鉁16-yr-old falls asleep鉂 seriously and I didnt know how to advocate for myself. 8 years and several near-misses behind the wheel later, I finall",
+   "label": "atypical"
+  },
+  {
+   "id": 362,
+   "text": "It's like I'm living in a world without color. Everything is muted and dull. I used to love the rain, but now it just makes me feel even more depressed. It's like the weather matches my mood.",
+   "label": "psychotic"
+  },
+  {
+   "id": 360,
+   "text": "@wordfey I have suffered constant severe anxiety and severe psychotic depression for about 26 years. Ive pretty much had it all, MH-wise.",
+   "label": "psychotic"
+  },
+  {
+   "id": 517,
+   "text": "dear sir any medicine from india shipping rupee kg shiping time about days can you fix this problem we can get an easy cheap way any medicine from out of india please make it an easy way give us solution thanks from the usa",
+   "label": "none"
+  },
+  {
+   "id": 171,
+   "text": "@maryebaldwin_ @TSWilliams13 I'd LOVE to do that. Unfortunately I'm disabled, dirt poor, and have agoraphobia, major depressive disorder, and extreme anxiety to boot. I'm messed up all around! I've faced the fact that I'll never travel, but I use forms of",
+   "label": "major"
+  },
+  {
+   "id": 286,
+   "text": "My ability to enjoy social situations can be affected by my moods, leaving me feeling anxious and self-conscious. It's like I'm always on display.",
+   "label": "bipolar"
+  },
+  {
+   "id": 489,
+   "text": "@P_Trussell @thephysicsgirl No I didnt rule out a sleep disorder. I was diagnosed with a sleep disorder. This all pre-dates the pandemic and Ive never had Covid, as far as I know. I have idiopathic hypersomnia.",
+   "label": "atypical"
+  },
+  {
+   "id": 203,
+   "text": "@SenFettermanPA @JohnFetterman Senator Fetterman, I am 53. I had a stroke at 32. You are an inspiration! I respect you for being so open about that and Depression. I have Bipolar Disorder. I feel your pain. For you to seek help takes courage. I've never r",
+   "label": "bipolar"
+  },
+  {
+   "id": 425,
+   "text": "@MichaeleenW really?! That sucks ;( I might have atypical depression or it might just be stress, but I have symptoms of atypical depression.",
+   "label": "atypical"
+  },
+  {
+   "id": 418,
+   "text": "I got Atypical Depression. on Do You Have Depression? http://t.co/9PX2FR22Mi",
+   "label": "atypical"
+  },
+  {
+   "id": 213,
+   "text": "Perhaps I have bipolar disorder",
+   "label": "bipolar"
+  },
+  {
+   "id": 596,
+   "text": "they did even make fun of the situation you know theyre dont care about any issues just want hit tweet",
+   "label": "none"
+  },
+  {
+   "id": 267,
+   "text": "@TallBlueBlonde1 @StanSportRugby @MorganTurinui  as I have Bipolar Disorder, I do see a Psychologist regularly, thanks.\n \n Really not cool to use mental illness as an insult either.",
+   "label": "bipolar"
+  },
+  {
+   "id": 240,
+   "text": "I wish I could just feel normal emotions. To not have to experience the extreme highs and lows that come with bipolar disorder. But I know that's not possible, and so I'm learning to manage my condition as best I can.",
+   "label": "bipolar"
+  },
+  {
+   "id": 368,
+   "text": "I'm constantly on edge, like I'm waiting for something terrible to happen. The fear and anxiety are suffocating, and I don't know how to escape them.",
+   "label": "psychotic"
+  },
+  {
+   "id": 182,
+   "text": "@darkpixi_ I post this despite the fact that I deal with major depressive disorder... I have to remind myself that it's not the end, and that I've gotten this far for a reason..\n \n Try to breathe, center yourself, and maybe meditate a little.. you got thi",
+   "label": "major"
+  },
+  {
+   "id": 413,
+   "text": "@BrunTheBear I only drink coffee when I have dessert in a restaurant (or breakfast, which has a high dessert content). \n I do bleed Pepsi Zero, though (formerly Pepsi Max, which has added caffeine AND ginseng).\n Of course, I suffer from hypersomnia, hypot",
+   "label": "atypical"
+  },
+  {
+   "id": 583,
+   "text": "hey caro can help you with the paper churning out unmatched services is my business also have refund policy if the paper does not meet your expectations if you need my services lmk",
+   "label": "none"
+  },
+  {
+   "id": 472,
+   "text": "猗 I just wish I were dead currently! This sleepiness in my soul is having my mind believe I am suffering from hypersomnia! #Lol",
+   "label": "atypical"
+  },
+  {
+   "id": 104,
+   "text": "The emptiness inside me is like a bottomless pit, consuming everything in its path. I wish I could fill it up with something, anything, but nothing seems to work.",
+   "label": "major"
+  },
+  {
+   "id": 558,
+   "text": "the great work and the report is unprecedented one always see cyber security from tech and market perspective this is first of its kind thesis from investor perspective",
+   "label": "none"
+  },
+  {
+   "id": 19,
+   "text": "I don't feel like myself anymore. It's like I've lost touch with who I am. I don't know what I want or what makes me happy.",
+   "label": "postpartum"
+  },
+  {
+   "id": 287,
+   "text": "@gilesdrmartin @paulwysetech The schedule send thing is a game changer. I have bipolar disorder and sometimes my condition means Im able to work and be productive at times that arent conducive to the standard working pattern. Its means I can work",
+   "label": "bipolar"
+  },
+  {
+   "id": 586,
+   "text": "please do bit on congressional campaign fetish may ged rodeo mass diarrhea incident in tax evasion and more she pure comedy gold please do this for america and co",
+   "label": "none"
+  },
+  {
+   "id": 429,
+   "text": "i know i have hypersomnia but i have slept for over 13 hours today and im still tired who did this",
+   "label": "atypical"
+  },
+  {
+   "id": 125,
+   "text": "I feel like I'm watching my life from the outside, like I'm not really a part of it. Everything seems to be happening to someone else and I'm just an observer. It's a strange feeling, like I'm disconnected from the world around me.",
+   "label": "major"
+  },
+  {
+   "id": 144,
+   "text": "My brain is like a black hole sometimes, sucking in all the negativity and self-doubt until it's all I can see or feel. I know it's not healthy, but it's like I can't escape it no matter how hard I try.",
+   "label": "major"
+  },
+  {
+   "id": 476,
+   "text": "I have atypical depression and obsessive-compulsive personality disorder.\n \n I've been on lexapro since 2015 and wellbutrin from 2005-2015.\n \n I was going to therapy daily for three months after my partner died and I'm still going twice a week.",
+   "label": "atypical"
+  },
+  {
+   "id": 479,
+   "text": "I have atypical Depression I guess.",
+   "label": "atypical"
+  },
+  {
+   "id": 378,
+   "text": "I'm still dissapointed that i have to stay here as the place sucks, but hopefully i don't need to stay after the next meeting. Also my doctor diagnosed me to have psychotic depression even tho it's not exactly that bad, but i'm able to get my meds free when i get back home.Yeah",
+   "label": "psychotic"
+  },
+  {
+   "id": 412,
+   "text": "I used to think I have bpd, but right now it seems more like atypical depression?!",
+   "label": "atypical"
+  },
+  {
+   "id": 326,
+   "text": "@GiantWoman420 @TheHorrorOf97 @RubySnugz @TaxMeDaddy &gt;who isn't affected\n \n I was diagnosed in 2018 with severe psychotic depression. I've experienced suicide attempts since childhood and have developed some form of (albeit undiagnosed) anxiety that ha",
+   "label": "psychotic"
+  },
+  {
+   "id": 140,
+   "text": "@bitteryglitter @loolabella Hey. I'm a survived first year teacher with major depressive disorder, anxiety and adhd. Was diagnosed this year. Last 3 years of my life was my biggest depressive episode ever. I have trauma responses from childhood emotional",
+   "label": "major"
+  },
+  {
+   "id": 574,
+   "text": "thats how felt when first heard scale and steel in the omega raids and lost my ever loving shit because god love azys la",
+   "label": "none"
+  },
+  {
+   "id": 572,
+   "text": "you did great job baby you are very cuteeeee good luck for the future amp always keep supporting you naaa",
+   "label": "none"
+  },
+  {
+   "id": 113,
+   "text": "I feel like I'm trapped in a never-ending cycle of sadness and despair. It's like there's no way out.",
+   "label": "major"
+  },
+  {
+   "id": 161,
+   "text": "for my major depressive disorder, I usually have option of two options when I'm hit w something w trauma. \n example, � my abuser today after job w his mc and hopefully toxic dab cart. \n If I don't cry this happens\n red pill- eight hours of mania \n blue pill- 12 hours of numb waves",
+   "label": "major"
+  },
+  {
+   "id": 54,
+   "text": "I had my first appointment with a psychiatrist today to work on helping my postpartum depression. We have an action plan and I've got a check in in 2 weeks.",
+   "label": "postpartum"
+  },
+  {
+   "id": 105,
+   "text": "@Jazzy2142 Hey Jazz. After 23 years in the emergency services I was recently medically retired and have been diagnosed with a range, from PTSD, major depressive disorder, major anxiety disorder and even alcohol disorder (although I don't agree entirely wi",
+   "label": "major"
+  },
+  {
+   "id": 312,
+   "text": "I feel like I'm trapped in a nightmare that I can't escape from. The fear and anxiety are constant, and the sense of impending doom is overwhelming.",
+   "label": "psychotic"
+  },
+  {
+   "id": 191,
+   "text": "The feeling of being lost is like wandering through a maze with no end in sight. It's hard to find a direction or a purpose when everything feels so directionless.",
+   "label": "major"
+  },
+  {
+   "id": 559,
+   "text": "saw lomls pretty edit as the first thing after coming on twt day blessed",
+   "label": "none"
+  },
+  {
+   "id": 157,
+   "text": "@Jasonstacey13 @157Gale I dont own any firearms because I have major depressive disorder, amongst some other diagnoses. Ive never contemplated suicide but I dont want to know what might happen if I had an easy option. The man who used to teach ri",
+   "label": "major"
+  },
+  {
+   "id": 243,
+   "text": "I have bipolar disorder, formerly called manic depression, is a mental health condition that causes extreme mood swings that include emotional highs (mania or hypomania) and lows (depression). Photo not me just an example. https://t.co/XehD6VfEr5",
+   "label": "bipolar"
+  },
+  {
+   "id": 392,
+   "text": "I feel like I'm drowning, but no one can see me struggling. My thoughts are a jumbled mess and I can't seem to piece them together. Sometimes I hear voices that tell me I'm worthless and I believe them. It's a constant cycle of self-hatred and despair.",
+   "label": "psychotic"
+  },
+  {
+   "id": 93,
+   "text": "Hopefully postpartum depression skips me. Cause I really dont have time 鈽狅笍",
+   "label": "postpartum"
+  },
+  {
+   "id": 102,
+   "text": "@Blairscompanion The Army didn't have anything to do with my actual diagnoses or my treatment. I got my Primary Medical Provider selected (by me) and I went to see them and they gave me a recommendation for a therapist for Major Depressive Disorder. No 1",
+   "label": "major"
+  },
+  {
+   "id": 297,
+   "text": "I feel like I'm living in a constant state of self-criticism, like I'm always finding fault in myself. It's like there's no way to be kind to myself.",
+   "label": "bipolar"
+  },
+  {
+   "id": 210,
+   "text": "I feel like I'm living in a constant state of distrust, like there's no way to believe in anyone or anything. It's like there's no way to find any faith.",
+   "label": "bipolar"
+  },
+  {
+   "id": 268,
+   "text": "The anxiety I feel is like a heavy weight on my chest, like there's no way to get it off. It's like there's no way to find any lightness.",
+   "label": "bipolar"
+  },
+  {
+   "id": 515,
+   "text": "well think its great that you were able to make friends through gaming feel like friends made through some mutual experience like that tend to be the best friends in the end",
+   "label": "none"
+  },
+  {
+   "id": 247,
+   "text": "The anxiety I feel is like a storm brewing, like there's no way to find any calm. It's like there's no way to find any peace.",
+   "label": "bipolar"
+  },
+  {
+   "id": 375,
+   "text": "Im Rebecca May Holbrook I have bpd,psychotic depression I lost a brother to cancer, they say you cant repeat the past I say in the words of the great jay gatsby 鉁you cant repeat the past,why of course you can鉂 my brother was a creative he produced so much I wanna",
+   "label": "psychotic"
+  },
+  {
+   "id": 329,
+   "text": "@autumnyo1 i have depression with psychotic features, and the lovely features are auditory hallucinations. so the moniter and the fear that comes with it make it so much more likely to happen lmao. but, baby moniters are handy as fuck haha",
+   "label": "psychotic"
+  },
+  {
+   "id": 518,
+   "text": "that bit far like to see him drop to the bench next week in favour of walcott sure",
+   "label": "none"
+  },
+  {
+   "id": 99,
+   "text": "Dealing postpartum depression , my brothers death  my health issues is a lot and on top of that i have to still be a mom ..",
+   "label": "postpartum"
+  },
+  {
+   "id": 430,
+   "text": "@MxBadgerNorth has always followed a particularly stressful period. I have had two instances where the atypical depression became melancholic, so I wonder if a long period of burnout can trigger a depressive episode? Lots to think about. Thank you! 3/3",
+   "label": "atypical"
+  },
+  {
+   "id": 172,
+   "text": "This is me being open about having major depressive disorder and telling you Im having a depressive episode rn and I am gonna be okay but first Im gonna be really really really sad over absolutely nothing so thank you for coming to my Ted talk and have a wonderful night",
+   "label": "major"
+  },
+  {
+   "id": 164,
+   "text": "I think one of the other barriers to friendships I have is because of my major depressive disorder. It feels like people deserve better than depressed me. So it keeps me from trying. I'm not really sure why I'm sharing this.",
+   "label": "major"
+  },
+  {
+   "id": 467,
+   "text": "Omg, I think this is why I have Hypersomnia. ぃ https://t.co/zLeLSaTxPK",
+   "label": "atypical"
+  },
+  {
+   "id": 229,
+   "text": "Sometimes, it feels like I'm living in a different world than everyone else. I see things differently, and it's hard to connect with others.",
+   "label": "bipolar"
+  },
+  {
+   "id": 440,
+   "text": "@morgvntvylor I also have PTSD. I experience atypical depression in high stress times. So finals, if any major change is going on, things like that. Sadly there are a lot of doctors out there who think ADHD and ASD are a 鉁boy thing鉂 I got diagnosed so",
+   "label": "atypical"
+  },
+  {
+   "id": 496,
+   "text": "Jgh from the hospital and my doctor said that I have Atypical Depression this kind is you may not always 鉁seem鉂 depressed to others or yourself pero inside and in your mind you are because of the problems. But dont worry guys Im fine Its just an update before I go. ILY all ",
+   "label": "atypical"
+  },
+  {
+   "id": 242,
+   "text": "It's like I'm living in a constant state of flux. The only constant is change, and it's hard to keep up with the shifting tides of my moods and emotions.",
+   "label": "bipolar"
+  },
+  {
+   "id": 168,
+   "text": "Sometimes, it feels like my emotions are too much to handle. I swing from feeling numb and disconnected to being overwhelmed by sadness or anger.",
+   "label": "major"
+  },
+  {
+   "id": 261,
+   "text": "@k_mairs See, normally I dont get seasonal depression! I *typically* cycle since I have bipolar disorder, though Im medicated so its not as bad lol Im just really struggling with a few other things that I thought Id be through by now. But I",
+   "label": "bipolar"
+  },
+  {
+   "id": 135,
+   "text": "@plushcharm https://t.co/XVehdwAPp5 Hi my names Phos I struggle with Crohns Disease Major depressive disorder ADHD and very crippling IRL social anxiety/anxiety in general I would love if youd be willing to have me on",
+   "label": "major"
+  },
+  {
+   "id": 442,
+   "text": "like soooo true derrick i also have narcolepsy/hypersomnia",
+   "label": "atypical"
+  },
+  {
+   "id": 403,
+   "text": "me: yeah i have bad dark circles that make it impossible to use concealer\n \n someone: oh you just need restful sleep!\n \n me, with idiopathic hypersomnia: ",
+   "label": "atypical"
+  },
+  {
+   "id": 356,
+   "text": "The world is closing in around me, suffocating me. I can't escape the feeling that something terrible is going to happen, that I'm always on the verge of disaster. I'm living in a constant state of fear and anxiety.",
+   "label": "psychotic"
+  },
+  {
+   "id": 149,
+   "text": "There are days when I just can't seem to get out of bed. It's not that I'm physically incapable, it's just that everything feels like too much effort.",
+   "label": "major"
+  },
+  {
+   "id": 259,
+   "text": "It's hard to keep up appearances and pretend that everything is okay when I'm really not. It takes so much energy to hide what's going on inside, and sometimes I wonder if it's even worth it.",
+   "label": "bipolar"
+  },
+  {
+   "id": 588,
+   "text": "don use import export figures to justify building roads in drcongo otherwise we might have to build them wherever we trade with pliz interest yoself in the sgrailway amp why it be the best investment we needed and stop writing to please but to inform",
+   "label": "none"
+  },
+  {
+   "id": 155,
+   "text": "@johnpavlovitz Thank you for posting this! I have struggled with major depressive disorder and I find it so important to socialize and normalize the challenges Of living with mental health disorders!",
+   "label": "major"
+  },
+  {
+   "id": 7,
+   "text": "@CruellaDKill Personally, my anxiety skyrocketed and the lack of social connection or ability to lean on support networks led to some postpartum depression that I am confident would not have happened otherwise.",
+   "label": "postpartum"
+  },
+  {
+   "id": 372,
+   "text": "The world around me feels like a nightmare that I can't escape from. The colors are muted, the sounds are muffled, and I can't seem to shake the feeling that something terrible is about to happen.",
+   "label": "psychotic"
+  },
+  {
+   "id": 321,
+   "text": "Everything feels so heavy. Every step is a struggle. Every breath is a burden. I try to keep going, but it feels like there's a weight pressing down on me, crushing me. The world is bleak and colorless, and I can't see a way out of this darkness.",
+   "label": "psychotic"
+  },
+  {
+   "id": 497,
+   "text": "12. It's frustrating when people don't take my #hypersomnia seriously. It's not just a matter of feeling tired, it's a medical condition that affects my daily life. #invisibleillness #sleepdisorder",
+   "label": "atypical"
+  },
+  {
+   "id": 193,
+   "text": "1/do so because I have major depressive disorder, anxiety disorders, PTSD  Fibromyaligia. On top of that I had to have my dog put down this week, attended a family funeral and now have a severe respiratory flu. NOW you tell me how I am supposed to secure my self against fraud?",
+   "label": "major"
+  },
+  {
+   "id": 235,
+   "text": "The anxiety I feel is like a knot in my stomach, like there's no way to untangle it. It's like there's no way to find any ease.",
+   "label": "bipolar"
+  },
+  {
+   "id": 366,
+   "text": "The world is a kaleidoscope of colors and shapes, swirling around me in a dizzying dance. I can't keep up, I can't breathe. It's like the walls are closing in, like I'm being suffocated by my own mind.",
+   "label": "psychotic"
+  },
+  {
+   "id": 456,
+   "text": "No cause wtf. I have ih /idiopathic hypersomnia) and I slept In today and when my mom and I got home from getting our nails done I was making me lunch and she got so mad cause my brother didnt vacuum. And then when she asked me what I had done all day I was honest and said",
+   "label": "atypical"
+  },
+  {
+   "id": 538,
+   "text": "the question is if it indisputable video evidence and honestly think it is but god knows anymore",
+   "label": "none"
+  },
+  {
+   "id": 288,
+   "text": "Side rant I hate when ppl get upset when people who have a personality disorder talk about their disorder a lot like a lot of us grew up either not being heard by doctors, getting misdiagnosed with bipolar disorder or other mood disorders and when we finally have a name for",
+   "label": "bipolar"
+  },
+  {
+   "id": 296,
+   "text": "It's hard to feel like I'm living a balanced life when my moods can swing from one extreme to another. It's like trying to balance on a tightrope during a storm.",
+   "label": "bipolar"
+  },
+  {
+   "id": 407,
+   "text": "I have been really struggling with my hypersomnia, and so I am behind on all three final projects. \n \n Some accountability for myself: \n \n Historiography: 450/4000 words\n Philosophy: 0/4000 words\n Geography: 0/5000\n \n I have 2 weeks. LFG.",
+   "label": "atypical"
+  },
+  {
+   "id": 75,
+   "text": "I feel like I'm not good enough. Not good enough for my partner, not good enough for my baby, not good enough for anyone.",
+   "label": "postpartum"
+  },
+  {
+   "id": 156,
+   "text": "I hope justify prevails! 徎\n This trial has been so triggering  Ive become so invested cuz Im a survivor of emotional, physical  sexual abuse. I have Borderline, major depressive disorder, CPTSD, OCD  generalised anxiety disorder. There I said it! #JusticeForJohnnyDeep 檹徎",
+   "label": "major"
+  },
+  {
+   "id": 557,
+   "text": "stay far away from people that have an entitlement mindset about most things meaning they feel like they deserve stuff that they did not work for",
+   "label": "none"
+  },
+  {
+   "id": 466,
+   "text": "me thinking id stay awake the full 48 is literally hubris i have hypersomnia",
+   "label": "atypical"
+  },
+  {
+   "id": 439,
+   "text": "i think i have hypersomnia, not at an extreme level, but yeah it's pretty severe",
+   "label": "atypical"
+  },
+  {
+   "id": 514,
+   "text": "okay goodnight hope mmt lets me into this halloween vc so can talk to kim sunwoo of the boyz",
+   "label": "none"
+  },
+  {
+   "id": 121,
+   "text": "sir i have major depressive disorder ur asking the wrong bitch",
+   "label": "major"
+  },
+  {
+   "id": 506,
+   "text": "ve defended as well as critiqued tmobile when the coverage falls bit short southeastern georgia needs some sprint towers reconfigured to work where t-mobile falls short mobile phone is to be used other than in middle of cities",
+   "label": "none"
+  },
+  {
+   "id": 241,
+   "text": "Im convinced everyone who teaches this point of spirituality where they have a demon exorcised out of them are either actors and actresses or are suffering from bipolar disorder",
+   "label": "bipolar"
+  },
+  {
+   "id": 8,
+   "text": "My mind is constantly racing, but I can't seem to focus on anything. It's like my brain is stuck in overdrive, but I'm not going anywhere.",
+   "label": "postpartum"
+  },
+  {
+   "id": 184,
+   "text": "@dark_spartacus @hackwrench1 @DonBohm @Vizzajoe @JoJoFromJerz Then explain how free will effects mental illness. Free will is free to choose. I never chose to have major depressive disorder, I never chose to have generalized anxiety disorder, I never chos",
+   "label": "major"
+  },
+  {
+   "id": 12,
+   "text": "It's hard to admit, but sometimes I feel resentful towards my baby for taking over my life. I love them more than anything, but the constant demands of motherhood can be suffocating.",
+   "label": "postpartum"
+  },
+  {
+   "id": 33,
+   "text": "I'm scared to be alone with my thoughts, because they always seem to turn dark and hopeless.",
+   "label": "postpartum"
+  },
+  {
+   "id": 206,
+   "text": "My therapist doesn't believe I have bipolar disorder so I'm going with what he says and terminating my professional relationship with my psychiatrist. I will be tapering off my psychiatric medication.",
+   "label": "bipolar"
+  },
+  {
+   "id": 581,
+   "text": "also wed like to tell you please do not reveal flipkart account details here you can just dm us by clicking the below link an",
+   "label": "none"
+  },
+  {
+   "id": 220,
+   "text": "i think i have a bipolar disorder frl, ts getting ridiculous",
+   "label": "bipolar"
+  },
+  {
+   "id": 299,
+   "text": "It's like I'm living in a world of extremes. Everything is either too much or too little, too fast or too slow.",
+   "label": "bipolar"
+  },
+  {
+   "id": 57,
+   "text": "In 2017 I was going thru postpartum depression by myself after I had my son. I dyed my hair red and cut it off, my hair couldnt even go into a ponytail. My ponytail is halfway down my back, I have my hair in a high ponytail and its halfway down my back檶徑檶徑",
+   "label": "postpartum"
+  },
+  {
+   "id": 13,
+   "text": "Postpartum depression got me wanting to just walk away but I have a kid to look after and love",
+   "label": "postpartum"
+  },
+  {
+   "id": 566,
+   "text": "there is no free speech on the tech platforms because when you sign up to join you agree to their terms and conditions they can then moderate their users members federal protections of free speech dont apply to private business companies",
+   "label": "none"
+  },
+  {
+   "id": 32,
+   "text": "I used to love spending time with my friends and family, but now I avoid them at all costs. The thought of having to put on a happy face and pretend everything is okay is too much to bear. I just want to be alone with my thoughts.",
+   "label": "postpartum"
+  },
+  {
+   "id": 245,
+   "text": "@alteredschizo Wait? I have the majority of these symptoms. I've also been told my Bipolar disorder acts like schizophrenia...Bah! Dang doctors.",
+   "label": "bipolar"
+  },
+  {
+   "id": 139,
+   "text": "I used to love doing things I'm passionate about, but now they feel like a chore. Everything takes so much effort and it's hard to find the motivation to even get out of bed. I'm just so tired all the time.",
+   "label": "major"
+  },
+  {
+   "id": 173,
+   "text": "@SydeGaming @Lambpaw I too have a mental Illness. I was diagnosed with Major Depressive disorder and ADHD about 6 years ago\n \n  Because something personally offends you doesn't make it ableist or offensive to the broader disabled community. I've worked in",
+   "label": "major"
+  },
+  {
+   "id": 545,
+   "text": "all scoring plays are reviewed why tf would they change the call before review",
+   "label": "none"
+  },
+  {
+   "id": 21,
+   "text": "I wish I could go back to who I was before the baby, but I know that's not possible. I just hope that someday, I'll be able to find myself again.",
+   "label": "postpartum"
+  },
+  {
+   "id": 343,
+   "text": "It's like I'm living in a constant state of fear and anxiety, with no way to escape. The sadness and despair are so heavy that it's like a cloud over my head, blocking out any light or joy.",
+   "label": "psychotic"
+  },
+  {
+   "id": 468,
+   "text": "5. If only I could trade my hypersomnia for insomnia, then maybe I could actually get something done during the day. ???? #hypersomnia #sleepdisorder #exhausted",
+   "label": "atypical"
+  },
+  {
+   "id": 205,
+   "text": "@missusmummyvt I have type 1 bipolar disorder and adhd",
+   "label": "bipolar"
+  },
+  {
+   "id": 361,
+   "text": "@kaar_megam As a patient with diagnosed mental illnesses ( Psychotic depression, GAD) I have nothing but thanks to psychiatric professionals like you. People like you are the last ray of hope for patients like me. Again, as a patient, just thank you for t",
+   "label": "psychotic"
+  },
+  {
+   "id": 388,
+   "text": "The world seems so far away, like I'm watching it from a great distance. It's like I'm trapped in a bubble that keeps getting smaller and smaller. Sometimes I see things that scare me, things that shouldn't be there, and I can't tell if they're real or just my mind playing tricks on me.",
+   "label": "psychotic"
+  },
+  {
+   "id": 46,
+   "text": "I feel like I'm in a dark hole that I can't climb out of. The light at the end of the tunnel is so far away. I don't know how to make it better.",
+   "label": "postpartum"
+  },
+  {
+   "id": 49,
+   "text": "I used to love spending time with my friends and family, but now I avoid them. I don't want them to see me like this. I don't want them to know that I'm struggling.",
+   "label": "postpartum"
+  },
+  {
+   "id": 386,
+   "text": "Every day feels like a battle that I can never win. The world is against me, and there's no point in trying anymore. I'm tired, I'm scared, and I'm so, so alone.",
+   "label": "psychotic"
+  },
+  {
+   "id": 409,
+   "text": "@KanariAkuma I have 鉁easy鉂 diagnoses: atypical depression, probably bipolar type II, ADHD, autism, generalized anxiety. The depression even responds pretty well to medication. \n \n And yet, I still cant find an effective therapist for under $175/hou",
+   "label": "atypical"
+  },
+  {
+   "id": 28,
+   "text": "It's been months since my baby was born, but I still feel like I'm in survival mode. I can't focus on anything, my memory is shot, and I feel like I'm going crazy. I know I should be happy, but I can't seem to shake this feeling of sadness and despair.",
+   "label": "postpartum"
+  },
+  {
+   "id": 397,
+   "text": "@Aoga_Jeremy @__Mdhzombo I even have no words for this one. Being a post partum /psychotic depression warrior. I have no words.",
+   "label": "psychotic"
+  },
+  {
+   "id": 371,
+   "text": "@psychunseen @vitevoila @AllenFrancesMD well yes and no. I have had what one psych called endogenous depression years ago. . .and i have had depression with psychotic features that lasted months. I lost fifty pounds and ranted about going to prison for fa",
+   "label": "psychotic"
+  },
+  {
+   "id": 204,
+   "text": "for minority students). I also asked about seeing if I have bipolar disorder or not",
+   "label": "bipolar"
+  },
+  {
+   "id": 464,
+   "text": "11. Sometimes I wonder if I'll ever be able to live a normal life with hypersomnia. It's a constant battle. ?? #hypersomnia #sleepdisorder #nevergiveup",
+   "label": "atypical"
+  },
+  {
+   "id": 485,
+   "text": "@mattbc I had a sleep study last night and they found something off with my breathing so I may have something that can be fixed to stop the darn Hypersomnia",
+   "label": "atypical"
+  },
+  {
+   "id": 264,
+   "text": "Anyway I went to my psych appointment today and the psychiatrist suspects I might have a mood/bipolar disorder and prescribed me lithium, anyone have any experience with this? Im..nervous to say the least",
+   "label": "bipolar"
+  },
+  {
+   "id": 16,
+   "text": "I'm so happy I was able to obtain all of my medical files after I had postpartum depression. I was hospitalized for 3 weeks about few years after the kids were born. But I have handwritten documentation about time",
+   "label": "postpartum"
+  },
+  {
+   "id": 367,
+   "text": "The future feels so uncertain, so bleak. It's like I'm standing on the edge of a cliff, staring into an abyss.",
+   "label": "psychotic"
+  },
+  {
+   "id": 410,
+   "text": "@slumbersadness Relatable. \n \n If you wanna vent, my DMs are open to being screamed at. \n \n If you're open to constructive conversations, I'm recovering from chronic atypical depression and have a lot of tips and perspectives to share.",
+   "label": "atypical"
+  },
+  {
+   "id": 95,
+   "text": "I used to love spending time with my baby, but now it feels like a chore. I can't seem to find any joy in the little moments anymore. I feel guilty for feeling this way, but I just can't help it.",
+   "label": "postpartum"
+  },
+  {
+   "id": 344,
+   "text": "Suffering from psychotic depression? Well, weve got Cheshire smiling Mormon cats for you. 鉁I think  they have nervous 槵 smiles and laughter.鉂 - Homer Simpson whispering who is currently Mr.Thompson at the church 鉀笍.",
+   "label": "psychotic"
+  },
+  {
+   "id": 162,
+   "text": "@wweisawesome123 Ben, I get it. 100%. While I'm not on the spectrum, after 65 years on this Earth I was finally correctly diagnosed. I have battled with major depressive disorder and suicidal ideation my whole life. Remember what you yourself said.. there",
+   "label": "major"
+  },
+  {
+   "id": 542,
+   "text": "after years of bad credit finally getting getting on the right path",
+   "label": "none"
+  },
+  {
+   "id": 30,
+   "text": "It's like I'm living in a fog. I can't seem to focus or concentrate on anything, and everything feels overwhelming. The demands of motherhood feel like too much, and I feel like I'm barely keeping it together. I know I need help, but the thought of admitting my struggles and vulnerability feels terrifying.",
+   "label": "postpartum"
+  },
+  {
+   "id": 194,
+   "text": "// idk if this will sound bad... I do have very bad depression. I have ptsd , generalized anxiety disorder , and major depressive disorder. So my moods tend to get bad. One of my aunties who had a bird recommended I get one to keep me company , and talk to and overall keep +",
+   "label": "major"
+  },
+  {
+   "id": 234,
+   "text": "My moods can swing so wildly that it's hard to predict how I'll feel from one moment to the next. It's like a game of emotional roulette.",
+   "label": "bipolar"
+  },
+  {
+   "id": 249,
+   "text": "I feel like I'm living in a constant state of disappointment, like there's no way to find any hope. It's like there's no way to find any optimism.",
+   "label": "bipolar"
+  },
+  {
+   "id": 369,
+   "text": "It's like I'm living in a constant state of isolation, with no one to turn to or confide in. The sadness and despair are so overwhelming that it's like a prison, trapping me inside with no hope of release.",
+   "label": "psychotic"
+  },
+  {
+   "id": 281,
+   "text": "thanks @selenagomez ス槆 (also has anybody watched her film on apple tv about her bipolar disorder? i have bipolar disorder too and was wondering if its worth it to watch it.)",
+   "label": "bipolar"
+  },
+  {
+   "id": 503,
+   "text": "hey guys am teen blogger from india make blogs on relevant topics going all over the world like earnmoney yoga spirituality and many more so plz do see my blog and share will help lot refer the link blog blogger bloggerstribe blogging",
+   "label": "none"
+  },
+  {
+   "id": 316,
+   "text": "The darkness inside me is overwhelming. It's like there's a black hole in my soul, and it's consuming me from the inside out. I try to hold on to hope, but it feels like there's nothing left to hold on to.",
+   "label": "psychotic"
+  },
+  {
+   "id": 426,
+   "text": "Found this old gem. My sleep app thought my 12 and 13 hours of sleep were both in the span of 24 hours. I have idiopathic hypersomnia (medical term for needs a lot of sleep but is unrefreshed, and its a mystery). Its way better treated now. 25 hours in 24 was a new record! 槀 https://t.co/HOXVpO7q9A",
+   "label": "atypical"
+  },
+  {
+   "id": 432,
+   "text": "Sleep is for the weak. Except I just have a poor sleep schedule and hypersomnia, rip me.",
+   "label": "atypical"
+  },
+  {
+   "id": 53,
+   "text": "Some days it's a struggle just to get out of bed. I feel like I'm drowning in a sea of responsibility, and I don't know how to keep my head above water.",
+   "label": "postpartum"
+  },
+  {
+   "id": 274,
+   "text": "@AmandaSuspended I don't have bipolar disorder, but I have severe anxiety disorder, and yeah, it was a massive mindfuck to couple that with IDC. I'm here. I know I'm often in a work/kids bubble, but I'm always here.",
+   "label": "bipolar"
+  },
+  {
+   "id": 197,
+   "text": "Everything feels like a chore. Getting out of bed, showering, eating - it all takes so much effort when I'm consumed by this heavy cloud of sadness.",
+   "label": "major"
+  },
+  {
+   "id": 141,
+   "text": "There are moments when the light seems to fade from the world. When the colors of life become muted, and the weight of everything I've ever felt crashes down on me all at once. I can barely catch my breath.",
+   "label": "major"
+  },
+  {
+   "id": 120,
+   "text": "It's like I'm living in a black and white photograph, where the colors have faded away and the brightness is gone. The feeling of being numb and lifeless is all-consuming.",
+   "label": "major"
+  },
+  {
+   "id": 554,
+   "text": "let us make the complex simple our comparison service can help you quickly and easily compare gas plans in your area get free comparison today reach us today contact us hello talk to our experts call moneysaver",
+   "label": "none"
+  },
+  {
+   "id": 160,
+   "text": "I feel like I'm living in a shadow, watching life go by without ever truly experiencing it. Even happy moments are tinged with sadness and emptiness.",
+   "label": "major"
+  },
+  {
+   "id": 143,
+   "text": "It's like being stuck in a room with a constant, deafening noise that you can't turn off. You try to block it out, but it's always there, wearing you down.",
+   "label": "major"
+  },
+  {
+   "id": 236,
+   "text": "I feel like I'm living in a constant state of chaos, like there's no way to find any order. It's like there's no way to find any structure.",
+   "label": "bipolar"
+  },
+  {
+   "id": 263,
+   "text": "@Amasiuncula [My facd slightly softens and turned to look at the ground. I kicked a few rock pebbles beside my foot and sighed.] \n \n I know. I have bipolar disorder and my father was a raging alcoholic growing up so I adopted 鉁his鉂 fucked up qualities",
+   "label": "bipolar"
+  },
+  {
+   "id": 315,
+   "text": "It's like I'm stuck in a movie that I can't turn off. Everything feels surreal and I can't shake the feeling that I'm living in a nightmare.",
+   "label": "psychotic"
+  },
+  {
+   "id": 189,
+   "text": "alt press not even getting the title right猞 unfortunately i have three favorite tracks from this album because i have major depressive disorder. 27, headfirst slide, shipped gold standard",
+   "label": "major"
+  },
+  {
+   "id": 486,
+   "text": "@becca_g_p @boundless_boi @teetengee If you have it everyday and it's not related to stress levels, you might have a sleep disorder.\n \n I have hypersomnia but usually that means I sleep long hours in one go, not waking up in the middle of the night (but t",
+   "label": "atypical"
+  },
+  {
+   "id": 26,
+   "text": "@brinapingu I am so sorry to hear of your loss. I have recently given birth and postpartum depression is real. Hope god eases your pain and praying for her too 挄げ従",
+   "label": "postpartum"
+  },
+  {
+   "id": 48,
+   "text": "Some days it feels like the weight of the world is on my shoulders. I can't shake this overwhelming sadness, no matter how hard I try.",
+   "label": "postpartum"
+  },
+  {
+   "id": 158,
+   "text": "Even when good things happen, I can't seem to fully enjoy them. The feeling of sadness and emptiness is always lurking in the background.",
+   "label": "major"
+  },
+  {
+   "id": 0,
+   "text": "My baby cries all the time, and I can't seem to console her. The guilt of not being able to comfort my own child is eating away at me. I feel like a failure, and it's hard to see a way out of this darkness.",
+   "label": "postpartum"
+  },
+  {
+   "id": 60,
+   "text": "The weight of responsibility and expectation is suffocating. It's like I'm supposed to have everything together, but I feel like I'm falling apart.",
+   "label": "postpartum"
+  },
+  {
+   "id": 318,
+   "text": "@CerebralNurse @SameiHuda @EillishSatchell I'm not a scientist, my psychotic depression was triggered 3 years after the end of a relationship (almost to the day), which I still consider bereavement. I have never read about it. Interesting that this artic",
+   "label": "psychotic"
+  },
+  {
+   "id": 337,
+   "text": "Today Marks exactly 2 years since I experienced a cardiac arrest due to emotional stress.The aftermath included anxiety attacks, suicidal thoughts, depression, loneliness, therapy, its been a long journey, from anti depressants to natural healing.I just thank God for saving me",
+   "label": "psychotic"
+  },
+  {
+   "id": 192,
+   "text": "I'm tired all the time, even when I've had a full night's sleep. It's like my body and mind just can't recharge anymore. No matter how much caffeine or sugar I consume, I still feel like I'm dragging myself through the day.",
+   "label": "major"
+  },
+  {
+   "id": 128,
+   "text": "I don't enjoy anything anymore. Even things that used to make me happy feel like a chore or a burden. It's like my emotions are just flat-lined.",
+   "label": "major"
+  },
+  {
+   "id": 98,
+   "text": "Sometimes, I catch myself fantasizing about running away or escaping from it all. The guilt that follows is suffocating.",
+   "label": "postpartum"
+  },
+  {
+   "id": 327,
+   "text": "@AkikoMHart @MadeInBedlam Having had a relatively uncontroversial diagnosis (psychotic depression), I guess I have never minded my diagnosis that much. But as a service user I found this blog post offensive, disrespectful and completely lacking in insight",
+   "label": "psychotic"
+  },
+  {
+   "id": 273,
+   "text": "I feel like I'm living in a constant state of frustration, like there's no way to accomplish anything. It's like there's no way to find any progress.",
+   "label": "bipolar"
+  },
+  {
+   "id": 101,
+   "text": "@tonyposnanski You're not. So many of us struggle. I have major depressive disorder and generalized anxiety as well. Had it my whole life, finally found right dr and right meds at 54. Never thought I would feel good again, but I do. Hope you find your ans",
+   "label": "major"
+  },
+  {
+   "id": 404,
+   "text": "I did an at-home sleep test for sleep apnea. That came back negative. Now I have to do an in-lab sleep test. My doc is looking for signs of hypersomnia or narcolepsy. :/ At least theyre treatable.",
+   "label": "atypical"
+  },
+  {
+   "id": 471,
+   "text": "@pancithanton tw // depression \n \n  im sorry i have depression as well and it sucks ive never had hypersomnia before is it like the opposite of insomnia?",
+   "label": "atypical"
+  },
+  {
+   "id": 215,
+   "text": "I had three mental health diagnoses during my life. Bipolar disorder, when I was 17 years old... Borderline and Autism Spectrum Disorder when 30 years old. My life never was easy, and not even once I used the documents I have pointing stuff about my mind as excuses.",
+   "label": "bipolar"
+  },
+  {
+   "id": 491,
+   "text": "@hubermanlab Dr. Huberman, do you have any resources for idiopathic hypersomnia patients (Im borderline narcoleptic w/REM onset in one nap on MSLT; latency average &lt; 3mins s/p 7-9hrs sleep) who takes armodafinil  caffeine daily to function at w",
+   "label": "atypical"
+  },
+  {
+   "id": 266,
+   "text": "Our community liaison once told me most people bounce right back but you just stay there for a while talking about when I have set backs and sulk... yeah I'm like 90% sure I have bipolar disorder 挙煆�",
+   "label": "bipolar"
+  },
+  {
+   "id": 449,
+   "text": "@ind3fatigable I just started on the lowest dose of Ritalin there is and like, its life changing but wow like, I have to time it just perfectly when I take it and 猞 is it worth it? (For reference, Im not an ADHDer but I have hypersomnia which Rita",
+   "label": "atypical"
+  },
+  {
+   "id": 453,
+   "text": "57. I hate feeling like I'm a burden to my loved ones because of my hypersomnia. But I know that they love and support me no matter what. ?? #hypersomnia #sleepdisorder #",
+   "label": "atypical"
+  },
+  {
+   "id": 492,
+   "text": "@writingvampires One of my adhd meds helps me with adhd related fatigue. Pcp said theres a med for CFS/ ME that might help. And when they thought I had hypersomnia they were gonna offer a med, that apparently i would have had to sign a waiver not to ab",
+   "label": "atypical"
+  },
+  {
+   "id": 219,
+   "text": "Some days it feels like my mind is trapped in a dark cloud, and I can't see a way out. It's like a never-ending storm in my head.",
+   "label": "bipolar"
+  },
+  {
+   "id": 461,
+   "text": "Waking up at 6 am every day when you have hypersomnia is a living hell.\n \n I wake up to spend 8 hours at school.\n \n Then go home and sleep.\n \n Today that will change.\n \n The real grind begins. https://t.co/BMScTVDm1X",
+   "label": "atypical"
+  },
+  {
+   "id": 463,
+   "text": "@wtfsaucy I have insomina. So I get extremely tired. Yet I lay in bed and can never fall asleep. Than when I fall asleep hypersomnia comes into play. Where I feel like I need to sleep for long periods. It's actually so weird. No clue how I get so much don",
+   "label": "atypical"
+  },
+  {
+   "id": 86,
+   "text": "Postpartum depression is so real bruh .... I really have days I wish I could just not move not think not do shit but cry .....  them days dont exist anymore cause EVERYday I gotta wake up  make something shake for my seed 槥",
+   "label": "postpartum"
+  },
+  {
+   "id": 527,
+   "text": "really love compaqs gray on black aesthetic for laptop keybeds so this is active color tft seems way nicer than the other conturas",
+   "label": "none"
+  },
+  {
+   "id": 198,
+   "text": "@mythic_dad as someone who suffers from major depressive disorder i'll be honest, unless they have an active s**cide plan, i would let them be. sometimes we're so far gone we can't get out until we've realized we reached rock bottom. the only thing that w",
+   "label": "major"
+  },
+  {
+   "id": 336,
+   "text": "Depression is a such bitch  I hope everyone whose affected by it is doing okay. I have a form of severe clinical depression called psychotic depression. This week has definitely not been fun  my anxiety is definitely higher then usual. Be easy on yourself today 挄惏",
+   "label": "psychotic"
+  },
+  {
+   "id": 89,
+   "text": "@simpingforlikes Have grace for yourself, I cant imagine how hard it is to face postpartum depression and navigate parenting with a partner. The biggest thing is you had this realization, Im sure youre a great mom and your daughter appreciates al",
+   "label": "postpartum"
+  },
+  {
+   "id": 405,
+   "text": "my dr said i might have hypersomnia idk if i do but i sure am sleepy",
+   "label": "atypical"
+  },
+  {
+   "id": 47,
+   "text": "I have had anxiety and depression for a very long time, and recently Ive been suffering from postpartum depression as well. Along with the condition came a lot of guilt. I have a great life, and in a lot of ways right now I have everything Ive ever wanted.",
+   "label": "postpartum"
+  },
+  {
+   "id": 433,
+   "text": "I swear I have atypical depression. And I don't mean this in a hypochondriac type of way.",
+   "label": "atypical"
+  },
+  {
+   "id": 44,
+   "text": "Sis is going through. I may actually have postpartum depression the way I been feeling and acting",
+   "label": "postpartum"
+  },
+  {
+   "id": 398,
+   "text": "@bublitzkrieg @lladnar42 Psychosis covers a spectrum of experiences. In my case, it's psychotic depression (it goes by different phrasings). I have episodes where I dissociate from reality. Mostly mild hallucinations and intrusive thoughts, very occas",
+   "label": "psychotic"
+  },
+  {
+   "id": 512,
+   "text": "your actions earn playful eyeroll from her emiting small chuckle as she turns the mirror to face you no was talking about minju give her look",
+   "label": "none"
+  },
+  {
+   "id": 278,
+   "text": "I feel like I'm living in a constant state of uncertainty, like there's no way to find any stability. It's like there's no way to find any predictability.",
+   "label": "bipolar"
+  },
+  {
+   "id": 448,
+   "text": "@garmtwt Im the same and I have idiopathic hypersomnia hope that helps",
+   "label": "atypical"
+  },
+  {
+   "id": 145,
+   "text": "why is it that all my favorite books are like utterly hopeless and depressing in tone. like i have major depressive disorder, why can't i find comfort in things that....comfort me instead of fill me with nihilism",
+   "label": "major"
+  },
+  {
+   "id": 593,
+   "text": "when are we going to stop supporting the jones family they are the problem show me good franchise will show you great ownership",
+   "label": "none"
+  },
+  {
+   "id": 283,
+   "text": "@OluwaSoLove 挴Went through the dark night of the soul, and will go through many, but I was diagnosed with Bipolar disorder at 15 now 19, I can see that it was mostly negative influences and attachments I had to go through and let go. Now I have a bipol",
+   "label": "bipolar"
+  },
+  {
+   "id": 445,
+   "text": "my doctor diagnosed me with idiopathic hypersomnia and I feel so validated bc I have a legitimate condition thats causing me to be excessively sleepy and its not laziness like everyone around me suspected 槶",
+   "label": "atypical"
+  },
+  {
+   "id": 174,
+   "text": "Thanks. I have major depressive disorder order now.",
+   "label": "major"
+  },
+  {
+   "id": 353,
+   "text": "Naw, I experience depression still. Maybe I have psychotic depression.",
+   "label": "psychotic"
+  },
+  {
+   "id": 275,
+   "text": "The world feels so bleak and hopeless right now, and it's hard to find any sense of purpose. It's like I'm adrift in a sea of despair.",
+   "label": "bipolar"
+  },
+  {
+   "id": 230,
+   "text": "I like the new @MileyCyrus song, but the fact that she mocked @SineadOConnor for having bipolar disorder has never left me.\n \n I have bipolar, Miley. It's not a joke.",
+   "label": "bipolar"
+  },
+  {
+   "id": 549,
+   "text": "sure john hussey came in from the backfield to change that call what schmuck",
+   "label": "none"
+  },
+  {
+   "id": 553,
+   "text": "the best written one was the hunger games but my favourite gon have to be the maze runner",
+   "label": "none"
+  },
+  {
+   "id": 3,
+   "text": "@3obergs You must have enjoyed it then. I had  depression for the first 3 yrs, then it got better, but I still found parenting a small child hard  I longed for him to become a teen. Time went slow. Felt like a life sentence! Then I lost him",
+   "label": "postpartum"
+  },
+  {
+   "id": 92,
+   "text": "I thought motherhood would be the ultimate fulfillment, but instead, I feel empty and lost.",
+   "label": "postpartum"
+  },
+  {
+   "id": 335,
+   "text": "I don't know how to explain it, but sometimes I feel like I'm not alone in my own head. There's something else there, something dark and malevolent. It's like a constant battle to keep it at bay.",
+   "label": "psychotic"
+  },
+  {
+   "id": 575,
+   "text": "please tell me which of these refs had better view of the end line than the one who signaled touchdown standing right in front of the fucking catch",
+   "label": "none"
+  },
+  {
+   "id": 122,
+   "text": "Mentally its been ROUGH. Ive been diagnosed with major depressive disorder, generalized anxiety disorder, social anxiety, and panic disorder. I also have PTSD but thats from other things. Also, your feelings are COMPLETELY VALID even without a diagnosis 鉂わ笍",
+   "label": "major"
+  },
+  {
+   "id": 199,
+   "text": "It's like there's a constant rain cloud over my head, and no matter how hard I try, I just can't seem to shake it. It's exhausting.",
+   "label": "major"
+  },
+  {
+   "id": 110,
+   "text": "I'm constantly plagued by feelings of worthlessness and self-doubt. No matter what I accomplish, I never feel like it's enough, and I'm always comparing myself to others.",
+   "label": "major"
+  },
+  {
+   "id": 541,
+   "text": "last week of the campaign haha then why didnt they vote for the civil rights act",
+   "label": "none"
+  },
+  {
+   "id": 208,
+   "text": "@neurorebelde @esatalparduska @EdgarArtacho For an adult with rapid cycling bipolar disorder. And I charged under $100/hr w an MA degree. \n \n If u are seeing a psychologist already  need structural support, a good coach is great! But if you dont have",
+   "label": "bipolar"
+  },
+  {
+   "id": 72,
+   "text": "Someday Im going to write an essay about how the nurses scaring me with safe sleep procedure and SIDS statistics contributed to my severe  depression and I went on to have my second child bed sharing full time and it revived my maternal instinct they took from me",
+   "label": "postpartum"
+  },
+  {
+   "id": 420,
+   "text": "@helloitskolo Thank you. Even a decade plus into fatigue and hypersomnia, I am still so ashamed of how much I need to sleep. I think I would definitely rather be this way than have insomnia - but the idea this is a preferable experience to normal sleep ne",
+   "label": "atypical"
+  },
+  {
+   "id": 457,
+   "text": "Update: I got discharged na! Findings showed that I have Idiopathic Hypersomnia. Didn't expect to spend one more day in the hospital but ayun. 槉 https://t.co/UFIPhQSFdd",
+   "label": "atypical"
+  },
+  {
+   "id": 22,
+   "text": "I'm experiencing physical symptoms like chest pains and shortness of breath, but doctors can't find anything wrong.",
+   "label": "postpartum"
+  },
+  {
+   "id": 218,
+   "text": "There are times when I feel like I'm on an emotional rollercoaster, with highs and lows that are hard to predict. It's like I'm holding on for dear life, hoping that I don't fall off.",
+   "label": "bipolar"
+  },
+  {
+   "id": 584,
+   "text": "in real time that was bang bang play going out of the endzone can see how they called that incomplete",
+   "label": "none"
+  },
+  {
+   "id": 502,
+   "text": "every epic iron maiden guitar harmony specifically those in powerslave hallowed be thy name rime of the ancient mariner revelations brave new world for the greater good of god",
+   "label": "none"
+  },
+  {
+   "id": 454,
+   "text": "@MereSophistry I set my alarm for 15, but Ive been sleeping for at least an hour. Its concerning, because I do have hypersomnia that I can usually deal with in 15 min cat naps猞but now I cant wake up.",
+   "label": "atypical"
+  },
+  {
+   "id": 562,
+   "text": "has anyone else realize how weird sleepovers are like you go over to your friends house sleep in their bed eat their food and then go home the next day imagine doing that as an adult",
+   "label": "none"
+  },
+  {
+   "id": 408,
+   "text": "my head huets so baaaad 3: i have hypersomnia and i hate it when i uncontrollably oversleep so why am i forcing it to happen lol. like why. it sucks so bad why do i do it.",
+   "label": "atypical"
+  },
+  {
+   "id": 498,
+   "text": "@SirKatelyn They also helped immediately with my sleep disorder. I have idiopathic hypersomnia as well which means my brain is going mach 7 and my body is like  I feel like sleeping forever. Now, I can actually stay awake and function. It's wild. No tho",
+   "label": "atypical"
+  },
+  {
+   "id": 589,
+   "text": "almighty name is such dose for the soul that ur soul become stronger mondaymotivation",
+   "label": "none"
+  },
+  {
+   "id": 525,
+   "text": "either get active and vote in every election you can get researching and find out who actions and intent are most true or get vocal and ask questions to the right people but dont do nothing",
+   "label": "none"
+  },
+  {
+   "id": 483,
+   "text": "do i have hypersomnia??",
+   "label": "atypical"
+  },
+  {
+   "id": 427,
+   "text": "@lizardstab What kind of crimes? I swear I sleep. I have hypersomnia, in fact 槀",
+   "label": "atypical"
+  },
+  {
+   "id": 90,
+   "text": "I am thankful to have gotten through the tough parts of postpartum depression. I am lowkey still suffering though, Im peeping. Im gonna have a self care / clean up day to make me feel better",
+   "label": "postpartum"
+  },
+  {
+   "id": 153,
+   "text": "@Megan6663 Ugh.. 挃 I also have GAD  also major depressive disorder. Internal suffering is real. xx.枻",
+   "label": "major"
+  },
+  {
+   "id": 254,
+   "text": "@TheFoxMatriarch I have bipolar disorder and when describing my symptoms my dr always asks what all is going on in my life and he even asks Do you feel this is a reasonable reaction/emotion to your situation?.",
+   "label": "bipolar"
+  },
+  {
+   "id": 228,
+   "text": "The sadness I feel is like a weight that's dragging me down, like there's no way to find any strength. It's like there's no way to find any energy.",
+   "label": "bipolar"
+  },
+  {
+   "id": 11,
+   "text": "I find myself constantly comparing my parenting skills to others, even though I know it's not healthy or productive.",
+   "label": "postpartum"
+  },
+  {
+   "id": 96,
+   "text": "@thepisceanaura currently have 3 weeks left until I birth my second child and girlllll i- ズ I'm scared of  depression hitting my hard again when I'm already depressed dbsjdbebk. STILL GRATEFUL THO",
+   "label": "postpartum"
+  },
+  {
+   "id": 544,
+   "text": "Well damn Ill do a study if there are few with idiopathic hypersomnia who have done one https://t.co/Wmn6deoshW",
+   "label": "none"
+  },
+  {
+   "id": 5,
+   "text": "My mental health really suffered this year. I had bad postpartum depression from an incident that caused me to have my baby 15 weeks early. I got so overwhelmed my mind couldn't handle it. But I'm finally getting the overdue help and support I've always needed. so grateful 挏",
+   "label": "postpartum"
+  },
+  {
+   "id": 167,
+   "text": "I am diagnosed with panic disorder and generalized anxiety disorder. 99% confident I have major depressive disorder and my mom is convinced.",
+   "label": "major"
+  },
+  {
+   "id": 415,
+   "text": "@2D_dey i've been having troubles with hypersomnia since the pandemic started, classic go to sleep and wake up 12 hours later, still tired, have to have a nap later to be less tired",
+   "label": "atypical"
+  },
+  {
+   "id": 50,
+   "text": "I keep telling myself that I should be grateful for everything I have, but I can't shake this feeling of emptiness. It's like I'm trapped in my own head and I can't escape.",
+   "label": "postpartum"
+  },
+  {
+   "id": 126,
+   "text": "@RachelNotley I have  Major Depressive disorder. I have been hospitalized before but will not go back, even if Im desperate, because of the 16-24 hour wait in the ER waiting room for psych patients. I have a back injury and just cant sit that lon",
+   "label": "major"
+  },
+  {
+   "id": 67,
+   "text": "Being a new mom can be so overwhelming. Some days I feel like I'm drowning in a sea of emotions. I can't shake this feeling of sadness and anxiety, no matter how hard I try.",
+   "label": "postpartum"
+  },
+  {
+   "id": 551,
+   "text": "what if you dont get enough calories in short term you may not see results from your training you lose muscle tissue which may result in the loss of strength and endurance",
+   "label": "none"
+  },
+  {
+   "id": 25,
+   "text": "I used to be able to fall asleep as soon as my head hit the pillow, but now my mind races with worries and anxieties. I can't seem to turn it off and just relax.",
+   "label": "postpartum"
+  },
+  {
+   "id": 598,
+   "text": "and that career backup has been to more pro bowls than cam would never say he as talented but let not pretend garcia opinion doesn matter or that he doesn have the authority to say that opinion guy had solid career",
+   "label": "none"
+  },
+  {
+   "id": 196,
+   "text": "I don't know what's wrong with me. I feel like I'm living in a fog, like I'm disconnected from the world around me. It's like I'm going through the motions, but there's no joy or happiness anymore.",
+   "label": "major"
+  },
+  {
+   "id": 183,
+   "text": "I am financially stable. My housing is secure. I have the suit of my dreams. I love my job. My Major Depressive Disorder hasn't been acting up. I have partners who love me unconditionally. I've finally moved to a climate that suits me. I am really, truly happy. Life is good.",
+   "label": "major"
+  },
+  {
+   "id": 357,
+   "text": "I'm always on edge, waiting for something to happen. I don't know what it is, but I know that it's coming. I feel like I'm constantly in danger, and I can't relax.",
+   "label": "psychotic"
+  },
+  {
+   "id": 450,
+   "text": "Go all-in and scan 100% of your code pipeline. Scalable Vulnerability detection in an easy-to-use platform that #Devs love.",
+   "label": "atypical"
+  },
+  {
+   "id": 301,
+   "text": "I feel like I'm losing touch with reality. My thoughts and emotions are so erratic, and I can't seem to make sense of anything.",
+   "label": "psychotic"
+  },
+  {
+   "id": 555,
+   "text": "ima get that house watch me if theres one thing about me it that determined and about getting the shit want myself",
+   "label": "none"
+  },
+  {
+   "id": 39,
+   "text": "I'm so tired all the time, but I can't sleep. My mind won't shut off and the racing thoughts make it hard to relax. It's like I'm in a constant state of stress.",
+   "label": "postpartum"
+  },
+  {
+   "id": 190,
+   "text": "Therapy yesterday left me with a challenging question: how do ADHDers identify their primary condition? I have ADHD-combined type, PTSD, anxiety/major depressive disorder,  a recent bipolar 2 diagnosis. I'd love to have a dialogue on this @AdultingADHD",
+   "label": "major"
+  },
+  {
+   "id": 202,
+   "text": "@charliersmith1 Charlie I did not know of you until just a few days ago but the story you have and are sharing is fascinating. Your blog post here is the most informative thing Ive ever read on bipolar disorder. You are teaching me with your story and",
+   "label": "bipolar"
+  },
+  {
+   "id": 523,
+   "text": "love it also helps me weed out the negative people which don like doing but gotta protect yourself and you aura",
+   "label": "none"
+  },
+  {
+   "id": 341,
+   "text": "Everything feels so heavy. Like I'm carrying the weight of the world on my shoulders. I can't seem to shake this feeling of impending doom. And then there are the times when I'll have these intense bursts of energy, where I'll feel like I can conquer the world. But those moments never last. They're always followed by a crushing sense of defeat.",
+   "label": "psychotic"
+  },
+  {
+   "id": 501,
+   "text": "my tiny pharmacy bubble went to bear tooth last night to celebrate birthday and this is how they brought out the pizza they even put on boy band music because our table broke out singing want it that way it made my day of course had nachos for dinner",
+   "label": "none"
+  },
+  {
+   "id": 434,
+   "text": "Does anyone else have hypersomnia? I hate this shit. I sleep for 10-12 hours and Im still sleeepyyyy",
+   "label": "atypical"
+  },
+  {
+   "id": 294,
+   "text": "It's hard to feel like I'm making progress when my moods can make me feel stuck in the same place. It's like trying to run on a treadmill with no way of getting off.",
+   "label": "bipolar"
+  },
+  {
+   "id": 295,
+   "text": "Even when Im in a stable place, I still have bipolar disorder. So that always exist - a darkness always exist. https://t.co/lC5WwCeBH2",
+   "label": "bipolar"
+  },
+  {
+   "id": 342,
+   "text": "I have such a psychotic depression",
+   "label": "psychotic"
+  },
+  {
+   "id": 159,
+   "text": "I keep telling myself that I should be happy, but I can't shake this feeling of sadness. It's like a weight that's always on my shoulders, dragging me down.",
+   "label": "major"
+  },
+  {
+   "id": 349,
+   "text": "@LGwenn Also: Me dealing with psychotic depression =/= me minus eighty IQ points. Worse yet, it's staff in my Dr's office that act like that",
+   "label": "psychotic"
+  },
+  {
+   "id": 209,
+   "text": "There are moments when my mind feels like a storm, with thoughts and emotions swirling around like a tornado. It's like I'm in the eye of the hurricane.",
+   "label": "bipolar"
+  },
+  {
+   "id": 280,
+   "text": "I have rapid cycling type 1 bipolar disorder egged on by ADHD. The Crash is not a bug but, despite my best efforts, a feature.\n \n It occurs after periods of mania, high stress and burn out.\n \n https://t.co/EVEWINEIj3 https://t.co/L84PmY660B",
+   "label": "bipolar"
+  },
+  {
+   "id": 532,
+   "text": "it not like brady doesn have the quarterbacks dream good coaching good players good defense too",
+   "label": "none"
+  },
+  {
+   "id": 431,
+   "text": "@hiisikolo_art @roryreckons I have Hypersomnia as in excessive sleep, not sleepiness. avg 14hrs per sleep  awake for 10-36hrs without being tired/sleepy. but the Drs  tests all focus on sleepiness not sleeping. waiting for ADHD assesment/Dx thou",
+   "label": "atypical"
+  },
+  {
+   "id": 269,
+   "text": "Disorders I think I have/are developing~\n - Depression (Developing)\n - Bipolar Disorder \n - Anxiety Disorder",
+   "label": "bipolar"
+  },
+  {
+   "id": 597,
+   "text": "yearsoftovinoinmfi thankyou all for whelming supports keep on the josh guys smashed tweets sarkaruvaaripaata",
+   "label": "none"
+  },
+  {
+   "id": 151,
+   "text": "I have high blood pressure, anxiety  major depressive disorder. My doctors recommend if Im going to be pro se that I have virtual court, additional to keep me from having to face my estranged family ever again in person. Join me today @ 2:30pm EST v. @DukeHospital 棧棧棧 https://t.co/y76yMe6IUV",
+   "label": "major"
+  },
+  {
+   "id": 118,
+   "text": "@Book_Worm_83 @KaeleyT Nope. Theyre men with gender dysphoria. \n \n Theyre sorta like me. Im a man with major depressive disorder, generalized anxiety disorder, autism spectrum disorder, ADHD, OCD, et al stuff.\n \n Were all humans. Some of us ju",
+   "label": "major"
+  },
+  {
+   "id": 68,
+   "text": "I really hate that I have postpartum depression. Even on my good days I still go through it",
+   "label": "postpartum"
+  },
+  {
+   "id": 568,
+   "text": "all the positive and fun energy was surrounded with for my birthday was unmatched god really showed out blessing me with such amazing friends all the love surprises gifts bday wishes and time spent has my heart so full best birthday thus",
+   "label": "none"
+  },
+  {
+   "id": 83,
+   "text": "My mind is constantly racing with worries and fears, making it hard to concentrate on anything else. I feel like I'm losing my mind.",
+   "label": "postpartum"
+  },
+  {
+   "id": 146,
+   "text": "@dailyblastlive Regarding therapy discussion. I have Major Depressive Disorder for 40 years. Your conversation needed to be elevated to everyone. I am a white male and seein a Psychiatrist or therapist was a sign of weakness and my dad was a Dentist.  Ju",
+   "label": "major"
+  },
+  {
+   "id": 543,
+   "text": "these are overenthusiastic seeker of fame and they think easiest way is to teach hindus as usual had she been posted in other community dominated area you would have never heard of her then probably",
+   "label": "none"
+  },
+  {
+   "id": 580,
+   "text": "with all due respect to the living legend tamar voice is simply anointed",
+   "label": "none"
+  },
+  {
+   "id": 322,
+   "text": "Bro I went to the doctor and I have Sever episodes of recurrent major depression disorder with psychotic features cms/hcc like wtf does that mean 槶",
+   "label": "psychotic"
+  },
+  {
+   "id": 285,
+   "text": "My anxiety can be overwhelming at times, leaving me feeling like I'm suffocating. It's like there's a weight on my chest that won't let me breathe.",
+   "label": "bipolar"
+  },
+  {
+   "id": 311,
+   "text": "Above that, Im supposed to be going onto medication soon that can induce psychosis if I am in a mentally vulnerable state which atm Im worried Im in. Needless to say, I dont want to have psychosis",
+   "label": "psychotic"
+  },
+  {
+   "id": 339,
+   "text": "The world around me is a surreal landscape. I don't know what's real anymore. The colors are too bright, the sounds are too loud. It's like living in a constant state of disorientation.",
+   "label": "psychotic"
+  },
+  {
+   "id": 364,
+   "text": "I don't know who I am anymore. It's like I've lost myself somewhere along the way. I feel disconnected from everything and everyone",
+   "label": "psychotic"
+  },
+  {
+   "id": 45,
+   "text": "I used to be so organized and on top of things. But since the baby was born, my house is a mess, and I can't seem to get anything done. Every time I try to do something, the baby needs something else, and I'm left feeling even more drained and exhausted than before.",
+   "label": "postpartum"
+  },
+  {
+   "id": 563,
+   "text": "it seems like twitter is where the professional promotional stuff is and instagram is where those professiona promotional folks go to post their thirstiest thirst traps",
+   "label": "none"
+  },
+  {
+   "id": 519,
+   "text": "announcers talking bout good call and the refs reversed it now they acting stunned lol seavsaz",
+   "label": "none"
+  },
+  {
+   "id": 186,
+   "text": "@QuahogsUnited @MUAtherapy I've been diagnosed with major depressive disorder and generalized anxiety disorder so far, and I think I may have symptoms of OCD, ADHD, and living on the autism spectrum.\n \n I'm a hot mess, but it is what it is. し徎鈲鈾",
+   "label": "major"
+  },
+  {
+   "id": 310,
+   "text": "The world feels like it's closing in on me, suffocating me with its weight. I can't breathe, can't think, can't escape. The panic is overwhelming, and I don't know how much longer I can hold on.",
+   "label": "psychotic"
+  },
+  {
+   "id": 305,
+   "text": "if my doctor said that i have 鉁bipolar psychotic depression鉂 does that necessarily = bipolar 1?: mood problems h... http://bit.ly/iNgawb",
+   "label": "psychotic"
+  },
+  {
+   "id": 379,
+   "text": "My thoughts are like a maze, with no clear path to the way out. The weight of sadness and despair is suffocating, leaving me feeling lost and alone in a world that feels like it's closing in on me.",
+   "label": "psychotic"
+  },
+  {
+   "id": 258,
+   "text": "@RichardJVance @KyivIndependent Shoot, I know ppl who have bipolar disorder. They aren't anything like this wishywashy bunch of Germans. Much more dependable.憤",
+   "label": "bipolar"
+  },
+  {
+   "id": 323,
+   "text": "Havent slept in 9 days with suicidal thoughts. \n \n So猞 Im tweeting ス",
+   "label": "psychotic"
+  },
+  {
+   "id": 187,
+   "text": "Some days, it feels like my body is moving in slow motion, like I'm wading through thick mud. Even getting dressed in the morning feels like an insurmountable task.",
+   "label": "major"
+  },
+  {
+   "id": 319,
+   "text": "The darkness inside my head is overwhelming, and I can't seem to find a way out. It's like a thick fog that just won't lift, no matter how hard I try.",
+   "label": "psychotic"
+  },
+  {
+   "id": 138,
+   "text": "Im actually rly proud of the fact that Im finally starting antidepressants and therapy. Its made a big impact on my life since I got diagnosed with Major depressive disorder, panic disorder, and in the process of finding out if I may have BPD",
+   "label": "major"
+  },
+  {
+   "id": 35,
+   "text": "I feel like I'm constantly on the brink of tears. Everything sets me off and I can't seem to control my emotions.",
+   "label": "postpartum"
+  },
+  {
+   "id": 212,
+   "text": "Im finally diagnosed with autism, bipolar disorder, and add. Plus my mom might actually have BPD. Crazy shit causes PTSD. But guess whos not depressed anymore bitches",
+   "label": "bipolar"
+  },
+  {
+   "id": 428,
+   "text": "idek if i have insomnia or hypersomnia bc i cant fall asleep until 6am but then when i do i sleep for 10 hours",
+   "label": "atypical"
+  },
+  {
+   "id": 111,
+   "text": "OH FUN. Psychiatric prescriber wrote down the 2 drugs she'd like me to start on by next month.\n \n The one normally prescribed for Major Depressive Disorder (which I do not have):\n \n destabilizes blood sugar (mine's high)\n is highly allergenic\n interacts w 2 of my allergy meds\n ...",
+   "label": "major"
+  },
+  {
+   "id": 348,
+   "text": "I'm trying to hold onto hope that there is a light at the end of the tunnel. But some days, it feels like I'm just stuck in the darkness.",
+   "label": "psychotic"
+  },
+  {
+   "id": 478,
+   "text": "@aGirlCalledChar Hey nothing wrong with going to bed early and getting some good sleep. I recently realized I have hypersomnia when I thought I had insomnia my whole life so thats why Im always up late.",
+   "label": "atypical"
+  },
+  {
+   "id": 547,
+   "text": "the other day while looking like thumb was told that wasn cat fish and now that think about it does that mean look as ugly in person as do in pics",
+   "label": "none"
+  },
+  {
+   "id": 108,
+   "text": "@aroguegardener @eternallyylazy @WDGSamS @anlitlecreachr @leahida 猞is caused by some other factor. I have treatment resistant Major Depressive Disorder. Ive been on every med in the book over the last 15 years and not a single one has helped, but doc",
+   "label": "major"
+  },
+  {
+   "id": 507,
+   "text": "hmm the last time read the statement the word used isnt an arahan its merasakan ydpa majlis raja raja feels the best choice isnt an emergency",
+   "label": "none"
+  },
+  {
+   "id": 351,
+   "text": "@FrosteeWolf @Major_039 Thank you for your heart warming reply. I have been taking medication for many past years. Taking Antidepressants and Risperidone. I have Psychotic and Major Depression. I just only want to talk to people and express my feelings to",
+   "label": "psychotic"
+  },
+  {
+   "id": 548,
+   "text": "this is not the end all be all solution despise him we all do but keeping my loved ones alive and myself is incredibly important to me want to live and want the people care about to live",
+   "label": "none"
+  },
+  {
+   "id": 217,
+   "text": "It's hard to feel like I'm in charge of my own life when my moods can make me feel powerless and helpless. It's like being lost in the woods with no map or compass.",
+   "label": "bipolar"
+  },
+  {
+   "id": 509,
+   "text": "is finally smiling after long years because she knows shes free soon all the feels melz vote",
+   "label": "none"
+  },
+  {
+   "id": 130,
+   "text": "Sometimes I feel like I'm on the outside looking in. I see other people going about their lives, enjoying themselves and making plans for the future, and I can't help but feel like I'm stuck in place. It's like I'm frozen in time, unable to move forward.",
+   "label": "major"
+  },
+  {
+   "id": 571,
+   "text": "tbh ubisoft games on gamepass is gonna be the only way play there games now because well sick of paying huge price for dam mtx and live service shoved into my single player games",
+   "label": "none"
+  },
+  {
+   "id": 14,
+   "text": "I can honestly say I went through postpartum depression so bad the past two weeks and only a few knew. That shit is no joke man. Im slowly getting back to me. I have my days but they are better than before. ",
+   "label": "postpartum"
+  },
+  {
+   "id": 276,
+   "text": "@RishiSunak I have bipolar disorder and you and your government have causes me a lofe of complete and utter misery. But I've survived all the suicide attempts and God loves me! Im still standing strong and confident. Happy now I'm off the chemicals. I pra",
+   "label": "bipolar"
+  },
+  {
+   "id": 256,
+   "text": "@elnorface I have an unspecified bipolar disorder which runs on my mom's side of the family. I don't deal with full blown mania just hypomanic episodes which my medicine keeps under control. The year after highschool was the worst.",
+   "label": "bipolar"
+  },
+  {
+   "id": 272,
+   "text": "V just told me the think my bipolar disorder makes me a better writer.\n \n Beyond tweets I have written anything in years but ok V. Pretty sure thats an incorrect stereotype but lol.",
+   "label": "bipolar"
+  },
+  {
+   "id": 346,
+   "text": "@vaping_brizzle @realDonaldTrump @US_FDA @FDATobacco I was almost one of those patients 14 years ago. it was the last prescription i tried to quit smoking and I stopped taking it due to suicidal thoughts and depression. It was scary. I have been smoke-fre",
+   "label": "psychotic"
+  },
+  {
+   "id": 231,
+   "text": "It's like I'm living in a world of conflicting emotions, where my moods can make me feel happy one moment and sad the next.",
+   "label": "bipolar"
+  },
+  {
+   "id": 539,
+   "text": "they look up to you because you coming from the heart every time",
+   "label": "none"
+  },
+  {
+   "id": 595,
+   "text": "mom who giving up her child wrongly are wrong people praise the mother because she left the baby with some wet tissue seriously if she really does cares about the baby like most of you guys said she would do better takda baby pandai wujud sendiri kan pity the baby",
+   "label": "none"
+  },
+  {
+   "id": 262,
+   "text": "It feels like the weight of the world is on my shoulders one minute, and then the next, I feel like I could conquer anything. It's a rollercoaster of emotions that I can't seem to control.",
+   "label": "bipolar"
+  },
+  {
+   "id": 55,
+   "text": "Sleepless nights, endless feedings, and constant worry have taken a toll on my mental health. I feel like I'm barely hanging on.",
+   "label": "postpartum"
+  },
+  {
+   "id": 376,
+   "text": "I can't seem to shake this feeling of dread that's always lingering just beneath the surface. It's like a constant weight on my chest that makes it hard to breathe. Sometimes I see things that aren't there, shadows that flit across my vision, and I can't tell if they're real or just my mind playing tricks on me.",
+   "label": "psychotic"
+  },
+  {
+   "id": 352,
+   "text": "And even in the broadest definition of NDs, ppl tend not to include MDD and GAD, and Im not really here for it. I probably have more in common with a person with major depression w/ psychotic features than I have with someone who has ADHD",
+   "label": "psychotic"
+  },
+  {
+   "id": 31,
+   "text": "Im currently consumed with caring for a 2-month old baby and dealing with postpartum depression so I have no energy left to deal with this. If this person follows me and considers themselves a fan, please please please take this down!",
+   "label": "postpartum"
+  },
+  {
+   "id": 391,
+   "text": "Sometimes I feel like I'm not even a real person. Like I'm just a ghost, floating through life. It's like I'm disconnected from everything and everyone around me.",
+   "label": "psychotic"
+  },
+  {
+   "id": 488,
+   "text": "@NickWebb30 @PortiaAntonia I have atypical depression. But maybe its typical after all.",
+   "label": "atypical"
+  },
+  {
+   "id": 314,
+   "text": "I got Psychotic Depression. on Do You Have Depression? http://t.co/qjNoGABnhS",
+   "label": "psychotic"
+  },
+  {
+   "id": 511,
+   "text": "well we can only try if we can host the videos that youtube and other big media wont then we are ok with that",
+   "label": "none"
+  },
+  {
+   "id": 74,
+   "text": "i have postpartum depression with my first car purchase because of what it has done to my savings",
+   "label": "postpartum"
+  },
+  {
+   "id": 325,
+   "text": "@abouelleill @dippinginmytoes Hi, Mohammed. I have a history of very severe depression, psychotic depression being the dx in my last crisis. When depression is so prolonged (as in my last crisis where it lasted for nearly 2 years), you feel depression dom",
+   "label": "psychotic"
+  },
+  {
+   "id": 181,
+   "text": "I don't remember My Major Depressive Disorder being this strong before. \n I mean I have been on medicine since I was about 8 or maybe 12.",
+   "label": "major"
+  },
+  {
+   "id": 91,
+   "text": "I wish I could tell someone how I really feel, but the words just won't come out. I'm overwhelmed, exhausted, and feel like I'm failing at everything.",
+   "label": "postpartum"
+  },
+  {
+   "id": 148,
+   "text": "Some days, I wake up and feel like I'm already defeated. The weight of my emotions is too heavy to bear, and I can't seem to shake this feeling of emptiness.",
+   "label": "major"
+  },
+  {
+   "id": 81,
+   "text": "@dayytonerr @DatGirlKaylee I was scared. I didnt know if I wanted to be a mom. And I didnt bond with Treyson. I didnt have maternal instincts, I didnt want him because of my postpartum depression. This is my first time putting this on social medi",
+   "label": "postpartum"
+  },
+  {
+   "id": 200,
+   "text": "I wish people could understand that it's not just a matter of snapping out of it. Bipolar depression is a serious illness that requires treatment and support.",
+   "label": "bipolar"
+  },
+  {
+   "id": 377,
+   "text": "My mind is a maze of twisted thoughts and impossible scenarios. I'm constantly second-guessing myself and questioning my own sanity. It's like I'm living in a nightmare that I can't escape from, and every time I try to wake up, I just sink deeper into the darkness.",
+   "label": "psychotic"
+  },
+  {
+   "id": 455,
+   "text": "I think I may have hypersomnia...",
+   "label": "atypical"
+  },
+  {
+   "id": 365,
+   "text": "The weight of everything is crushing me. It's like I'm carrying a burden that's too heavy to bear, and I don't know how to put it down.",
+   "label": "psychotic"
+  },
+  {
+   "id": 330,
+   "text": "Managed to go the entire day without suicidal thoughts but its night time baybee",
+   "label": "psychotic"
+  },
+  {
+   "id": 302,
+   "text": "The world has become a battlefield, a warzone where every step is fraught with danger. I'm constantly on guard, always waiting for the next attack.",
+   "label": "psychotic"
+  },
+  {
+   "id": 524,
+   "text": "that is the most offensive photo have ever seen in my life saved it to share with others",
+   "label": "none"
+  },
+  {
+   "id": 176,
+   "text": "@NicoleMulder4 Ive got major depressive disorder recurrent type-treatment resistant. Every day is a struggle  I have T2D, COPD, calcified brain tumor, non alcohol fatty liver disease, severe spinal stenosis, a lung nodule, thyroid issues,  tr",
+   "label": "major"
+  },
+  {
+   "id": 265,
+   "text": "I feel like I'm living in a constant state of uncertainty, like I don't know what the future holds. It's like there's no way to predict what's coming next.",
+   "label": "bipolar"
+  },
+  {
+   "id": 227,
+   "text": "I feel like I'm living in a constant state of confusion, like there's no way to understand anything. It's like there's no way to find any comprehension.",
+   "label": "bipolar"
+  },
+  {
+   "id": 474,
+   "text": "#100factsaboutme 4) I have atypical depression",
+   "label": "atypical"
+  },
+  {
+   "id": 480,
+   "text": "Bhai i have Hypersomnia but only din m raat ko insomnia hojata hai",
+   "label": "atypical"
+  },
+  {
+   "id": 528,
+   "text": "just entered the scholartree giveaway is the easiest way to find scholarships scholarships made simple",
+   "label": "none"
+  },
+  {
+   "id": 150,
+   "text": "@lesmis456 Yeah Ive been there. Depression doesnt have right answers. You just try to do the best you can. Ive had major depressive disorder since I was 11 so 26 years. But I just take it a little at a time.",
+   "label": "major"
+  },
+  {
+   "id": 462,
+   "text": "@SophWilliams28 @Jen05058006 @mykola @commaficionado There are so many people who have chronic pain or other disabilities and they're not believed and I just don't understand why?\n \n Even before I acquired my pain disability and before my hypersomnia got",
+   "label": "atypical"
+  },
+  {
+   "id": 277,
+   "text": "[I]t has been my arts practice that has helped me to make sense of my life with bipolar disorder and to survive, even sometimes thrive, when the odds have been against me.\n \n Essay on our 2023 issue covers by Matt Ottley\n \n https://t.co/wRJgzBG3N9",
+   "label": "bipolar"
+  },
+  {
+   "id": 374,
+   "text": "I've been having these terrifying hallucinations lately, and I can't tell what's real and what's not. The lines between fantasy and reality are becoming blurred, and I don't know how much longer I can hold on.",
+   "label": "psychotic"
+  },
+  {
+   "id": 465,
+   "text": "@mattbc @CDCDirector I have idiopathic hypersomnia and without my stimulants I can't even safely use an oven because I will fall asleep and not wake up to an alarm. I even fall asleep while halfway through taking my blood sugar in the morning before my st",
+   "label": "atypical"
+  },
+  {
+   "id": 531,
+   "text": "people who like popcorn balls are not to be fucked with anyone who will willingly eat something with the same taste and texture as styrofoam have nothing to lose",
+   "label": "none"
+  },
+  {
+   "id": 435,
+   "text": "@kennedytcooper I'm too busy wrestling my hypersomnia to even have the chance. These people wack",
+   "label": "atypical"
+  },
+  {
+   "id": 131,
+   "text": "@johnnynotbanned @CatchUpNetwork The namesake of the company committed suicide by hanging. 鉁I have major depressive disorder, generalized anxiety disorder, avoidant personality disorder and binge eating disorder.I experience suicidal thoughts.Sometimes,",
+   "label": "major"
+  },
+  {
+   "id": 458,
+   "text": "@Hotdog_lesbian3 nono I have hypersomnia, and the last two days I been getting half the hours I normally get.\n \n So it's hitting me extra hard.",
+   "label": "atypical"
+  },
+  {
+   "id": 546,
+   "text": "an incredible insight into the story behind one of the greatest acts of bravery in australia military history corporal daniel keighran untold story of courage under fire tonight on win news queensland pm saveourvoices",
+   "label": "none"
+  },
+  {
+   "id": 535,
+   "text": "girl the opposite converse are the only shoes that are comfortable for me anything with support messed with my old lady knees",
+   "label": "none"
+  },
+  {
+   "id": 251,
+   "text": "I believe having moon opposite Pluto explains my dynamic and fluctuating emotions. Im not explicitly stating that its the reason that I have Bipolar disorder as there is a genetic component to this as well, but Im sure this placement assists in my dynamic emotions. 槷鈲挩",
+   "label": "bipolar"
+  },
+  {
+   "id": 70,
+   "text": "I can't remember the last time I felt happy. It's like a dark cloud is hanging over me all the time.",
+   "label": "postpartum"
+  },
+  {
+   "id": 400,
+   "text": "@anchorlines depression days and anxiety days 100%. I also have hypersomnia i.e. excessive sleeping. So even the 1.5 extra hours that I get in the morning is a blessing.",
+   "label": "atypical"
+  },
+  {
+   "id": 82,
+   "text": "The constant cycle of feeding, changing, and soothing my baby leaves me feeling drained and depleted. I can't remember the last time I slept for more than a few hours at a time.",
+   "label": "postpartum"
+  },
+  {
+   "id": 561,
+   "text": "this is from the new york times which means it fake news we all know these kids are super spreaders and if they go to school it will just spread throughout the community it time to lock down all the schools and keep everyone home",
+   "label": "none"
+  },
+  {
+   "id": 291,
+   "text": "The anxiety I feel is like a tornado that's destroying everything in its path, like there's no way to find any calm after the storm. It's like there's no way to find any peace.",
+   "label": "bipolar"
+  },
+  {
+   "id": 355,
+   "text": "My New Years resolution is to get better. The past few years have been crazy for my mental health. Living with psychotic depression isnt a walk in the park. Its difficult. 2020 I want to go to a new psychiatrist that will actually help me.",
+   "label": "psychotic"
+  },
+  {
+   "id": 406,
+   "text": "This is what I have, atypical depression, and it is very frustrating 槥 https://t.co/BMEjoHcDg6",
+   "label": "atypical"
+  },
+  {
+   "id": 354,
+   "text": "Yeah, I know that litterally no one cares but, since a few months i've been having suicidal thoughts due to depression, so if one day I give up please take good care of Daniel and let him know that I love him&lt;/3",
+   "label": "psychotic"
+  },
+  {
+   "id": 334,
+   "text": "I feel like I'm living in a different reality than everyone else. Colors are dull and lifeless, and sounds are muffled. It's like I'm living in a dream that I can't wake up from.",
+   "label": "psychotic"
+  },
+  {
+   "id": 443,
+   "text": "@MNobbiee @Yasss_Hunty @yashar Depression is NOT sadness. It's the lack of or difficulty feeling emotions. It's difficult to take action, make decisions, prioritize. Some people, like myself, experience atypical depression. I have difficulty experiencing",
+   "label": "atypical"
+  },
+  {
+   "id": 97,
+   "text": "I feel guilty for feeling this way. I know I should be grateful for my baby, but I just can't shake this feeling of sadness.",
+   "label": "postpartum"
+  },
+  {
+   "id": 359,
+   "text": "So Im almost done season 1 of euphoria. Does Rue have bipolar or depression? First few episodes she described having depression  OCD, then later implied it was bipolar/hypomania with psychotic features but in the finale theyre giving her lexapro which is uh猞v not advisable",
+   "label": "psychotic"
+  },
+  {
+   "id": 587,
+   "text": "how can s脙露gur control volatility and reward the risk of loss of value",
+   "label": "none"
+  },
+  {
+   "id": 383,
+   "text": "@danwootton So IF I stabbed you?\n (I have suffered from Psychosis by the way)\n Im a Londoner.\n It would be @SadiqKhan 鈽s fault?\n KRSNA is telling me that your soul may of deserved it. KRSNA detests some souls.\n If you read the BHAGAVAD GITA as it is.",
+   "label": "psychotic"
+  },
+  {
+   "id": 85,
+   "text": "@iamcardib @CashApp Lost my job due to my postpartum depression a couple weeks ago. They told me maybe I shouldnt have anymore kids if I cant handle being at work",
+   "label": "postpartum"
+  },
+  {
+   "id": 350,
+   "text": "Everything around me seems to be in slow motion, as if time has come to a standstill. I feel like I'm trapped in a nightmare that I can't wake up from. The darkness inside me is consuming everything, even the light that used to shine so brightly. I don't know how much longer I can keep going like this.",
+   "label": "psychotic"
+  },
+  {
+   "id": 114,
+   "text": "@PrezLives2022 @ExposingAgape My statute of limitations is up. I can't do shit. I can't even sue. Was gaslit right out of my chance to get justice. I'm disabled have #CPTSD, #MDD or Major Depressive Disorder, have had two back surgeries and have #sciatica",
+   "label": "major"
+  },
+  {
+   "id": 576,
+   "text": "hair cut off clearly he cant have in view woman with shaved head if he is commanding them to also have their hair cut off there are respectable attempts at justifying the very new practice of allowing women to pray and attend corporate worship with their heads",
+   "label": "none"
+  },
+  {
+   "id": 521,
+   "text": "love to visit iceland around to see what life was really like during that period and hear those folk songs that have been lost to the sands of time",
+   "label": "none"
+  },
+  {
+   "id": 62,
+   "text": "I have battled through Postpartum Depression for a year. I have finally found the solution. I have so much inner peace today, and every day. 挆 #endthestigma #MentalHealthAwareness #PPD #PostpartumDepression #depression #anxiety",
+   "label": "postpartum"
+  },
+  {
+   "id": 422,
+   "text": "@adamtotscomix Also this is a clear memory, one of the few I have. I have bad memory issues thanks to ADHD and a rare sleep disorder called Idiopathic Hypersomnia, so that says something. (:",
+   "label": "atypical"
+  },
+  {
+   "id": 585,
+   "text": "luda always be the prettiest person in the world luda always be the cutest gorgeous and awesome girl in the world luda best girl",
+   "label": "none"
+  },
+  {
+   "id": 556,
+   "text": "purpose of the reservation is to bring parity caste system happened because tier of the society wanted to benefit from it on account of others now beneficiaries of reservation oppose provisions like creamy layer limiting benefits to first generation etc history repeats",
+   "label": "none"
+  },
+  {
+   "id": 373,
+   "text": "It's like I'm living in a nightmare that I can't escape from. The fear and hopelessness are like monsters lurking in the shadows, ready to pounce at any moment and drag me further into the abyss.",
+   "label": "psychotic"
+  },
+  {
+   "id": 252,
+   "text": "The world feels so chaotic and unpredictable right now, like there's no way to find any stability. It's hard to find any sense of security.",
+   "label": "bipolar"
+  },
+  {
+   "id": 590,
+   "text": "its so wild to not see pete running up and down the field imagine this is what hell be like in another years",
+   "label": "none"
+  },
+  {
+   "id": 59,
+   "text": "I have come a long way and healed a lot from my pregnancy and  depression 鉂わ笍従 thank you God!!",
+   "label": "postpartum"
+  },
+  {
+   "id": 37,
+   "text": "i never knew  depression would last for almost going on 2 years. it really should be talked about more by your doctors before you have a child so you can be more prepared ",
+   "label": "postpartum"
+  },
+  {
+   "id": 66,
+   "text": "I know I should be grateful for my baby, and I am, but sometimes it's hard to feel anything but sadness. I feel guilty for feeling this way, but I can't help it.",
+   "label": "postpartum"
+  },
+  {
+   "id": 137,
+   "text": "@friiillllyyyy im diagnosed with: \n major depressive disorder ,\n anxiety disorder and a complex post traumatic stress disorder .My therapist also thinks that I have strong symptoms of social anxiety but not diagnosed yet so idk",
+   "label": "major"
+  },
+  {
+   "id": 94,
+   "text": "Ive been dealing with postpartum , depression , every day life issues , being in an environment that isnt for me , away from my support system, all while mothering through all of this ! く baby , i have my days !! But Im doing everything BUT breaking !",
+   "label": "postpartum"
+  },
+  {
+   "id": 320,
+   "text": "It's like there's a constant buzz of anxiety and fear in the back of my mind, like a swarm of bees that won't leave me alone. The weight of the depression is like a heavy blanket, suffocating any sense of joy or motivation.",
+   "label": "psychotic"
+  },
+  {
+   "id": 56,
+   "text": "I know I should be enjoying this time with my baby, but all I can think about is how overwhelming everything feels. I just want to curl up in bed and sleep.",
+   "label": "postpartum"
+  },
+  {
+   "id": 578,
+   "text": "just reading through bunch of my old tweets and going so true out loud lmfao",
+   "label": "none"
+  },
+  {
+   "id": 163,
+   "text": "Just my 2 cents on #WFH . I prefer office because I have recurring major depressive disorder as a result from PTSD. Working from home long term is a trigger. #CrossConnection",
+   "label": "major"
+  },
+  {
+   "id": 188,
+   "text": "Sometimes I feel like I'm drowning in my own thoughts. It's like there's this endless loop of negativity and self-doubt running through my head, and I can't escape it.",
+   "label": "major"
+  },
+  {
+   "id": 142,
+   "text": "I feel like I'm drowning in a sea of my own thoughts and emotions. Every day is a struggle just to keep my head above water.",
+   "label": "major"
+  },
+  {
+   "id": 6,
+   "text": "My husband tries to help, but I can't seem to let him in. I feel like I'm drowning in my own sadness and I don't know how to ask for help. I feel like a burden, like everyone would be better off without me. I know that's not true, but it's hard to shake the feeling.",
+   "label": "postpartum"
+  },
+  {
+   "id": 260,
+   "text": "The anxiety I feel is like a tightrope that I can't stay balanced on, like there's no way to find any stability. It's like there's no way to find any control.",
+   "label": "bipolar"
+  },
+  {
+   "id": 152,
+   "text": "Sometimes I feel like I'm drowning in my own thoughts. They just keep coming and I can't escape them.",
+   "label": "major"
+  },
+  {
+   "id": 437,
+   "text": "@WerewolfLoganRP oh...I have atypical depression",
+   "label": "atypical"
+  },
+  {
+   "id": 154,
+   "text": "@Airfix Mindfulness (I have Major Depressive disorder  PTSD) with bouts of frustration while building 1/700 Scale Ships like this bad boy atm. https://t.co/TUsSe8x83L",
+   "label": "major"
+  },
+  {
+   "id": 482,
+   "text": "I uhhh probably have hypersomnia. https://t.co/vXORoFQXKh",
+   "label": "atypical"
+  },
+  {
+   "id": 224,
+   "text": "I know that there are people out there who are dealing with much worse, but it's hard not to feel like my own struggles aren't valid or important.",
+   "label": "bipolar"
+  },
+  {
+   "id": 475,
+   "text": "Why does this keep happening I have having hypersomnia",
+   "label": "atypical"
+  },
+  {
+   "id": 564,
+   "text": "that wasnt stolen base that was give away base worldseries dodgers",
+   "label": "none"
+  },
+  {
+   "id": 459,
+   "text": "Fun fact : I have hypersomnia and trust me I have almost a day without waking up during my worse episode  I can sleep everywhere (bus stop, during shopping, masa drive)\n \n Org cakap best lah boleh tidur but trust me it's not fun bila kau accident byk kali sbb tu",
+   "label": "atypical"
+  },
+  {
+   "id": 106,
+   "text": "@hannaweeen I still don't have an official diagnosis for autism but I was diagnosed with ADHD, adjustment disorder, major depressive disorder, PTSD, and social anxiety.",
+   "label": "major"
+  },
+  {
+   "id": 207,
+   "text": "@ReignFur I have bipolar disorder, diagnosed with it by the gp in 2020. https://t.co/P7U5OnJUt1",
+   "label": "bipolar"
+  },
+  {
+   "id": 166,
+   "text": "@MarciaClearwtr @ginnyhogan_ I have major depressive disorder. I got out of bed today, took a shower, and even combed my hair.",
+   "label": "major"
+  },
+  {
+   "id": 147,
+   "text": "Im sorry im an emotional wreck I have MDD major depressive disorder and im bipolar type 2 so please let me cannon ball into my emotions pretend yall didnt see my trails of sadness and cringe",
+   "label": "major"
+  },
+  {
+   "id": 469,
+   "text": "i swear i have hypersomnia..",
+   "label": "atypical"
+  },
+  {
+   "id": 424,
+   "text": "starting to think I have hypersomnia now https://t.co/uQVXMZ8uNF",
+   "label": "atypical"
+  },
+  {
+   "id": 436,
+   "text": "@autisticGEM Hi! My formal diagnosis is idiopathic hypersomnia, but I probably have narcolepsy (antidepressants can mess up the formal diagnosis, and I wouldn't go off mine for the study). If you fell asleep, and especially if you dreamed and don't rememb",
+   "label": "atypical"
+  },
+  {
+   "id": 530,
+   "text": "want to drink together for three days show salute you for giving me the friendship always wanted but in way that makes it painful but lovely descendantsofthesun",
+   "label": "none"
+  },
+  {
+   "id": 300,
+   "text": "Sometimes I feel like I'm losing my mind. The world doesn't make sense anymore, and everything feels so confusing. It's like I'm trapped in a maze, but I can't find the way out.",
+   "label": "psychotic"
+  },
+  {
+   "id": 452,
+   "text": "@DiaryofaSickGrl Yes.\n \n Even more so when you have conditions people might not have generally heard of. I was diagnosed with idiopathic hypersomnia for the last 4 years and it's actually narcolepsy. I'm glad because at least people kind of know what that",
+   "label": "atypical"
+  },
+  {
+   "id": 536,
+   "text": "thank you metropolitan theaters and camino real cinema in goleta ca ll be there to see infidel tomorrow",
+   "label": "none"
+  },
+  {
+   "id": 214,
+   "text": "It's like I'm living with a constant sense of dread. Dread of the next mood swing, the next setback, the next moment of darkness.",
+   "label": "bipolar"
+  },
+  {
+   "id": 248,
+   "text": "To have bipolar disorder (and for many mental illnesses for that matter) is to be acutely aware of suffering, both your own and that of others. Youre continually tired, yet on edge that its going to come crashing down. If youre struggling tonight: I see you and you are heard. https://t.co/kYBOaTckQx",
+   "label": "bipolar"
+  },
+  {
+   "id": 270,
+   "text": "I feel like I'm living in a constant state of loneliness, like I'm the only one in the world. It's like I'm longing for connection but can't seem to find it.",
+   "label": "bipolar"
+  },
+  {
+   "id": 1,
+   "text": "It's like I'm in a dark hole, and I can't see a way out. The hopelessness can be overwhelming.",
+   "label": "postpartum"
+  },
+  {
+   "id": 394,
+   "text": "@LuxxArt As a person with ADHD (treated and recovered), Psychotic Depression (treated and recovered) and Gender Dysphoria (still in the process of treatment and recovery), all while still have to keep up with med school... I understand the struggle.\n \n Ma",
+   "label": "psychotic"
+  },
+  {
+   "id": 257,
+   "text": "@autocorrect2_0 I have manic depression, also known as bipolar disorder. In my case it's probably inherited. I'm on meds to control my symptoms. But I also rely on counseling and ESPECIALLY prayer. Mind you though, not all meds are effective. Some ar",
+   "label": "bipolar"
+  },
+  {
+   "id": 550,
+   "text": "if the seahawks want to make this interesting challenge have call somehow stand az gets td russ leads last second scoring drive",
+   "label": "none"
+  },
+  {
+   "id": 293,
+   "text": "@TheBigMfPablo @_Od26 its definitely not a choice. i have a type of bipolar disorder and no matter what i do there is no possible way i can stop those episodes from happening.",
+   "label": "bipolar"
+  },
+  {
+   "id": 306,
+   "text": "@DavidJGrinter @DrAnnieHickox Controversial opinion, but healthy eating and most ( if not all) Lifestyle changes does little to nothing for mental illness. I have Psychotic Depression and despite eating healthy and exercising, I Still have sleep problems,",
+   "label": "psychotic"
+  },
+  {
+   "id": 29,
+   "text": "I used to love going out with my friends and having a good time. Now I can barely find the energy to get dressed in the morning. I feel like I'm losing myself.",
+   "label": "postpartum"
+  },
+  {
+   "id": 58,
+   "text": "@IM_A_NERDXP Lol thanks but I have most of the symptoms of postpartum depression...pregnancy takes a toll on the body and mind",
+   "label": "postpartum"
+  },
+  {
+   "id": 178,
+   "text": "@thatsdax Good morning Dax. Thought I would share that I have a major depressive disorder with treatment resistance. Ive tried them all, including lithium which took half of my hair. Im now trying ketamine and it seems to be working well enough that",
+   "label": "major"
+  },
+  {
+   "id": 223,
+   "text": "@hannaween3 Oh yes. I do this. Im not autistic, to my knowledge. My younger brother is though so who knows?\n But I have bipolar disorder so maybe its that.",
+   "label": "bipolar"
+  },
+  {
+   "id": 396,
+   "text": "I am also psychotic but its not known yet if my depression has psychotic features or if its schizoaffective disorder since I still have to talk it all through with my psychologist but my psych med person (and myself) are leaning towards the former so yeah didnt add that",
+   "label": "psychotic"
+  },
+  {
+   "id": 279,
+   "text": "Personally Im not one for self-diagnosing but Im like 99% confident I have bipolar disorder",
+   "label": "bipolar"
+  },
+  {
+   "id": 487,
+   "text": "Option 1) I have narcolepsy type 2\n Option 2) I have some form of hypersomnia that may or may not be the primary issue\n Option 3) my thyroid is a piece of shit beyond what I'm already treating it for",
+   "label": "atypical"
+  },
+  {
+   "id": 338,
+   "text": "i thjink i have psychotic depression 槮",
+   "label": "psychotic"
+  },
+  {
+   "id": 570,
+   "text": "though mostly agree think the fact that youre saying tw isnt about them is only emphasizing minxs point dont think its always necessary to tw the creator themselves in these cases it would be more appropriate to tw the harmful topic and cw the creator gen",
+   "label": "none"
+  },
+  {
+   "id": 470,
+   "text": "@JulianaGood1009 I have hypersomnia. For work, extra breaks when sleepiest and wfh option. For school, there was one place safe to nap. With it being in the city, security was aggressive about people not napping because of anti homeless policy I guess?",
+   "label": "atypical"
+  },
+  {
+   "id": 505,
+   "text": "really wish journals would stop trying to create embedded pdf viewers theyre such trash just have the supporting info or article open in new tab seeing the pdf at size in an embedded viewer panel sorry didnt bring my opera viewing spectacles to read it",
+   "label": "none"
+  },
+  {
+   "id": 522,
+   "text": "ramandeep singh joined wings education pte ielts amp naati upon joining he had positive attitude towards his exam and he particular worked along with the teacher to grasp all the tips congratulations ramandeep this is well deserved score pte successstory wingseducation",
+   "label": "none"
+  },
+  {
+   "id": 40,
+   "text": "I'm constantly second-guessing myself. Am I doing the right thing? Am I being a good mother? The self-doubt is never-ending.",
+   "label": "postpartum"
+  },
+  {
+   "id": 64,
+   "text": "I met with my doctor and have been diagnosed with Postpartum Depression. I'm not at all surprised- that and PTSD are really common with heart families. Fortunately it's pretty manageable and on the anxiety side rather than sadness.",
+   "label": "postpartum"
+  },
+  {
+   "id": 567,
+   "text": "feel you used to feel like was speed racer getting into my mach to race into adventure when checked my emails no more",
+   "label": "none"
+  },
+  {
+   "id": 324,
+   "text": "@97milkoo i have psychotic depression",
+   "label": "psychotic"
+  },
+  {
+   "id": 225,
+   "text": "@moon_pixx I have mars in virgo, yep! it's bipolar disorder and ocd for me, along with substance abuse problems lol \n \n  ( fwiw, my virgo rising pisces mars friend has adhd)",
+   "label": "bipolar"
+  },
+  {
+   "id": 71,
+   "text": "I try to put on a brave face for my baby, but sometimes it feels like I'm just going through the motions. I'm not sure how much longer I can keep this up.",
+   "label": "postpartum"
+  },
+  {
+   "id": 370,
+   "text": "The voices in my head are constant and overwhelming. It's like a never-ending cacophony of negativity.",
+   "label": "psychotic"
+  },
+  {
+   "id": 500,
+   "text": "my mom was watching start up with me she liked it but she prefers the second lead djsksk",
+   "label": "none"
+  },
+  {
+   "id": 43,
+   "text": "@ArmyVetDem I have had some serious family issues involving suicide, brought on by postpartum depression and a lot of abuse no one was aware about. Bequeathed to me are a 2 year old and a preemie just released Friday I need a break and would love to be di",
+   "label": "postpartum"
+  },
+  {
+   "id": 52,
+   "text": "I know I should be grateful for this time with my baby, but some days it's hard to see past the sadness and anxiety that fills me. The future feels bleak, and I can't help but wonder if things will ever get better. I just want to feel like myself again, to enjoy motherhood the way I thought I would.",
+   "label": "postpartum"
+  },
+  {
+   "id": 117,
+   "text": "Im going to start this tweet by saying I have never experienced mania before. I have major depressive disorder and mania doesnt happen for me. \n \n After some good talks with my nurses today, were about 95% sure Im having a steroid-induced manic episode.",
+   "label": "major"
+  },
+  {
+   "id": 416,
+   "text": "I feel like such an old lady, But I cant stay awake for the whole #AEWAllOut show, even though its the middle of the day.\n \n My painkillers have compounded my hypersomnia, so I need a nap.\n \n Back soon to finish the show!",
+   "label": "atypical"
+  },
+  {
+   "id": 533,
+   "text": "kml they is kick ya out before yuh get back on the game hate it here need two phones for this lol",
+   "label": "none"
+  },
+  {
+   "id": 382,
+   "text": "I feel like I'm watching my life from a distance, like I'm not really living it. It's hard to explain, but sometimes it's like I'm a character in a movie and I'm just going through the motions.",
+   "label": "psychotic"
+  },
+  {
+   "id": 534,
+   "text": "said that and then realized sure someone on the right has actually said it and now im upset lol",
+   "label": "none"
+  },
+  {
+   "id": 529,
+   "text": "popped for the pat benatar invincible instrumental theme song fair is fair",
+   "label": "none"
+  },
+  {
+   "id": 446,
+   "text": "@trannarchist I think Im glad I have hypersomnia instead",
+   "label": "atypical"
+  },
+  {
+   "id": 594,
+   "text": "actually connecting the dots while studying is there better feeling",
+   "label": "none"
+  },
+  {
+   "id": 340,
+   "text": "My mind is a desert, a barren wasteland where nothing grows. I'm parched and desperate for something to sustain me, but there's nothing there.",
+   "label": "psychotic"
+  },
+  {
+   "id": 63,
+   "text": "Sometimes I feel like such a failure as a mother. I see all these other moms on social media who seem to have it all together, but I can barely keep it together. I feel like I'm constantly failing my baby.",
+   "label": "postpartum"
+  },
+  {
+   "id": 493,
+   "text": "Some people have this Insomnia,and some are Hypersomnia. But why the hell did I got both?",
+   "label": "atypical"
+  },
+  {
+   "id": 504,
+   "text": "don think so yet haven checked the list in week or so but don remember seeing peru on it ireland is yes but you have quarantine for days first ve got so much delta credit from cancelled trips this year could fly around the world good till end of",
+   "label": "none"
+  },
+  {
+   "id": 36,
+   "text": "Yes. I have postpartum depression.",
+   "label": "postpartum"
+  },
+  {
+   "id": 417,
+   "text": "49. It's hard to explain to employers how hypersomnia affects my ability to work. I wish there was more understanding in the workplace. ?? #hypersomnia #sleepdisorder #workplace",
+   "label": "atypical"
+  },
+  {
+   "id": 390,
+   "text": "I鈥檓 always afraid that something bad is going to happen, even when everything seems fine. It鈥檚 like there鈥檚 a voice in my head that鈥檚 constantly whispering worst-case scenarios.",
+   "label": "psychotic"
+  },
+  {
+   "id": 127,
+   "text": "@annieschulte I know this is a bit taboo for some people but maybe try electric shock therapy? I suffer from major depressive disorder and this is something I want to do but I don't have the funds. Maybe your daughter could benefits from this.",
+   "label": "major"
+  },
+  {
+   "id": 84,
+   "text": "I feel like I'm living in a fog. I can't concentrate on anything and just feel so empty inside. I know I should be happy and grateful, but all I feel is sadness and despair.",
+   "label": "postpartum"
+  },
+  {
+   "id": 136,
+   "text": "Confession\n  I have witnessed more young patients' (below 45) deaths than elderly throughout my medical career, especially due to road traffic accidents and incurable cancers.",
+   "label": "major"
+  },
+  {
+   "id": 307,
+   "text": "My mind is like a prison, with negative thoughts and emotions as my guards. The sadness and despair are like shackles, keeping me chained and powerless.",
+   "label": "psychotic"
+  },
+  {
+   "id": 303,
+   "text": "Everything feels like a dream, but not a good one. It's like a nightmare that I can't wake up from. I don't know what's real and what's not anymore.",
+   "label": "psychotic"
+  },
+  {
+   "id": 385,
+   "text": "Sometimes it's hard to tell what's real and what's not. The world seems distorted, like I'm seeing everything through a warped lens.",
+   "label": "psychotic"
+  },
+  {
+   "id": 216,
+   "text": "Hello people who are following me and noticing me! I am Brittni, Burri, Toni, and any other nickname you want from my username, you just can't shorten my irl name.\n \n I am queer, have bipolar disorder, and post about irl things in conjunction with my love for ttrpgs-",
+   "label": "bipolar"
+  },
+  {
+   "id": 271,
+   "text": "I just want to know if you have bipolar disorder? Once you say you love srk, and once you destroy him.????槀槀",
+   "label": "bipolar"
+  },
+  {
+   "id": 65,
+   "text": "I had a feeling once I quit breastfeeding Id get hit with another round of  depression and boy was I right. At least i have a man that brings me wine to our bed and wakes up with the baby. 槍鉂わ笍",
+   "label": "postpartum"
+  },
+  {
+   "id": 477,
+   "text": "@Days_Are_Gone It's called atypical depression, and it's not all that atypical. I have it.",
+   "label": "atypical"
+  },
+  {
+   "id": 4,
+   "text": "@JeffreeStar @CashApp I'm almost a year  with a baby boy and have been struggling with  depression which has made it hard for me to go back to work. It would mean so much if you picked me, $1,000 would do us so much good. My Cashapp is",
+   "label": "postpartum"
+  },
+  {
+   "id": 290,
+   "text": "The anxiety I feel is like a monster lurking in the shadows, like there's no way to find any safety. It's like there's no way to find any security.",
+   "label": "bipolar"
+  },
+  {
+   "id": 170,
+   "text": "I have major depressive disorder and bpd according to psychiatrist mental eval",
+   "label": "major"
+  },
+  {
+   "id": 565,
+   "text": "try not to idolize other ppl relationship because we never know what goes on behind closed doors but the way russell loves ciara is so beautiful hope to experience that",
+   "label": "none"
+  },
+  {
+   "id": 282,
+   "text": "I feel like I'm living in a constant state of insecurity, like there's no way to feel confident. It's like there's no way to find any self-assurance.",
+   "label": "bipolar"
+  },
+  {
+   "id": 222,
+   "text": "I have bipolar disorder and ADHD, Ask Me Anything Pt.2 https://t.co/1Marceb9Eu",
+   "label": "bipolar"
+  },
+  {
+   "id": 112,
+   "text": "@andysignore Im a survivor of long term abuse  trauma. I also have borderline personality disorder, PTSD, major depressive disorder and intermittent explosive disorder. I only wish that people would try more to understand what means. Thats all.",
+   "label": "major"
+  },
+  {
+   "id": 169,
+   "text": "@DotN16 @EasyEigh @segueopercurso @greatdynasty13 Yeah, dark humor has been a coping mechanism of mine for my entire life. I have PTSD and major depressive disorder. Miss me with that bullshit. He has some serious, misogynistic issues.",
+   "label": "major"
+  },
+  {
+   "id": 393,
+   "text": "My thoughts are like a prison, trapping me in a cycle of despair and self-doubt. The future feels uncertain and bleak, with no clear way to break free from the mental darkness.",
+   "label": "psychotic"
+  },
+  {
+   "id": 381,
+   "text": "Yesterday I became 25. Since my childhood I have never thought that I could reach 25 due to depression and suicidal thoughts. I guess I feel like there is hope for me at this age, and I can deal with my mental health better than before. https://t.co/z1L3nyCcJe",
+   "label": "psychotic"
+  },
+  {
+   "id": 510,
+   "text": "good thing we only blew timeouts they better give them the td",
+   "label": "none"
+  },
+  {
+   "id": 78,
+   "text": "I wish more people would talk about postpartum depression and how real it is. Ive been struggling with postpartum depression for almost 7 months now...one day youre fine and the next you just feel empty and alone. You have no emotion.",
+   "label": "postpartum"
+  },
+  {
+   "id": 9,
+   "text": "I used to be able to control my emotions, but now everything feels so intense. I cry at the drop of a hat, and sometimes I don't even know why. It's like my emotions have a mind of their own.",
+   "label": "postpartum"
+  },
+  {
+   "id": 332,
+   "text": "The weight of my own thoughts is suffocating. I want to scream, but I'm afraid of what will come out.",
+   "label": "psychotic"
+  },
+  {
+   "id": 180,
+   "text": "@ProjectAxis1 Hang in there man. I have Major Depressive Disorder. Some days are better than others. There are a lot of resources out there for depression and there are some really good coping skills you can learn to help you out. If you need resources, l",
+   "label": "major"
+  },
+  {
+   "id": 201,
+   "text": "I feel like I'm living in a constant state of disorientation, like I'm always lost. It's like there's no way to find my way back.",
+   "label": "bipolar"
+  },
+  {
+   "id": 77,
+   "text": "I feel like I'm alone, even when I'm surrounded by people. It's hard to explain, but even when my partner is home or my friends are around, I feel like I'm on my own. The weight of everything feels like it's crushing me.",
+   "label": "postpartum"
+  },
+  {
+   "id": 331,
+   "text": "It's like I'm living in two worlds at once. One is the world we all see, the other is a twisted, distorted version of it. The two overlap and blend together, creating a confusing, terrifying reality. I can't trust my own perceptions, and I don't know what's real anymore.",
+   "label": "psychotic"
+  },
+  {
+   "id": 490,
+   "text": "@AJA_Cortes I have a weird combination of insomnia and hypersomnia. After spending years overdosing on melatonin, I spent a year going cold turkey, and I seriously struggled to go to sleep. I now take remeron at night, and I'm still constantly tired durin",
+   "label": "atypical"
+  },
+  {
+   "id": 358,
+   "text": "I feel like I'm drowning in my own thoughts and there's no way out. It's like there's a constant stream of negativity and self-doubt in my head, and I can't shut it off.",
+   "label": "psychotic"
+  },
+  {
+   "id": 15,
+   "text": "Sometimes I think about running away and leaving it all behind. I know I can't, but the thought is comforting in a strange way.",
+   "label": "postpartum"
+  },
+  {
+   "id": 389,
+   "text": "@crawlkill so, when i have psychotic major depression, panic disorder, ptsd and severe fibromyalgia,",
+   "label": "psychotic"
+  },
+  {
+   "id": 239,
+   "text": "@chadmillerauth Yes it is. Having a severe mental illness like bipolar disorder, today I have rights about my treatment, I participate in treatment decisions, I can be disabled since I am unable to work, but I know that 100 years ago, it would have been a",
+   "label": "bipolar"
+  },
+  {
+   "id": 421,
+   "text": "Oh yeah, today I started a new medicine to help with my hypersomnia! It seems to have worked well today. I wasnt sleepy at all while I played ",
+   "label": "atypical"
+  },
+  {
+   "id": 221,
+   "text": "I feel like I'm living in a constant state of guilt, like there's no way to forgive myself. It's like there's no way to find any redemption.",
+   "label": "bipolar"
+  },
+  {
+   "id": 41,
+   "text": "I wake up each morning feeling more tired than when I went to bed. It's like I'm running on empty all day long.",
+   "label": "postpartum"
+  },
+  {
+   "id": 165,
+   "text": "@FemmeLoves Lots of things are mental health conditions. I have Major Depressive Disorder, have for most of my life. The point is to acknowledge, accept  deal w/it which it seems @LaurenGNC_Butch does. 挅 to u both",
+   "label": "major"
+  },
+  {
+   "id": 447,
+   "text": "@colorful_sclpel If my life is a polysomnography then i am suffering from hypersomnia.....??????",
+   "label": "atypical"
+  },
+  {
+   "id": 73,
+   "text": "The coffee doesnt work anymore. I feel like I have postpartum depression.",
+   "label": "postpartum"
+  },
+  {
+   "id": 2,
+   "text": "She stood in the shower, tears mixing with the water. She didn't know how to explain the emptiness she felt inside. She loved her baby, she really did, but sometimes it felt like too much to handle.",
+   "label": "postpartum"
+  },
+  {
+   "id": 317,
+   "text": "@DRahnis @JDaviesPhD There are neurobiological mental illnesses that usually require medication/ECT etc.\n \n I have both NB, as well as trauma based MH -Psychotic Depression  DID.\n \n I hate the way some people try to deny the Neurobiological cause -it",
+   "label": "psychotic"
+  },
+  {
+   "id": 304,
+   "text": "It's like I'm living in a never-ending nightmare. I can't escape it, no matter how hard I try. I feel so trapped and helpless. I don't know how much longer I can take this.",
+   "label": "psychotic"
+  },
+  {
+   "id": 34,
+   "text": "I thought that having a baby would bring me closer to my husband, but instead, we've been fighting more than ever. It feels like we're on different pages.",
+   "label": "postpartum"
+  },
+  {
+   "id": 284,
+   "text": "@camicamuna @lo_lindley @eggyspamlette @lynymo i know that, i have bpd. i was saying that bipolar disorder is not abbreviated to that.",
+   "label": "bipolar"
+  },
+  {
+   "id": 17,
+   "text": "I can't seem to find any joy in anything anymore. Things that used to make me happy just feel like chores now.",
+   "label": "postpartum"
+  },
+  {
+   "id": 124,
+   "text": "It's hard to explain to others how I feel, how every day is a battle just to keep going. I wish I could make them understand, but it feels like a language they don't speak.",
+   "label": "major"
+  },
+  {
+   "id": 24,
+   "text": "Here's my story, when I tried to seek help at 4 weeks for  depression I was told I have baby blues and need to wait until 6 weeks.@loosewomen #LooseWomen https://t.co/HHiU4tSBto",
+   "label": "postpartum"
+  },
+  {
+   "id": 395,
+   "text": "Fuck off youtube recommendations I do NOT have psychotic depression",
+   "label": "psychotic"
+  },
+  {
+   "id": 23,
+   "text": "Some days it's all I can do to take care of my baby's basic needs. I can't seem to muster up the energy to do anything else, and I'm constantly worried that I'm not doing enough.",
+   "label": "postpartum"
+  },
+  {
+   "id": 255,
+   "text": "but also AFAB are extremely under diagnosed w autism. i am not shocked the majority of ppl who think they have autism are afab. that is not a coincidence. doctors historically misdiagnose autism for bpd or bipolar disorder し従鈲鈾锔�",
+   "label": "bipolar"
+  },
+  {
+   "id": 582,
+   "text": "please keep us posted because got really curious about that one the last time was in the grocery store",
+   "label": "none"
+  },
+  {
+   "id": 292,
+   "text": "I'm an honest guy. I have bipolar disorder , among other things. During the winter, especially when the day's are like this I am chained to the inside of the house. I just want to say that I am glad you are here to keep me company.",
+   "label": "bipolar"
+  },
+  {
+   "id": 399,
+   "text": "Everything feels so unreal and distorted, like I'm watching my life from a distance. The paranoia is like a constant hum, making it hard to trust anyone or anything.",
+   "label": "psychotic"
+  },
+  {
+   "id": 20,
+   "text": "I feel so alone, even when I'm surrounded by people. I feel like nobody understands what I'm going through, and I'm too ashamed to admit that I'm struggling. I don't want to burden anyone with my problems.",
+   "label": "postpartum"
+  },
+  {
+   "id": 18,
+   "text": "@jonathanstea I got a whole lot of love with my new baby. Still have  depression and anxiety. Am I not doing it right? 槀",
+   "label": "postpartum"
+  },
+  {
+   "id": 115,
+   "text": "Some days, it's a struggle just to get dressed and leave the house. The outside world feels like a hostile, unforgiving place that I'm not equipped to deal with.",
+   "label": "major"
+  },
+  {
+   "id": 444,
+   "text": "@piersmorgan I'm so sorry. I also have idiopathic hypersomnia and take a med for that which also helps, but definitely something to discuss with your doc. Glad to talk over DM.",
+   "label": "atypical"
+  },
+  {
+   "id": 51,
+   "text": "I almost killed myself because my postpartum depression was so bad (and I WANTED to have Theo) and now its being forced upon individuals, my heart aches for the people who are going to suffer",
+   "label": "postpartum"
+  },
+  {
+   "id": 244,
+   "text": "I feel like I'm living in a constant state of inadequacy, like there's no way to measure up. It's like there's no way to feel successful.",
+   "label": "bipolar"
+  },
+  {
+   "id": 100,
+   "text": "@ijklmnopqsr @ThisBeLi I can't control when I'm depressed, I have major depressive disorder.\n If these tips had been around during some of my major flair ups, I would have benefitted immensely.",
+   "label": "major"
+  },
+  {
+   "id": 484,
+   "text": "@Melethonomia Oh God I went through that so bad that I ended up going back to my hypersomnia meds which don't do shit for my focus but prevent me from burning out  becoming useless at 4pm. I couldn't get my insurance to cover it but I heard some folk",
+   "label": "atypical"
+  },
+  {
+   "id": 133,
+   "text": "Every day feels like a struggle, like I'm constantly fighting against myself. I try to be positive and think happy thoughts, but it's like there's a cloud that follows me everywhere I go.",
+   "label": "major"
+  },
+  {
+   "id": 526,
+   "text": "dk metcalf is the fastest man alive bc he faster than some guy named budda baker lol",
+   "label": "none"
+  },
+  {
+   "id": 552,
+   "text": "just have to win back the house and we don have to worry about it",
+   "label": "none"
+  },
+  {
+   "id": 134,
+   "text": "@ChinaKatWrites @chronicallybeee Oh it's ok. I had reoccurrent episodes of major depressive disorder which I had managed fine with a low dose of SSRIs. After having Covid I have been diagnosed with Obsessive Compulsive Disorder. I have some lingering neur",
+   "label": "major"
+  },
+  {
+   "id": 129,
+   "text": "@yungbuttpiss fr\n im a silly fellah \n the more the depression, the more the silly (i have major depressive disorder) i must be so silly yeah im a silly fellah silly silly hahahaha silly me silly",
+   "label": "major"
+  },
+  {
+   "id": 363,
+   "text": "The emptiness inside me feels like a black hole, sucking in everything around me. I can't find any joy or pleasure in anything anymore. It's like the color has been drained out of my life.",
+   "label": "psychotic"
+  },
+  {
+   "id": 38,
+   "text": "I can't stop crying, even over the smallest things. It's like my emotions are on a rollercoaster and I can't get off.",
+   "label": "postpartum"
+  },
+  {
+   "id": 69,
+   "text": "It's like I'm trapped in my own mind. I know I should be happy, but I just can't seem to shake this feeling of sadness and emptiness.",
+   "label": "postpartum"
+  },
+  {
+   "id": 387,
+   "text": "only option. A long term care (or seniors home) would not accept me because of my longstanding fight with mental health. I have borderline personality disorder, complex PTSD, generalized anxiety disorder and depression with psychotic features. Where does one turn? (contd)",
+   "label": "psychotic"
+  },
+  {
+   "id": 309,
+   "text": "The world feels like a dangerous place, and I'm constantly on high alert. I can't seem to trust anyone, and I'm always second-guessing myself. It's like I'm living in a war zone, and I can't escape.",
+   "label": "psychotic"
+  },
+  {
+   "id": 313,
+   "text": "I feel like I'm trapped in my own mind, like there's no escape. The world around me feels like a prison, and my thoughts are the bars. I wish I could just break free and live a normal life, but I don't know how to do that.",
+   "label": "psychotic"
+  }
+ ]
+}

@@ -9,25 +9,33 @@ import { ExternalLink, X, ArrowUpDown, Search, ArrowRight, ShieldCheck, Layers }
  *  PROVISIONAL, computed from a draft rubric until human appraisal is filled in.
  * ------------------------------------------------------------------ */
 
+// Editorial theme (Monolog-inspired), applied site-wide: warm off-white canvas,
+// near-black warm ink, a single terracotta accent, muted semantic tier colors.
+// Color mostly comes from content (card banners), not the UI — monochrome + air.
+// Palette matched to bymonolog.com's actual Webflow swatches (extracted from
+// their stylesheet): warm greige canvas, near-black ink, warm greys, and their
+// signature lime accent. Tier colors stay semantic for the rigor charts.
 const C = {
-  paper: "#F8F9FA",      // page background (Google grey-50)
-  surface: "#FFFFFF",    // cards / nav
-  ink: "#202124",        // near-black text
-  muted: "#5F6368",      // secondary text
-  line: "#DADCE0",       // hairline borders
-  brand: "#1A73E8",      // Google blue — primary
-  accent: "#1A73E8",     // accent / emphasis
-  strong: "#188038",     // green
-  moderate: "#F29900",   // amber
-  limited: "#D93025",    // red
-  unrated: "#9AA0A6",    // grey
+  paper: "#D1D1C7",      // beige-300 — page background (their --background)
+  surface: "#E8E8E3",    // beige-100 — cards / nav
+  ink: "#080807",        // black-400 — primary text
+  muted: "#6B645C",      // black-100 — secondary text
+  line: "#BFBFB1",       // beige-400 — hairline borders
+  brand: "#080807",      // primary = ink (buttons, nav)
+  accent: "#080807",     // emphasis = ink (monochrome, like Monolog)
+  lime: "#F1FE67",       // their signature highlight (use with dark text)
+  dark: "#181715",       // card-bg — dark surfaces (footer)
+  strong: "#3C6E5A",
+  moderate: "#8A6D3B",
+  limited: "#B5502E",
+  unrated: "#938F8A",    // black-50
 };
 
-// Google Research uses a clean geometric sans (Google Sans). We list it first
-// for anyone who has it, falling back to Inter (loaded from Google Fonts).
-const FONT_SANS = "'Google Sans', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
-const FONT_SERIF = FONT_SANS; // no serif in this aesthetic — headings use the sans
-const FONT_MONO = "'Roboto Mono', ui-monospace, SFMono-Regular, monospace";
+// Fonts substituted for their licensed webfonts: Khteka→Space Grotesk (display),
+// Suisse Mono→Space Mono. Body stays Inter (clean neo-grotesque).
+const FONT_SANS = "'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
+const FONT_SERIF = "'Space Grotesk', 'Inter', system-ui, sans-serif"; // display/headings
+const FONT_MONO = "'Space Mono', 'Roboto Mono', ui-monospace, monospace";
 
 const TIER = {
   strong: { label: "Strong", color: C.strong, ticks: 4 },
@@ -36,6 +44,30 @@ const TIER = {
 };
 
 const SOURCE_OPTIONS = ["Open", "Mixed", "Restricted", "Closed"];
+
+/* ------------------------------------------------------------------ *
+ *  Editorial theme — SCOPED TO THE CATALOG PAGE ONLY (Monolog-inspired):
+ *  warm off-white, near-black type, Space Grotesk display, generous
+ *  whitespace, borderless cards with a color top-banner. Other pages keep
+ *  the existing `C` / FONT_* look.
+ * ------------------------------------------------------------------ */
+const ED = {
+  bg: "#D1D1C7",       // beige-300 canvas (matches Monolog)
+  card: "#E8E8E3",     // beige-100 card surface
+  ink: "#080807",      // black-400
+  muted: "#6B645C",    // black-100
+  line: "#BFBFB1",     // beige-400 hairline
+  display: "'Space Grotesk', 'Inter', system-ui, sans-serif",
+  body: "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+};
+// Muted editorial palette for each card's top color-banner (deterministic per study).
+const ED_BAND = ["#B5502E", "#3C6E5A", "#4A5B9E", "#8A6D3B", "#7C4A73", "#2F6D77", "#A65A4E", "#586A3A"];
+function bandColor(id) {
+  const s = String(id || "");
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) & 0x7fffffff;
+  return ED_BAND[h % ED_BAND.length];
+}
 
 /* ------------------------------------------------------------------ *
  *  DRAFT RIGOR RUBRIC (provisional — edit freely)
@@ -112,6 +144,47 @@ function scoreBenchmark(b) {
 
 const tierRank = { strong: 0, moderate: 1, limited: 2 };
 
+/* Benchmarks recreated as a live, browser-only "Run" experience (grows over time). */
+const RUNNABLE = {
+  "depression-subtype-classification-from-s-20": "./run.html",
+};
+
+/* Lightweight task categorization (keyword heuristic) — powers the catalog
+   category filter and the row tags. Falls back to "General" when nothing matches. */
+function deriveCategory(b) {
+  const t = `${b.name || ""} ${b.measures || ""} ${b.groundTruth || ""}`.toLowerCase();
+  if (/crisis|suicid|self-harm|self harm|\bharm\b|safety/.test(t)) return "Crisis & Safety";
+  if (/psychotherap|counsel|\btherap|motivational interview/.test(t)) return "Psychotherapy Quality";
+  if (/diagnos/.test(t)) return "Diagnosis";
+  if (/\brisk\b/.test(t)) return "Risk Detection";
+  if (/screen|detect|classif|identif|predict/.test(t)) return "Screening & Detection";
+  if (/emotion|sentiment|affect/.test(t)) return "Emotion & Sentiment";
+  if (/reason/.test(t)) return "Clinical Reasoning";
+  if (/exam|\bmcq\b|knowledge|board|\bqa\b|question/.test(t)) return "Medical Knowledge";
+  if (/bias|equit|fair|demograph|hallucinat/.test(t)) return "Bias & Equity";
+  return "General";
+}
+
+// The 6 headline task categories shown on the landing "what it covers" grid.
+const CATEGORY_INFO = [
+  { name: "Diagnosis", desc: "Can a model reach the correct clinical diagnosis from a case or vignette?" },
+  { name: "Screening & Detection", desc: "Spotting a condition — or its subtype — from text like posts or records." },
+  { name: "Crisis & Safety", desc: "Handling self-harm and crisis disclosures safely and appropriately." },
+  { name: "Psychotherapy Quality", desc: "Counseling skill, empathy, and therapeutic technique." },
+  { name: "Risk Detection", desc: "Identifying and rating clinical risk from what a person says." },
+  { name: "Medical Knowledge", desc: "Psychiatric exams, question-answering, and factual knowledge." },
+];
+
+// FAQ content (from PLAN.md / TEAM-SUMMARY.md).
+const FAQS = [
+  { q: "What is this catalog?", a: "A curated, growing index of benchmarks used to evaluate large language models on clinical mental-health tasks — what each one measures, how it was built, and how rigorous it looks. It's drawn from our team's research sheet and kept current by an automated find → filter → extract pipeline with human review." },
+  { q: "How are the rigor tiers computed?", a: "They're provisional, from a draft five-dimension rubric: construct validity, ground-truth quality, sample size, population realism, and transparency. A tier is only assigned when at least three dimensions have data; otherwise a benchmark is shown as Unrated. Human appraisal will eventually replace the automatic tiers — see the Rubric page." },
+  { q: "Can I run a benchmark myself?", a: "Yes — a few benchmarks have a “Run this benchmark” button. You bring your own API key (OpenAI or Anthropic), the test runs entirely in your browser, your key is never stored or sent to us, and you see your model's score. More benchmarks become runnable over time, one at a time." },
+  { q: "Where does the data come from?", a: "New papers are found automatically from arXiv, PubMed, and medRxiv, filtered for relevance, and their facts extracted into a consistent schema. Quality appraisal is done by human reviewers, not the machine." },
+  { q: "What does it cost to run a benchmark?", a: "Only your own model API usage — typically a few cents for a small sample, since you choose how many items to run. The catalog itself is free to browse." },
+  { q: "Is this a clinical tool?", a: "No. It's a research catalog. Any runnable benchmark is a recreation for model evaluation only — not a diagnostic tool and not medical advice." },
+];
+
 /* ------------------------------------------------------------------ *
  *  Small shared UI
  * ------------------------------------------------------------------ */
@@ -163,8 +236,7 @@ function PrimaryButton({ onClick, children }) {
   return (
     <button onClick={onClick} className="lift" style={{
       display: "inline-flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600,
-      color: "#fff", background: C.brand, border: "none", borderRadius: 999, padding: "12px 24px", cursor: "pointer",
-      boxShadow: "0 1px 2px rgba(60,64,67,0.2)",
+      color: "#fff", background: C.brand, border: "none", borderRadius: 999, padding: "13px 28px", cursor: "pointer",
     }}>{children}</button>
   );
 }
@@ -173,7 +245,7 @@ function GhostButton({ onClick, children }) {
   return (
     <button onClick={onClick} style={{
       display: "inline-flex", alignItems: "center", gap: 7, fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600,
-      color: C.brand, background: C.surface, border: `1px solid ${C.line}`, borderRadius: 999, padding: "12px 22px", cursor: "pointer",
+      color: C.ink, background: "transparent", border: `1px solid ${C.ink}`, borderRadius: 999, padding: "12px 26px", cursor: "pointer",
     }}>{children}</button>
   );
 }
@@ -234,7 +306,7 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: FONT_SANS, background: C.paper, color: C.ink, minHeight: "100%" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
         button:focus-visible { outline: 2px solid ${C.accent}; outline-offset: 2px; }
         a { color: ${C.brand}; }
@@ -244,10 +316,47 @@ export default function App() {
           .lift{ transition: transform .14s ease, box-shadow .14s ease; }
           .lift:hover{ transform: translateY(-2px); box-shadow: 0 6px 18px rgba(60,64,67,0.16); }
           .navlink{ transition: color .12s ease; }
+          .edcard{ transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+          .edcard:hover{ transform: translateY(-3px); box-shadow: 0 12px 32px rgba(20,18,14,.12); }
+          .edcard:hover .edarrow span{ transform: translateX(5px); }
+          .edrow:hover{ background: rgba(23,21,15,.035); }
+          .edrow:hover .edarrow span{ transform: translateX(5px); }
+          .edtile{ transition: transform .18s ease; }
+          .edtile:hover{ transform: translateY(-4px); }
+          .edtile:hover .edarrow span{ transform: translateX(5px); }
+        }
+        .edcard .edarrow span, .edrow .edarrow span, .edtile .edarrow span{ transition: transform .16s ease; }
+        .edrow{ transition: background .14s ease; }
+        .catlayout{ display: grid; grid-template-columns: 210px 1fr; gap: 44px; align-items: start; }
+        @media (max-width: 760px){ .catlayout{ grid-template-columns: 1fr; gap: 24px; } }
+        .herobottom{ display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-top: 34px; }
+        @media (max-width: 680px){ .herobottom{ grid-template-columns: 1fr; gap: 22px; } }
+        .processrow{ display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding: 56px 0; border-top: 1px solid rgba(237,235,228,.14); }
+        @media (max-width: 820px){ .processrow{ grid-template-columns: 1fr; gap: 22px; padding: 40px 0; } }
+
+        /* Live smoky grey/black gradient (animated blurred blobs + halftone). */
+        .herofx{ position: absolute; inset: 0; overflow: hidden; background: #0b0a09; pointer-events: none; }
+        .herofx b{ position: absolute; display: block; border-radius: 50%; filter: blur(72px); mix-blend-mode: screen; will-change: transform; }
+        .herofx .s1{ width: 85vw; height: 85vw; top: -22%; left: -12%; opacity: .60;
+          background: radial-gradient(circle at center, #74736c 0%, rgba(116,115,108,0) 60%); }
+        .herofx .s2{ width: 80vw; height: 80vw; bottom: -28%; right: -12%; opacity: .55;
+          background: radial-gradient(circle at center, #3c3b37 0%, rgba(60,59,55,0) 62%); }
+        .herofx .s3{ width: 55vw; height: 55vw; top: 14%; left: 32%; opacity: .42;
+          background: radial-gradient(circle at center, #9a988f 0%, rgba(154,152,143,0) 62%); }
+        .herofx:after{ content: ""; position: absolute; inset: 0;
+          background-image: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+          background-size: 3px 3px; opacity: .5; }
+        @keyframes smokeA{ 0%{ transform: translate(-8%,-6%) scale(1); } 100%{ transform: translate(14%,10%) scale(1.35); } }
+        @keyframes smokeB{ 0%{ transform: translate(6%,8%) scale(1.1); } 100%{ transform: translate(-12%,-10%) scale(1.4); } }
+        @keyframes smokeC{ 0%{ transform: translate(0,6%) scale(1); } 50%{ transform: translate(-8%,-4%) scale(1.2); } 100%{ transform: translate(10%,-8%) scale(1.3); } }
+        @media (prefers-reduced-motion: no-preference){
+          .herofx .s1{ animation: smokeA 32s ease-in-out infinite alternate; }
+          .herofx .s2{ animation: smokeB 26s ease-in-out infinite alternate; }
+          .herofx .s3{ animation: smokeC 40s ease-in-out infinite alternate; }
         }
       `}</style>
 
-      <div style={{ background: "#E8F0FE", color: "#1A56C4", fontFamily: FONT_SANS, fontSize: 12.5, fontWeight: 500, padding: "9px 20px", textAlign: "center" }}>
+      <div style={{ background: "#EAE4D7", color: C.muted, fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
         Live data from the team catalog · rigor tiers are provisional (draft rubric) pending human appraisal
       </div>
 
@@ -260,6 +369,7 @@ export default function App() {
           {page === "landing" && <LandingPage go={go} data={data} />}
           {page === "method" && <MethodPage go={go} data={data} />}
           {page === "catalog" && <CatalogPage data={data} error={error} />}
+          <Footer go={go} />
         </>
       )}
     </div>
@@ -280,8 +390,8 @@ function TopNav({ page, go }) {
     <nav style={{ borderBottom: `1px solid ${C.line}`, background: C.surface, position: "sticky", top: 0, zIndex: 40 }}>
       <div style={{ maxWidth: 1180, margin: "0 auto", padding: "11px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
         <button onClick={() => go("landing")} style={{ display: "flex", alignItems: "center", gap: 9, border: "none", background: "transparent", cursor: "pointer", padding: 0 }}>
-          <span style={{ width: 11, height: 11, borderRadius: 999, background: C.brand, display: "inline-block" }} />
-          <span style={{ fontFamily: FONT_SANS, fontWeight: 600, fontSize: 18, color: C.ink, letterSpacing: "-.01em" }}>Mental Health Benchmarks</span>
+          <span style={{ width: 10, height: 10, borderRadius: 2, background: C.brand, display: "inline-block" }} />
+          <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 18, color: C.ink, letterSpacing: "-.02em" }}>Mental Health Benchmarks</span>
         </button>
         <div style={{ display: "flex", gap: 2 }}>
           {NAV.map((n) => {
@@ -306,7 +416,7 @@ function TopNav({ page, go }) {
  * ------------------------------------------------------------------ */
 function ChartCard({ title, subtitle, children }) {
   return (
-    <div style={{ background: C.surface, border: `1px solid ${C.line}`, borderRadius: 16, padding: 18, boxShadow: "0 1px 3px rgba(60,64,67,0.1)" }}>
+    <div style={{ background: C.surface, border: `1px solid ${C.line}`, borderRadius: 4, padding: 18 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 16 }}>
         <h3 style={{ fontFamily: FONT_SANS, fontSize: 15, fontWeight: 600, margin: 0 }}>{title}</h3>
         {subtitle && <span style={{ fontSize: 11, color: C.muted }}>{subtitle}</span>}
@@ -393,6 +503,54 @@ function ChartEmpty() {
 }
 
 /* ------------------------------------------------------------------ *
+ *  Accordion (FAQ) + site-wide Footer
+ * ------------------------------------------------------------------ */
+function Accordion({ q, a }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ borderTop: `1px solid ${C.line}` }}>
+      <button onClick={() => setOpen(!open)} style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "22px 0", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
+        <span style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 500, color: C.ink, letterSpacing: "-.015em" }}>{q}</span>
+        <span style={{ fontFamily: FONT_SANS, fontSize: 24, color: C.muted, lineHeight: 1, flexShrink: 0 }}>{open ? "–" : "+"}</span>
+      </button>
+      {open && <div style={{ fontSize: 15.5, lineHeight: 1.65, color: C.muted, padding: "0 0 24px", maxWidth: 760 }}>{a}</div>}
+    </div>
+  );
+}
+
+function Footer({ go }) {
+  return (
+    <footer style={{ background: C.ink, color: "#E7E1D4", marginTop: 0 }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 24px 40px", display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 40 }}>
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+            <span style={{ width: 10, height: 10, borderRadius: 2, background: "#E7E1D4", display: "inline-block" }} />
+            <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 19, letterSpacing: "-.02em" }}>Mental Health Benchmarks</span>
+          </div>
+          <p style={{ maxWidth: 420, marginTop: 16, fontSize: 14.5, lineHeight: 1.6, color: "#B7B0A2" }}>
+            A curated, growing index of how AI models are evaluated on mental-health tasks — a few of which you can run yourself.
+          </p>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#B7B0A2" }}>Explore</div>
+          {NAV.map((n) => (
+            <button key={n.id} onClick={() => go(n.id)} style={{ textAlign: "left", background: "transparent", border: "none", color: "#E7E1D4", fontFamily: FONT_SANS, fontSize: 14.5, cursor: "pointer", padding: 0 }}>
+              {n.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div style={{ borderTop: "1px solid rgba(231,225,212,.16)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 24px", fontFamily: FONT_MONO, fontSize: 11, color: "#B7B0A2", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+          <span>Data from arXiv · PubMed · medRxiv · human-reviewed</span>
+          <span>Research catalog — not a clinical tool.</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ------------------------------------------------------------------ *
  *  PAGE 1 — Landing
  * ------------------------------------------------------------------ */
 function LandingPage({ go, data }) {
@@ -419,42 +577,66 @@ function LandingPage({ go, data }) {
     color: accessPalette[k],
   })).filter((d) => d.value > 0);
 
+  const runnableCount = data.filter((b) => RUNNABLE[b.id]).length;
+  const featured = [...data]
+    .sort((a, b) => (RUNNABLE[b.id] ? 1 : 0) - (RUNNABLE[a.id] ? 1 : 0) || (b.sizeNum || 0) - (a.sizeNum || 0))
+    .slice(0, 6);
+
   return (
-    <div style={{ maxWidth: 1180, margin: "0 auto", padding: "20px" }}>
-      <section style={{ padding: "44px 0 32px", maxWidth: 720 }}>
-        <SectionLabel>Mental-health LLM evaluation</SectionLabel>
-        <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 700, fontSize: 52, lineHeight: 1.08, margin: "12px 0 0", letterSpacing: "-.025em" }}>
-          A working catalog of mental-health LLM benchmarks.
-        </h1>
-        <p style={{ fontSize: 16, color: C.muted, lineHeight: 1.55, margin: "16px 0 0" }}>
-          A curated index of benchmarks for evaluating large language models on clinical mental-health
-          tasks — what each one measures, how it was built, and (provisionally) how rigorous it looks.
-          The catalog is drawn directly from our team's research sheet.
-        </p>
-        <div style={{ display: "flex", gap: 12, marginTop: 24, flexWrap: "wrap" }}>
-          <PrimaryButton onClick={() => go("catalog")}>Browse the catalog <ArrowRight size={15} /></PrimaryButton>
-          <GhostButton onClick={() => go("method")}>How we rate rigor</GhostButton>
+    <>
+      {/* Dark full-screen hero — giant wordmark (Monolog-style) */}
+      <section style={{ position: "relative", background: "#0C0B0A", color: "#EDEBE4", minHeight: "90vh", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", padding: "44px 32px 40px" }}>
+        <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /></div>
+
+        {/* top-centered intro + entry buttons */}
+        <div style={{ position: "relative", maxWidth: 480, margin: "0 auto", textAlign: "center" }}>
+          <p style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: 0 }}>
+            We index how AI models are really tested on mental-health tasks — what each benchmark measures, and how far to trust it.
+          </p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 22, flexWrap: "wrap" }}>
+            <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "11px 24px", fontFamily: FONT_SANS, fontSize: 13.5, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
+            <button onClick={() => go("method")} style={{ background: "transparent", color: "#EDEBE4", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "11px 22px", fontFamily: FONT_SANS, fontSize: 13.5, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
+          </div>
+        </div>
+
+        {/* giant wordmark + bottom stat/paragraph row */}
+        <div style={{ position: "relative" }}>
+          <div style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(34px, 13vw, 230px)", lineHeight: 0.82, letterSpacing: "-.04em", textAlign: "center", color: "#A6A299", whiteSpace: "nowrap", maxWidth: "100%" }}>
+            BENCHMARKS
+          </div>
+          <div className="herobottom">
+            <div>
+              <div style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 54px)", fontWeight: 600, letterSpacing: "-.03em", lineHeight: 1 }}>{total}+</div>
+              <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: "#8C887E", marginTop: 8, lineHeight: 1.5 }}>Benchmarks catalogued<br />(arXiv · PubMed · medRxiv)</div>
+            </div>
+            <div style={{ maxWidth: 430, justifySelf: "end" }}>
+              <p style={{ fontSize: 15.5, lineHeight: 1.5, margin: 0 }}>
+                <b style={{ fontWeight: 600, color: "#EDEBE4" }}>Teams building mental-health AI deserve to know exactly what they're testing against.</b>{" "}
+                <span style={{ color: "#8C887E" }}>What a benchmark measures — and how far to trust it — is rarely legible.</span>
+              </p>
+              <p style={{ fontSize: 15.5, lineHeight: 1.5, margin: "14px 0 0", color: "#8C887E" }}>
+                That gap costs more than accuracy. It costs knowing whether a model is safe to rely on.
+              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 20 }}>
+                <span style={{ width: 22, height: 22, borderRadius: 999, background: C.lime, display: "inline-block", flexShrink: 0 }} />
+                <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: "#CFCCC2", lineHeight: 1.4 }}>MH Benchmarks<br />Research catalog</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section style={{ borderTop: `1px solid ${C.line}`, padding: "28px 0" }}>
-        <SectionLabel>Where things stand</SectionLabel>
-        <div style={{ display: "flex", gap: 30, marginTop: 14, flexWrap: "wrap" }}>
+    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 20px" }}>
+
+      {/* Stats + charts */}
+      <section style={{ borderTop: `1px solid ${C.line}`, padding: "48px 0" }}>
+        <div style={{ display: "flex", gap: 48, flexWrap: "wrap", marginBottom: 32 }}>
           <Stat n={total} label="benchmarks cataloged" />
-          <Stat n={rated} label="with a provisional rigor tier" />
-          <Stat n={graded} label="with a human appraisal grade" accent />
+          <Stat n={rated} label="provisional rigor tier" />
+          <Stat n={graded} label="human appraisal grade" />
+          <Stat n={runnableCount} label="runnable in-browser" accent />
         </div>
-        <p style={{ fontSize: 14.5, color: C.ink, lineHeight: 1.55, margin: "16px 0 0", maxWidth: 680 }}>
-          The catalog is still being filled in: {withSource} of {total} benchmarks record an access type, and
-          human appraisal has only just begun. Rigor tiers shown are <em>provisional</em>, computed from a draft
-          rubric — they will be replaced by the team's appraisal as it is completed.{" "}
-          <button onClick={() => go("catalog")} style={linkBtn}>Open the catalog →</button>
-        </p>
-      </section>
-
-      <section style={{ borderTop: `1px solid ${C.line}`, padding: "28px 0" }}>
-        <SectionLabel>Catalog at a glance</SectionLabel>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16, marginTop: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
           <ChartCard title="Rigor mix" subtitle="provisional">
             <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
               <Donut data={rigorMix} total={total} />
@@ -470,45 +652,187 @@ function LandingPage({ go, data }) {
         </div>
       </section>
 
-      <section style={{ borderTop: `1px solid ${C.line}`, padding: "28px 0", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28 }}>
-        <InfoBlock icon={<Layers size={18} color={C.brand} />} title="What this is">
-          A browsable catalog of mental-health LLM benchmarks, annotated with what each measures, its
-          ground truth, population, access, and evaluation method. Categorization by clinical use-case is
-          planned next.
-        </InfoBlock>
-        <InfoBlock icon={<ShieldCheck size={18} color={C.brand} />} title="Why it matters">
-          Mental health is high-stakes, and the evaluation landscape is uneven. Making each benchmark's
-          strengths, gaps, and accessibility legible helps teams test against the right thing and know how
-          far to trust the result.
-        </InfoBlock>
+      {/* About */}
+      <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0", display: "grid", gridTemplateColumns: "0.7fr 1.3fr", gap: 40 }}>
+        <SectionLabel>About the project</SectionLabel>
+        <div>
+          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", lineHeight: 1.08, margin: 0 }}>
+            A living index, kept current automatically — graded by people.
+          </h2>
+          <p style={{ fontSize: 16, lineHeight: 1.65, color: C.muted, marginTop: 20, maxWidth: 640 }}>
+            New papers are found automatically from arXiv, PubMed, and medRxiv, filtered for relevance, and
+            their key facts extracted into a consistent schema — models, tasks, size, metrics. The part that
+            needs expertise — judging benchmark quality — stays with human reviewers. The result is a catalog
+            that keeps itself current without losing editorial judgment.
+          </p>
+        </div>
+      </section>
+
+      {/* Featured */}
+      <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 28 }}>
+          <div>
+            <SectionLabel>Featured benchmarks</SectionLabel>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "12px 0 0" }}>Start here</h2>
+          </div>
+          <button onClick={() => go("catalog")} style={linkBtn}>All benchmarks →</button>
+        </div>
+        <div style={{ display: "flex", gap: 18, overflowX: "auto", paddingBottom: 10 }}>
+          {featured.map((b) => (
+            <button key={b.id} onClick={() => go("catalog")} className="edcard" style={{ textAlign: "left", cursor: "pointer", flex: "0 0 300px", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 3, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+              <div style={{ height: 7, background: RUNNABLE[b.id] ? C.lime : bandColor(b.id) }} />
+              <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                {RUNNABLE[b.id] && (
+                  <span style={{ alignSelf: "flex-start", fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: C.ink, background: C.lime, borderRadius: 999, padding: "3px 9px" }}>Runnable</span>
+                )}
+                <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".07em", textTransform: "uppercase", color: C.muted }}>
+                  {[b.venue, b.year].filter(Boolean).join(" · ") || "Benchmark"}
+                </div>
+                <h3 style={{ fontFamily: FONT_SERIF, fontSize: 18, fontWeight: 600, lineHeight: 1.15, letterSpacing: "-.02em", margin: 0 }}>{b.name}</h3>
+                <div style={{ marginTop: "auto", fontFamily: FONT_MONO, fontSize: 12, color: C.ink }}>
+                  {b.sizeNum ? b.sizeNum.toLocaleString() + " items" : deriveCategory(b)}
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* What it covers — task categories */}
+      <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
+        <SectionLabel>What it covers</SectionLabel>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "12px 0 28px" }}>Tasks models are tested on</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+          {CATEGORY_INFO.map((c, i) => (
+            <div key={c.name} style={{ border: `1px solid ${C.line}`, borderRadius: 3, padding: 22, background: C.surface }}>
+              <div style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.accent }}>{String(i + 1).padStart(2, "0")}</div>
+              <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 600, letterSpacing: "-.02em", margin: "10px 0 8px" }}>{c.name}</h3>
+              <p style={{ fontSize: 14, lineHeight: 1.55, color: C.muted, margin: 0 }}>{c.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* How it's built — process */}
+      <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
+        <SectionLabel>How the catalog is built</SectionLabel>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 28, marginTop: 28 }}>
+          {[
+            { n: "01", t: "Find", d: "A scheduled job scans arXiv, PubMed, and medRxiv for new mental-health LLM papers and skips anything already seen." },
+            { n: "02", t: "Extract", d: "Relevant papers are read and their facts pulled into a consistent schema — models, tasks, size, metrics — with a short plain-language summary." },
+            { n: "03", t: "Publish & appraise", d: "Confident entries publish automatically; uncertain ones wait for a reviewer. Humans grade benchmark quality by hand." },
+          ].map((s) => (
+            <div key={s.n}>
+              <div style={{ fontFamily: FONT_SERIF, fontSize: 42, fontWeight: 600, color: C.line, letterSpacing: "-.03em" }}>{s.n}</div>
+              <h3 style={{ fontFamily: FONT_SERIF, fontSize: 20, fontWeight: 600, margin: "6px 0 8px", letterSpacing: "-.02em" }}>{s.t}</h3>
+              <p style={{ fontSize: 14.5, lineHeight: 1.6, color: C.muted, margin: 0 }}>{s.d}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
+        <SectionLabel>Questions</SectionLabel>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "12px 0 22px" }}>Frequently asked</h2>
+        <div style={{ borderBottom: `1px solid ${C.line}` }}>
+          {FAQS.map((f) => <Accordion key={f.q} q={f.q} a={f.a} />)}
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section style={{ borderTop: `1px solid ${C.line}`, padding: "80px 0 48px", textAlign: "center" }}>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 600, letterSpacing: "-.04em", lineHeight: 1.02, margin: "0 auto", maxWidth: 780 }}>
+          See how AI is really tested on mental health.
+        </h2>
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 30, flexWrap: "wrap" }}>
+          <PrimaryButton onClick={() => go("catalog")}>Browse the catalog <ArrowRight size={15} /></PrimaryButton>
+          <GhostButton onClick={() => go("method")}>How we rate rigor</GhostButton>
+        </div>
       </section>
     </div>
+    </>
   );
 }
 
 /* ------------------------------------------------------------------ *
- *  PAGE 2 — Methodology (draft rubric)
+ *  PAGE 2 — Methodology (dark step-by-step process + draft rubric)
  * ------------------------------------------------------------------ */
+// Right-column media per step. Drop copyright-free clips into website/videos/
+// and set the path (e.g. "./videos/step1.mp4") to enable video; null shows an
+// animated dark panel instead.
+const STEP_VIDEOS = [null, null, null, null, null];
+
+function StepMedia({ src }) {
+  return (
+    <div style={{ position: "relative", aspectRatio: "16 / 10", borderRadius: 6, overflow: "hidden", background: "#0b0a09", border: "1px solid rgba(237,235,228,.12)" }}>
+      {src ? (
+        <video src={src} autoPlay muted loop playsInline preload="metadata"
+          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+      ) : (
+        <div className="herofx" style={{ position: "absolute", inset: 0 }}>
+          <b className="s1" /><b className="s2" /><b className="s3" />
+        </div>
+      )}
+    </div>
+  );
+}
+
 function MethodPage({ go, data }) {
   const example = data.find((b) => b.score.tier) || data.find((b) => b.overallGrade) || data[0];
 
+  const STEPS = [
+    { t: "We find the papers", d: "A scheduled job scans arXiv, PubMed, and medRxiv for newly released mental-health LLM papers, and skips anything it has already seen." },
+    { t: "We check relevance", d: "A fast, low-cost model reads each title and abstract and keeps only genuine LLM-in-mental-health evaluation work — off-topic papers are dropped with a logged reason." },
+    { t: "We extract the facts", d: "The full paper is read into a consistent schema — models tested, tasks, dataset size, metrics, ground truth — with a short plain-language summary. It never guesses; unclear fields stay blank." },
+    { t: "We rate rigor — provisionally", d: "A draft five-dimension rubric (construct validity, ground truth, sample size, population realism, transparency) assigns a provisional tier. It's a placeholder until human appraisal is in." },
+    { t: "Humans appraise & publish", d: "Reviewers grade benchmark quality by hand. Confident entries publish automatically; uncertain ones wait for a person to approve them before going live." },
+  ];
+
   return (
-    <div style={{ maxWidth: 880, margin: "0 auto", padding: "20px" }}>
-      <section style={{ padding: "40px 0 8px" }}>
-        <SectionLabel>Methodology</SectionLabel>
-        <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 34, lineHeight: 1.12, margin: "10px 0 0" }}>
-          How we rate rigor (draft)
-        </h1>
-        <p style={{ fontSize: 15.5, color: C.muted, lineHeight: 1.55, margin: "14px 0 0", maxWidth: 660 }}>
-          Each benchmark shows a provisional rigor tier — <TierWord t="strong" />, <TierWord t="moderate" />,
-          or <TierWord t="limited" /> — computed from the draft rubric below. It is a placeholder until the
-          team's human appraisal is filled in; benchmarks without enough data are shown as <b>Unrated</b>.
-        </p>
-        <div style={{ marginTop: 16, border: `1px solid ${C.line}`, borderLeft: `3px solid ${C.accent}`, background: "#E8F0FE", borderRadius: 12, padding: "12px 16px", fontSize: 13, color: C.ink }}>
-          <strong style={{ fontFamily: FONT_SANS, fontSize: 11, fontWeight: 700, color: C.accent, letterSpacing: ".06em" }}>DRAFT</strong>
-          <span style={{ marginLeft: 8 }}>Thresholds and weights are not final. A tier is only assigned when at least {MIN_KNOWN} of the {RUBRIC.length} dimensions have data.</span>
+    <>
+      {/* Dark step-by-step process (Monolog "Process" style) */}
+      <div style={{ background: "#0C0B0A", color: "#EDEBE4" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px 48px" }}>
+          <section style={{ padding: "72px 0 8px", maxWidth: 760 }}>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 18 }}>Methodology</div>
+            <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(38px, 5.5vw, 68px)", lineHeight: 0.98, letterSpacing: "-.04em", margin: 0 }}>How the catalog works</h1>
+            <p style={{ fontSize: 16.5, color: "#B7B2A8", lineHeight: 1.6, margin: "22px 0 0" }}>
+              Most of the pipeline is ordinary automation; a model is used only where reading and judgment are needed, and people make the final call on quality. Here's each step.
+            </p>
+          </section>
+          <div>
+            {STEPS.map((s, i) => (
+              <div key={i} className="processrow">
+                <div>
+                  <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".14em", textTransform: "uppercase", color: "#8C887E", marginBottom: 22 }}>Step • {String(i + 1).padStart(2, "0")}</div>
+                  <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", lineHeight: 1.05, margin: 0, color: "#EDEBE4" }}>{s.t}</h2>
+                  <p style={{ fontSize: 15.5, lineHeight: 1.6, color: "#B7B2A8", margin: "18px 0 0", maxWidth: 430 }}>{s.d}</p>
+                </div>
+                <StepMedia src={STEP_VIDEOS[i]} />
+              </div>
+            ))}
+          </div>
         </div>
-      </section>
+      </div>
+
+      {/* Rubric detail (light) */}
+      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 24px 20px" }}>
+        <section style={{ padding: "56px 0 8px" }}>
+          <SectionLabel>The rigor rubric</SectionLabel>
+          <h2 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(26px, 3.4vw, 40px)", lineHeight: 1.08, letterSpacing: "-.03em", margin: "12px 0 0" }}>
+            How we rate rigor (draft)
+          </h2>
+          <p style={{ fontSize: 15.5, color: C.muted, lineHeight: 1.55, margin: "16px 0 0", maxWidth: 660 }}>
+            Each benchmark shows a provisional rigor tier — <TierWord t="strong" />, <TierWord t="moderate" />,
+            or <TierWord t="limited" /> — computed from the draft rubric below. It's a placeholder until the
+            team's human appraisal is filled in; benchmarks without enough data are shown as <b>Unrated</b>.
+          </p>
+          <div style={{ marginTop: 16, border: `1px solid ${C.line}`, borderLeft: `3px solid ${C.accent}`, background: "#F1EADB", borderRadius: 8, padding: "12px 16px", fontSize: 13, color: C.ink }}>
+            <strong style={{ fontFamily: FONT_SANS, fontSize: 11, fontWeight: 700, color: C.accent, letterSpacing: ".06em" }}>DRAFT</strong>
+            <span style={{ marginLeft: 8 }}>Thresholds and weights are not final. A tier is only assigned when at least {MIN_KNOWN} of the {RUBRIC.length} dimensions have data.</span>
+          </div>
+        </section>
 
       <section style={{ padding: "26px 0" }}>
         <h2 style={{ fontFamily: FONT_SERIF, fontSize: 22, fontWeight: 600, margin: "0 0 4px" }}>The dimensions</h2>
@@ -549,7 +873,7 @@ function MethodPage({ go, data }) {
                 </div>
               );
             })}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "11px 14px", background: C.brand, color: "#EAF2EF" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "11px 14px", background: C.brand, color: "#EDE7DA" }}>
               <span style={{ fontFamily: FONT_MONO, fontSize: 12, letterSpacing: ".04em" }}>
                 {example.score.total}/{example.score.maxKnown} across {example.score.knownCount} known → {TIER[example.score.tier].label.toUpperCase()}
               </span>
@@ -572,6 +896,7 @@ function MethodPage({ go, data }) {
         </div>
       </section>
     </div>
+    </>
   );
 }
 
@@ -599,14 +924,22 @@ const linkBtn = { border: "none", background: "transparent", color: C.brand, fon
 function CatalogPage({ data, error }) {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("name"); // name | year | rigor | size
-  const [sourceFilter, setSourceFilter] = useState(null); // null = all
+  const [catFilter, setCatFilter] = useState(null); // null = all categories
   const [selected, setSelected] = useState(null);
+  const [showRigor, setShowRigor] = useState(true); // toggle the rigor rating display
 
   const q = query.trim().toLowerCase();
 
+  // Distinct categories present in the data (for the "filter by category" menu).
+  const categories = useMemo(() => {
+    const counts = {};
+    data.forEach((b) => { const c = deriveCategory(b); counts[c] = (counts[c] || 0) + 1; });
+    return Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+  }, [data]);
+
   const visible = useMemo(() => {
     let rows = data;
-    if (sourceFilter) rows = rows.filter((b) => b.source === sourceFilter);
+    if (catFilter) rows = rows.filter((b) => deriveCategory(b) === catFilter);
     if (q) {
       rows = rows.filter((b) =>
         [b.name, b.measures, b.authors, b.groundTruth, b.population, b.venue]
@@ -624,119 +957,224 @@ function CatalogPage({ data, error }) {
       return (a.name || "").localeCompare(b.name || "");
     });
     return arr;
-  }, [data, q, sort, sourceFilter]);
+  }, [data, q, sort, catFilter]);
 
   const rated = data.filter((b) => b.score.tier).length;
   const graded = data.filter((b) => b.overallGrade).length;
 
   return (
-    <div style={{ maxWidth: 1180, margin: "0 auto", padding: "20px" }}>
-      <header style={{ padding: "8px 0 18px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <Layers size={22} color={C.brand} />
-          <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 700, fontSize: 30, margin: 0, letterSpacing: "-.02em" }}>Benchmark Catalog</h1>
+    <div style={{ background: ED.bg, color: ED.ink, fontFamily: ED.body }}>
+    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 76px" }}>
+      {/* Header — big title + count on the right (Monolog "All success stories") */}
+      <header style={{ padding: "40px 0 24px", borderBottom: `1px solid ${ED.line}`, marginBottom: 34 }}>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: ED.muted, marginBottom: 22 }}>
+          Mental-health LLM benchmarks
         </div>
-        <div style={{ display: "flex", gap: 24, marginTop: 14, flexWrap: "wrap" }}>
-          <Stat n={data.length} label="benchmarks" />
-          <Stat n={rated} label="provisionally rated" />
-          <Stat n={graded} label="human-graded" accent />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 20, flexWrap: "wrap" }}>
+          <h1 style={{ fontFamily: ED.display, fontWeight: 600, fontSize: "clamp(46px, 8vw, 94px)", lineHeight: 0.94, letterSpacing: "-.04em", margin: 0, color: ED.ink }}>
+            All benchmarks
+          </h1>
+          <span style={{ fontFamily: ED.display, fontWeight: 500, fontSize: "clamp(32px, 5vw, 58px)", letterSpacing: "-.03em", color: ED.ink, lineHeight: 1 }}>
+            ({String(visible.length).padStart(2, "0")})
+          </span>
         </div>
       </header>
 
-      {/* Controls */}
-      <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap", marginBottom: 16 }}>
-        <div style={{ position: "relative", flex: "1 1 240px", minWidth: 200 }}>
-          <Search size={14} color={C.muted} style={{ position: "absolute", left: 10, top: 10 }} />
-          <input
-            value={query} onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search name, skills, authors…"
-            style={{ width: "100%", padding: "8px 10px 8px 30px", fontFamily: FONT_SANS, fontSize: 13, border: `1px solid ${C.line}`, borderRadius: 8, background: C.surface, color: C.ink }}
-          />
-        </div>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-          <ArrowUpDown size={13} color={C.muted} />
-          <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: FONT_SANS, fontSize: 13, padding: "8px 10px", border: `1px solid ${C.line}`, borderRadius: 8, background: C.surface, color: C.ink, cursor: "pointer" }}>
-            <option value="name">Sort: Name (A–Z)</option>
-            <option value="year">Sort: Year (newest)</option>
-            <option value="rigor">Sort: Rigor (best first)</option>
-            <option value="size">Sort: Size (largest)</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Source filter chips */}
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 18 }}>
-        <FilterChip label="All sources" on={!sourceFilter} onClick={() => setSourceFilter(null)} />
-        {SOURCE_OPTIONS.map((s) => (
-          <FilterChip key={s} label={s} on={sourceFilter === s} onClick={() => setSourceFilter(sourceFilter === s ? null : s)} />
-        ))}
-      </div>
-
       {error && (
-        <div style={{ border: `1px solid ${C.limited}`, background: "#FCE8E6", borderRadius: 12, padding: "10px 14px", fontSize: 13, color: C.ink, marginBottom: 14 }}>
-          Couldn't load benchmarks.json ({error}). Make sure the export script has been run and the file sits next to preview.html.
+        <div style={{ border: `1px solid ${C.limited}`, background: "#F6E7DF", borderRadius: 4, padding: "10px 14px", fontSize: 13, color: C.ink, marginBottom: 20 }}>
+          Couldn't load benchmarks.json ({error}). Make sure the export script has been run and the file sits next to index.html.
         </div>
       )}
 
-      <div style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.muted, marginBottom: 10 }}>
-        {visible.length} of {data.length} shown
-      </div>
+      {/* Two columns: left vertical filter + controls, right horizontal tile gallery */}
+      <div className="catlayout">
+        <aside style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 8 }}>
+            <span style={{ width: 9, height: 9, borderRadius: 999, background: ED.ink, display: "inline-block" }} />
+            <span style={{ fontFamily: FONT_MONO, fontSize: 12, letterSpacing: ".08em", textTransform: "uppercase", color: ED.ink }}>Filter by category</span>
+          </div>
+          <VChip label="All Projects" on={!catFilter} onClick={() => setCatFilter(null)} />
+          {categories.map((c) => (
+            <VChip key={c} label={c} on={catFilter === c} onClick={() => setCatFilter(catFilter === c ? null : c)} />
+          ))}
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: 12 }}>
-        {visible.map((b) => (
-          <BenchCard key={b.id} b={b} onClick={() => setSelected(b)} />
-        ))}
-      </div>
+          <div style={{ marginTop: 22, display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ position: "relative" }}>
+              <Search size={14} color={ED.muted} style={{ position: "absolute", left: 12, top: 11 }} />
+              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search…"
+                style={{ width: "100%", padding: "9px 12px 9px 32px", fontFamily: ED.body, fontSize: 13.5, border: `1px solid ${ED.line}`, borderRadius: 4, background: ED.card, color: ED.ink, boxSizing: "border-box" }} />
+            </div>
+            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: ED.body, fontSize: 13.5, padding: "9px 12px", border: `1px solid ${ED.line}`, borderRadius: 4, background: ED.card, color: ED.ink, cursor: "pointer" }}>
+              <option value="name">Sort: Name (A–Z)</option>
+              <option value="year">Sort: Year (newest)</option>
+              <option value="rigor">Sort: Rigor (best first)</option>
+              <option value="size">Sort: Size (largest)</option>
+            </select>
+            <label style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: ED.body, fontSize: 13, color: ED.muted, cursor: "pointer", userSelect: "none" }}>
+              <input type="checkbox" checked={showRigor} onChange={(e) => setShowRigor(e.target.checked)} />
+              Show rigor rating
+            </label>
+          </div>
+        </aside>
 
-      {visible.length === 0 && !error && (
-        <div style={{ textAlign: "center", color: C.muted, padding: "48px 20px", border: `1px dashed ${C.line}`, borderRadius: 16, background: C.surface }}>
-          <Search size={26} color={C.unrated} />
-          <div style={{ fontSize: 15, fontWeight: 600, color: C.ink, marginTop: 10 }}>No matches</div>
-          <div style={{ fontSize: 13, marginTop: 4 }}>Try a different search term or clear the source filter.</div>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 24, rowGap: 34 }}>
+            {visible.map((b) => (
+              <BenchTile key={b.id} b={b} showRigor={showRigor} onClick={() => setSelected(b)} />
+            ))}
+          </div>
+          {visible.length === 0 && !error && (
+            <div style={{ textAlign: "center", color: ED.muted, padding: "48px 20px", border: `1px dashed ${ED.line}`, borderRadius: 4, background: ED.card }}>
+              <Search size={26} color={C.unrated} />
+              <div style={{ fontSize: 15, fontWeight: 600, color: ED.ink, marginTop: 10 }}>No matches</div>
+              <div style={{ fontSize: 13, marginTop: 4 }}>Try a different search term or clear the category filter.</div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
-      {selected && <Detail b={selected} onClose={() => setSelected(null)} />}
+      {selected && <Detail b={selected} showRigor={showRigor} onClose={() => setSelected(null)} />}
     </div>
+    </div>
+  );
+}
+
+// Vertical filter chip (left rail) — light chip, active is solid ink.
+function VChip({ label, on, onClick }) {
+  return (
+    <button onClick={onClick} style={{
+      alignSelf: "flex-start", fontFamily: ED.body, fontSize: 15, fontWeight: 500, cursor: "pointer",
+      color: on ? "#fff" : ED.ink, background: on ? ED.ink : "rgba(8,8,7,0.06)",
+      border: "none", borderRadius: 5, padding: "8px 15px", textAlign: "left", lineHeight: 1.2,
+    }}>{label}</button>
+  );
+}
+
+// Tall gallery tile — a color "cover" (stands in for Monolog's photo) + meta below.
+function BenchTile({ b, showRigor, onClick }) {
+  const cat = deriveCategory(b);
+  const band = showRigor && b.score.tier ? TIER[b.score.tier].color : bandColor(b.id);
+  const runnable = !!RUNNABLE[b.id];
+  const onDark = runnable ? C.ink : "#F3F1EA";
+  return (
+    <button onClick={onClick} className="edtile" style={{
+      width: "100%", textAlign: "left", cursor: "pointer", background: "transparent",
+      border: "none", padding: 0, display: "flex", flexDirection: "column", gap: 15,
+    }}>
+      <div style={{ height: 320, borderRadius: 4, background: runnable ? C.lime : band, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+          <span style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".07em", textTransform: "uppercase", color: onDark, opacity: 0.9 }}>{cat}</span>
+          {runnable && (
+            <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: C.ink, border: `1px solid ${C.ink}`, borderRadius: 999, padding: "2px 9px" }}>Run</span>
+          )}
+        </div>
+        <div>
+          <div style={{ fontFamily: FONT_SERIF, fontSize: 46, fontWeight: 600, letterSpacing: "-.03em", lineHeight: 0.95, color: onDark }}>
+            {b.sizeNum ? b.sizeNum.toLocaleString() : (b.year || "—")}
+          </div>
+          <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: onDark, opacity: 0.85, marginTop: 8 }}>
+            {b.sizeNum ? "items" : (b.venue || "benchmark")}
+          </div>
+        </div>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
+        <h3 style={{ fontFamily: FONT_SERIF, fontSize: 18, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.15, margin: 0, color: ED.ink }}>{b.name}</h3>
+        <span style={{ fontFamily: FONT_MONO, fontSize: 12, color: ED.muted, flexShrink: 0 }}>{b.year}</span>
+      </div>
+      {b.measures && <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: ED.muted }}>{b.measures}</p>}
+      <span className="edarrow" style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: ED.body, fontSize: 13.5, fontWeight: 600, color: ED.ink }}>
+        View benchmark <span>→</span>
+      </span>
+    </button>
   );
 }
 
 function FilterChip({ label, on, onClick }) {
   return (
     <button onClick={onClick} style={{
-      fontFamily: FONT_SANS, fontSize: 12, fontWeight: 600, cursor: "pointer",
-      color: on ? "#fff" : C.muted, background: on ? C.brand : C.surface,
-      border: `1px solid ${on ? C.brand : C.line}`, borderRadius: 999, padding: "5px 12px",
+      fontFamily: ED.body, fontSize: 12.5, fontWeight: 500, cursor: "pointer",
+      color: on ? "#fff" : ED.muted, background: on ? ED.ink : "transparent",
+      border: `1px solid ${on ? ED.ink : ED.line}`, borderRadius: 999, padding: "6px 14px",
     }}>{label}</button>
   );
 }
 
-function BenchCard({ b, onClick }) {
+function BenchRow({ b, showRigor, onClick }) {
+  const cat = deriveCategory(b);
+  const band = showRigor && b.score.tier ? TIER[b.score.tier].color : bandColor(b.id);
+  const tags = [cat, b.source, b.turn].filter(Boolean);
+  const pill = {
+    fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".06em", textTransform: "uppercase",
+    color: ED.muted, border: `1px solid ${ED.line}`, borderRadius: 999, padding: "3px 10px", whiteSpace: "nowrap",
+  };
   return (
-    <button onClick={onClick} className="lift" style={{
-      textAlign: "left", cursor: "pointer", background: C.surface, border: `1px solid ${C.line}`,
-      borderLeft: `3px solid ${b.score.tier ? TIER[b.score.tier].color : C.unrated}`,
-      borderRadius: 16, padding: 18, display: "flex", flexDirection: "column", gap: 8,
-      boxShadow: "0 1px 3px rgba(60,64,67,0.12)",
+    <button onClick={onClick} className="edrow" style={{
+      width: "100%", textAlign: "left", cursor: "pointer", background: "transparent", border: "none",
+      borderTop: `1px solid ${ED.line}`, padding: "26px 8px", display: "grid",
+      gridTemplateColumns: "12px 1fr auto", gap: 22, alignItems: "start",
     }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
-        <span style={{ fontFamily: FONT_SERIF, fontSize: 16, fontWeight: 600, lineHeight: 1.2 }}>{b.name}</span>
-        <RigorBadge score={b.score} />
+      <span style={{ width: 11, height: 11, borderRadius: 2, background: band, marginTop: 9 }} />
+      <div>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
+          <h3 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(20px, 2.4vw, 28px)", fontWeight: 600, letterSpacing: "-.025em", lineHeight: 1.1, margin: 0, color: ED.ink }}>{b.name}</h3>
+          {RUNNABLE[b.id] && (
+            <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: C.ink, background: C.lime, borderRadius: 999, padding: "3px 9px" }}>Runnable</span>
+          )}
+        </div>
+        {b.measures && <p style={{ margin: "9px 0 0", fontSize: 14.5, lineHeight: 1.5, color: ED.muted, maxWidth: 640 }}>{b.measures}</p>}
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 14 }}>
+          {tags.map((t) => <span key={t} style={pill}>{t}</span>)}
+          {showRigor && b.overallGrade && (
+            <span style={{ ...pill, color: "#fff", background: ED.ink, borderColor: ED.ink }}>Grade {b.overallGrade}</span>
+          )}
+        </div>
       </div>
-      <div style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.muted }}>
-        {[b.venue, b.year].filter(Boolean).join(" · ") || "—"}
-      </div>
-      {b.measures && <p style={{ margin: 0, fontSize: 12.5, color: C.muted, lineHeight: 1.45 }}>{b.measures}</p>}
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 2 }}>
-        {b.source && <Chip mono>{b.source}</Chip>}
-        {b.turn && <Chip>{b.turn}</Chip>}
-        {b.overallGrade && <Chip mono color={C.accent}>Grade {b.overallGrade}</Chip>}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 14, minWidth: 84 }}>
+        <span style={{ fontFamily: FONT_MONO, fontSize: 12, color: ED.muted }}>{b.year || ""}</span>
+        <span className="edarrow" style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: ED.body, fontSize: 13.5, fontWeight: 600, color: ED.ink }}>
+          View <span>→</span>
+        </span>
       </div>
     </button>
   );
 }
 
-function Detail({ b, onClose }) {
+function BenchCard({ b, showRigor, onClick }) {
+  const band = showRigor && b.score.tier ? TIER[b.score.tier].color : bandColor(b.id);
+  const tags = [b.source, b.turn].filter(Boolean);
+  const tagStyle = {
+    fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".06em", textTransform: "uppercase",
+    color: ED.muted, border: `1px solid ${ED.line}`, borderRadius: 999, padding: "3px 10px",
+  };
+  return (
+    <button onClick={onClick} className="edcard" style={{
+      textAlign: "left", cursor: "pointer", background: ED.card, border: `1px solid ${ED.line}`,
+      borderRadius: 8, padding: 0, overflow: "hidden", display: "flex", flexDirection: "column",
+    }}>
+      <div style={{ height: 7, background: band }} />
+      <div style={{ padding: "22px 22px 20px", display: "flex", flexDirection: "column", gap: 13, flex: 1 }}>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".07em", textTransform: "uppercase", color: ED.muted }}>
+          {[b.venue, b.year].filter(Boolean).join(" · ") || "Benchmark"}
+        </div>
+        <h3 style={{ fontFamily: ED.display, fontSize: 21, fontWeight: 600, lineHeight: 1.12, letterSpacing: "-.02em", margin: 0, color: ED.ink }}>
+          {b.name}
+        </h3>
+        {b.measures && <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: ED.muted }}>{b.measures}</p>}
+        <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginTop: 2 }}>
+          {tags.map((t) => <span key={t} style={tagStyle}>{t}</span>)}
+          {showRigor && b.overallGrade && (
+            <span style={{ ...tagStyle, color: "#fff", background: ED.ink, borderColor: ED.ink }}>Grade {b.overallGrade}</span>
+          )}
+        </div>
+        <div className="edarrow" style={{ marginTop: "auto", paddingTop: 10, display: "inline-flex", alignItems: "center", gap: 8, fontFamily: ED.body, fontSize: 13.5, fontWeight: 600, color: ED.ink }}>
+          View benchmark <span>→</span>
+        </div>
+      </div>
+    </button>
+  );
+}
+
+function Detail({ b, showRigor, onClose }) {
   const rows = [
     ["Authors / institutions", b.authors],
     ["Venue", b.venue],
@@ -754,14 +1192,16 @@ function Detail({ b, onClose }) {
     ["# LLMs assessed", b.numLLMs],
     ["Construct validity (human)", b.constructValidity],
     ["Overall grade (human)", b.overallGrade],
-  ].filter(([, v]) => v);
+  ].filter(([k, v]) => v && (showRigor || !["Construct validity (human)", "Overall grade (human)"].includes(k)));
+
+  const runHref = RUNNABLE[b.id]; // module-level map
 
   return (
-    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(20,32,28,0.34)", display: "flex", justifyContent: "flex-end", zIndex: 50 }}>
-      <div onClick={(e) => e.stopPropagation()} style={{ width: "min(460px, 100%)", height: "100%", background: C.surface, borderLeft: `1px solid ${C.line}`, overflowY: "auto", padding: 24 }}>
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(20,32,28,0.44)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 50 }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ width: "min(720px, 100%)", maxHeight: "90vh", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 6, boxShadow: "0 24px 60px rgba(8,8,7,0.30)", overflowY: "auto", padding: 32 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
           <div>
-            <RigorBadge score={b.score} />
+            {showRigor && <RigorBadge score={b.score} />}
             <h2 style={{ fontFamily: FONT_SERIF, fontSize: 24, fontWeight: 600, margin: "8px 0 0" }}>{b.name}</h2>
           </div>
           <button onClick={onClose} aria-label="Close" style={{ border: "none", background: "transparent", cursor: "pointer", color: C.muted, padding: 4 }}>
@@ -769,7 +1209,7 @@ function Detail({ b, onClose }) {
           </button>
         </div>
 
-        {!b.score.tier && (
+        {showRigor && !b.score.tier && (
           <div style={{ marginTop: 12, fontSize: 12.5, color: C.muted, background: C.paper, border: `1px solid ${C.line}`, borderRadius: 8, padding: "8px 12px" }}>
             Unrated — fewer than {MIN_KNOWN} rubric dimensions have data in the sheet yet.
           </div>
@@ -784,8 +1224,14 @@ function Detail({ b, onClose }) {
           ))}
         </div>
 
+        {runHref && (
+          <a href={runHref} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 18, fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, color: C.ink, background: C.lime, padding: "13px 16px", borderRadius: 999, textDecoration: "none" }}>
+            ▶ Run this benchmark
+          </a>
+        )}
+
         {b.paperLink && (
-          <a href={b.paperLink} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 18, fontFamily: FONT_SANS, fontSize: 13, fontWeight: 600, color: "#fff", background: C.brand, padding: "10px 16px", borderRadius: 9, textDecoration: "none" }}>
+          <a href={b.paperLink} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: runHref ? 10 : 18, fontFamily: FONT_SANS, fontSize: 13, fontWeight: 600, color: runHref ? C.ink : "#fff", background: runHref ? C.paper : C.brand, border: runHref ? `1px solid ${C.line}` : "none", padding: "10px 16px", borderRadius: 9, textDecoration: "none" }}>
             View source paper <ExternalLink size={14} />
           </a>
         )}
