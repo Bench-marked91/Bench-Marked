@@ -363,23 +363,27 @@ export default function App() {
 
         /* Live smoky grey/black gradient (animated blurred blobs + halftone). */
         .herofx{ position: absolute; inset: 0; overflow: hidden; background: #0b0a09; pointer-events: none; }
-        .herofx b{ position: absolute; display: block; border-radius: 50%; filter: blur(72px); mix-blend-mode: screen; will-change: transform; }
-        .herofx .s1{ width: 85vw; height: 85vw; top: -22%; left: -12%; opacity: .60;
+        .herofx b{ position: absolute; display: block; border-radius: 50%; filter: blur(72px); mix-blend-mode: screen; will-change: transform, opacity; }
+        .herofx .s1{ width: 85vw; height: 85vw; top: -22%; left: -12%; opacity: .55;
           background: radial-gradient(circle at center, #74736c 0%, rgba(116,115,108,0) 60%); }
-        .herofx .s2{ width: 80vw; height: 80vw; bottom: -28%; right: -12%; opacity: .55;
+        .herofx .s2{ width: 80vw; height: 80vw; bottom: -28%; right: -12%; opacity: .5;
           background: radial-gradient(circle at center, #3c3b37 0%, rgba(60,59,55,0) 62%); }
-        .herofx .s3{ width: 55vw; height: 55vw; top: 14%; left: 32%; opacity: .42;
+        .herofx .s4{ width: 48vw; height: 48vw; bottom: -8%; left: 6%; opacity: .38;
+          background: radial-gradient(circle at center, #5a594f 0%, rgba(90,89,79,0) 62%); }
+        .herofx .s3{ width: 55vw; height: 55vw; top: 14%; left: 32%; opacity: .40;
           background: radial-gradient(circle at center, #9a988f 0%, rgba(154,152,143,0) 62%); }
         .herofx:after{ content: ""; position: absolute; inset: 0;
           background-image: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
           background-size: 3px 3px; opacity: .5; }
-        @keyframes smokeA{ 0%{ transform: translate(-8%,-6%) scale(1); } 100%{ transform: translate(14%,10%) scale(1.35); } }
-        @keyframes smokeB{ 0%{ transform: translate(6%,8%) scale(1.1); } 100%{ transform: translate(-12%,-10%) scale(1.4); } }
-        @keyframes smokeC{ 0%{ transform: translate(0,6%) scale(1); } 50%{ transform: translate(-8%,-4%) scale(1.2); } 100%{ transform: translate(10%,-8%) scale(1.3); } }
+        @keyframes smokeA{ 0%{ transform: translate(-10%,-8%) scale(1); opacity: .42; } 50%{ transform: translate(8%,5%) scale(1.45); opacity: .78; } 100%{ transform: translate(18%,12%) scale(1.15); opacity: .55; } }
+        @keyframes smokeB{ 0%{ transform: translate(8%,10%) scale(1.15); opacity: .40; } 50%{ transform: translate(-6%,-3%) scale(1.55); opacity: .70; } 100%{ transform: translate(-16%,-12%) scale(1.25); opacity: .48; } }
+        @keyframes smokeC{ 0%{ transform: translate(0,8%) scale(1); opacity: .28; } 50%{ transform: translate(-12%,-6%) scale(1.4); opacity: .60; } 100%{ transform: translate(12%,-10%) scale(1.2); opacity: .40; } }
+        @keyframes smokeD{ 0%{ transform: translate(4%,6%) scale(1.05); opacity: .28; } 50%{ transform: translate(-9%,-6%) scale(1.4); opacity: .55; } 100%{ transform: translate(11%,4%) scale(1.15); opacity: .36; } }
         @media (prefers-reduced-motion: no-preference){
-          .herofx .s1{ animation: smokeA 32s ease-in-out infinite alternate; }
-          .herofx .s2{ animation: smokeB 26s ease-in-out infinite alternate; }
-          .herofx .s3{ animation: smokeC 40s ease-in-out infinite alternate; }
+          .herofx .s1{ animation: smokeA 20s ease-in-out infinite alternate; }
+          .herofx .s2{ animation: smokeB 16s ease-in-out infinite alternate; }
+          .herofx .s3{ animation: smokeC 26s ease-in-out infinite alternate; }
+          .herofx .s4{ animation: smokeD 22s ease-in-out infinite alternate; }
         }
       `}</style>
 
@@ -620,7 +624,7 @@ function LandingPage({ go, data }) {
     <>
       {/* Dark full-screen hero — giant wordmark (Monolog-style) */}
       <section style={{ position: "relative", background: "#0C0B0A", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", padding: "104px 32px 40px" }}>
-        <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /></div>
+        <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
 
         {/* top-centered intro + entry buttons */}
         <div style={{ position: "relative", maxWidth: 480, margin: "0 auto", textAlign: "center" }}>
