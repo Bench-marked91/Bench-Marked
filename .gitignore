@@ -11,6 +11,11 @@ __pycache__/
 .venv/
 venv/
 
+# ── Stray binaries / installers (keep the repo clean) ────────────────
+*.exe
+*.msi
+*.zip
+
 # ── Local data outputs (optional; keep the repo clean) ───────────────
 # Comment these out later if you DO want findings tracked in git.
 data/latest_findings.json
