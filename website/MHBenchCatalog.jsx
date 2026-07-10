@@ -296,9 +296,23 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    fetch("./benchmarks.json?t=" + Date.now())
-      .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-      .then((rows) => setData(rows.map((b) => ({ ...b, score: scoreBenchmark(b) }))))
+    const t = Date.now();
+    // Catalog is required; names (short display name + tags) are an optional
+    // DOI-keyed companion file that survives pipeline refreshes of benchmarks.json.
+    Promise.all([
+      fetch("./benchmarks.json?t=" + t).then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
+      fetch("./benchmark_names.json?t=" + t).then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+    ])
+      .then(([rows, names]) => setData(rows.map((b) => {
+        const n = names[b.paperLink] || names[b.id] || {};
+        return {
+          ...b,
+          score: scoreBenchmark(b),
+          displayName: n.displayName || b.name,
+          conditions: n.conditions || [],
+          tasks: n.tasks || [],
+        };
+      })))
       .catch((e) => { setError(String(e)); setData([]); });
   }, []);
 
@@ -321,6 +335,7 @@ export default function App() {
           .lift{ transition: transform .14s ease, box-shadow .14s ease; }
           .lift:hover{ transform: translateY(-2px); box-shadow: 0 6px 18px rgba(60,64,67,0.16); }
           .navlink{ transition: color .12s ease; }
+          .navroll > span{ transition: transform .34s cubic-bezier(.5,0,.15,1); }
           .edcard{ transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
           .edcard:hover{ transform: translateY(-3px); box-shadow: 0 12px 32px rgba(20,18,14,.12); }
           .edcard:hover .edarrow span{ transform: translateX(5px); }
@@ -332,6 +347,13 @@ export default function App() {
         }
         .edcard .edarrow span, .edrow .edarrow span, .edtile .edarrow span{ transition: transform .16s ease; }
         .edrow{ transition: background .14s ease; }
+        /* Nav rollover: text slides up, a duplicate slides in from below on hover. */
+        .navroll{ position: relative; display: inline-block; overflow: hidden; vertical-align: bottom; line-height: 1.35; }
+        .navroll > span{ display: block; }
+        .navroll > span:last-child{ position: absolute; top: 0; left: 0; transform: translateY(100%); }
+        .navlink:hover .navroll > span:first-child{ transform: translateY(-100%); }
+        .navlink:hover .navroll > span:last-child{ transform: translateY(0); }
+        .sr-only{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
         .catlayout{ display: grid; grid-template-columns: 210px 1fr; gap: 44px; align-items: start; }
         @media (max-width: 760px){ .catlayout{ grid-template-columns: 1fr; gap: 24px; } }
         .herobottom{ display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-top: 34px; }
@@ -361,11 +383,14 @@ export default function App() {
         }
       `}</style>
 
-      <div style={{ background: "#EAE4D7", color: C.muted, fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
-        Live data from the team catalog · rigor tiers are provisional (draft rubric) pending human appraisal
+      <div style={(page === "landing" || page === "method")
+        ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "linear-gradient(to bottom, rgba(11,10,9,.62), rgba(11,10,9,0))" }
+        : { position: "sticky", top: 0, zIndex: 40 }}>
+        <div style={{ background: (page === "landing" || page === "method") ? "transparent" : "#EAE4D7", color: (page === "landing" || page === "method") ? "rgba(237,235,228,.72)" : C.muted, fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
+          Live data from the team catalog · rigor tiers are provisional (draft rubric) pending human appraisal
+        </div>
+        <TopNav page={page} go={go} overlay={page === "landing" || page === "method"} />
       </div>
-
-      <TopNav page={page} go={go} />
 
       {data === null ? (
         <Loading />
@@ -390,13 +415,14 @@ function Loading() {
   );
 }
 
-function TopNav({ page, go }) {
+function TopNav({ page, go, overlay }) {
+  const wordColor = overlay ? "#EDEBE4" : C.ink;
   return (
-    <nav style={{ borderBottom: `1px solid ${C.line}`, background: C.surface, position: "sticky", top: 0, zIndex: 40 }}>
+    <nav style={{ borderBottom: overlay ? "none" : `1px solid ${C.line}`, background: overlay ? "transparent" : C.surface }}>
       <div style={{ maxWidth: 1180, margin: "0 auto", padding: "11px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
         <button onClick={() => go("landing")} style={{ display: "flex", alignItems: "center", gap: 9, border: "none", background: "transparent", cursor: "pointer", padding: 0 }}>
-          <span style={{ width: 10, height: 10, borderRadius: 2, background: C.brand, display: "inline-block" }} />
-          <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 18, color: C.ink, letterSpacing: "-.02em" }}>Mental Health Benchmarks</span>
+          <span style={{ width: 10, height: 10, borderRadius: 2, background: wordColor, display: "inline-block" }} />
+          <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>Mental Health Benchmarks</span>
         </button>
         <div style={{ display: "flex", gap: 2 }}>
           {NAV.map((n) => {
@@ -404,10 +430,13 @@ function TopNav({ page, go }) {
             return (
               <button key={n.id} className="navlink" onClick={() => go(n.id)} aria-current={on ? "page" : undefined} style={{
                 fontFamily: FONT_SANS, fontSize: 13, fontWeight: on ? 600 : 500,
-                color: on ? C.brand : C.muted, background: "transparent",
-                border: "none", borderBottom: `2px solid ${on ? C.accent : "transparent"}`,
+                color: overlay ? (on ? "#fff" : "rgba(237,235,228,.72)") : (on ? C.brand : C.muted), background: "transparent",
+                border: "none", borderBottom: `2px solid ${on ? (overlay ? C.lime : C.accent) : "transparent"}`,
                 padding: "6px 12px", cursor: "pointer",
-              }}>{n.label}</button>
+              }}>
+                <span className="navroll" aria-hidden="true"><span>{n.label}</span><span>{n.label}</span></span>
+                <span className="sr-only">{n.label}</span>
+              </button>
             );
           })}
         </div>
@@ -590,7 +619,7 @@ function LandingPage({ go, data }) {
   return (
     <>
       {/* Dark full-screen hero — giant wordmark (Monolog-style) */}
-      <section style={{ position: "relative", background: "#0C0B0A", color: "#EDEBE4", minHeight: "90vh", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", padding: "44px 32px 40px" }}>
+      <section style={{ position: "relative", background: "#0C0B0A", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", padding: "104px 32px 40px" }}>
         <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /></div>
 
         {/* top-centered intro + entry buttons */}
@@ -693,7 +722,7 @@ function LandingPage({ go, data }) {
                 <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".07em", textTransform: "uppercase", color: C.muted }}>
                   {[b.venue, b.year].filter(Boolean).join(" · ") || "Benchmark"}
                 </div>
-                <h3 style={{ fontFamily: FONT_SERIF, fontSize: 18, fontWeight: 600, lineHeight: 1.15, letterSpacing: "-.02em", margin: 0 }}>{b.name}</h3>
+                <h3 style={{ fontFamily: FONT_SERIF, fontSize: 18, fontWeight: 600, lineHeight: 1.15, letterSpacing: "-.02em", margin: 0 }}>{b.displayName || b.name}</h3>
                 <div style={{ marginTop: "auto", fontFamily: FONT_MONO, fontSize: 12, color: C.ink }}>
                   {b.sizeNum ? b.sizeNum.toLocaleString() + " items" : deriveCategory(b)}
                 </div>
@@ -799,7 +828,7 @@ function MethodPage({ go, data }) {
       {/* Dark step-by-step process (Monolog "Process" style) */}
       <div style={{ background: "#0C0B0A", color: "#EDEBE4" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px 48px" }}>
-          <section style={{ padding: "72px 0 8px", maxWidth: 760 }}>
+          <section style={{ padding: "116px 0 8px", maxWidth: 760 }}>
             <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 18 }}>Methodology</div>
             <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(38px, 5.5vw, 68px)", lineHeight: 0.98, letterSpacing: "-.04em", margin: 0 }}>How the catalog works</h1>
             <p style={{ fontSize: 16.5, color: "#B7B2A8", lineHeight: 1.6, margin: "22px 0 0" }}>
@@ -1057,7 +1086,9 @@ function VChip({ label, on, onClick }) {
 
 // Tall gallery tile — a color "cover" (stands in for Monolog's photo) + meta below.
 function BenchTile({ b, showRigor, onClick }) {
-  const cat = deriveCategory(b);
+  const cat = (b.tasks && b.tasks[0]) || deriveCategory(b);
+  const condTag = { fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".05em", textTransform: "uppercase", color: ED.ink, background: "rgba(8,8,7,0.07)", borderRadius: 999, padding: "3px 9px" };
+  const taskTag = { fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".05em", textTransform: "uppercase", color: ED.muted, border: `1px solid ${ED.line}`, borderRadius: 999, padding: "3px 9px" };
   const band = showRigor && b.score.tier ? TIER[b.score.tier].color : bandColor(b.id);
   const runnable = !!runHrefFor(b);
   const onDark = runnable ? C.ink : "#F3F1EA";
@@ -1069,9 +1100,17 @@ function BenchTile({ b, showRigor, onClick }) {
       <div style={{ height: 320, borderRadius: 4, background: runnable ? C.lime : band, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
           <span style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".07em", textTransform: "uppercase", color: onDark, opacity: 0.9 }}>{cat}</span>
-          {runnable && (
-            <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: C.ink, border: `1px solid ${C.ink}`, borderRadius: 999, padding: "2px 9px" }}>Run</span>
-          )}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6, flexShrink: 0 }}>
+            {showRigor && (
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".05em", textTransform: "uppercase", color: "#F3F1EA", background: "rgba(8,8,7,0.34)", borderRadius: 999, padding: "3px 9px", whiteSpace: "nowrap" }}>
+                <span style={{ width: 7, height: 7, borderRadius: 999, background: b.score.tier ? TIER[b.score.tier].color : "rgba(243,241,234,.55)" }} />
+                {b.score.tier ? TIER[b.score.tier].label : "Unrated"}
+              </span>
+            )}
+            {runnable && (
+              <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: C.ink, border: `1px solid ${C.ink}`, borderRadius: 999, padding: "2px 9px" }}>Run</span>
+            )}
+          </div>
         </div>
         <div>
           <div style={{ fontFamily: FONT_SERIF, fontSize: 46, fontWeight: 600, letterSpacing: "-.03em", lineHeight: 0.95, color: onDark }}>
@@ -1083,10 +1122,16 @@ function BenchTile({ b, showRigor, onClick }) {
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
-        <h3 style={{ fontFamily: FONT_SERIF, fontSize: 18, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.15, margin: 0, color: ED.ink }}>{b.name}</h3>
+        <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.15, margin: 0, color: ED.ink }}>{b.displayName || b.name}</h3>
         <span style={{ fontFamily: FONT_MONO, fontSize: 12, color: ED.muted, flexShrink: 0 }}>{b.year}</span>
       </div>
-      {b.measures && <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: ED.muted }}>{b.measures}</p>}
+      {(b.conditions.length > 0 || b.tasks.length > 0) && (
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+          {b.conditions.map((t) => <span key={"c" + t} style={condTag}>{t}</span>)}
+          {b.tasks.map((t) => <span key={"t" + t} style={taskTag}>{t}</span>)}
+        </div>
+      )}
+      {b.measures && <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: ED.muted }}>{b.measures}</p>}
       <span className="edarrow" style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: ED.body, fontSize: 13.5, fontWeight: 600, color: ED.ink }}>
         View benchmark <span>→</span>
       </span>
@@ -1207,7 +1252,16 @@ function Detail({ b, showRigor, onClose }) {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
           <div>
             {showRigor && <RigorBadge score={b.score} />}
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: 24, fontWeight: 600, margin: "8px 0 0" }}>{b.name}</h2>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: 26, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.1, margin: "8px 0 0" }}>{b.displayName || b.name}</h2>
+            {b.displayName && b.displayName !== b.name && (
+              <div style={{ fontSize: 12.5, color: C.muted, marginTop: 8, lineHeight: 1.45 }}>{b.name}</div>
+            )}
+            {(b.conditions?.length > 0 || b.tasks?.length > 0) && (
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 12 }}>
+                {b.conditions.map((t) => <span key={"c" + t} style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".05em", textTransform: "uppercase", color: C.ink, background: "rgba(8,8,7,0.07)", borderRadius: 999, padding: "3px 10px" }}>{t}</span>)}
+                {b.tasks.map((t) => <span key={"t" + t} style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".05em", textTransform: "uppercase", color: C.muted, border: `1px solid ${C.line}`, borderRadius: 999, padding: "3px 10px" }}>{t}</span>)}
+              </div>
+            )}
           </div>
           <button onClick={onClose} aria-label="Close" style={{ border: "none", background: "transparent", cursor: "pointer", color: C.muted, padding: 4 }}>
             <X size={20} />
