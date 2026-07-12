@@ -793,8 +793,8 @@
   },
   {
     "name": "CLPsych 2017 ReachOut risk classification benchmark / Transfer learning for risk classification of social media posts",
-    "paperLink": "",
-    "sourceRaw": "",
+    "paperLink": "https://pubmed.ncbi.nlm.nih.gov/32401222/",
+    "sourceRaw": "open",
     "year": "May 2020",
     "authors": "Derek Howard, Marta M. Maslej, Justin Lee, Jacob Ritchie, Geoffrey Woollard, Leon French; Centre for Addiction and Mental Health, University of Toronto, University Health Network/Princess Margaret Cancer Centre",
     "venue": "published",
@@ -811,7 +811,7 @@
     "constructValidity": "",
     "overallGrade": "",
     "id": "clpsych-2017-reachout-risk-classificatio-35",
-    "source": "",
+    "source": "Open",
     "turn": "Single-turn",
     "sizeNum": 1588
   },
