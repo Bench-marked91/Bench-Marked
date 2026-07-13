@@ -1,0 +1,38 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "MentalHospital: A Virtual Environment for Evaluating Psychiatric Clinical Encounters",
+  "paper_link": "http://arxiv.org/abs/2607.08257v1",
+  "open_vs_closed_source": "Mixed",
+  "month_year": "July 2026",
+  "authors": [
+    "Yuming Yang",
+    "Xiao Sun",
+    "Yuanwei Zou",
+    "Zhengxiao Wu",
+    "Yun Chen",
+    "Jiang Zhong",
+    "Haoyang Zeng",
+    "Jingwang Huang",
+    "Kaiwen Wei"
+  ],
+  "institutions": "School of Computer Science, Chongqing University, Chongqing, China; School of Computer Science, Hunan University, Changsha, China",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "1,193 de-identified psychiatric electronic health record (EHR) cases from six medical centers across three regions, independently reviewed by two licensed psychiatrists (Cohen's \u03ba > 0.8)",
+  "size_of_benchmark": "1,193 psychiatric EHR cases (885 single-diagnosis, 308 comorbid); 76 disorder-level diagnoses across all major ICD-11 psychiatric categories",
+  "what_assessed_skills": "Psychiatric clinical encounter competence: subjective interviewing (symptom/history elicitation), objective examination (auxiliary exam recommendation), diagnostic assessment (clinical note generation, category and disorder-level diagnosis), treatment planning; plus process-level skills: communication empathy, interviewing professionalism, clinical-note quality, diagnostic rigor, treatment appropriateness",
+  "tasks_assessed": "Multi-turn psychiatric patient interview (subjective interviewing); auxiliary examination recommendation; clinical note generation; diagnostic category identification; disorder-level diagnosis ranking (nDCG); treatment plan generation",
+  "population_represented": "Psychiatric patients across all major ICD-11 categories (76 disorders); multi-center records from six medical centers across three regions in China; age range ~5\u201375 years; both single-diagnosis and comorbid cases",
+  "languages": "Chinese (source EHRs); English (paper and prompts)",
+  "num_domains": "4 (S.O.A.P. stages: Subjective Interviewing, Objective Examination, Diagnostic Assessment, Treatment Planning)",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Both (Automated + Human). Dual-track protocol: (1) Objective comparison \u2014 automated reference coverage matching against EHR-derived checkpoints using semantic similarity threshold \u03c4=0.85 with Multi-LLM-assisted semantic matching; metrics include coverage %, category identification accuracy, disorder-level nDCG, examination F1/Jaccard. (2) Subjective assessment \u2014 MentalEval (five Qwen3-8B-based fine-tuned evaluators) scoring on 1\u20135 Likert scale for empathy, professionalism, note quality, diagnostic rigor, treatment appropriateness; MentalEval trained via rubric-grounded SFT + expert-guided DPO; validated against 22 clinician survey ratings and expert-rated test sets (QWK=0.944 average).",
+  "num_llms_assessed": "12",
+  "llms_evaluated": "Llama-3-8B; Qwen3-14B; GPT-OSS-20B; QWQ-32B; GPT-OSS-120B; Claude-Sonnet-4.6; DeepSeek-V4-Pro; GPT-5.5; MedGemma-4B-it; MedGemma-27B-it; Baichuan-M2; (also human experts and medical trainees as baselines)",
+  "mental_health_conditions": "All major ICD-11 psychiatric categories including: Schizophrenia or other primary psychotic disorders; Mood disorders (bipolar, depressive); Anxiety or fear-related disorders; Obsessive-compulsive or related disorders; Disorders specifically associated with stress (PTSD, adjustment disorder); Dissociative disorders; Personality disorders; Neurodevelopmental disorders; Neurocognitive disorders; Disorders due to substance use or addictive behaviors; Feeding or eating disorders; Bodily distress disorders; Catatonia; Elimination disorders; Disorders associated with pregnancy/childbirth; Disruptive behavior/dissocial disorders; 76 disorder-level diagnoses total",
+  "performance_scores": "Best LLM (Baichuan-M2) objective scores: Inter. 51.29%, Exam. 24.76%, Note 50.54%, Cate. 80.56%, Diso. 43.19%; Human Experts: Inter. 82.35%, Exam. 91.90%, Note 88.67%, Cate. 90.59%, Diso. 83.24%; strongest LLM trails human experts by 37.28 percentage points average; GPT-5.5 highest on interviewing (69.06%) and category (70.23%); MentalEval average QWK=0.944 vs. LLM-as-a-Judge QWK=0.677",
+  "short_summary": "MentalHospital is a virtual evaluation environment for assessing LLMs on complete psychiatric clinical encounters following the S.O.A.P. workflow (Subjective Interviewing, Objective Examination, Diagnostic Assessment, Treatment Planning). It is grounded in 1,193 de-identified psychiatric EHR cases from six Chinese medical centers, covering all major ICD-11 categories and 76 disorders, with skill-augmented standardized patient agents featuring dynamic memory recall. Each encounter is evaluated through a dual-track protocol combining automated objective comparison against EHR-derived references and subjective assessment via MentalEval, a suite of five Qwen3-8B-based domain-specific evaluators (covering empathy, professionalism, note quality, diagnostic rigor, treatment appropriateness) trained with rubric-grounded SFT and expert-guided DPO. Twelve LLMs were benchmarked alongside human experts and medical trainees; even the strongest LLM (Baichuan-M2) trails human experts by 37.28 percentage points in objective psychiatric competence, with mental status assessment identified as a key bottleneck. MentalEval achieves strong expert alignment (average QWK=0.944), and 22 clinicians rated MentalHospital's clinical fidelity at 3.88/5.",
+  "missing_or_uncertain_fields": [
+    "paper_link (provided by user, not extractable from PDF)",
+    "Exact number of benchmark test cases used for LLM evaluation (subset of 1,193 not explicitly specified in main text)"
+  ]
+}

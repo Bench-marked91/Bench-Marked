@@ -1,157 +1,229 @@
 [
   {
-    "id": "2607.02245v1",
-    "title": "Copewell: A Multi-Agent Swarm Architecture for Equitable Mental Wellness Support",
-    "summary": "Mental health disorders affect nearly one billion people globally, yet 75% of individuals in low- and middle-income countries receive no treatment due to workforce shortages, cost barriers, and stigma. Current AI-powered wellness solutions predominantly rely on single-mode conversational interfaces that suffer high abandonment rates and fail to provide measurable, immediate relief calibrated to users' dynamic emotional states. This paper presents Copewell, a novel multi-agent swarm system designed to expand access to mental wellness support through human-centered AI principles. Our architecture introduces three technical innovations: (1) a multi-source assessment framework integrating self-reported, physiological, and contextual data to mitigate algorithmic bias; (2) valence-arousal emotion mapping using Russell's Circumplex Model of Affect to route users to specialized AI agents; and (3) dual-mode intervention delivery combining conversational support with evidence-based sensory wellness protocols. We examine the sociotechnical design considerations underlying Copewell's development, including a privacy-first architecture, embedded ethical oversight through a dedicated Ethics Supervisor agent, and participatory design informed by mental health practitioners. Early practitioner engagement and beta deployment inform design decisions and identify directions for future empirical evaluation. This work contributes to responsible AI discourse by demonstrating how technical architecture can operationalize equity and safety principles from inception.",
-    "published": "2026-07-02T14:40:03Z",
+    "id": "2607.08257v1",
+    "title": "MentalHospital: A Virtual Environment for Evaluating Psychiatric Clinical Encounters",
+    "summary": "Large language models (LLMs) have shown strong performance on isolated psychiatric tasks, including dialogue, diagnosis, and treatment planning, yet existing benchmarks rarely simulate complete psychiatric clinical encounters. We introduce $\\textbf{MentalHospital}$, a virtual evaluation environment for LLM-based psychiatric clinical encounters. MentalHospital instantiates the Subjective Interviewing, Objective Examination, Diagnostic Assessment, and Treatment Planning (S.O.A.P.) workflow, using skill-augmented standardized patients constructed from 1,193 de-identified psychiatric electronic health record (EHR) cases spanning all major ICD-11 categories and 76 disorders. Each encounter is assessed through a dual-track protocol that combines objective comparison against EHR-derived references with subjective assessment of clinical process quality. To scale specialist judgment, we develop $\\textbf{MentalEval}$, five domain-specific evaluators covering communication empathy, interviewing professionalism, clinical-note quality, diagnostic rigor, and treatment appropriateness, trained with rubric-grounded SFT and expert-guided DPO. Survey responses from 22 clinicians support MentalHospital's clinical fidelity (3.88/5), while MentalEval achieves strong expert alignment with an average QWK of 0.944. Benchmarking shows that even the strongest LLM trails clinicians by 37.28 percentage points in objective psychiatric competence, with mental status assessment as a key bottleneck.",
+    "published": "2026-07-09T09:03:42Z",
     "authors": [
-      "Seren Yenikent",
-      "Jack Vinijtrongjit",
-      "Katherine Ng"
+      "Yuming Yang",
+      "Xiao Sun",
+      "Yuanwei Zou",
+      "Zhengxiao Wu",
+      "Yun Chen",
+      "Jiang Zhong",
+      "Haoyang Zeng",
+      "Jingwang Huang",
+      "Kaiwen Wei"
     ],
-    "abstract_url": "http://arxiv.org/abs/2607.02245v1",
-    "pdf_url": "https://arxiv.org/pdf/2607.02245v1",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "The paper proposes an AI system for mental wellness support but lacks explicit evaluation of the system on specific DSM-5 mental health conditions or clinical benchmarks; it focuses on design and architecture rather than empirical validation of diagnostic or therapeutic performance."
-  },
-  {
-    "id": "2607.01401v1",
-    "title": "NeuroBridge: Bridging Multi-Task MRI Knowledge for Neurodegenerative Disease Diagnosis",
-    "summary": "INTRODUCTION: Accurate MRI-based identification of Alzheimer's disease (AD), mild cognitive impairment (MCI), and related dementias remains challenging because disease-related structural changes are often subtle and heterogeneous. We developed NeuroBridge, a clinically guided multi-task MRI framework for neurodegenerative disease diagnosis. METHODS: NeuroBridge integrates large-scale self-supervised MRI pretraining with hippocampal segmentation, hippocampal atrophy classification, and reconstruction objectives, followed by gated fusion fine-tuning. Performance was evaluated across ADNI and OASIS cohorts, including cross-cohort transfer, probability-based analysis, and opportunistic screening. RESULTS: NeuroBridge achieved the highest performance across evaluated classification tasks, reaching 88.17% accuracy for AD versus cognitively normal controls in ADNI and 82.78% in OASIS. The largest gains occurred in MCI-related and mixed-diagnosis settings. The framework demonstrated strong cross-cohort generalization, systematic associations between predicted-class probability and accuracy, and the feasibility of probability-based opportunistic screening. DISCUSSION: Clinically guided multi-task representation learning improves neurodegenerative MRI diagnosis beyond conventional single-task approaches. NeuroBridge provides a robust and scalable framework for dementia assessment and MRI-based opportunistic screening.",
-    "published": "2026-07-01T19:03:42Z",
-    "authors": [
-      "Mengyu Li",
-      "Guoyao Shen",
-      "Chad W. Farris",
-      "Xin Zhang"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2607.01401v1",
-    "pdf_url": "https://arxiv.org/pdf/2607.01401v1",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "While the paper involves neurodegenerative diseases (Alzheimer's, MCI, dementia) and AI model evaluation in a clinical context, these are neurological rather than core DSM-5 mental health conditions, placing it in the 'adjacent to mental health' category."
-  },
-  {
-    "id": "2607.00968v1",
-    "title": "Quantifying the Affective Gap: A Zero-Shot Evaluation of LLMs on Fine-Grained Emotion Taxonomies",
-    "summary": "Emotion recognition in natural language is a foundational challenge in affective computing, with critical implications for human-computer interaction, mental health support, and conversational AI. This paper presents a rigorous, unified zero-shot evaluation of three leading commercial large language models: Claude (claude-sonnet-4-6), ChatGPT (GPT-5.4), and Gemini (gemini-2.5-flash). The models were queried through their respective production APIs as of April 2026 on a fine-grained 13-class emotion classification task. Using a stratified 1,000-sentence sample from the boltuix/emotions dataset, which comprises 131,306 sentences across 13 categories, a single uniform prompt with no exemplars was applied identically across all models. Gemini achieves the highest accuracy (39.9%) and macro-F1 score (0.363), followed by GPT-5.4 (38.8%, macro-F1 = 0.291) and Claude (38.0%, macro-F1 = 0.159). All models excel on sarcasm and desire while consistently failing on love, confusion, and shame. McNemar tests reveal no statistically significant pairwise differences (p > 0.10), suggesting convergence at a shared zero-shot ceiling. Claude's markedly lower macro-F1 score exposes a class-imbalance prediction bias. These findings highlight the current limitations of frontier AI systems in zero-shot fine-grained emotion classification.",
-    "published": "2026-07-01T14:04:48Z",
-    "authors": [
-      "Lawrence Obiuwevwi",
-      "Krzysztof J. Rechowicz",
-      "Jessica M. Johnson",
-      "Vikas Ashok",
-      "Sachin Shetty",
-      "Sampath Jayarathna"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2607.00968v1",
-    "pdf_url": "https://arxiv.org/pdf/2607.00968v1",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "The paper evaluates LLMs on emotion recognition but focuses on general affective computing and human-computer interaction rather than clinical assessment, diagnosis, or treatment of DSM-5 mental health conditions."
-  },
-  {
-    "id": "2606.31464v1",
-    "title": "Team MKC at CLPsych 2026: Capturing and Characterizing Mental Health Changes through Social Media Timeline Dynamics",
-    "summary": "Recent advances in Large Language Models (LLMs) have motivated their adoption across a wide range of domains, including Artificial Intelligence (AI) for mental health. Given the growing prevalence of mental health disorders worldwide and the limited accessibility of professional care, there is an increasing demand for scalable computational approaches that can assist in early detection and continuous monitoring of psychological well-being. In this area, ongoing efforts have focused on curating domain-specific datasets and leveraging them to develop LLMs capable of supporting holistic mental health analysis. In line with this direction, we propose an LLM-based pipeline for comprehensive mental health analysis over sequentially ordered user posts, as part of the CLPsych shared task. Our pipeline offers a unified framework that jointly enables post-level assessment and user-level temporal modeling.",
-    "published": "2026-06-30T10:43:22Z",
-    "authors": [
-      "Kyomin Hwang",
-      "Hyeonjin Kim",
-      "Hyunho Lee",
-      "Nojun Kwak"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2606.31464v1",
-    "pdf_url": "https://arxiv.org/pdf/2606.31464v1",
+    "abstract_url": "http://arxiv.org/abs/2607.08257v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.08257v1",
     "source": "arXiv",
     "relevance": "Definitely Related",
-    "relevance_reason": "The paper evaluates an LLM-based pipeline on mental health analysis tasks (early detection and monitoring of psychological well-being) using social media data as part of a shared clinical task (CLPsych)."
+    "relevance_reason": "The paper introduces MentalHospital, a benchmark that evaluates LLMs on complete psychiatric clinical encounters across DSM-5/ICD-11 mental health conditions using clinical assessment tasks (diagnosis, treatment planning, mental status examination) with expert-aligned evaluation metrics."
   },
   {
-    "id": "2606.30957v1",
-    "title": "Linguistic Distancing on Social Media: Indicators of Emotion Regulation Across Age Groups",
-    "summary": "Managing our emotional responses to events is key to emotional well-being, a process referred to as emotion regulation in psychology. Previous work has established that the degree to which we distance events is a type of emotion regulation. When we psychologically distance from events there can be markers in our language. These markers have been referred to as linguistic distancing. We build upon a previous metric to operationalize linguistic distancing, and explore how it changes across the lifespan. We explore this systematically by analyzing large amounts of social media text, a venue where people express their emotions. By investigating how distancing varies across age groups we can better understand how emotion regulation varies with age and provide initial benchmarks on social media data. We provide additional evidence further strengthening the hypothesis that linguistic distancing occurs in proportionally more instances with age. These findings align with past work in psychology which indicate improved well-being with older age. Better understanding how linguistic distancing changes with age is important because it functions as a marker of well-being and can inform effective health interventions. We provide a foundation for further exploring emotion regulation through linguistic distancing in text data.",
-    "published": "2026-06-29T22:27:40Z",
+    "id": "2607.07824v1",
+    "title": "From Triggers to Emotions: A CPM-Grounded Appraisal Multi-Agent for Dynamic Emotional Evolution in Persona-Based Dialogue",
+    "summary": "Large Language Models (LLMs) have substantially advanced persona-based dialogue agents for emotion-sensitive role simulation in healthcare, education, counseling, customer service, and interactive storytelling. However, two related lines of work leave a key gap. Persona-based dialogue systems often encode emotions as static traits or surface-level stylistic cues, and affective dialogue research has largely focused on empathetic response generation toward users rather than modeling the agent persona's own evolving emotional state. As a result, trigger-driven emotional evolution within a character remains underexplored. To address this limitation, we draw inspiration from the Component Process Model (CPM), a psychological theory that views emotion as a dynamic process shaped by the appraisal of external events. We propose CPM-MultiAgent, a CPM-grounded emotion evolution multi-agent framework for supporting emotional changes in persona-based dialogue. Instead of treating a character's emotion as a fixed attribute, CPM-MultiAgent represents it as a latent state that is continuously reshaped by dialogue triggers. Through affective trigger extraction, CPM-based collaborative appraisal, and emotion state updating, the framework enables more emotionally consistent role simulation in multi-turn interactions.Experiments with baseline comparisons, ablation studies, human evaluation, and case analyses demonstrate that CPM-MultiAgent effectively models dynamic emotional evolution in emotionally sensitive role-simulation settings.",
+    "published": "2026-07-08T18:06:03Z",
     "authors": [
-      "Daniela Teodorescu",
-      "Saif M. Mohammad",
-      "Alona Fyshe"
+      "Jingyao Cai",
+      "Shuaijun Liu",
+      "Abdul Rehman",
+      "Yutong Guo",
+      "Qin Tian",
+      "Thomas Dolby",
+      "Sue Green",
+      "Chantel Cox",
+      "Xiaosong Yang"
     ],
-    "abstract_url": "http://arxiv.org/abs/2606.30957v1",
-    "pdf_url": "https://arxiv.org/pdf/2606.30957v1",
+    "abstract_url": "http://arxiv.org/abs/2607.07824v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.07824v1",
     "source": "arXiv",
     "relevance": "Might Be Related",
-    "relevance_reason": "The paper analyzes linguistic markers of emotion regulation on social media across age groups, which relates to psychological well-being, but does not explicitly evaluate an AI model on a mental-health diagnosis, screening, or clinical task."
+    "relevance_reason": "While the paper involves emotion modeling in dialogue systems with potential counseling applications, it focuses on persona-based role simulation and emotional consistency rather than evaluating AI on clinical mental health diagnosis, screening, or treatment of DSM-5 conditions."
   },
   {
-    "id": "2606.30942v1",
-    "title": "Anthropomorphism in AI Companion Communities: Age, Gender, and Emotional Correlates",
-    "summary": "Artificial intelligence (AI) systems are increasingly integrated into daily life, with millions now using AI chatbots built on Large Language Models (LLMs) for companionship. Both humanlike AI qualities and user predispositions to anthropomorphize relate to social consequences, such as increased trust, social health benefits, and psychological harms. Populations such as children, older adults, or those with mental health vulnerabilities may be particularly susceptible to anthropomorphism and its detriments, but mixed findings complicate the role of demographics. We used publicly available Reddit data from three popular AI companion subreddits to assess relationships between gender, age, anthropomorphism, and elicited emotions, to better understand how different people perceive and are affected by AI companions. We investigated three questions: How do age and gender relate to anthropomorphization of AI?, How does emotional expression relate to anthropomorphization?, and How do age and gender moderate emotion-anthropomorphization relationships? We found that adults and women anthropomorphize AI chatbots more than teens and men, and that positive emotional expression, particularly joy, is positively associated with anthropomorphization, while neutrality is negatively associated with anthropomorphism. Both relationships were stronger in adults than teens. Our findings suggest that the tendency to anthropomorphize may be more broadly distributed across age groups than previously expected, thereby prompting the reevaluation of existing digital safety norms.",
-    "published": "2026-06-29T21:51:53Z",
+    "id": "2607.07773v1",
+    "title": "Graph-Regularized Deep Learning for EEG-Based Emotion Recognition with Psychologically-Grounded Label Structure",
+    "summary": "EEG-based emotion recognition is critical for mental health monitoring and affective brain-computer interfaces, yet existing deep learning approaches often treat emotion classes as isolated labels, ignoring their psychological interdependencies. We propose a graph-regularized learning framework that conceptualizes emotions as nodes in a graph where edges encode proximity based on dimensional emotion theories. We adapt three complementary regularization strategies--Graph Label Smoothing (intuitive soft labeling), Commuting distance on graph via Graph Laplacian (spectral graph theory), and Sliced Wasserstein Distance (optimal transport on graph)--ordered by increasing computational complexity. These strategies penalize model predictions that deviate from the established emotion topology. Our framework is evaluated across three representative backbone architectures: AudioTransformer (pure transformer), Conformer (CNN-transformer hybrid), and DCGNN (causal graph neural network), demonstrating architecture-agnostic benefits. Experiments on SEED-IV (4 classes) and SEED-V (5 classes) datasets show consistent improvements: best case up to +5.42% accuracy and 39% reduction in psychologically implausible misclassifications. Ultimately, our framework help raise the upper bound of performance achievable with standard approaches. Code will be released.",
+    "published": "2026-07-08T16:41:51Z",
     "authors": [
-      "Afia Mubashir",
-      "Boden Moraski",
-      "Stephanie Choi",
-      "Rose E. Guingrich"
+      "Dongyang Kuang",
+      "Zizheng Ma",
+      "Yushan Zhang",
+      "Xiaocong Zeng"
     ],
-    "abstract_url": "http://arxiv.org/abs/2606.30942v1",
-    "pdf_url": "https://arxiv.org/pdf/2606.30942v1",
+    "abstract_url": "http://arxiv.org/abs/2607.07773v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.07773v1",
     "source": "arXiv",
     "relevance": "Might Be Related",
-    "relevance_reason": "The paper studies emotional and psychological effects of AI companions on vulnerable populations (children, older adults, those with mental health vulnerabilities) but does not evaluate an AI model on a specific clinical mental health task or condition; it is a social/behavioral analysis of AI use rather than a clinical benchmark."
+    "relevance_reason": "The paper evaluates deep learning on EEG-based emotion recognition datasets but does not address a specific DSM-5 mental health condition or clinical mental health task (diagnosis, screening, therapy); emotion recognition for affective computing is adjacent to rather than directly evaluating clinical mental health assessment."
   },
   {
-    "id": "2606.30887v1",
-    "title": "Training Therapeutic Judges and Multi-Agent Systems for Human-Aligned Mental Health Support",
-    "summary": "Large language models show promise for mental health support, yet therapeutic quality improves only when evaluation functions as an actionable control signal rather than a passive metric. We introduce a framework that formulates therapeutic response generation as a decision-refinement problem driven by multi-dimensional, human-aligned evaluation. In Stage I, we introduce TheraJudge, an open-source therapeutic evaluator trained via preference-based optimization on human-annotated data to produce reliable judgments across 7 psychological dimensions. In Stage II, we introduce TheraAgent, which operationalizes TheraJudge's evaluations through a coordinated refinement process with specialized Critic, Coach, and Therapist roles that translate evaluative signals into targeted response revisions. Empirically, TheraJudge achieves strong agreement with clinician ratings, with intraclass correlation coefficients (ICC = 0.87-0.95), surpassing supervised baselines and strong closed-source judges, particularly on critical dimensions such as Safety, Relevance, and Empathy. Acting on these evaluations, TheraAgent yields a +0.43 improvement in human-rated therapeutic quality (on a 5-point scale) under blind evaluation, with 96\\% clinician inter-rater reliability. Low-quality responses ($\\leq 3$) improve by +2.45 points with a 94\\% recovery rate, demonstrating targeted correction of unsafe outputs. Overall, our results indicate that effective alignment of mental-health LLMs stems from acting on human-aligned evaluation, rather than relying solely on stronger generation. We release code at https://github.com/vis-nlp/TheraAlign.",
-    "published": "2026-06-29T20:22:25Z",
+    "id": "2607.07766v1",
+    "title": "Alignment Plausibility: A New Standard for Assuring AI in Healthcare",
+    "summary": "Large language models (LLMs) have become significant providers of mental health support, yet they remain products of an attention economy whose operational and commercial targets favour sustained engagement over the friction that effective psychological support often requires. Developers' safety responses have been largely reactive, addressing the most visible and acute harms while subtler, longer-term patterns of risk (e.g., dependency, boundary erosion, the amplification of distorted beliefs) receive less attention. We contend that making LLMs structurally safe requires alignment organised at three levels that mirror how society assures the safety of human clinical practice: 1) explicit value specification grounded in the codified normative commitments of clinical practice; 2) training that embeds those values in the model; and 3) oversight that detects drift and longer-term harm during deployment, much as clinical supervision does for human practice. Organising alignment in this way yields a construct we call alignment plausibility - a structured demonstration that a system's values, training regime, and oversight mechanisms are together consistent with safe and positive outcomes. We propose alignment plausibility as a regulatory construct (by drawing analogy to the established construct of biological plausibility) for AI in health: a principled way to argue for, or against, trust that systems are aligned to positive health outcomes, will cause no harm even where capable of doing so, and will ultimately lead to patient benefit.",
+    "published": "2026-07-08T15:39:10Z",
     "authors": [
-      "Mizanur Rahman",
-      "Abeer Badawi",
-      "Elahe Rahimi",
-      "Laleh Seyyed-Kalantari",
-      "Frank Rudzicz",
-      "Enamul Hoque",
-      "Elham Dolatabadi"
+      "Gwydion Williams",
+      "Sara Zannone",
+      "Bilal A Mateen"
     ],
-    "abstract_url": "http://arxiv.org/abs/2606.30887v1",
-    "pdf_url": "https://arxiv.org/pdf/2606.30887v1",
+    "abstract_url": "http://arxiv.org/abs/2607.07766v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.07766v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "The paper discusses LLMs providing mental health support and proposes a safety framework for AI in healthcare, but it is primarily theoretical and does not evaluate or benchmark any AI model on specific mental health tasks with clinical data."
+  },
+  {
+    "id": "2607.06626v1",
+    "title": "Reward Valuation in Vision Language Models: Causal Mechanisms Underlying Anhedonia",
+    "summary": "Recent Vision-Language Models capture increasingly complex aspects of human cognition. Here we ask whether this alignment extends to reward valuation, which we assess in a mechanistic framework built on clinical tests that were developed to evaluate anhedonia and motivational deficits in major depressive disorder. In the brain, anhedonia is frequently linked to dysregulation in the Nucleus Accumbens (NAc) and the broader dopaminergic reward system. While neuroimaging has localized these deficits, establishing a causal link between NAc activity and specific behavioral symptoms remains a challenge. We use these ideas from neuroscience to functionally identify reward-anticipatory units in vision language models, and test their causal role via targeted perturbations. Perturbing NAc-selective units induces behavioral effects that mirror human anhedonia: the model shifts toward low-effort, low-reward options in effort-based decision-making tasks. Crucially, our results reflect a specific deficit in reward valuation and anticipation rather than a loss of task capability: the perturbed model maintains baseline performance when reward-based choice is removed. This induced vulnerability further aligns with clinical anhedonia and motivation scales, including DARS and MAP-SR. Taken together, these results reveal reward valuation circuits in AI models that parallel those in humans.",
+    "published": "2026-07-07T11:44:04Z",
+    "authors": [
+      "Melika Honarmand",
+      "Samin Mahdipour Aghabagher",
+      "Martin Schrimpf"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.06626v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.06626v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "While the paper evaluates vision-language models on anhedonia-related mechanisms using clinical frameworks, it does not involve clinical evaluation, diagnosis, or healthcare assessment of actual patients or real mental health conditions\u2014instead using anhedonia as a mechanistic lens to study AI model behavior."
+  },
+  {
+    "id": "2607.05685v1",
+    "title": "Depression Symptoms and Relational Patterns in 187k ChatGPT Histories",
+    "summary": "Large language models are increasingly used as private, always-available conversational systems, but little is known about how people with depressive symptoms use them. Building on CSCW work on disclosure and peer support, we examine ChatGPT as an emerging informal support infrastructure: private, persistent, responsive, and available outside ordinary hours. We analyze 187,093 ChatGPT conversations from 766 participants who completed the PHQ-8, comparing those below the moderate-symptom threshold (score of 10) with those at or above it. Higher-PHQ participants used ChatGPT more for mental-health, interpersonal, loneliness, self-focused, and support-seeking conversations, with pronounced late-night and recurring month-level patterns. Their language contained more first-person singular pronouns and absolutist terms. They more often engaged ChatGPT in high-disclosure contexts, but professional redirection was not higher. Language-based prediction was modest and insufficient for screening (AUROC 0.591). We argue these histories should not be treated as clinical screening data but as evidence LLMs are increasingly used as informal support infrastructure.",
+    "published": "2026-07-06T23:07:31Z",
+    "authors": [
+      "Neil K. R. Sehgal",
+      "Dunigan Folk",
+      "Lyle Ungar",
+      "Sharath Chandra Guntuku"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.05685v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.05685v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "The paper analyzes ChatGPT conversations from users with depression symptoms (measured by PHQ-8) but does not evaluate an AI model's performance on a clinical mental-health task; instead, it observes how depressed users interact with ChatGPT as an informal support tool."
+  },
+  {
+    "id": "2607.05626v1",
+    "title": "Population-Level Profiling of DSM-5 Depressive Symptoms Among Self-Reported ADHD and ASD Users on Twitter: An Exploratory Study Using Advanced NLP and Statistical Analysis",
+    "summary": "Background: Depression frequently co-occurs with ADHD and autism spectrum disorder (ASD), but population-level differences in symptom expression between these groups remain underexplored. Objective: We examined whether social media users with ADHD and ASD differ in how they express DSM-5 depressive symptoms in their tweets, and whether differences persist across varying levels of depressive-content filtering. Methods: We analysed 1,282,437 tweets from 792 users (622 ADHD; 170 ASD) with self-reported diagnoses on Twitter. Tweets were pre-filtered for depressive relevance using zero-shot NLI, then classified into nine DSM-5 symptoms using MentalRoBERTa fine-tuned on ReDSM5. Profiles were mean-centered per user. We applied L1-penalised logistic regression with cross-validation to distinguish ADHD from ASD users, complemented by Pearson correlations for symptom co-occurrence, and tested robustness across five filtering thresholds using bootstrapping. Results: MentalRoBERTa achieved macro-F1 of 0.901 on a held-out set, outperforming the original ReDSM5 benchmark. ADHD vs ASD classification yielded stable but modest performance (cross-validated ROC-AUC 0.645-0.653). Cognitive issues, sleep issues, appetite change, and fatigue leaned toward ADHD, while suicidal ideation and anhedonia leaned toward ASD. A largely shared symptom co-occurrence structure emerged between groups; no pair met our criterion for a robust disorder-specific difference. Conclusions: Population-level differences in depression-related language between ADHD and ASD social media users were consistently observed across thresholds, reflecting reproducibility rather than clinical validity. Findings are exploratory and do not establish differing phenomenology at the individual level.",
+    "published": "2026-07-06T20:33:13Z",
+    "authors": [
+      "Muhammad Rizwan",
+      "David Nabergoj",
+      "Jure Dem\u0161ar"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.05626v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.05626v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "While the paper involves DSM-5 depression symptoms and uses fine-tuned NLP models (MentalRoBERTa) to classify them, the evaluation is on social media data rather than in a clinical or healthcare-oriented context (diagnosis, screening, therapy, or patient monitoring), and the authors themselves caution that findings are exploratory and do not establish clinical validity."
+  },
+  {
+    "id": "2607.05282v1",
+    "title": "Wavelet Scattering Transform for Interpretable Schizophrenia Biomarker Discovery and Classification from Resting-State EEG",
+    "summary": "Schizophrenia is a debilitating neuropsychiatric disorder characterized by profound cortical network dysregulation, for which objective, clinically translatable EEG based biomarkers remain underdeveloped. Existing automated classification pipelines rely predominantly on static power spectral density features inherently blind to amplitude modulation dynamics and cross-frequency coupling, phenomena central to schizophrenia pathophysiology, while adopting epoch level cross validation strategies that introduce temporal data leakage, artificially inflate reported performance. This study introduces a mathematically principled diagnostic framework integrating the multi-order Wavelet Scattering Transform(WST), strict Leave One Subject Out (LOSO) cross-validation, and SHAP explainability for simultaneous EEG classification and biomarker discovery. Hierarchical WST coefficients capturing multi-scale amplitude modulation structure were extracted from resting state multichannel EEG. Subject-level ANOVA with Benjamini Hochberg false discovery rate correction identified significant biomarkers, with Random Forest and SVM classifiers evaluated under strict LOSO cross validation and subject-level majority voting. Second-order scattering coefficients encoding cross frequency coupling dominated the discriminative biomarker set, with gamma-band features most prevalent, demonstrating that temporal amplitude modulation constitutes the primary electrophysiological signature of schizophrenia. Electrode P3 was identified as the single most discriminative site. Under rigorous subject independent evaluation, the Random Forest achieved 90.48% accuracy (AUC = 0.9339; sensitivity = 95.56%). The proposed WST framework establishes a rigorous, interpretable standard for EEG-driven psychiatric biomarker discovery that can also be applicable in the detection of schizophrenia subtypes in the future.",
+    "published": "2026-07-06T16:27:26Z",
+    "authors": [
+      "Md. Taksimul Ahsan Tawhid",
+      "Nasif Ahmed Rafe",
+      "Alif Tahmid Priyom",
+      "K. M. Mustafizur Rahman"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.05282v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.05282v1",
     "source": "arXiv",
     "relevance": "Definitely Related",
-    "relevance_reason": "The paper evaluates LLMs on mental health support tasks using a therapeutic quality framework validated against clinician ratings, directly benchmarking AI performance on clinical dimensions relevant to mental health treatment."
+    "relevance_reason": "The paper evaluates an AI model (Random Forest and SVM classifiers) on EEG data for schizophrenia diagnosis and biomarker discovery, which is a DSM-5 mental health condition, with a clear clinical/diagnostic focus."
   },
   {
-    "id": "2606.30675v1",
-    "title": "Listening Between the Lines: Joint Learning of ASR Embeddings and LLM-Augmented Linguistics for Dementia Detection",
-    "summary": "Early detection of dementia through speech analysis offers a non-invasive screening alternative, but capturing both acoustic and linguistic biomarkers remains challenging. We propose a multimodal framework leveraging Whisper for dual-purpose extraction: acoustic representations from encoder outputs and transcripts via automatic speech recognition (ASR). For the acoustic pathway, temporal networks with attention pooling aggregate variable-length sequences into fixed-dimensional embeddings. For the linguistic pathway, we prompt a large language model (LLM) to extract interpretable features spanning lexical diversity, syntactic complexity, semantic coherence, and discourse patterns. A gated fusion network integrates both modalities. On ADReSS and ADReSSo, our method achieves F1-scores of 89.47% and 90.14%, demonstrating effective integration of acoustic and LLM-augmented linguistic features. Ablation shows that multimodal fusion consistently outperforms either modality alone.",
-    "published": "2026-06-26T08:21:31Z",
+    "id": "2607.04647v1",
+    "title": "Integrating Neural Encoders in Bayesian Generalized Linear Mixed Models for Multimodal Data",
+    "summary": "Scalable Bayesian inference for generalized linear mixed models (GLMMs) provides uncertainty-aware analysis of correlated longitudinal data, but existing scalable approaches largely assume low-dimensional tabular predictors and do not directly accommodate high-dimensional modalities such as images and text. We address this limitation by learning one or more modality-specific neural encoders jointly with a GLMM objective, then performing variance-corrected stochasticgradient MCMC for the GLMM parameters conditional on the learned representation. This conditional-Bayes design combines supervised representation learning with posterior uncertainty quantification for population-level effects, subjectspecific heterogeneity, and modality-level random slopes. The resulting model preserves interpretable fixed and random effects for structured covariates and learned modalities while scaling gracefully to large longitudinal datasets. In simulation studies, our method recovers posterior means and variance estimates from full-data MCMC benchmarks after covariance correction. We further evaluate uncertainty through parameter-level interval coverage in simulations and predictive calibration on held-out data. Applications to glaucoma progression and adolescent mental health demonstrate that the framework allows nuanced assessment of the relative importance of each modality on both individual and population levels without sacrificing predictive performance.",
+    "published": "2026-07-06T04:01:22Z",
     "authors": [
-      "Olivier Jiyoun Jung",
-      "Jonghyeon Park",
-      "Myungwoo Oh"
+      "Yuankang Zhao",
+      "Youngsoo Baek",
+      "Felipe A. Medeiros",
+      "Samuel Berchuck",
+      "Matthew M. Engelhard"
     ],
-    "abstract_url": "http://arxiv.org/abs/2606.30675v1",
-    "pdf_url": "https://arxiv.org/pdf/2606.30675v1",
+    "abstract_url": "http://arxiv.org/abs/2607.04647v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.04647v1",
     "source": "arXiv",
     "relevance": "Might Be Related",
-    "relevance_reason": "Evaluates an AI model (Whisper + LLM) on dementia detection through speech analysis, but dementia is a neurological disorder rather than a core DSM-5 mental health condition, placing it in the adjacent-to-mental-health category."
+    "relevance_reason": "The paper mentions adolescent mental health as an application domain but focuses primarily on methodological development (Bayesian GLMMs with neural encoders) rather than evaluating an AI model on a specific mental-health diagnosis, screening, or clinical task."
   },
   {
-    "id": "2606.23884v3",
-    "title": "One Year Later...The Harms Persist, But So Do We!",
-    "summary": "General-purpose large language models (LLMs) are increasingly used for mental health-related conversations, yet safety guardrails remain inadequate and inconsistent across clinical conditions. This study evaluates eight proprietary LLMs across 16 DSM-5 conditions using four adversarial attack variants, introducing an eight-dimension harm taxonomy and a multi-dimensional evaluation framework. Results show that safeguards hold reliably only for suicide and self-harm, while conditions such as eating disorders, substance use disorder, and major depressive disorder exhibit failure rates of up to 100%. We argue that ethical design and deployment of these LLMs demand clearly defined harm categories across clinical conditions and implementation of safeguards accordingly. Until such safeguards are in place, these models pose significant risks to vulnerable populations, making their growing integration into publicly available settings (e.g., schools, search engines, and consumer chatbots) are particularly concerning.",
-    "published": "2026-06-22T19:30:14Z",
+    "id": "2607.04350v1",
+    "title": "WPG-MoE: Weak-Prior-Guided Dense Mixture-of-Experts for User-Level Social Media Depression Detection",
+    "summary": "Online social media posts provide scalable signals for early depression screening, and recent studies mainly improve pre-classification evidence through risk-post selection, symptom grounding, and clinically informed feature construction. However, these screening-stage designs often leave final decisions to a single detector, overlooking how users heterogeneously express depressive risk after screening. A monolithic classifier must average across heterogeneous users, which may dilute localized evidence and cause misclassification, especially for non-self-disclosing users. To address this issue, we propose WPG-MoE, a weak-prior-guided dense mixture-of-experts framework built on a shared large language model (LLM) backbone. WPG-MoE derives user-level weak semantic priors to softly route users to experts matched to different evidence layouts. We formulate this process as learning using privileged information (LUPI): rich LLM-extracted structured evidence guides training-time routing, while inference retains only Patient Health Questionnaire-9 (PHQ-9) template screening and the deployable backbone. Experiments on Chinese and English datasets show that WPG-MoE outperforms strong baselines with interpretable routing behavior.",
+    "published": "2026-07-05T15:12:43Z",
     "authors": [
-      "Annika Marie Schoene",
-      "Cansu Canca",
-      "Gautham Vijay Kumar",
-      "Anson Antony"
+      "Xian Li",
+      "Yuanhe Tian",
+      "Yang Yang",
+      "Guoqing Wang",
+      "Yan Song"
     ],
-    "abstract_url": "http://arxiv.org/abs/2606.23884v3",
-    "pdf_url": "https://arxiv.org/pdf/2606.23884v3",
+    "abstract_url": "http://arxiv.org/abs/2607.04350v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.04350v1",
     "source": "arXiv",
     "relevance": "Definitely Related",
-    "relevance_reason": "Paper evaluates multiple LLMs on safety and harm across 16 DSM-5 mental health conditions (eating disorders, substance use disorder, major depressive disorder, etc.) in a clinical context, assessing their adequacy for mental health conversations."
+    "relevance_reason": "The paper evaluates an AI model (LLM-based mixture-of-experts framework) on depression detection from social media posts, using clinical screening tools (PHQ-9) in a healthcare-oriented context."
+  },
+  {
+    "id": "2607.04010v1",
+    "title": "Explainable AI for Screening Abuse-Related Trauma in Bangladeshi Children: A Training-Free Multimodal Framework Evaluated on Noise-Aware Synthetic Data",
+    "summary": "Bangladesh has an estimated 1.17 mental-health professionals per 100,000 population and only six child psychiatrists nationwide. No Bengali-language, culturally adapted tool exists for early screening of abuse-related psychological trauma in children. We present ShishuRaksha AI, a decision-support (not diagnostic) framework that fuses four screening modalities: validated questionnaires (SDQ, CPSS), Bengali narrative text, House-Tree-Person (HTP) drawing features, and facial affect. The fusion is training-free and clinically weighted, uses cross-modal attention, and includes a single-modality override rule. Every risk score is explained through clinically weighted, perturbation-based additive attribution and rendered as a bilingual (Bangla/English) report with referral routing to national child-protection services (OCC, DSS, NMHH) under the Children Act 2013. No clinical dataset of abused children can be collected ethically at this stage, so we introduce a noise-aware synthetic benchmark (500 cases, 116 positive [23.2%], four deliberate noise layers, literature-grounded HTP priors) and evaluate tree-ensemble surrogates of the fusion design (facial channel excluded) under 5-fold stratified cross-validation. The fused model reaches an AUC of 0.874 [0.834-0.908], against 0.756 [0.705-0.803] for an SDQ-only baseline, with ablation, operating-point, subgroup, and calibration analyses. We state all limitations openly, including synthetic-only data, no held-out set, text-feature circularity, and an urban-rural subgroup gap. This work is a feasibility study and a design contribution toward ethically deployable child-protection screening in low-resource settings.",
+    "published": "2026-07-04T20:12:46Z",
+    "authors": [
+      "Salma Hoque Talukdar Koli",
+      "Fahima Haque Talukder Jely"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.04010v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.04010v1",
+    "source": "arXiv",
+    "relevance": "Definitely Related",
+    "relevance_reason": "The paper evaluates an AI framework (ShishuRaksha AI) on screening abuse-related trauma in children, a DSM-5 condition (PTSD), in a clinical/healthcare context with validated assessment tools and clinically oriented risk scoring."
+  },
+  {
+    "id": "2607.03744v1",
+    "title": "Can Conversational Temporal Dynamics Improve Depression Detection in Dyads? A Preliminary Investigation in Multi-Modality Perspectives",
+    "summary": "Automatic depression detection from clinical interviews typically models the semantic content and acoustic characteristics of participant speech. However, the interactional timing between the clinician and participant remains comparatively under-modeled. We investigate conversational temporal dynamics, specifically dyadic turn-pair timing, as a primary modality fused with self-supervised encoders. Evaluated on the DAIC-WOZ dataset, we compare a compact 24-dimensional timing module against frozen WavLM-large and RoBERTa-large baseline detectors. This temporal module achieves the highest single-modality performance on the development set. Furthermore, a convex-weighted late fusion strategy improves overall performance to 0.804 and 0.669 macro-F1 on the development and test sets, respectively. The learned fusion effectively assigns zero weight to acoustics, demonstrating that conversational timing serves as a lightweight, interpretable complement for dyadic depression screening.",
+    "published": "2026-07-04T07:33:22Z",
+    "authors": [
+      "Hanie Kang",
+      "Huang-Cheng Chou",
+      "Sudarsana Reddy Kadiri",
+      "Shrikanth Narayanan"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.03744v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.03744v1",
+    "source": "arXiv",
+    "relevance": "Definitely Related",
+    "relevance_reason": "The paper evaluates AI models on automatic depression detection (a DSM-5 condition) from clinical interview data, using conversational temporal dynamics as a modality for screening in a healthcare context."
+  },
+  {
+    "id": "2607.03003v1",
+    "title": "psytechlab at CLPsych 2026: Utilising Natural Language Processing methods and Large Language Models for Social Media Text Analysis",
+    "summary": "Social media posts are a rich and valuable source of data for analyzing mental health states and users' well-being using automated analysis tools. In this work, we demonstrate how we used a range of Natural Language Processing (NLP) methods, including Long Short-Term Memory (LSTM), BERT-based models, and Large Language Models (LLMs), for self-state and well-being analysis and summarization during the CLPsych Shared Task 2026. Our approach achieved one of the top Consistency and Contradiction scores for the summarization task and also middle-level results for the other tasks. By testing and developing such mental health-state estimation systems, we contributed to improving mental health support systems. We make our code available https://github.com/psytechlab/CLPsych2026/.",
+    "published": "2026-07-03T06:37:57Z",
+    "authors": [
+      "Igor Buyanov",
+      "Nafisa Valieva",
+      "Ekaterina Mazurina"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.03003v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.03003v1",
+    "source": "arXiv",
+    "relevance": "Definitely Related",
+    "relevance_reason": "The paper evaluates multiple AI models (LSTM, BERT, LLMs) on mental health-related tasks (self-state and well-being analysis) using social media data in a clinical/healthcare context (CLPsych shared task for mental health support systems)."
   }
 ]

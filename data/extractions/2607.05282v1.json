@@ -1,0 +1,35 @@
+{
+  "relevance_flag": "Might Be Related",
+  "benchmark_name": "Wavelet Scattering Transform for Interpretable Schizophrenia Biomarker Discovery and Classification from Resting-State EEG",
+  "paper_link": "http://arxiv.org/abs/2607.05282v1",
+  "open_vs_closed_source": "",
+  "month_year": "July 2026",
+  "authors": [
+    "Md. Taksimul Ahsan Tawhid",
+    "Nasif Ahmed Rafe",
+    "Alif Tahmid Priyom",
+    "K. M. Mustafizur Rahman"
+  ],
+  "institutions": "Department of EECE, Military Institute of Science and Technology (MIST), Mirpur Cantonment, Dhaka, Bangladesh",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "Publicly available Kaggle dataset of adolescents screened by psychiatrist: 39 healthy controls and 45 with schizophrenia symptoms (16-channel resting-state EEG, 128 Hz sampling rate)",
+  "size_of_benchmark": "84 subjects (4,650 retained epochs after artifact rejection); 352 scattering coefficients per epoch across 16 channels",
+  "what_assessed_skills": "EEG-based schizophrenia classification; biomarker discovery via multi-scale amplitude modulation and cross-frequency coupling features; spatial interpretability of discriminative EEG features",
+  "tasks_assessed": "Binary classification (schizophrenia vs. healthy control) from resting-state EEG; biomarker identification using subject-level ANOVA with FDR correction; SHAP-based feature attribution and explainability",
+  "population_represented": "Adolescents; 45 with schizophrenia, 39 healthy controls",
+  "languages": "Not applicable (EEG signal data)",
+  "num_domains": "",
+  "single_vs_multi_turn": "Single-Turn",
+  "evaluation_method": "Automated evaluation; Leave-One-Subject-Out (LOSO) cross-validation (84 folds) with subject-level majority voting; metrics: Accuracy, Balanced Accuracy, Sensitivity, Specificity, F1-score, AUC-ROC, Cohen's \u03ba, MCC. No LLMs used \u2014 classifiers are Random Forest and SVM (RBF).",
+  "num_llms_assessed": "0",
+  "llms_evaluated": "None \u2014 study uses traditional ML classifiers (Random Forest, SVM with RBF kernel), not LLMs",
+  "mental_health_conditions": "Schizophrenia",
+  "performance_scores": "Random Forest: Accuracy=90.48% (CI: 83.33\u201396.43%), Balanced Accuracy=90.09%, Sensitivity=95.56%, Specificity=84.62%, F1=91.49%, AUC-ROC=0.9339, Cohen's \u03ba=0.8072, MCC=0.8110. SVM (RBF): Accuracy=79.76%, Sensitivity=82.22%, Specificity=76.92%, F1=81.32%, AUC-ROC=0.8860.",
+  "short_summary": "This paper proposes a Wavelet Scattering Transform (WST) framework for interpretable schizophrenia classification and biomarker discovery from resting-state EEG. It addresses limitations of prior work (epoch-level cross-validation, static spectral features) by using multi-order WST coefficients to capture amplitude modulation and cross-frequency coupling, evaluated under strict Leave-One-Subject-Out cross-validation. Two traditional ML classifiers (Random Forest and SVM) were trained and evaluated on a public Kaggle EEG dataset of 84 adolescent subjects (45 schizophrenia, 39 healthy). SHAP explainability was applied to identify and validate key biomarkers. The Random Forest achieved 90.48% subject-level accuracy (AUC=0.9339, sensitivity=95.56%), with second-order gamma-band scattering coefficients at electrode P3 emerging as the most discriminative features. No LLMs were involved; this is a signal-processing/traditional-ML study on a psychiatric EEG dataset.",
+  "missing_or_uncertain_fields": [
+    "num_llms_assessed \u2014 no LLMs evaluated in this paper",
+    "llms_evaluated \u2014 no LLMs evaluated; study uses Random Forest and SVM only",
+    "open_vs_closed_source \u2014 not applicable (no LLMs tested)",
+    "languages \u2014 not applicable (EEG signal study)"
+  ]
+}

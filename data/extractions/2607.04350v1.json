@@ -1,0 +1,35 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "WPG-MoE: Weak-Prior-Guided Dense Mixture-of-Experts for User-Level Social Media Depression Detection",
+  "paper_link": "http://arxiv.org/abs/2607.04350v1",
+  "open_vs_closed_source": "Mixed",
+  "month_year": "July 2026",
+  "authors": [
+    "Xian Li",
+    "Yuanhe Tian",
+    "Yang Yang",
+    "Guoqing Wang",
+    "Yan Song"
+  ],
+  "institutions": "University of Electronic Science and Technology of China; Zhongguancun Academy; University of Science and Technology of China",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "SWDD: corrected self-report labels (manual audit of self_reported flag); Twitter depression dataset: self-reported user labels; eRisk25: official Task 2 labels. Human evidence-layout labels assigned by trained annotators (blinded, adjudicated) for 360 depressed + 1,800 control users across all three datasets.",
+  "size_of_benchmark": "SWDD: 23,237 users (3,711 dep. / 19,526 ctrl.), ~4M posts; Twitter: 2,491 users (1,218 dep. / 1,273 ctrl.), ~896K posts; eRisk25: 909 users (102 dep. / 807 ctrl.), ~419K posts; Human-labeled diagnostic: 360 dep. + 1,800 ctrl. users; Post-level audit: 702 users / 5,820 posts",
+  "what_assessed_skills": "User-level depression detection from social media post histories; handling heterogeneous evidence layouts (self-disclosure, episode-supported, sparse-evidence, mixed); PHQ-9-guided risk-post screening; mixture-of-experts routing guided by weak clinical priors; cross-dataset generalization",
+  "tasks_assessed": "User-level binary depression classification from social media post histories; evidence-layout diagnostic (slice-level heterogeneity evaluation); cross-dataset transfer; ablation of routing components; controlled mixing experiments",
+  "population_represented": "Social media users (Chinese Weibo/SWDD; English Twitter; English eRisk25); depressed and non-depressed individuals identified via self-report or clinical labels",
+  "languages": "Chinese (SWDD); English (Twitter, eRisk25)",
+  "num_domains": "1",
+  "single_vs_multi_turn": "Single-Turn",
+  "evaluation_method": "Automated evaluation on held-out test sets (80/10/10 stratified split); metrics: Recall, F1, AUROC, AUPRC (5-run mean); human evaluation for evidence-layout annotation (blinded A/B annotation + adjudication by C, Cohen's \u03ba, Krippendorff's \u03b1, raw agreement); Both (Automated + Human)",
+  "num_llms_assessed": "6",
+  "llms_evaluated": "mDeBERTa-v3-base; BERT-base; Qwen3.5-0.8B; Qwen3.5-2B (default backbone); Ministral-3B; Ministral-8B. Offline privileged scorer: Qwen3-max API (training-only, not deployable backbone).",
+  "mental_health_conditions": "Depression",
+  "performance_scores": "WPG-MoE (Qwen3.5-2B, SWDD in-domain): Rec=0.8050, F1=0.7490, AUROC=0.9490, AUPRC=0.8300; Twitter in-domain: Rec=0.8440, F1=0.7630, AUROC=0.9290, AUPRC=0.8520; eRisk25 in-domain: Rec=0.8210, F1=0.7440, AUROC=0.9260, AUPRC=0.7350. Gains over matched Base (Qwen3.5-2B): +0.07 F1, +0.08 AUROC, +0.08 AUPRC across datasets.",
+  "short_summary": "This paper proposes WPG-MoE, a weak-prior-guided dense Mixture-of-Experts framework for user-level depression detection from social media, addressing post-screening evidence heterogeneity. The core insight is that depressed users express risk through heterogeneous evidence layouts (self-disclosure, episode-supported, sparse-evidence, mixed), which a monolithic classifier fails to handle well. WPG-MoE uses PHQ-9-guided screening at inference and LLM-derived structured evidence (Qwen3-max) as training-only privileged routing priors under a Learning Using Privileged Information (LUPI) framework, with five specialized dense experts over a shared LLM backbone. The system is evaluated on three datasets (SWDD/Chinese, Twitter/English, eRisk25/English) using automated metrics (Recall, F1, AUROC, AUPRC) and human evidence-layout annotation (\u03ba=0.707), with both in-domain and cross-dataset transfer protocols. WPG-MoE consistently outperforms seven strong baselines and multiple backbone variants, with the largest gains for sparse-evidence and episode-supported users.",
+  "missing_or_uncertain_fields": [
+    "LLMs evaluated: Qwen3-max is used as the offline Path-A privileged scorer (not as the evaluated/deployable LLM backbone); its role as a 'tested LLM' is ambiguous",
+    "num_llms_assessed: count depends on whether Qwen3-max offline scorer is included; 6 counted as true deployable backbones tested",
+    "Performance scores: full cross-dataset matrix available in paper; only key in-domain results summarized here"
+  ]
+}
