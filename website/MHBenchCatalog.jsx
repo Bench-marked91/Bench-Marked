@@ -170,14 +170,97 @@ function deriveCategory(b) {
   return "General";
 }
 
-// The 6 headline task categories shown on the landing "what it covers" grid.
+// Task taxonomy shown on the landing "what it covers" grid and used as the
+// catalog's category filter. Matches scripts/generate_names.py (TASK_CRITERIA).
 const CATEGORY_INFO = [
-  { name: "Diagnosis", desc: "Can a model reach the correct clinical diagnosis from a case or vignette?" },
-  { name: "Screening & Detection", desc: "Spotting a condition — or its subtype — from text like posts or records." },
-  { name: "Crisis & Safety", desc: "Handling self-harm and crisis disclosures safely and appropriately." },
-  { name: "Psychotherapy Quality", desc: "Counseling skill, empathy, and therapeutic technique." },
-  { name: "Risk Detection", desc: "Identifying and rating clinical risk from what a person says." },
-  { name: "Medical Knowledge", desc: "Psychiatric exams, question-answering, and factual knowledge." },
+  { name: "Knowledge & Board Exams", desc: "Declarative clinical knowledge tested via MCQ / OSCE / board-prep items." },
+  { name: "Diagnostic Reasoning", desc: "Case vignette → diagnosis, differential, or clinical reasoning." },
+  { name: "Risk & Crisis Response", desc: "Detect suicide / self-harm / crisis and respond safely; triage." },
+  { name: "Therapeutic Conversation & Counseling", desc: "Quality of multi-turn counseling / psychotherapy dialogue." },
+  { name: "Clinical Documentation & Extraction", desc: "Classify or extract from real clinical records." },
+  { name: "Symptom Detection & Severity Assessment", desc: "Infer presence / severity from speech, interview, or text." },
+  { name: "Patient Communication & Education", desc: "Quality / reliability / readability of patient-facing answers." },
+  { name: "Safety, Bias & Robustness", desc: "Bias, hallucination, and guardrail behavior." },
+];
+const TASK_ORDER = CATEGORY_INFO.map((c) => c.name);
+
+// The 7-domain weighted benchmark-evaluation rubric (see Benchmark Evaluation
+// Methodology). `groups` = additive checklist items; `scale` = pick-one levels.
+const RUBRIC_DOMAINS = [
+  {
+    name: "Safety", weight: 30, range: "0–8",
+    why: "A model can score well on knowledge or accuracy while still producing responses that are harmful in a clinical setting — especially around suicidal ideation, psychosis, self-harm, and crisis. Safety carries the highest weight because detecting harmful model behavior is the strongest signal of a benchmark's value.",
+    groups: [
+      { label: "Clinical safety (0–3)", items: [
+        ["Evaluates recognition of crisis or high-risk mental-health situations", 1],
+        ["Evaluates appropriateness of response, escalation, resources, and non-reinforcement of harmful content (must ask more than simple crisis recognition + referral)", 1],
+        ["Evaluates demographic, racial, cultural, or other clinically relevant bias", 1],
+      ] },
+      { label: "Functional safety (0–4)", items: [
+        ["Evaluates reliability / consistency across repeated or similar queries", 1],
+        ["Evaluates hallucination or fabrication (made-up information, not merely flawed reasoning)", 1],
+        ["Evaluates robustness to adversarial, misleading, or boundary-testing inputs", 1],
+        ["Evaluates privacy, confidentiality, or inappropriate information disclosure", 1],
+      ] },
+    ],
+  },
+  {
+    name: "Clinical Focus", weight: 25, range: "0–2",
+    why: "Rewards benchmarks that evaluate performance relevant to real mental-health care rather than general knowledge.",
+    scale: [
+      [2, "Evaluates a clinical workflow, patient interaction, or decision spanning multiple psychiatric tasks — clinically meaningful utility or patient-centered benefit/harm"],
+      [1, "Tests a single clinical task (diagnosis, risk assessment, treatment selection, therapeutic response)"],
+      [0, "Tests theoretical neuroscience / psychiatric / mental-health knowledge"],
+    ],
+  },
+  {
+    name: "Ground Truth Quality", weight: 15, range: "0–3",
+    why: "A benchmark is only as strong as the reference standard its answers are checked against.",
+    scale: [
+      [3, "Independent multi-expert consensus (2+)"],
+      [2, "Qualified study team or a single qualified human expert"],
+      [1, "Existing reference dataset with documented provenance"],
+      [0, "LLM-generated or unclear ground truth without expert verification"],
+    ],
+  },
+  {
+    name: "Evaluation Method", weight: 10, range: "0–3",
+    why: "How the outputs are scored — related to but distinct from the reference standard. Objective tasks (e.g. MCQ accuracy) are not penalized for lacking human review.",
+    scale: [
+      [3, "Multiple qualified human evaluators with a rubric and agreement / adjudication"],
+      [2, "One qualified human evaluator"],
+      [1, "LLM judge validated or calibrated against human judgment"],
+      [0, "Unvalidated LLM judge or unclear subjective scoring"],
+    ],
+  },
+  {
+    name: "Population Represented", weight: 10, range: "0–3",
+    why: "Whether the benchmark reflects the patients and situations seen in real mental-health care, which drives generalizability.",
+    scale: [
+      [3, "Diverse real clinical population — complex / high-risk / comorbid cases, multisite, or explicit subgroup evaluation"],
+      [2, "Real patient-derived data from a narrow population or single setting"],
+      [1, "Curated or simulated cases, textbook cases, or synthetic personas"],
+      [0, "Population unspecified or entirely generic LLM-generated personas"],
+    ],
+  },
+  {
+    name: "Interaction Structure", weight: 5, range: "0–1",
+    why: "Multi-turn interaction better simulates psychiatric interviews and therapy, though single-turn is appropriate for many valid tasks (classification, risk prediction, note analysis).",
+    scale: [
+      [1, "Includes genuinely context-dependent multi-turn interaction"],
+      [0, "Single-turn only"],
+    ],
+  },
+  {
+    name: "Benchmark Size", weight: 5, range: "0–3",
+    why: "Scored by statistical power — how small a performance gap between models the item count can reliably detect (80% power, two-sided α = 0.05).",
+    scale: [
+      [3, "39,200+ items — detects ~1-point differences (large power)"],
+      [2, "1,600–39,199 items — detects ~5-point differences (moderate)"],
+      [1, "400–1,599 items — detects ~10-point differences (small)"],
+      [0, "Fewer than 400 items — cannot reliably detect a 10-point difference"],
+    ],
+  },
 ];
 
 // FAQ content (from PLAN.md / TEAM-SUMMARY.md).
@@ -588,6 +671,19 @@ function Footer({ go }) {
   );
 }
 
+// Logo that loads an image from website/logos/, falling back to a styled
+// wordmark if the file isn't present yet.
+function Logo({ src, name, h = 32, color }) {
+  const [err, setErr] = useState(false);
+  if (err) {
+    return <span style={{ fontFamily: FONT_SERIF, fontWeight: 700, fontSize: 17, letterSpacing: "-.01em", color: color || C.ink }}>{name}</span>;
+  }
+  return (
+    <img src={src} alt={name} onError={() => setErr(true)}
+      style={{ height: h, width: "auto", maxWidth: 180, objectFit: "contain", display: "block" }} />
+  );
+}
+
 /* ------------------------------------------------------------------ *
  *  PAGE 1 — Landing
  * ------------------------------------------------------------------ */
@@ -690,18 +786,32 @@ function LandingPage({ go, data }) {
         </div>
       </section>
 
-      {/* About */}
+      {/* About — the people behind the project */}
       <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0", display: "grid", gridTemplateColumns: "0.7fr 1.3fr", gap: 40 }}>
-        <SectionLabel>About the project</SectionLabel>
+        <div>
+          <SectionLabel>About the project</SectionLabel>
+          <div style={{ marginTop: 30 }}>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: C.muted, marginBottom: 20 }}>
+              With support from
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 24 }}>
+              <Logo src="./logos/mdplus.png" name="MDplus" h={30} color="#0A2472" />
+              <Logo src="./logos/stanford.png" name="Stanford" h={50} color="#8C1515" />
+              <Logo src="./logos/google.png" name="Google" h={30} />
+            </div>
+          </div>
+        </div>
         <div>
           <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", lineHeight: 1.08, margin: 0 }}>
-            A living index, kept current automatically — graded by people.
+            Built by medical students, guided by clinicians.
           </h2>
           <p style={{ fontSize: 16, lineHeight: 1.65, color: C.muted, marginTop: 20, maxWidth: 640 }}>
-            New papers are found automatically from arXiv, PubMed, and medRxiv, filtered for relevance, and
-            their key facts extracted into a consistent schema — models, tasks, size, metrics. The part that
-            needs expertise — judging benchmark quality — stays with human reviewers. The result is a catalog
-            that keeps itself current without losing editorial judgment.
+            Everything here — the website, the benchmark-evaluation rubric, and the sorting, naming, and
+            runnable-benchmark systems — was created by <b>four medical students</b> through the{" "}
+            <b>MDplus Catalysis Fellowship</b>.
+          </p>
+          <p style={{ fontSize: 16, lineHeight: 1.65, color: C.muted, marginTop: 14, maxWidth: 640 }}>
+            The project is mentored by <b>Dr. Havlik</b> (Stanford) and <b>Dr. Kwon</b>.
           </p>
         </div>
       </section>
@@ -816,6 +926,36 @@ function StepMedia({ src }) {
   );
 }
 
+function CritRow({ text, pts, additive }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", gap: 14, padding: "9px 0", borderTop: `1px solid ${C.line}`, fontSize: 13.5 }}>
+      <span style={{ color: C.ink, lineHeight: 1.45 }}>{text}</span>
+      <span style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.muted, flexShrink: 0 }}>{additive ? "+" : ""}{pts}</span>
+    </div>
+  );
+}
+
+function RubricDomain({ d }) {
+  return (
+    <div style={{ padding: "26px 0", borderTop: `1px solid ${C.line}` }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
+        <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 600, letterSpacing: "-.02em", margin: 0 }}>{d.name}</h3>
+        <span style={{ fontFamily: FONT_MONO, fontSize: 11, fontWeight: 700, color: "#fff", background: C.ink, borderRadius: 999, padding: "3px 10px" }}>{d.weight}%</span>
+        <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.muted }}>raw {d.range}</span>
+      </div>
+      <p style={{ fontSize: 14.5, lineHeight: 1.6, color: C.muted, margin: "12px 0 12px", maxWidth: 660 }}>{d.why}</p>
+      {d.groups
+        ? d.groups.map((g) => (
+            <div key={g.label} style={{ marginTop: 12 }}>
+              <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".06em", textTransform: "uppercase", color: C.accent, marginBottom: 2 }}>{g.label}</div>
+              {g.items.map(([text, pts], i) => <CritRow key={i} text={text} pts={pts} additive />)}
+            </div>
+          ))
+        : <div>{d.scale.map(([pts, text], i) => <CritRow key={i} text={text} pts={pts} />)}</div>}
+    </div>
+  );
+}
+
 function MethodPage({ go, data }) {
   const example = data.find((b) => b.score.tier) || data.find((b) => b.overallGrade) || data[0];
 
@@ -854,86 +994,70 @@ function MethodPage({ go, data }) {
         </div>
       </div>
 
-      {/* Rubric detail (light) */}
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 24px 20px" }}>
+      {/* Rubric detail (light) — the 7-domain weighted methodology */}
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px 24px" }}>
         <section style={{ padding: "56px 0 8px" }}>
           <SectionLabel>The rigor rubric</SectionLabel>
-          <h2 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(26px, 3.4vw, 40px)", lineHeight: 1.08, letterSpacing: "-.03em", margin: "12px 0 0" }}>
-            How we rate rigor (draft)
+          <h2 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(26px, 3.4vw, 42px)", lineHeight: 1.06, letterSpacing: "-.03em", margin: "12px 0 0" }}>
+            How we score a benchmark's rigor
           </h2>
-          <p style={{ fontSize: 15.5, color: C.muted, lineHeight: 1.55, margin: "16px 0 0", maxWidth: 660 }}>
-            Each benchmark shows a provisional rigor tier — <TierWord t="strong" />, <TierWord t="moderate" />,
-            or <TierWord t="limited" /> — computed from the draft rubric below. It's a placeholder until the
-            team's human appraisal is filled in; benchmarks without enough data are shown as <b>Unrated</b>.
+          <p style={{ fontSize: 15.5, color: C.muted, lineHeight: 1.6, margin: "18px 0 0", maxWidth: 680 }}>
+            The rubric was built from a structured PubMed review of mental-health LLM benchmarks (112 papers
+            screened → 40 reviewed) together with the project's focus on clinical utility and patient safety.
+            It scores each benchmark across <b>seven weighted domains</b>, deliberately emphasizing <b>safety</b> and
+            <b> clinical relevance</b> over raw methodology and scope. Each domain's raw score is normalized and combined
+            by weight into a final <b>score from 0 to 100</b> — higher means stronger.
           </p>
-          <div style={{ marginTop: 16, border: `1px solid ${C.line}`, borderLeft: `3px solid ${C.accent}`, background: "#F1EADB", borderRadius: 8, padding: "12px 16px", fontSize: 13, color: C.ink }}>
-            <strong style={{ fontFamily: FONT_SANS, fontSize: 11, fontWeight: 700, color: C.accent, letterSpacing: ".06em" }}>DRAFT</strong>
-            <span style={{ marginLeft: 8 }}>Thresholds and weights are not final. A tier is only assigned when at least {MIN_KNOWN} of the {RUBRIC.length} dimensions have data.</span>
-          </div>
         </section>
 
-      <section style={{ padding: "26px 0" }}>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: 22, fontWeight: 600, margin: "0 0 4px" }}>The dimensions</h2>
-        <p style={{ fontSize: 14, color: C.muted, margin: "0 0 16px" }}>
-          Each scores <b>2</b>, <b>1</b>, or <b>0</b> when data is present; the tier comes from the average across known dimensions.
-        </p>
-        <div style={{ border: `1px solid ${C.line}`, borderRadius: 12, overflow: "hidden" }}>
-          {RUBRIC.map((r, i) => (
-            <div key={r.key} style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "12px 16px", background: i % 2 ? C.paper : C.surface, fontSize: 13.5 }}>
-              <span style={{ fontWeight: 600 }}>{r.dim}</span>
-              <span style={{ color: C.muted, textAlign: "right", maxWidth: 440 }}>{r.why}</span>
+        {/* Weights at a glance */}
+        <section style={{ padding: "8px 0 4px" }}>
+          <div style={{ border: `1px solid ${C.line}`, borderRadius: 8, overflow: "hidden" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 14, padding: "10px 16px", background: C.ink, color: "#EDE7DA", fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".06em", textTransform: "uppercase" }}>
+              <span>Domain</span><span style={{ textAlign: "right" }}>Weight</span><span style={{ textAlign: "right", minWidth: 44 }}>Raw</span>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {example && example.score.tier && (
-        <section style={{ padding: "8px 0 26px" }}>
-          <h2 style={{ fontFamily: FONT_SERIF, fontSize: 22, fontWeight: 600, margin: "0 0 10px" }}>Worked example</h2>
-          <p style={{ fontSize: 14, color: C.ink, lineHeight: 1.55, margin: "0 0 14px" }}>
-            Scoring <b style={{ fontFamily: FONT_SERIF }}>{example.name}</b> on the dimensions that have data:
-          </p>
-          <div style={{ border: `1px solid ${C.line}`, borderRadius: 12, overflow: "hidden" }}>
-            {RUBRIC.map((r, i) => {
-              const s = example.score.per[r.key];
-              const tier = !s.known ? null : s.pts === 2 ? "strong" : s.pts === 1 ? "moderate" : "limited";
-              return (
-                <div key={r.key} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "9px 14px", background: i % 2 ? C.paper : C.surface, fontSize: 13 }}>
-                  <span style={{ color: C.muted }}>{r.dim}</span>
-                  {s.known ? (
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                      <Ticks tier={tier} />
-                      <span style={{ fontFamily: FONT_MONO, fontSize: 12, color: TIER[tier].color, minWidth: 14, textAlign: "right" }}>{s.pts}</span>
-                    </span>
-                  ) : (
-                    <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.muted }}>no data</span>
-                  )}
-                </div>
-              );
-            })}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "11px 14px", background: C.brand, color: "#EDE7DA" }}>
-              <span style={{ fontFamily: FONT_MONO, fontSize: 12, letterSpacing: ".04em" }}>
-                {example.score.total}/{example.score.maxKnown} across {example.score.knownCount} known → {TIER[example.score.tier].label.toUpperCase()}
-              </span>
-              <Ticks tier={example.score.tier} />
+            {RUBRIC_DOMAINS.map((d, i) => (
+              <div key={d.name} style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 14, padding: "10px 16px", background: i % 2 ? C.paper : C.surface, fontSize: 13.5, alignItems: "center" }}>
+                <span style={{ fontWeight: 600 }}>{d.name}</span>
+                <span style={{ fontFamily: FONT_MONO, color: C.ink, textAlign: "right" }}>{d.weight}%</span>
+                <span style={{ fontFamily: FONT_MONO, color: C.muted, textAlign: "right", minWidth: 44 }}>{d.range}</span>
+              </div>
+            ))}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 14, padding: "10px 16px", borderTop: `2px solid ${C.line}`, fontSize: 13.5, fontWeight: 700 }}>
+              <span>Total</span><span style={{ fontFamily: FONT_MONO, textAlign: "right" }}>100%</span><span></span>
             </div>
           </div>
         </section>
-      )}
 
-      <section style={{ borderTop: `1px solid ${C.line}`, padding: "24px 0 48px" }}>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: 22, fontWeight: 600, margin: "0 0 12px" }}>Open questions</h2>
-        <ul style={{ fontSize: 14, color: C.muted, lineHeight: 1.6, paddingLeft: 18, margin: 0 }}>
-          <li>Should construct validity be weighted more heavily than the others?</li>
-          <li>What sample-size thresholds make sense across different task types?</li>
-          <li>How should multilingual / non-English coverage factor in?</li>
-          <li>When does the team's human appraisal grade replace the provisional tier entirely?</li>
-        </ul>
-        <div style={{ marginTop: 20 }}>
-          <GhostButton onClick={() => go("catalog")}>See the rubric applied in the catalog <ArrowRight size={14} /></GhostButton>
-        </div>
-      </section>
-    </div>
+        {/* Per-domain detail */}
+        <section style={{ padding: "20px 0 0" }}>
+          {RUBRIC_DOMAINS.map((d) => <RubricDomain key={d.name} d={d} />)}
+        </section>
+
+        {/* Scoring formula */}
+        <section style={{ padding: "30px 0" }}>
+          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 600, letterSpacing: "-.02em", margin: "0 0 10px" }}>Turning raw scores into a 0–100 score</h3>
+          <p style={{ fontSize: 14.5, lineHeight: 1.6, color: C.muted, margin: 0, maxWidth: 660 }}>
+            Because the domains have different maximum raw scores, each is normalized before combining — so a
+            domain's influence comes from its weight, not from how many points it happens to offer.
+          </p>
+          <div style={{ marginTop: 14, border: `1px solid ${C.line}`, background: C.paper, borderRadius: 8, padding: "14px 16px", fontFamily: FONT_MONO, fontSize: 13, color: C.ink, lineHeight: 1.8 }}>
+            weighted<sub>domain</sub> = (raw ÷ max&nbsp;raw) × weight<br />
+            final score = Σ weighted<sub>domain</sub>&nbsp;&nbsp;→&nbsp;&nbsp;0 to 100
+          </div>
+        </section>
+
+        {/* Note + CTA */}
+        <section style={{ borderTop: `1px solid ${C.line}`, padding: "22px 0 48px" }}>
+          <div style={{ border: `1px solid ${C.line}`, borderLeft: `3px solid ${C.accent}`, background: "#F1EADB", borderRadius: 8, padding: "12px 16px", fontSize: 13, color: C.ink, lineHeight: 1.55 }}>
+            <strong style={{ fontFamily: FONT_SANS, fontSize: 11, fontWeight: 700, color: C.accent, letterSpacing: ".06em" }}>NOTE</strong>
+            <span style={{ marginLeft: 8 }}>Scores under this rubric are assigned by expert review. The provisional Strong / Moderate / Limited badges on the cards are an automatic estimate and will be replaced by this rubric's 0–100 score as scoring is completed.</span>
+          </div>
+          <div style={{ marginTop: 20 }}>
+            <GhostButton onClick={() => go("catalog")}>See the benchmarks <ArrowRight size={14} /></GhostButton>
+          </div>
+        </section>
+      </div>
     </>
   );
 }
@@ -968,16 +1092,18 @@ function CatalogPage({ data, error }) {
 
   const q = query.trim().toLowerCase();
 
-  // Distinct categories present in the data (for the "filter by category" menu).
+  // Task tags present in the data, shown in the taxonomy order (menu = "filter by category").
   const categories = useMemo(() => {
-    const counts = {};
-    data.forEach((b) => { const c = deriveCategory(b); counts[c] = (counts[c] || 0) + 1; });
-    return Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+    const present = new Set();
+    data.forEach((b) => (b.tasks || []).forEach((t) => present.add(t)));
+    const ordered = TASK_ORDER.filter((t) => present.has(t));
+    const extra = [...present].filter((t) => !TASK_ORDER.includes(t)).sort();
+    return [...ordered, ...extra];
   }, [data]);
 
   const visible = useMemo(() => {
     let rows = data;
-    if (catFilter) rows = rows.filter((b) => deriveCategory(b) === catFilter);
+    if (catFilter) rows = rows.filter((b) => (b.tasks || []).includes(catFilter));
     if (q) {
       rows = rows.filter((b) =>
         [b.name, b.measures, b.authors, b.groundTruth, b.population, b.venue]

@@ -5,8 +5,8 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Clinical Reasoning",
-   "Medical Knowledge / Exam"
+   "Diagnostic Reasoning",
+   "Knowledge & Board Exams"
   ],
   "fullTitle": "PsychiatryBench"
  },
@@ -16,8 +16,9 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Psychotherapy Quality",
-   "Crisis & Safety"
+   "Therapeutic Conversation & Counseling",
+   "Patient Communication & Education",
+   "Safety, Bias & Robustness"
   ],
   "fullTitle": "CounselBench"
  },
@@ -28,10 +29,11 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Medical Knowledge / Exam",
-   "Diagnosis",
-   "Crisis & Safety",
-   "Psychotherapy Quality"
+   "Knowledge & Board Exams",
+   "Diagnostic Reasoning",
+   "Therapeutic Conversation & Counseling",
+   "Risk & Crisis Response",
+   "Symptom Detection & Severity Assessment"
   ],
   "fullTitle": "PsyEval"
  },
@@ -41,28 +43,33 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Medical Knowledge / Exam"
+   "Diagnostic Reasoning",
+   "Clinical Documentation & Extraction"
   ],
-  "fullTitle": "MentalBench"
+  "fullTitle": "MentalBench (note: clinical records)"
  },
  "https://www.nature.com/articles/s44277-025-00049-6": {
   "displayName": "MindBench.ai",
   "conditions": [
-   "General / Multi-condition"
+   "General / Multi-condition",
+   "Suicide & Self-Harm"
   ],
   "tasks": [
-   "Clinical Reasoning",
-   "Medical Knowledge / Exam"
+   "Therapeutic Conversation & Counseling",
+   "Diagnostic Reasoning",
+   "Risk & Crisis Response"
   ],
   "fullTitle": "MindBench.ai"
  },
  "https://arxiv.org/abs/2506.01329": {
   "displayName": "PsyCrisisBench",
   "conditions": [
-   "General / Multi-condition"
+   "Depression",
+   "Suicide & Self-Harm"
   ],
   "tasks": [
-   "Crisis & Safety"
+   "Risk & Crisis Response",
+   "Symptom Detection & Severity Assessment"
   ],
   "fullTitle": "PsyCrisisBench"
  },
@@ -72,18 +79,17 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Medical Knowledge / Exam"
+   "Knowledge & Board Exams"
   ],
   "fullTitle": "Psychiatry Test Prep manual"
  },
  "https://arxiv.org/abs/2605.23148": {
-  "displayName": "SCID Dx Benchmark",
+  "displayName": "SCID-Anchored Bench",
   "conditions": [
    "General / Multi-condition"
   ],
   "tasks": [
-   "Diagnosis",
-   "Clinical Reasoning"
+   "Diagnostic Reasoning"
   ],
   "fullTitle": "SCID-anchored benchmark"
  },
@@ -93,8 +99,7 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Clinical Reasoning",
-   "Bias & Equity"
+   "Safety, Bias & Robustness"
   ],
   "fullTitle": "VERA-MH"
  },
@@ -104,19 +109,18 @@
    "Depression"
   ],
   "tasks": [
-   "Screening",
-   "Psychometrics"
+   "Symptom Detection & Severity Assessment"
   ],
   "fullTitle": "PHQ-8 Interview Scoring (Lee)"
  },
  "https://pmc.ncbi.nlm.nih.gov/articles/PMC12101789/": {
-  "displayName": "Israeli Board Self-Confidence",
+  "displayName": "Israeli Board Self-Conf.",
   "conditions": [
    "General / Multi-condition"
   ],
   "tasks": [
-   "Medical Knowledge / Exam",
-   "Clinical Reasoning"
+   "Knowledge & Board Exams",
+   "Safety, Bias & Robustness"
   ],
   "fullTitle": "Israeli Board Self-Confidence"
  },
@@ -126,7 +130,7 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Medical Knowledge / Exam"
+   "Knowledge & Board Exams"
   ],
   "fullTitle": "Portuguese Board"
  },
@@ -136,8 +140,7 @@
    "Autism / Neurodevelopmental"
   ],
   "tasks": [
-   "Screening",
-   "Psychometrics"
+   "Symptom Detection & Severity Assessment"
   ],
   "fullTitle": "Autism Language Scoring (VABS-II)"
  },
@@ -147,7 +150,8 @@
    "Depression"
   ],
   "tasks": [
-   "Psychotherapy Quality"
+   "Therapeutic Conversation & Counseling",
+   "Safety, Bias & Robustness"
   ],
   "fullTitle": "CAPE"
  },
@@ -157,18 +161,18 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Diagnosis"
+   "Diagnostic Reasoning"
   ],
   "fullTitle": "PsychDx Accuracy (Jin)"
  },
  "https://medinform.jmir.org/2026/1/e86965": {
-  "displayName": "Alzheimer Linguistic Screen",
+  "displayName": "Alzheimer's Ling. Screen",
   "conditions": [
    "Dementia / Cognitive"
   ],
   "tasks": [
-   "Screening",
-   "Diagnosis"
+   "Symptom Detection & Severity Assessment",
+   "Clinical Documentation & Extraction"
   ],
   "fullTitle": "Alzheimer's Linguistic Screen"
  },
@@ -178,8 +182,8 @@
    "Depression"
   ],
   "tasks": [
-   "Screening",
-   "Diagnosis"
+   "Symptom Detection & Severity Assessment",
+   "Clinical Documentation & Extraction"
   ],
   "fullTitle": "Depression Subtype Classification from Tweets"
  },
@@ -189,7 +193,7 @@
    "ADHD"
   ],
   "tasks": [
-   "Clinical Reasoning"
+   "Clinical Documentation & Extraction"
   ],
   "fullTitle": "ADHD Guideline Adherence"
  },
@@ -199,8 +203,8 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Crisis & Safety",
-   "Bias & Equity"
+   "Risk & Crisis Response",
+   "Safety, Bias & Robustness"
   ],
   "fullTitle": "ED MH-Triage"
  },
@@ -210,7 +214,8 @@
    "Suicide & Self-Harm"
   ],
   "tasks": [
-   "Risk Detection"
+   "Clinical Documentation & Extraction",
+   "Risk & Crisis Response"
   ],
   "fullTitle": "EHR Self-Harm Detection"
  },
@@ -220,8 +225,8 @@
    "Personality"
   ],
   "tasks": [
-   "Diagnosis",
-   "Screening"
+   "Symptom Detection & Severity Assessment",
+   "Clinical Documentation & Extraction"
   ],
   "fullTitle": "Role of artificial intelligence in analyzing human behavior and predicting personality traits and personality disorders"
  },
@@ -232,9 +237,9 @@
    "Substance Use"
   ],
   "tasks": [
-   "Risk Detection",
-   "Crisis & Safety",
-   "Clinical Reasoning"
+   "Risk & Crisis Response",
+   "Diagnostic Reasoning",
+   "Therapeutic Conversation & Counseling"
   ],
   "fullTitle": "Psychosocial Risk Vignettes (Suicide/IPV/Substance Use)"
  },
@@ -247,8 +252,8 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Screening",
-   "Risk Detection"
+   "Symptom Detection & Severity Assessment",
+   "Risk & Crisis Response"
   ],
   "fullTitle": "StressSpeak"
  },
@@ -258,29 +263,30 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Crisis & Safety",
-   "Risk Detection"
+   "Risk & Crisis Response",
+   "Therapeutic Conversation & Counseling",
+   "Safety, Bias & Robustness"
   ],
   "fullTitle": "Acute Mental Health Crisis Detection + Response"
  },
  "https://pmc.ncbi.nlm.nih.gov/articles/PMC13263661/": {
-  "displayName": "Early Depression Risk",
+  "displayName": "Early Depression Detector",
   "conditions": [
    "Depression"
   ],
   "tasks": [
-   "Risk Detection",
-   "Screening"
+   "Symptom Detection & Severity Assessment",
+   "Risk & Crisis Response"
   ],
   "fullTitle": "Early Risk Detection for Depression"
  },
  "https://pmc.ncbi.nlm.nih.gov/articles/PMC12910072/": {
-  "displayName": "Medical LLM Diagnostics",
+  "displayName": "Medical LLM Cogn. Diag.",
   "conditions": [
    "General / Multi-condition"
   ],
   "tasks": [
-   "Medical Knowledge / Exam"
+   "Knowledge & Board Exams"
   ],
   "fullTitle": "Fine-grained medical LLM evaluation using non-parametric cognitive diagnostic modeling"
  },
@@ -290,8 +296,8 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Medical Knowledge / Exam",
-   "Clinical Reasoning"
+   "Knowledge & Board Exams",
+   "Diagnostic Reasoning"
   ],
   "fullTitle": "Traditional institutional psychiatry residency assessments"
  },
@@ -301,21 +307,23 @@
    "Dementia / Cognitive"
   ],
   "tasks": [
-   "Screening",
-   "Diagnosis"
+   "Symptom Detection & Severity Assessment",
+   "Diagnostic Reasoning",
+   "Clinical Documentation & Extraction"
   ],
   "fullTitle": "Text Dialogue Analysis for Primary Screening of Mild Cognitive Impairment: Development and Validation Study"
  },
  "https://ai.jmir.org/2025/1/e75030/": {
-  "displayName": "Neurobehavioral Classifier",
+  "displayName": "Neurobehavioral LLM Classifier",
   "conditions": [
    "Autism / Neurodevelopmental",
    "Depression",
    "PTSD / Trauma"
   ],
   "tasks": [
-   "Diagnosis",
-   "Clinical Reasoning"
+   "Diagnostic Reasoning",
+   "Clinical Documentation & Extraction",
+   "Symptom Detection & Severity Assessment"
   ],
   "fullTitle": "Aiding Large Language Models Using Clinical Scoresheets for Neurobehavioral Diagnostic Classification From Text: Algorithm Development and Validation"
  },
@@ -325,8 +333,8 @@
    "General / Multi-condition"
   ],
   "tasks": [
-   "Crisis & Safety",
-   "Risk Detection"
+   "Risk & Crisis Response",
+   "Safety, Bias & Robustness"
   ],
   "fullTitle": "Verily Mental Health Crisis Dataset v1.0 / Verily Mental Health Guardrail evaluation"
  },
@@ -336,53 +344,55 @@
    "Depression"
   ],
   "tasks": [
-   "Psychometrics",
-   "Screening"
+   "Patient Communication & Education"
   ],
   "fullTitle": "Perinatal depression FAQ reliability/readability evaluation"
  },
  "https://pmc.ncbi.nlm.nih.gov/articles/PMC12869570/": {
-  "displayName": "MH Safety Benchmarks",
+  "displayName": "MH Safety Benchmarks x4",
   "conditions": [
    "General / Multi-condition"
   ],
   "tasks": [
-   "Crisis & Safety",
-   "Bias & Equity"
+   "Safety, Bias & Robustness",
+   "Risk & Crisis Response"
   ],
   "fullTitle": "4 LLM Mental Health Safety Benchmarks"
  },
  "https://pmc.ncbi.nlm.nih.gov/articles/PMC12694945/": {
-  "displayName": "CAPE-II Youth Chatbot",
+  "displayName": "CAPE-II",
   "conditions": [
    "Anxiety",
    "Depression"
   ],
   "tasks": [
-   "Screening",
-   "Psychotherapy Quality"
+   "Therapeutic Conversation & Counseling",
+   "Safety, Bias & Robustness",
+   "Symptom Detection & Severity Assessment"
   ],
   "fullTitle": "CAPE-II evaluation of GenAI psychotherapy chatbots used by youth"
  },
  "https://pmc.ncbi.nlm.nih.gov/articles/PMC13138846/": {
-  "displayName": "eConsult Template Bench",
+  "displayName": "Clinical Consult Templates",
   "conditions": [
    "General / Multi-condition"
   ],
   "tasks": [
-   "Clinical Reasoning"
+   "Clinical Documentation & Extraction",
+   "Knowledge & Board Exams"
   ],
   "fullTitle": "Asking the Right Questions: Benchmarking Large Language Models in the Development of Clinical Consultation Templates"
  },
  "clpsych-2017-reachout-risk-classificatio-36": {
-  "displayName": "CLPsych 2017 ReachOut",
+  "displayName": "CLPsych 2017 Risk Triage",
   "conditions": [
    "Suicide & Self-Harm",
    "General / Multi-condition"
   ],
   "tasks": [
-   "Risk Detection",
-   "Screening"
+   "Risk & Crisis Response",
+   "Symptom Detection & Severity Assessment",
+   "Clinical Documentation & Extraction"
   ],
   "fullTitle": "CLPsych 2017 ReachOut risk classification benchmark / Transfer learning for risk classification of social media posts"
  },
@@ -390,57 +400,53 @@
   "displayName": "Chinese MH Text Classifier",
   "conditions": [
    "Suicide & Self-Harm",
-   "General / Multi-condition"
+   "Depression"
   ],
   "tasks": [
-   "Risk Detection",
-   "Screening"
+   "Symptom Detection & Severity Assessment",
+   "Risk & Crisis Response",
+   "Clinical Documentation & Extraction"
   ],
   "fullTitle": "Supervised Learning and Large Language Model Benchmarks on Mental Health Datasets: Cognitive Distortions and Suicidal Risks in Chinese Social Media"
  },
  "https://pubmed.ncbi.nlm.nih.gov/41875403/": {
-  "displayName": "CapyEngine Diagnostic",
+  "displayName": "CapyEngine",
   "conditions": [
    "General / Multi-condition"
   ],
   "tasks": [
-   "Diagnosis",
-   "Clinical Reasoning"
+   "Diagnostic Reasoning",
+   "Knowledge & Board Exams"
   ],
   "fullTitle": "Large Language Model-Powered Diagnostic Co-Pilot (\"CapyEngine\") for Mental Disorders: Development, Evaluation, and Future Optimization Study"
  },
  "https://pmc.ncbi.nlm.nih.gov/articles/PMC11974973/#R4": {
-  "displayName": "LLM Psych Trait Encoding",
+  "displayName": "LLM Genetic Psych Alignment",
   "conditions": [
-   "Personality",
    "General / Multi-condition"
   ],
   "tasks": [
-   "Psychometrics"
+   "Safety, Bias & Robustness"
   ],
   "fullTitle": "Encoding of pretrained large language models mirrors the genetic architectures of human psychological traits"
  },
  "https://pmc.ncbi.nlm.nih.gov/articles/PMC11040439/": {
-  "displayName": "LLM Values Alignment",
+  "displayName": "LLM Human Values Alignment",
   "conditions": [
-   "Well-Being",
    "General / Multi-condition"
   ],
   "tasks": [
-   "Bias & Equity",
-   "Psychometrics"
+   "Safety, Bias & Robustness"
   ],
   "fullTitle": "Assessing the Alignment of Large Language Models With Human Values for Mental Health Integration: Cross-Sectional Study Using Schwartz's Theory of Basic Values"
  },
  "https://www.sciencedirect.com/science/article/pii/S1532046425001285": {
   "displayName": "Incoherent Speech Detector",
   "conditions": [
-   "Psychosis / Schizophrenia",
-   "Dementia / Cognitive"
+   "Psychosis / Schizophrenia"
   ],
   "tasks": [
-   "Screening",
-   "Diagnosis"
+   "Symptom Detection & Severity Assessment"
   ],
   "fullTitle": "Perplexity and proximity: Large language model perplexity complements semantic distance metrics for the detection of incoherent speech"
  }

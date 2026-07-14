@@ -40,11 +40,19 @@ CONDITIONS = [
     "Substance Use", "Eating Disorders", "ADHD", "Personality", "Well-Being",
     "General / Multi-condition",
 ]
-TASKS = [
-    "Diagnosis", "Screening", "Clinical Reasoning", "Risk Detection", "Crisis & Safety",
-    "Psychotherapy Quality", "Emotion Recognition", "Psychometrics",
-    "Medical Knowledge / Exam", "Bias & Equity",
+# Task taxonomy (fixed) + the criteria for assigning each. A study is tagged with
+# the task(s) whose criteria its evaluation actually matches.
+TASK_CRITERIA = [
+    ("Knowledge & Board Exams", "declarative clinical knowledge tested via MCQ / OSCE / board-prep items"),
+    ("Diagnostic Reasoning", "case vignette -> diagnosis, differential, or clinical reasoning"),
+    ("Risk & Crisis Response", "detect suicide / self-harm / crisis and respond safely; triage"),
+    ("Therapeutic Conversation & Counseling", "quality of multi-turn counseling / psychotherapy dialogue"),
+    ("Clinical Documentation & Extraction", "classify / extract from real clinical records"),
+    ("Symptom Detection & Severity Assessment", "infer presence / severity from speech, interview, or text"),
+    ("Patient Communication & Education", "quality / reliability / readability of patient-facing answers"),
+    ("Safety, Bias & Robustness", "bias, hallucination, guardrail behavior"),
 ]
+TASKS = [name for name, _ in TASK_CRITERIA]
 
 SYSTEM = f"""You name mental-health AI benchmarks for a public catalog, following these rules.
 
@@ -52,10 +60,10 @@ DISPLAY NAME:
 - If the authors gave the benchmark a real name (e.g. "PsychiatryBench", "VERA-MH"), use it EXACTLY.
 - Otherwise coin a short, descriptive label of 1-3 words, <= ~25 characters (e.g. "Alzheimer Predictor", "Crisis Handler"). Be specific and human, NOT citation style ("Hsu et al."), NOT the full title.
 
-TAGS (multiple allowed per dimension):
-- Condition = the mental-health area(s). Prefer this vocab: {", ".join(CONDITIONS)}.
-- Task = what the benchmark actually tests. Prefer this vocab: {", ".join(TASKS)}.
-- Choose ALL that genuinely apply (usually 1-2 each). Use "General / Multi-condition" only when it truly spans many conditions. If nothing in the vocab fits, add the closest short term.
+CONDITION TAGS (multiple allowed) = the mental-health area(s). Prefer this vocab: {", ".join(CONDITIONS)}. Use "General / Multi-condition" only when it truly spans many conditions.
+
+TASK TAGS (choose from THIS fixed list only — do not invent new task names). A study MAY and often DOES belong to several tasks: tag it with EVERY task whose criteria its evaluation genuinely matches — there is no cap, do not force a single best fit. Only leave a task out if the study does not actually evaluate it (don't over-tag with tasks it doesn't test). Criteria:
+""" + "\n".join(f"- {name}: {desc}" for name, desc in TASK_CRITERIA) + """
 
 Call the save_names tool with one entry per study, echoing its index."""
 
