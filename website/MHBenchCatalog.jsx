@@ -367,10 +367,74 @@ function hashToPage() {
   return "landing";
 }
 
+/* ------------------------------------------------------------------ *
+ *  Access gate — confidential beta agreement (shown before the site).
+ *  TEMPLATE TEXT, NOT LEGAL ADVICE — have counsel review before launch.
+ *  Edit the placeholders below. Bump TERMS_KEY to re-prompt everyone.
+ * ------------------------------------------------------------------ */
+const TERMS_KEY = "mhbench_terms_v1";
+const TERMS_OWNER = "the MDplus Catalysis Fellowship team"; // TODO: confirm the copyright/IP owner
+const TERMS_CONTACT = "[contact email]";                    // TODO: add a contact email
+const TERMS_JURISDICTION = "";                              // e.g. "the State of California, USA" (blank hides it)
+
+function AgreementGate({ onAccept }) {
+  const [checked, setChecked] = useState(false);
+  const accept = () => {
+    try { localStorage.setItem(TERMS_KEY, "yes"); } catch (e) { /* ignore */ }
+    onAccept();
+  };
+  const hasContact = TERMS_CONTACT && TERMS_CONTACT[0] !== "[";
+  const h3 = { fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 600, color: "#EDEBE4", margin: "0 0 6px", letterSpacing: "-.01em" };
+  const p = { fontSize: 13, lineHeight: 1.6, color: "#B7B2A8", margin: 0 };
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "#0C0B0A", color: "#EDEBE4", display: "flex", alignItems: "center", justifyContent: "center", overflow: "auto", padding: "32px 20px" }}>
+      <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
+      <div style={{ position: "relative", width: "min(640px, 100%)", background: "rgba(18,17,13,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(237,235,228,.14)", borderRadius: 10, padding: "clamp(24px, 4vw, 40px)", maxHeight: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 14 }}>Confidential Beta · Access Agreement</div>
+        <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(28px, 4vw, 40px)", letterSpacing: "-.03em", lineHeight: 1.02, margin: 0 }}>Before you enter</h1>
+        <p style={{ fontSize: 14, color: "#B7B2A8", lineHeight: 1.55, margin: "14px 0 0" }}>
+          Access to this site is by invitation only and subject to the terms below. Please read them before continuing.
+        </p>
+        <div style={{ marginTop: 18, overflowY: "auto", display: "flex", flexDirection: "column", gap: 18, borderTop: "1px solid rgba(237,235,228,.12)", borderBottom: "1px solid rgba(237,235,228,.12)", padding: "18px 8px 18px 0" }}>
+          <div>
+            <div style={h3}>1 · Confidential, invitation-only access</div>
+            <p style={p}>This website and all of its contents — including the benchmark catalog, evaluation rubric and scores, methodology, compiled data, and any unpublished materials (collectively, the “Confidential Materials”) — are provided to you on a strictly confidential, invitation-only basis. By accessing the site you agree to (a) hold the Confidential Materials in strict confidence; (b) not disclose, publish, present, distribute, screenshot, reproduce, or otherwise share them, in whole or in part, with any third party; and (c) use them solely to review and provide feedback on this project. These obligations continue until the materials are released publicly by the project owners in writing.</p>
+          </div>
+          <div>
+            <div style={h3}>2 · Work in progress; no warranty; not medical advice</div>
+            <p style={p}>This is an early-stage, in-development prototype provided “AS IS” and “AS AVAILABLE,” without warranties of any kind, whether express or implied, including any warranty of accuracy or fitness for a particular purpose. Content is preliminary and may be incomplete, inaccurate, or changed or removed at any time without notice. Nothing on this site is medical, clinical, psychiatric, diagnostic, or professional advice, and it must not be used to make clinical or treatment decisions; it is not a medical device. If you or someone else may be in crisis, contact local emergency services or a crisis line (in the U.S., call or text 988). To the maximum extent permitted by law, the project owners and their affiliated individuals and institutions disclaim all liability arising from your access to or use of the site.</p>
+          </div>
+          <div>
+            <div style={h3}>3 · Copyright &amp; intellectual property</div>
+            <p style={p}>© 2026 {TERMS_OWNER}. All rights reserved. All original content, source code, design, text, the evaluation rubric, and compiled data are the intellectual property of their respective owners and are protected by copyright and other laws. You may not copy, reproduce, distribute, modify, create derivative works from, data-mine, scrape, or reverse-engineer any part of the site without prior written permission. Third-party materials referenced in the catalog — including research papers, datasets, model names, and the names, trademarks, and logos of third parties (such as MDplus, Stanford, and Google) — remain the property of their respective owners and are used for identification and reference only; no affiliation, sponsorship, or endorsement is implied.</p>
+          </div>
+          <div>
+            <div style={h3}>4 · Acceptance</div>
+            <p style={p}>By checking the box below and selecting “I accept &amp; enter,” you acknowledge that you have read, understood, and agree to be bound by these terms{TERMS_JURISDICTION ? `, which are governed by the laws of ${TERMS_JURISDICTION}` : ""}. If you do not agree, do not access or use the site.{hasContact ? ` Questions: ${TERMS_CONTACT}.` : ""}</p>
+          </div>
+        </div>
+        <label style={{ display: "flex", gap: 10, alignItems: "flex-start", marginTop: 18, cursor: "pointer", fontSize: 13.5, color: "#EDEBE4", lineHeight: 1.5 }}>
+          <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} style={{ marginTop: 3, flexShrink: 0 }} />
+          <span>I have read and accept the confidentiality agreement, the work-in-progress disclaimer, and the copyright &amp; intellectual-property terms above.</span>
+        </label>
+        <div style={{ marginTop: 18 }}>
+          <button onClick={accept} disabled={!checked} style={{ background: checked ? C.lime : "rgba(237,235,228,.15)", color: checked ? C.ink : "rgba(237,235,228,.5)", border: "none", borderRadius: 999, padding: "12px 28px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: checked ? "pointer" : "not-allowed" }}>
+            I accept &amp; enter →
+          </button>
+        </div>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, color: "#6f6b62", marginTop: 16 }}>Confidential — do not distribute · v1</div>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [page, setPage] = useState(hashToPage());
   const [data, setData] = useState(null);   // null = loading
   const [error, setError] = useState(null);
+  const [accepted, setAccepted] = useState(() => {
+    try { return localStorage.getItem(TERMS_KEY) === "yes"; } catch (e) { return false; }
+  });
 
   useEffect(() => {
     const onHash = () => setPage(hashToPage());
@@ -470,6 +534,10 @@ export default function App() {
         }
       `}</style>
 
+      {!accepted ? (
+        <AgreementGate onAccept={() => setAccepted(true)} />
+      ) : (
+        <>
       <div style={(page === "landing" || page === "method")
         ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "linear-gradient(to bottom, rgba(11,10,9,.62), rgba(11,10,9,0))" }
         : { position: "sticky", top: 0, zIndex: 40 }}>
@@ -487,6 +555,8 @@ export default function App() {
           {page === "method" && <MethodPage go={go} data={data} />}
           {page === "catalog" && <CatalogPage data={data} error={error} />}
           <Footer go={go} />
+        </>
+      )}
         </>
       )}
     </div>
