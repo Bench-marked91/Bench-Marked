@@ -173,30 +173,55 @@ function deriveCategory(b) {
 // Task taxonomy shown on the landing "what it covers" grid and used as the
 // catalog's category filter. Matches scripts/generate_names.py (TASK_CRITERIA).
 const CATEGORY_INFO = [
-  { name: "Knowledge & Board Exams", desc: "Declarative clinical knowledge tested via MCQ / OSCE / board-prep items." },
-  { name: "Diagnostic Reasoning", desc: "Case vignette → diagnosis, differential, or clinical reasoning." },
-  { name: "Risk & Crisis Response", desc: "Detect suicide / self-harm / crisis and respond safely; triage." },
-  { name: "Therapeutic Conversation & Counseling", desc: "Quality of multi-turn counseling / psychotherapy dialogue." },
-  { name: "Clinical Documentation & Extraction", desc: "Classify or extract from real clinical records." },
-  { name: "Symptom Detection & Severity Assessment", desc: "Infer presence / severity from speech, interview, or text." },
-  { name: "Patient Communication & Education", desc: "Quality / reliability / readability of patient-facing answers." },
-  { name: "Safety, Bias & Robustness", desc: "Bias, hallucination, and guardrail behavior." },
+  { name: "Risk & Crisis Response", desc: "Evaluates whether a model can recognize suicide, self-harm, and acute crisis, and respond safely with appropriate triage and escalation." },
+  { name: "Diagnostic Reasoning", desc: "Assesses clinical reasoning from a case presentation through to a diagnosis, differential, or formulation." },
+  { name: "Symptom Detection & Severity Assessment", desc: "Measures how accurately a model infers the presence and severity of symptoms from speech, interviews, or written text." },
+  { name: "Therapeutic Conversation & Counseling", desc: "Evaluates the quality and appropriateness of multi-turn counseling and psychotherapeutic dialogue." },
+  { name: "Clinical Documentation & Extraction", desc: "Tests classification and information extraction from real-world clinical records and documentation." },
+  { name: "Knowledge & Board Exams", desc: "Assesses declarative clinical knowledge through multiple-choice, OSCE, and board-style examination items." },
+  { name: "Patient Communication & Education", desc: "Evaluates the accuracy, reliability, and readability of patient-facing explanations and educational responses." },
+  { name: "Safety, Bias & Robustness", desc: "Probes for bias, hallucination, and the reliability of safety guardrails under adversarial or edge-case conditions." },
 ];
 const TASK_ORDER = CATEGORY_INFO.map((c) => c.name);
+
+// One muted, editorial color per task category — used for the card poster so the
+// catalog reads as color-coded by category. Tuned to sit on the beige page and
+// carry light text.
+const CATEGORY_COLORS = {
+  "Risk & Crisis Response": "#B4553E",                    // rust
+  "Diagnostic Reasoning": "#4F7183",                      // dusty blue
+  "Symptom Detection & Severity Assessment": "#8F6E2E",   // ochre
+  "Therapeutic Conversation & Counseling": "#5F7A55",     // moss
+  "Clinical Documentation & Extraction": "#8A6D4B",       // coffee
+  "Knowledge & Board Exams": "#6B6191",                   // indigo
+  "Patient Communication & Education": "#3F7E74",         // teal
+  "Safety, Bias & Robustness": "#8A5560",                 // mauve
+};
+const CATEGORY_COLOR_FALLBACK = "#6E6A62"; // neutral warm grey (uncategorized)
+function categoryColor(b) {
+  const c = (b.tasks && b.tasks[0]) || deriveCategory(b);
+  return CATEGORY_COLORS[c] || CATEGORY_COLOR_FALLBACK;
+}
+// Pick readable text (dark ink vs light paper) for a given hex background.
+function readableOn(hex) {
+  const c = String(hex).replace("#", "");
+  const r = parseInt(c.slice(0, 2), 16), g = parseInt(c.slice(2, 4), 16), bl = parseInt(c.slice(4, 6), 16);
+  return (0.299 * r + 0.587 * g + 0.114 * bl) > 150 ? C.ink : "#F3F1EA";
+}
 
 // The 7-domain weighted benchmark-evaluation rubric (see Benchmark Evaluation
 // Methodology). `groups` = additive checklist items; `scale` = pick-one levels.
 const RUBRIC_DOMAINS = [
   {
-    name: "Safety", weight: 30, range: "0–8",
-    why: "A model can score well on knowledge or accuracy while still producing responses that are harmful in a clinical setting — especially around suicidal ideation, psychosis, self-harm, and crisis. Safety carries the highest weight because detecting harmful model behavior is the strongest signal of a benchmark's value.",
+    name: "Safety", weight: 30, range: "0-8",
+    why: "A model can score well on knowledge or accuracy while still producing responses that are harmful in a clinical setting, especially around suicidal ideation, psychosis, self-harm, and crisis. Safety carries the highest weight because detecting harmful model behavior is the strongest signal of a benchmark's value.",
     groups: [
-      { label: "Clinical safety (0–3)", items: [
+      { label: "Clinical safety (0-3)", items: [
         ["Evaluates recognition of crisis or high-risk mental-health situations", 1],
         ["Evaluates appropriateness of response, escalation, resources, and non-reinforcement of harmful content (must ask more than simple crisis recognition + referral)", 1],
         ["Evaluates demographic, racial, cultural, or other clinically relevant bias", 1],
       ] },
-      { label: "Functional safety (0–4)", items: [
+      { label: "Functional safety (0-4)", items: [
         ["Evaluates reliability / consistency across repeated or similar queries", 1],
         ["Evaluates hallucination or fabrication (made-up information, not merely flawed reasoning)", 1],
         ["Evaluates robustness to adversarial, misleading, or boundary-testing inputs", 1],
@@ -205,16 +230,16 @@ const RUBRIC_DOMAINS = [
     ],
   },
   {
-    name: "Clinical Focus", weight: 25, range: "0–2",
+    name: "Clinical Focus", weight: 25, range: "0-2",
     why: "Rewards benchmarks that evaluate performance relevant to real mental-health care rather than general knowledge.",
     scale: [
-      [2, "Evaluates a clinical workflow, patient interaction, or decision spanning multiple psychiatric tasks — clinically meaningful utility or patient-centered benefit/harm"],
+      [2, "Evaluates a clinical workflow, patient interaction, or decision spanning multiple psychiatric tasks; clinically meaningful utility or patient-centered benefit/harm"],
       [1, "Tests a single clinical task (diagnosis, risk assessment, treatment selection, therapeutic response)"],
       [0, "Tests theoretical neuroscience / psychiatric / mental-health knowledge"],
     ],
   },
   {
-    name: "Ground Truth Quality", weight: 15, range: "0–3",
+    name: "Ground Truth Quality", weight: 15, range: "0-3",
     why: "A benchmark is only as strong as the reference standard its answers are checked against.",
     scale: [
       [3, "Independent multi-expert consensus (2+)"],
@@ -224,8 +249,8 @@ const RUBRIC_DOMAINS = [
     ],
   },
   {
-    name: "Evaluation Method", weight: 10, range: "0–3",
-    why: "How the outputs are scored — related to but distinct from the reference standard. Objective tasks (e.g. MCQ accuracy) are not penalized for lacking human review.",
+    name: "Evaluation Method", weight: 10, range: "0-3",
+    why: "How the outputs are scored, related to but distinct from the reference standard. Objective tasks (e.g. MCQ accuracy) are not penalized for lacking human review.",
     scale: [
       [3, "Multiple qualified human evaluators with a rubric and agreement / adjudication"],
       [2, "One qualified human evaluator"],
@@ -234,17 +259,17 @@ const RUBRIC_DOMAINS = [
     ],
   },
   {
-    name: "Population Represented", weight: 10, range: "0–3",
+    name: "Population Represented", weight: 10, range: "0-3",
     why: "Whether the benchmark reflects the patients and situations seen in real mental-health care, which drives generalizability.",
     scale: [
-      [3, "Diverse real clinical population — complex / high-risk / comorbid cases, multisite, or explicit subgroup evaluation"],
+      [3, "Diverse real clinical population: complex / high-risk / comorbid cases, multisite, or explicit subgroup evaluation"],
       [2, "Real patient-derived data from a narrow population or single setting"],
       [1, "Curated or simulated cases, textbook cases, or synthetic personas"],
       [0, "Population unspecified or entirely generic LLM-generated personas"],
     ],
   },
   {
-    name: "Interaction Structure", weight: 5, range: "0–1",
+    name: "Interaction Structure", weight: 5, range: "0-1",
     why: "Multi-turn interaction better simulates psychiatric interviews and therapy, though single-turn is appropriate for many valid tasks (classification, risk prediction, note analysis).",
     scale: [
       [1, "Includes genuinely context-dependent multi-turn interaction"],
@@ -252,25 +277,25 @@ const RUBRIC_DOMAINS = [
     ],
   },
   {
-    name: "Benchmark Size", weight: 5, range: "0–3",
-    why: "Scored by statistical power — how small a performance gap between models the item count can reliably detect (80% power, two-sided α = 0.05).",
+    name: "Benchmark Size", weight: 5, range: "0-3",
+    why: "Scored by statistical power: how small a performance gap between models the item count can reliably detect (80% power, two-sided α = 0.05).",
     scale: [
-      [3, "39,200+ items — detects ~1-point differences (large power)"],
-      [2, "1,600–39,199 items — detects ~5-point differences (moderate)"],
-      [1, "400–1,599 items — detects ~10-point differences (small)"],
-      [0, "Fewer than 400 items — cannot reliably detect a 10-point difference"],
+      [3, "39,200+ items, detects ~1-point differences (large power)"],
+      [2, "1,600-39,199 items, detects ~5-point differences (moderate)"],
+      [1, "400-1,599 items, detects ~10-point differences (small)"],
+      [0, "Fewer than 400 items, cannot reliably detect a 10-point difference"],
     ],
   },
 ];
 
 // FAQ content (from PLAN.md / TEAM-SUMMARY.md).
 const FAQS = [
-  { q: "What is this catalog?", a: "A curated, growing index of benchmarks used to evaluate large language models on clinical mental-health tasks — what each one measures, how it was built, and how rigorous it looks. It's drawn from our team's research sheet and kept current by an automated find → filter → extract pipeline with human review." },
-  { q: "How are the rigor tiers computed?", a: "They're provisional, from a draft five-dimension rubric: construct validity, ground-truth quality, sample size, population realism, and transparency. A tier is only assigned when at least three dimensions have data; otherwise a benchmark is shown as Unrated. Human appraisal will eventually replace the automatic tiers — see the Rubric page." },
-  { q: "Can I run a benchmark myself?", a: "Yes — a few benchmarks have a “Run this benchmark” button. You bring your own API key (OpenAI or Anthropic), the test runs entirely in your browser, your key is never stored or sent to us, and you see your model's score. More benchmarks become runnable over time, one at a time." },
+  { q: "What is this catalog?", a: "A curated, growing index of benchmarks used to evaluate large language models on clinical mental-health tasks: what each one measures, how it was built, and how rigorous it looks. It's drawn from our team's research sheet and kept current by an automated find → filter → extract pipeline with human review." },
+  { q: "How are the rigor tiers computed?", a: "They're provisional, from a draft five-dimension rubric: construct validity, ground-truth quality, sample size, population realism, and transparency. A tier is only assigned when at least three dimensions have data; otherwise a benchmark is shown as Unrated. Human appraisal will eventually replace the automatic tiers. See the Rubric page." },
+  { q: "Can I run a benchmark myself?", a: "Yes. A few benchmarks have a “Run this benchmark” button. You bring your own API key (OpenAI or Anthropic), the test runs entirely in your browser, your key is never stored or sent to us, and you see your model's score. More benchmarks become runnable over time, one at a time." },
   { q: "Where does the data come from?", a: "New papers are found automatically from arXiv, PubMed, and medRxiv, filtered for relevance, and their facts extracted into a consistent schema. Quality appraisal is done by human reviewers, not the machine." },
-  { q: "What does it cost to run a benchmark?", a: "Only your own model API usage — typically a few cents for a small sample, since you choose how many items to run. The catalog itself is free to browse." },
-  { q: "Is this a clinical tool?", a: "No. It's a research catalog. Any runnable benchmark is a recreation for model evaluation only — not a diagnostic tool and not medical advice." },
+  { q: "What does it cost to run a benchmark?", a: "Only your own model API usage, typically a few cents for a small sample, since you choose how many items to run. The catalog itself is free to browse." },
+  { q: "Is this a clinical tool?", a: "No. It's a research catalog. Any runnable benchmark is a recreation for model evaluation only, not a diagnostic tool and not medical advice." },
 ];
 
 /* ------------------------------------------------------------------ *
@@ -373,23 +398,82 @@ function hashToPage() {
  *  Edit the placeholders below. Bump TERMS_KEY to re-prompt everyone.
  * ------------------------------------------------------------------ */
 const TERMS_KEY = "mhbench_terms_v1";
+const USER_KEY = "mhbench_user_v1";   // stores the visitor's name/email locally
 const TERMS_OWNER = "the MDplus Catalysis Fellowship team"; // TODO: confirm the copyright/IP owner
 const TERMS_CONTACT = "[contact email]";                    // TODO: add a contact email
 const TERMS_JURISDICTION = "";                              // e.g. "the State of California, USA" (blank hides it)
 
+/* Admins: sharing this passcode lets the 4 admins skip the terms + email form.
+ * NOTE: this lives in the page source, so treat it as a soft gate, not real
+ * security. Change ADMIN_CODE (and bump TERMS_KEY) if it ever leaks. */
+const ADMIN_CODE = "MDPLUS4";
+
+/* Optional access log. Leave "" to store name/email only in the visitor's own
+ * browser (nothing sent anywhere). To turn on real logging later, paste a
+ * Google Apps Script web-app URL or a Formspree/Getform endpoint here — it will
+ * receive { name, email, time, userAgent } as JSON on each acceptance. */
+const LOG_ENDPOINT = "";
+
+function logAccess(entry) {
+  try { localStorage.setItem(USER_KEY, JSON.stringify(entry)); } catch (e) { /* ignore */ }
+  if (!LOG_ENDPOINT) return;
+  try {
+    fetch(LOG_ENDPOINT, {
+      method: "POST",
+      // no-cors keeps it simple for Google Apps Script / form endpoints; we
+      // don't read the response, we just fire-and-forget the log row.
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(entry),
+    }).catch(() => {});
+  } catch (e) { /* ignore — never block access on a logging failure */ }
+}
+
 function AgreementGate({ onAccept }) {
   const [checked, setChecked] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [adminOpen, setAdminOpen] = useState(false);
+  const [adminCode, setAdminCode] = useState("");
+  const [adminErr, setAdminErr] = useState(false);
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  const nameOk = name.trim().length > 1;
+  const canEnter = checked && nameOk && emailOk;
+
   const accept = () => {
+    if (!canEnter) return;
+    logAccess({
+      name: name.trim(),
+      email: email.trim(),
+      time: new Date().toISOString(),
+      userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+    });
     try { localStorage.setItem(TERMS_KEY, "yes"); } catch (e) { /* ignore */ }
     onAccept();
   };
+
+  const adminEnter = () => {
+    if (adminCode.trim() === ADMIN_CODE) {
+      try {
+        localStorage.setItem(TERMS_KEY, "yes");
+        localStorage.setItem(USER_KEY, JSON.stringify({ admin: true, time: new Date().toISOString() }));
+      } catch (e) { /* ignore */ }
+      onAccept();
+    } else {
+      setAdminErr(true);
+    }
+  };
+
+  const field = { width: "100%", background: "rgba(237,235,228,.06)", border: "1px solid rgba(237,235,228,.2)", borderRadius: 8, padding: "11px 13px", color: "#EDEBE4", fontFamily: FONT_SANS, fontSize: 14, outline: "none" };
+  const flabel = { fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".12em", textTransform: "uppercase", color: "#8C887E", marginBottom: 6, display: "block" };
   const hasContact = TERMS_CONTACT && TERMS_CONTACT[0] !== "[";
   const h3 = { fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 600, color: "#EDEBE4", margin: "0 0 6px", letterSpacing: "-.01em" };
   const p = { fontSize: 13, lineHeight: 1.6, color: "#B7B2A8", margin: 0 };
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "#0C0B0A", color: "#EDEBE4", display: "flex", alignItems: "center", justifyContent: "center", overflow: "auto", padding: "32px 20px" }}>
       <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
-      <div style={{ position: "relative", width: "min(640px, 100%)", background: "rgba(18,17,13,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(237,235,228,.14)", borderRadius: 10, padding: "clamp(24px, 4vw, 40px)", maxHeight: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
+      <div style={{ position: "relative", width: "min(640px, 100%)", background: "rgba(18,17,13,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(237,235,228,.14)", borderRadius: 8, padding: "clamp(24px, 4vw, 40px)", maxHeight: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
         <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 14 }}>Confidential Beta · Access Agreement</div>
         <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(28px, 4vw, 40px)", letterSpacing: "-.03em", lineHeight: 1.02, margin: 0 }}>Before you enter</h1>
         <p style={{ fontSize: 14, color: "#B7B2A8", lineHeight: 1.55, margin: "14px 0 0" }}>
@@ -398,7 +482,7 @@ function AgreementGate({ onAccept }) {
         <div style={{ marginTop: 18, overflowY: "auto", display: "flex", flexDirection: "column", gap: 18, borderTop: "1px solid rgba(237,235,228,.12)", borderBottom: "1px solid rgba(237,235,228,.12)", padding: "18px 8px 18px 0" }}>
           <div>
             <div style={h3}>1 · Confidential, invitation-only access</div>
-            <p style={p}>This website and all of its contents — including the benchmark catalog, evaluation rubric and scores, methodology, compiled data, and any unpublished materials (collectively, the “Confidential Materials”) — are provided to you on a strictly confidential, invitation-only basis. By accessing the site you agree to (a) hold the Confidential Materials in strict confidence; (b) not disclose, publish, present, distribute, screenshot, reproduce, or otherwise share them, in whole or in part, with any third party; and (c) use them solely to review and provide feedback on this project. These obligations continue until the materials are released publicly by the project owners in writing.</p>
+            <p style={p}>This website and all of its contents, including the benchmark catalog, evaluation rubric and scores, methodology, compiled data, and any unpublished materials (collectively, the “Confidential Materials”), are provided to you on a strictly confidential, invitation-only basis. By accessing the site you agree to (a) hold the Confidential Materials in strict confidence; (b) not disclose, publish, present, distribute, screenshot, reproduce, or otherwise share them, in whole or in part, with any third party; and (c) use them solely to review and provide feedback on this project. These obligations continue until the materials are released publicly by the project owners in writing.</p>
           </div>
           <div>
             <div style={h3}>2 · Work in progress; no warranty; not medical advice</div>
@@ -406,23 +490,56 @@ function AgreementGate({ onAccept }) {
           </div>
           <div>
             <div style={h3}>3 · Copyright &amp; intellectual property</div>
-            <p style={p}>© 2026 {TERMS_OWNER}. All rights reserved. All original content, source code, design, text, the evaluation rubric, and compiled data are the intellectual property of their respective owners and are protected by copyright and other laws. You may not copy, reproduce, distribute, modify, create derivative works from, data-mine, scrape, or reverse-engineer any part of the site without prior written permission. Third-party materials referenced in the catalog — including research papers, datasets, model names, and the names, trademarks, and logos of third parties (such as MDplus, Stanford, and Google) — remain the property of their respective owners and are used for identification and reference only; no affiliation, sponsorship, or endorsement is implied.</p>
+            <p style={p}>© 2026 {TERMS_OWNER}. All rights reserved. All original content, source code, design, text, the evaluation rubric, and compiled data are the intellectual property of their respective owners and are protected by copyright and other laws. You may not copy, reproduce, distribute, modify, create derivative works from, data-mine, scrape, or reverse-engineer any part of the site without prior written permission. Third-party materials referenced in the catalog, including research papers, datasets, model names, and the names, trademarks, and logos of third parties (such as MDplus, Stanford, and Google), remain the property of their respective owners and are used for identification and reference only; no affiliation, sponsorship, or endorsement is implied.</p>
           </div>
           <div>
             <div style={h3}>4 · Acceptance</div>
             <p style={p}>By checking the box below and selecting “I accept &amp; enter,” you acknowledge that you have read, understood, and agree to be bound by these terms{TERMS_JURISDICTION ? `, which are governed by the laws of ${TERMS_JURISDICTION}` : ""}. If you do not agree, do not access or use the site.{hasContact ? ` Questions: ${TERMS_CONTACT}.` : ""}</p>
           </div>
         </div>
-        <label style={{ display: "flex", gap: 10, alignItems: "flex-start", marginTop: 18, cursor: "pointer", fontSize: 13.5, color: "#EDEBE4", lineHeight: 1.5 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 18 }}>
+          <div>
+            <label style={flabel} htmlFor="gate-name">Your name</label>
+            <input id="gate-name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Full name" autoComplete="name" style={field} />
+          </div>
+          <div>
+            <label style={flabel} htmlFor="gate-email">Your email</label>
+            <input id="gate-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" autoComplete="email" style={field} />
+          </div>
+        </div>
+        <label style={{ display: "flex", gap: 10, alignItems: "flex-start", marginTop: 16, cursor: "pointer", fontSize: 13.5, color: "#EDEBE4", lineHeight: 1.5 }}>
           <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} style={{ marginTop: 3, flexShrink: 0 }} />
           <span>I have read and accept the confidentiality agreement, the work-in-progress disclaimer, and the copyright &amp; intellectual-property terms above.</span>
         </label>
         <div style={{ marginTop: 18 }}>
-          <button onClick={accept} disabled={!checked} style={{ background: checked ? C.lime : "rgba(237,235,228,.15)", color: checked ? C.ink : "rgba(237,235,228,.5)", border: "none", borderRadius: 999, padding: "12px 28px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: checked ? "pointer" : "not-allowed" }}>
+          <button onClick={accept} disabled={!canEnter} style={{ background: canEnter ? C.lime : "rgba(237,235,228,.15)", color: canEnter ? C.ink : "rgba(237,235,228,.5)", border: "none", borderRadius: 999, padding: "12px 28px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: canEnter ? "pointer" : "not-allowed" }}>
             I accept &amp; enter →
           </button>
         </div>
-        <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, color: "#6f6b62", marginTop: 16 }}>Confidential — do not distribute · v1</div>
+        <div style={{ marginTop: 18, borderTop: "1px solid rgba(237,235,228,.1)", paddingTop: 14 }}>
+          {!adminOpen ? (
+            <button onClick={() => setAdminOpen(true)} style={{ background: "none", border: "none", color: "#8C887E", fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", cursor: "pointer", padding: 0 }}>
+              I'm an admin →
+            </button>
+          ) : (
+            <div style={{ display: "flex", gap: 8, alignItems: "flex-start", flexWrap: "wrap" }}>
+              <input
+                type="password"
+                value={adminCode}
+                onChange={(e) => { setAdminCode(e.target.value); setAdminErr(false); }}
+                onKeyDown={(e) => { if (e.key === "Enter") adminEnter(); }}
+                placeholder="Admin passcode"
+                autoFocus
+                style={{ ...field, width: 200, borderColor: adminErr ? "#e06a6a" : "rgba(237,235,228,.2)" }}
+              />
+              <button onClick={adminEnter} style={{ background: "rgba(237,235,228,.15)", color: "#EDEBE4", border: "none", borderRadius: 999, padding: "11px 20px", fontFamily: FONT_SANS, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
+                Enter
+              </button>
+              {adminErr && <span style={{ color: "#e06a6a", fontSize: 12, alignSelf: "center" }}>Incorrect passcode.</span>}
+            </div>
+          )}
+        </div>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, color: "#6f6b62", marginTop: 16 }}>Confidential. Do not distribute · v1</div>
       </div>
     </div>
   );
@@ -607,7 +724,7 @@ function TopNav({ page, go, overlay }) {
  * ------------------------------------------------------------------ */
 function ChartCard({ title, subtitle, children }) {
   return (
-    <div style={{ background: C.surface, border: `1px solid ${C.line}`, borderRadius: 4, padding: 18 }}>
+    <div style={{ background: C.surface, border: `1px solid ${C.line}`, borderRadius: 8, padding: 18 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 16 }}>
         <h3 style={{ fontFamily: FONT_SANS, fontSize: 15, fontWeight: 600, margin: 0 }}>{title}</h3>
         {subtitle && <span style={{ fontSize: 11, color: C.muted }}>{subtitle}</span>}
@@ -702,7 +819,7 @@ function Accordion({ q, a }) {
     <div style={{ borderTop: `1px solid ${C.line}` }}>
       <button onClick={() => setOpen(!open)} style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "22px 0", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
         <span style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 500, color: C.ink, letterSpacing: "-.015em" }}>{q}</span>
-        <span style={{ fontFamily: FONT_SANS, fontSize: 24, color: C.muted, lineHeight: 1, flexShrink: 0 }}>{open ? "–" : "+"}</span>
+        <span style={{ fontFamily: FONT_SANS, fontSize: 24, color: C.muted, lineHeight: 1, flexShrink: 0 }}>{open ? "-" : "+"}</span>
       </button>
       {open && <div style={{ fontSize: 15.5, lineHeight: 1.65, color: C.muted, padding: "0 0 24px", maxWidth: 760 }}>{a}</div>}
     </div>
@@ -719,7 +836,7 @@ function Footer({ go }) {
             <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 19, letterSpacing: "-.02em" }}>Mental Health Benchmarks</span>
           </div>
           <p style={{ maxWidth: 420, marginTop: 16, fontSize: 14.5, lineHeight: 1.6, color: "#B7B0A2" }}>
-            A curated, growing index of how AI models are evaluated on mental-health tasks — a few of which you can run yourself.
+            A curated, growing index of how AI models are evaluated on mental-health tasks, a few of which you can run yourself.
           </p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -734,7 +851,7 @@ function Footer({ go }) {
       <div style={{ borderTop: "1px solid rgba(231,225,212,.16)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 24px", fontFamily: FONT_MONO, fontSize: 11, color: "#B7B0A2", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
           <span>Data from arXiv · PubMed · medRxiv · human-reviewed</span>
-          <span>Research catalog — not a clinical tool.</span>
+          <span>Research catalog, not a clinical tool.</span>
         </div>
       </div>
     </footer>
@@ -795,7 +912,7 @@ function LandingPage({ go, data }) {
         {/* top-centered intro + entry buttons */}
         <div style={{ position: "relative", maxWidth: 480, margin: "0 auto", textAlign: "center" }}>
           <p style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: 0 }}>
-            We index how AI models are really tested on mental-health tasks — what each benchmark measures, and how far to trust it.
+            We index how AI models are really tested on mental-health tasks: what each benchmark measures, and how far to trust it.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 22, flexWrap: "wrap" }}>
             <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "11px 24px", fontFamily: FONT_SANS, fontSize: 13.5, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
@@ -816,7 +933,7 @@ function LandingPage({ go, data }) {
             <div style={{ maxWidth: 430, justifySelf: "end" }}>
               <p style={{ fontSize: 15.5, lineHeight: 1.5, margin: 0 }}>
                 <b style={{ fontWeight: 600, color: "#EDEBE4" }}>Teams building mental-health AI deserve to know exactly what they're testing against.</b>{" "}
-                <span style={{ color: "#8C887E" }}>What a benchmark measures — and how far to trust it — is rarely legible.</span>
+                <span style={{ color: "#8C887E" }}>What a benchmark measures, and how far to trust it, is rarely legible.</span>
               </p>
               <p style={{ fontSize: 15.5, lineHeight: 1.5, margin: "14px 0 0", color: "#8C887E" }}>
                 That gap costs more than accuracy. It costs knowing whether a model is safe to rely on.
@@ -859,8 +976,7 @@ function LandingPage({ go, data }) {
       {/* About — the people behind the project */}
       <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0", display: "grid", gridTemplateColumns: "0.7fr 1.3fr", gap: 40 }}>
         <div>
-          <SectionLabel>About the project</SectionLabel>
-          <div style={{ marginTop: 30 }}>
+          <div style={{ marginTop: 0 }}>
             <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: C.muted, marginBottom: 20 }}>
               With support from
             </div>
@@ -876,8 +992,8 @@ function LandingPage({ go, data }) {
             Built by medical students, guided by clinicians.
           </h2>
           <p style={{ fontSize: 16, lineHeight: 1.65, color: C.muted, marginTop: 20, maxWidth: 640 }}>
-            Everything here — the website, the benchmark-evaluation rubric, and the sorting, naming, and
-            runnable-benchmark systems — was created by <b>four medical students</b> through the{" "}
+            Everything here (the website, the benchmark-evaluation rubric, and the sorting, naming, and
+            runnable-benchmark systems) was created by <b>four medical students</b> through the{" "}
             <b>MDplus Catalysis Fellowship</b>.
           </p>
           <p style={{ fontSize: 16, lineHeight: 1.65, color: C.muted, marginTop: 14, maxWidth: 640 }}>
@@ -890,14 +1006,13 @@ function LandingPage({ go, data }) {
       <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 28 }}>
           <div>
-            <SectionLabel>Featured benchmarks</SectionLabel>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "12px 0 0" }}>Start here</h2>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0" }}>Start here</h2>
           </div>
           <button onClick={() => go("catalog")} style={linkBtn}>All benchmarks →</button>
         </div>
         <div style={{ display: "flex", gap: 18, overflowX: "auto", paddingBottom: 10 }}>
           {featured.map((b) => (
-            <button key={b.id} onClick={() => go("catalog")} className="edcard" style={{ textAlign: "left", cursor: "pointer", flex: "0 0 300px", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 3, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+            <button key={b.id} onClick={() => go("catalog")} className="edcard" style={{ textAlign: "left", cursor: "pointer", flex: "0 0 300px", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 8, overflow: "hidden", display: "flex", flexDirection: "column" }}>
               <div style={{ height: 7, background: runHrefFor(b) ? C.lime : bandColor(b.id) }} />
               <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
                 {runHrefFor(b) && (
@@ -918,11 +1033,10 @@ function LandingPage({ go, data }) {
 
       {/* What it covers — task categories */}
       <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
-        <SectionLabel>What it covers</SectionLabel>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "12px 0 28px" }}>Tasks models are tested on</h2>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0 0 28px" }}>Tasks models are tested on</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
           {CATEGORY_INFO.map((c, i) => (
-            <div key={c.name} style={{ border: `1px solid ${C.line}`, borderRadius: 3, padding: 22, background: C.surface }}>
+            <div key={c.name} style={{ border: `1px solid ${C.line}`, borderRadius: 8, padding: 22, background: C.surface }}>
               <div style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.accent }}>{String(i + 1).padStart(2, "0")}</div>
               <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 600, letterSpacing: "-.02em", margin: "10px 0 8px" }}>{c.name}</h3>
               <p style={{ fontSize: 14, lineHeight: 1.55, color: C.muted, margin: 0 }}>{c.desc}</p>
@@ -933,11 +1047,11 @@ function LandingPage({ go, data }) {
 
       {/* How it's built — process */}
       <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
-        <SectionLabel>How the catalog is built</SectionLabel>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0" }}>How the catalog is built</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 28, marginTop: 28 }}>
           {[
             { n: "01", t: "Find", d: "A scheduled job scans arXiv, PubMed, and medRxiv for new mental-health LLM papers and skips anything already seen." },
-            { n: "02", t: "Extract", d: "Relevant papers are read and their facts pulled into a consistent schema — models, tasks, size, metrics — with a short plain-language summary." },
+            { n: "02", t: "Extract", d: "Relevant papers are read and their facts pulled into a consistent schema (models, tasks, size, metrics) with a short plain-language summary." },
             { n: "03", t: "Publish & appraise", d: "Confident entries publish automatically; uncertain ones wait for a reviewer. Humans grade benchmark quality by hand." },
           ].map((s) => (
             <div key={s.n}>
@@ -951,8 +1065,7 @@ function LandingPage({ go, data }) {
 
       {/* FAQ */}
       <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
-        <SectionLabel>Questions</SectionLabel>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "12px 0 22px" }}>Frequently asked</h2>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0 0 22px" }}>Frequently asked</h2>
         <div style={{ borderBottom: `1px solid ${C.line}` }}>
           {FAQS.map((f) => <Accordion key={f.q} q={f.q} a={f.a} />)}
         </div>
@@ -983,7 +1096,7 @@ const STEP_VIDEOS = [null, null, null, null, null];
 
 function StepMedia({ src }) {
   return (
-    <div style={{ position: "relative", aspectRatio: "16 / 10", borderRadius: 6, overflow: "hidden", background: "#0b0a09", border: "1px solid rgba(237,235,228,.12)" }}>
+    <div style={{ position: "relative", aspectRatio: "16 / 10", borderRadius: 8, overflow: "hidden", background: "#0b0a09", border: "1px solid rgba(237,235,228,.12)" }}>
       {src ? (
         <video src={src} autoPlay muted loop playsInline preload="metadata"
           style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -1031,9 +1144,9 @@ function MethodPage({ go, data }) {
 
   const STEPS = [
     { t: "We find the papers", d: "A scheduled job scans arXiv, PubMed, and medRxiv for newly released mental-health LLM papers, and skips anything it has already seen." },
-    { t: "We check relevance", d: "A fast, low-cost model reads each title and abstract and keeps only genuine LLM-in-mental-health evaluation work — off-topic papers are dropped with a logged reason." },
-    { t: "We extract the facts", d: "The full paper is read into a consistent schema — models tested, tasks, dataset size, metrics, ground truth — with a short plain-language summary. It never guesses; unclear fields stay blank." },
-    { t: "We rate rigor — provisionally", d: "A draft five-dimension rubric (construct validity, ground truth, sample size, population realism, transparency) assigns a provisional tier. It's a placeholder until human appraisal is in." },
+    { t: "We check relevance", d: "A fast, low-cost model reads each title and abstract and keeps only genuine LLM-in-mental-health evaluation work; off-topic papers are dropped with a logged reason." },
+    { t: "We extract the facts", d: "The full paper is read into a consistent schema (models tested, tasks, dataset size, metrics, ground truth) with a short plain-language summary. It never guesses; unclear fields stay blank." },
+    { t: "We rate rigor, provisionally", d: "A draft five-dimension rubric (construct validity, ground truth, sample size, population realism, transparency) assigns a provisional tier. It's a placeholder until human appraisal is in." },
     { t: "Humans appraise & publish", d: "Reviewers grade benchmark quality by hand. Confident entries publish automatically; uncertain ones wait for a person to approve them before going live." },
   ];
 
@@ -1053,7 +1166,6 @@ function MethodPage({ go, data }) {
             {STEPS.map((s, i) => (
               <div key={i} className="processrow">
                 <div>
-                  <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".14em", textTransform: "uppercase", color: "#8C887E", marginBottom: 22 }}>Step • {String(i + 1).padStart(2, "0")}</div>
                   <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", lineHeight: 1.05, margin: 0, color: "#EDEBE4" }}>{s.t}</h2>
                   <p style={{ fontSize: 15.5, lineHeight: 1.6, color: "#B7B2A8", margin: "18px 0 0", maxWidth: 430 }}>{s.d}</p>
                 </div>
@@ -1076,7 +1188,7 @@ function MethodPage({ go, data }) {
             screened → 40 reviewed) together with the project's focus on clinical utility and patient safety.
             It scores each benchmark across <b>seven weighted domains</b>, deliberately emphasizing <b>safety</b> and
             <b> clinical relevance</b> over raw methodology and scope. Each domain's raw score is normalized and combined
-            by weight into a final <b>score from 0 to 100</b> — higher means stronger.
+            by weight into a final <b>score from 0 to 100</b>. Higher means stronger.
           </p>
         </section>
 
@@ -1106,9 +1218,9 @@ function MethodPage({ go, data }) {
 
         {/* Scoring formula */}
         <section style={{ padding: "30px 0" }}>
-          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 600, letterSpacing: "-.02em", margin: "0 0 10px" }}>Turning raw scores into a 0–100 score</h3>
+          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 600, letterSpacing: "-.02em", margin: "0 0 10px" }}>Turning raw scores into a 0-100 score</h3>
           <p style={{ fontSize: 14.5, lineHeight: 1.6, color: C.muted, margin: 0, maxWidth: 660 }}>
-            Because the domains have different maximum raw scores, each is normalized before combining — so a
+            Because the domains have different maximum raw scores, each is normalized before combining, so a
             domain's influence comes from its weight, not from how many points it happens to offer.
           </p>
           <div style={{ marginTop: 14, border: `1px solid ${C.line}`, background: C.paper, borderRadius: 8, padding: "14px 16px", fontFamily: FONT_MONO, fontSize: 13, color: C.ink, lineHeight: 1.8 }}>
@@ -1121,7 +1233,7 @@ function MethodPage({ go, data }) {
         <section style={{ borderTop: `1px solid ${C.line}`, padding: "22px 0 48px" }}>
           <div style={{ border: `1px solid ${C.line}`, borderLeft: `3px solid ${C.accent}`, background: "#F1EADB", borderRadius: 8, padding: "12px 16px", fontSize: 13, color: C.ink, lineHeight: 1.55 }}>
             <strong style={{ fontFamily: FONT_SANS, fontSize: 11, fontWeight: 700, color: C.accent, letterSpacing: ".06em" }}>NOTE</strong>
-            <span style={{ marginLeft: 8 }}>Scores under this rubric are assigned by expert review. The provisional Strong / Moderate / Limited badges on the cards are an automatic estimate and will be replaced by this rubric's 0–100 score as scoring is completed.</span>
+            <span style={{ marginLeft: 8 }}>Scores under this rubric are assigned by expert review. The provisional Strong / Moderate / Limited badges on the cards are an automatic estimate and will be replaced by this rubric's 0-100 score as scoring is completed.</span>
           </div>
           <div style={{ marginTop: 20 }}>
             <GhostButton onClick={() => go("catalog")}>See the benchmarks <ArrowRight size={14} /></GhostButton>
@@ -1195,27 +1307,39 @@ function CatalogPage({ data, error }) {
 
   const rated = data.filter((b) => b.score.tier).length;
   const graded = data.filter((b) => b.overallGrade).length;
+  // One-line description for the selected category (from CATEGORY_INFO).
+  const catDesc = catFilter ? (CATEGORY_INFO.find((c) => c.name === catFilter) || {}).desc : null;
+  // When a task type is selected, every card in that view shares its color.
+  const activeCatColor = catFilter ? (CATEGORY_COLORS[catFilter] || CATEGORY_COLOR_FALLBACK) : null;
 
   return (
     <div style={{ background: ED.bg, color: ED.ink, fontFamily: ED.body }}>
     <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 76px" }}>
       {/* Header — big title + count on the right (Monolog "All success stories") */}
       <header style={{ padding: "40px 0 24px", borderBottom: `1px solid ${ED.line}`, marginBottom: 34 }}>
-        <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: ED.muted, marginBottom: 22 }}>
-          Mental-health LLM benchmarks
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, marginBottom: 22 }}>
+          <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: ED.muted }}>
+            Mental-health LLM benchmarks
+          </div>
+          <RigorToggle on={showRigor} onToggle={() => setShowRigor((v) => !v)} />
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 20, flexWrap: "wrap" }}>
-          <h1 style={{ fontFamily: ED.display, fontWeight: 600, fontSize: "clamp(46px, 8vw, 94px)", lineHeight: 0.94, letterSpacing: "-.04em", margin: 0, color: ED.ink }}>
-            All benchmarks
+          <h1 style={{ fontFamily: ED.display, fontWeight: 600, fontSize: catFilter ? "clamp(34px, 5.4vw, 66px)" : "clamp(46px, 8vw, 94px)", lineHeight: 0.96, letterSpacing: "-.04em", margin: 0, color: ED.ink, maxWidth: "13ch" }}>
+            {catFilter || "All benchmarks"}
           </h1>
           <span style={{ fontFamily: ED.display, fontWeight: 500, fontSize: "clamp(32px, 5vw, 58px)", letterSpacing: "-.03em", color: ED.ink, lineHeight: 1 }}>
             ({String(visible.length).padStart(2, "0")})
           </span>
         </div>
+        {catDesc && (
+          <p style={{ fontFamily: ED.body, fontSize: "clamp(15px, 1.6vw, 18px)", lineHeight: 1.5, color: ED.muted, margin: "18px 0 0", maxWidth: "60ch" }}>
+            {catDesc}
+          </p>
+        )}
       </header>
 
       {error && (
-        <div style={{ border: `1px solid ${C.limited}`, background: "#F6E7DF", borderRadius: 4, padding: "10px 14px", fontSize: 13, color: C.ink, marginBottom: 20 }}>
+        <div style={{ border: `1px solid ${C.limited}`, background: "#F6E7DF", borderRadius: 8, padding: "10px 14px", fontSize: 13, color: C.ink, marginBottom: 20 }}>
           Couldn't load benchmarks.json ({error}). Make sure the export script has been run and the file sits next to index.html.
         </div>
       )}
@@ -1236,29 +1360,25 @@ function CatalogPage({ data, error }) {
             <div style={{ position: "relative" }}>
               <Search size={14} color={ED.muted} style={{ position: "absolute", left: 12, top: 11 }} />
               <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search…"
-                style={{ width: "100%", padding: "9px 12px 9px 32px", fontFamily: ED.body, fontSize: 13.5, border: `1px solid ${ED.line}`, borderRadius: 4, background: ED.card, color: ED.ink, boxSizing: "border-box" }} />
+                style={{ width: "100%", padding: "9px 12px 9px 32px", fontFamily: ED.body, fontSize: 13.5, border: `1px solid ${ED.line}`, borderRadius: 8, background: ED.card, color: ED.ink, boxSizing: "border-box" }} />
             </div>
-            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: ED.body, fontSize: 13.5, padding: "9px 12px", border: `1px solid ${ED.line}`, borderRadius: 4, background: ED.card, color: ED.ink, cursor: "pointer" }}>
-              <option value="name">Sort: Name (A–Z)</option>
+            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: ED.body, fontSize: 13.5, padding: "9px 12px", border: `1px solid ${ED.line}`, borderRadius: 8, background: ED.card, color: ED.ink, cursor: "pointer" }}>
+              <option value="name">Sort: Name (A-Z)</option>
               <option value="year">Sort: Year (newest)</option>
               <option value="rigor">Sort: Rigor (best first)</option>
               <option value="size">Sort: Size (largest)</option>
             </select>
-            <label style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: ED.body, fontSize: 13, color: ED.muted, cursor: "pointer", userSelect: "none" }}>
-              <input type="checkbox" checked={showRigor} onChange={(e) => setShowRigor(e.target.checked)} />
-              Show rigor rating
-            </label>
           </div>
         </aside>
 
         <div style={{ minWidth: 0 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 24, rowGap: 34 }}>
             {visible.map((b) => (
-              <BenchTile key={b.id} b={b} showRigor={showRigor} onClick={() => setSelected(b)} />
+              <BenchTile key={b.id} b={b} catColor={activeCatColor} showRigor={showRigor} onClick={() => setSelected(b)} />
             ))}
           </div>
           {visible.length === 0 && !error && (
-            <div style={{ textAlign: "center", color: ED.muted, padding: "48px 20px", border: `1px dashed ${ED.line}`, borderRadius: 4, background: ED.card }}>
+            <div style={{ textAlign: "center", color: ED.muted, padding: "48px 20px", border: `1px dashed ${ED.line}`, borderRadius: 8, background: ED.card }}>
               <Search size={26} color={C.unrated} />
               <div style={{ fontSize: 15, fontWeight: 600, color: ED.ink, marginTop: 10 }}>No matches</div>
               <div style={{ fontSize: 13, marginTop: 4 }}>Try a different search term or clear the category filter.</div>
@@ -1273,6 +1393,37 @@ function CatalogPage({ data, error }) {
   );
 }
 
+// Rigor toggle — a pill switch in the catalog top bar (editorial aesthetic).
+function RigorToggle({ on, onToggle }) {
+  return (
+    <button
+      onClick={onToggle}
+      role="switch"
+      aria-checked={on}
+      aria-label="Show rigor rating"
+      className="lift"
+      style={{
+        display: "inline-flex", alignItems: "center", gap: 10, cursor: "pointer",
+        fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase",
+        color: ED.ink, background: ED.card, border: `1px solid ${ED.line}`,
+        borderRadius: 999, padding: "7px 8px 7px 14px", lineHeight: 1,
+      }}
+    >
+      <span>Rigor rating</span>
+      <span style={{
+        position: "relative", width: 38, height: 21, borderRadius: 999, flexShrink: 0,
+        background: on ? ED.ink : "rgba(8,8,7,0.14)", transition: "background .18s ease",
+      }}>
+        <span style={{
+          position: "absolute", top: 3, left: 3, width: 15, height: 15, borderRadius: 999,
+          background: "#fff", boxShadow: "0 1px 2px rgba(0,0,0,.25)",
+          transform: on ? "translateX(17px)" : "translateX(0)", transition: "transform .18s ease",
+        }} />
+      </span>
+    </button>
+  );
+}
+
 // Vertical filter chip (left rail) — light chip, active is solid ink.
 function VChip({ label, on, onClick }) {
   return (
@@ -1284,22 +1435,32 @@ function VChip({ label, on, onClick }) {
   );
 }
 
-// Tall gallery tile — a color "cover" (stands in for Monolog's photo) + meta below.
-function BenchTile({ b, showRigor, onClick }) {
-  const cat = (b.tasks && b.tasks[0]) || deriveCategory(b);
+// Gallery tile — a tall solid-color "poster": name at the top, task types
+// listed inside at the bottom (plain text, no pills). Short description spans
+// full width below. Uniform height: the grid stretches every card, CTA pinned.
+function BenchTile({ b, catColor, showRigor, onClick }) {
   const condTag = { fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".05em", textTransform: "uppercase", color: ED.ink, background: "rgba(8,8,7,0.07)", borderRadius: 999, padding: "3px 9px" };
-  const taskTag = { fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".05em", textTransform: "uppercase", color: ED.muted, border: `1px solid ${ED.line}`, borderRadius: 999, padding: "3px 9px" };
-  const band = showRigor && b.score.tier ? TIER[b.score.tier].color : bandColor(b.id);
   const runnable = !!runHrefFor(b);
-  const onDark = runnable ? C.ink : "#F3F1EA";
+  // Color meaning: the rigor RATING when the rigor toggle is on; otherwise the
+  // filtered category color, else the card's own primary-task color (or lime
+  // for runnable).
+  const band = showRigor
+    ? (b.score.tier ? TIER[b.score.tier].color : C.unrated)
+    : (catColor || (runnable ? C.lime : categoryColor(b)));
+  const onDark = readableOn(band);
+  const tasks = (b.tasks && b.tasks.length) ? b.tasks : [deriveCategory(b)];
+  const desc = b.measures || b.clinicalUseCase || "";
   return (
     <button onClick={onClick} className="edtile" style={{
-      width: "100%", textAlign: "left", cursor: "pointer", background: "transparent",
-      border: "none", padding: 0, display: "flex", flexDirection: "column", gap: 15,
+      width: "100%", height: "100%", textAlign: "left", cursor: "pointer", background: "transparent",
+      border: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10,
     }}>
-      <div style={{ height: 320, borderRadius: 4, background: runnable ? C.lime : band, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
-          <span style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".07em", textTransform: "uppercase", color: onDark, opacity: 0.9 }}>{cat}</span>
+      {/* tall solid-color poster: name top-left + rigor/run; tasks inside at bottom */}
+      <div style={{ height: 380, flexShrink: 0, borderRadius: 8, background: band, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 22 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
+          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 24, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.08, margin: 0, color: onDark }}>
+            {b.displayName || b.name}
+          </h3>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6, flexShrink: 0 }}>
             {showRigor && (
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".05em", textTransform: "uppercase", color: "#F3F1EA", background: "rgba(8,8,7,0.34)", borderRadius: 999, padding: "3px 9px", whiteSpace: "nowrap" }}>
@@ -1308,31 +1469,29 @@ function BenchTile({ b, showRigor, onClick }) {
               </span>
             )}
             {runnable && (
-              <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: C.ink, border: `1px solid ${C.ink}`, borderRadius: 999, padding: "2px 9px" }}>Run</span>
+              <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: onDark, border: `1px solid ${onDark}`, borderRadius: 999, padding: "2px 9px" }}>Run</span>
             )}
           </div>
         </div>
         <div>
-          <div style={{ fontFamily: FONT_SERIF, fontSize: 46, fontWeight: 600, letterSpacing: "-.03em", lineHeight: 0.95, color: onDark }}>
-            {b.sizeNum ? b.sizeNum.toLocaleString() : (b.year || "—")}
-          </div>
-          <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: onDark, opacity: 0.85, marginTop: 8 }}>
-            {b.sizeNum ? "items" : (b.venue || "benchmark")}
+          <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".1em", textTransform: "uppercase", color: onDark, opacity: 0.6, marginBottom: 8 }}>Tasks</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+            {tasks.map((t) => (
+              <span key={t} style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".03em", textTransform: "uppercase", color: onDark, lineHeight: 1.35 }}>{t}</span>
+            ))}
           </div>
         </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
-        <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.15, margin: 0, color: ED.ink }}>{b.displayName || b.name}</h3>
-        <span style={{ fontFamily: FONT_MONO, fontSize: 12, color: ED.muted, flexShrink: 0 }}>{b.year}</span>
-      </div>
-      {(b.conditions.length > 0 || b.tasks.length > 0) && (
+      {/* short description — full width */}
+      {desc && (
+        <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: ED.muted, display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{desc}</p>
+      )}
+      {b.conditions.length > 0 && (
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
           {b.conditions.map((t) => <span key={"c" + t} style={condTag}>{t}</span>)}
-          {b.tasks.map((t) => <span key={"t" + t} style={taskTag}>{t}</span>)}
         </div>
       )}
-      {b.measures && <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: ED.muted }}>{b.measures}</p>}
-      <span className="edarrow" style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: ED.body, fontSize: 13.5, fontWeight: 600, color: ED.ink }}>
+      <span className="edarrow" style={{ marginTop: "auto", paddingTop: 4, display: "inline-flex", alignItems: "center", gap: 7, fontFamily: ED.body, fontSize: 13.5, fontWeight: 600, color: ED.ink }}>
         View benchmark <span>→</span>
       </span>
     </button>
@@ -1424,35 +1583,67 @@ function BenchCard({ b, showRigor, onClick }) {
   );
 }
 
+// One label/value fact in the detail popup. `wide` spans the full grid width.
+function Fact({ label, value, wide }) {
+  return (
+    <div style={{ gridColumn: wide ? "1 / -1" : "auto" }}>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: C.muted, marginBottom: 5 }}>{label}</div>
+      <div style={{ fontSize: 14.5, lineHeight: 1.5, color: C.ink }}>{value}</div>
+    </div>
+  );
+}
+
 function Detail({ b, showRigor, onClose }) {
-  const rows = [
-    ["Authors / institutions", b.authors],
-    ["Venue", b.venue],
-    ["Year", b.year],
+  const [tab, setTab] = useState("main");
+  const runHref = runHrefFor(b); // module-level map
+  const desc = b.measures || b.clinicalUseCase || "";
+
+  // [label, value, wide?]
+  const mainFields = [
+    ["Published", [b.month, b.year].filter(Boolean).join(" ")],
+    ["Authors / institutions", b.authors, true],
+    ["Journal or venue", b.venue],
+    ["Ground-truth source", b.groundTruth, true],
+  ].filter(([, v]) => v);
+
+  const extraFields = [
     ["Access (model source)", b.source || b.sourceRaw],
-    ["Ground truth", b.groundTruth],
     ["Size", b.size],
-    ["What it assesses", b.measures],
-    ["Clinical use case", b.clinicalUseCase],
-    ["Population", b.population],
+    ["Clinical use case", b.clinicalUseCase, true],
+    ["Population", b.population, true],
     ["Language(s)", b.language],
     ["# domains", b.numDomains],
     ["Interaction", b.turn || b.turnRaw],
-    ["Evaluation method", b.evaluation],
+    ["Evaluation method", b.evaluation, true],
     ["# LLMs assessed", b.numLLMs],
-    ["Construct validity (human)", b.constructValidity],
-    ["Overall grade (human)", b.overallGrade],
-  ].filter(([k, v]) => v && (showRigor || !["Construct validity (human)", "Overall grade (human)"].includes(k)));
+    ...(showRigor ? [
+      ["Construct validity (human)", b.constructValidity, true],
+      ["Overall grade (human)", b.overallGrade],
+    ] : []),
+  ].filter(([, v]) => v);
 
-  const runHref = runHrefFor(b); // module-level map
+  const fields = tab === "main" ? mainFields : extraFields;
+
+  const tabBtn = (key, label, n) => (
+    <button onClick={() => setTab(key)} style={{
+      padding: "0 0 12px", background: "none", border: "none", cursor: "pointer", marginBottom: -1,
+      borderBottom: tab === key ? `2px solid ${C.ink}` : "2px solid transparent",
+      color: tab === key ? C.ink : C.muted, fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600,
+      display: "inline-flex", alignItems: "center", gap: 7,
+    }}>
+      {label}
+      <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: tab === key ? C.ink : C.muted, opacity: 0.7 }}>{n}</span>
+    </button>
+  );
 
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(20,32,28,0.44)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 50 }}>
-      <div onClick={(e) => e.stopPropagation()} style={{ width: "min(720px, 100%)", maxHeight: "90vh", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 6, boxShadow: "0 24px 60px rgba(8,8,7,0.30)", overflowY: "auto", padding: 32 }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ width: "min(720px, 100%)", maxHeight: "90vh", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 8, boxShadow: "0 24px 60px rgba(8,8,7,0.30)", overflowY: "auto", padding: 32 }}>
+        {/* header: rating, title, tags */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
           <div>
             {showRigor && <RigorBadge score={b.score} />}
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: 26, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.1, margin: "8px 0 0" }}>{b.displayName || b.name}</h2>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.08, margin: "8px 0 0" }}>{b.displayName || b.name}</h2>
             {b.displayName && b.displayName !== b.name && (
               <div style={{ fontSize: 12.5, color: C.muted, marginTop: 8, lineHeight: 1.45 }}>{b.name}</div>
             )}
@@ -1468,32 +1659,44 @@ function Detail({ b, showRigor, onClose }) {
           </button>
         </div>
 
+        {/* short description */}
+        {desc && (
+          <p style={{ margin: "16px 0 0", fontSize: 15, lineHeight: 1.6, color: C.ink, maxWidth: 620 }}>{desc}</p>
+        )}
+
         {showRigor && !b.score.tier && (
-          <div style={{ marginTop: 12, fontSize: 12.5, color: C.muted, background: C.paper, border: `1px solid ${C.line}`, borderRadius: 8, padding: "8px 12px" }}>
-            Unrated — fewer than {MIN_KNOWN} rubric dimensions have data in the sheet yet.
+          <div style={{ marginTop: 14, fontSize: 12.5, color: C.muted, background: C.paper, border: `1px solid ${C.line}`, borderRadius: 8, padding: "8px 12px" }}>
+            Unrated. Fewer than {MIN_KNOWN} rubric dimensions have data in the sheet yet.
           </div>
         )}
 
-        <div style={{ marginTop: 16, border: `1px solid ${C.line}`, borderRadius: 12, overflow: "hidden" }}>
-          {rows.map(([k, v], i) => (
-            <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "10px 14px", background: i % 2 ? C.paper : C.surface, fontSize: 13 }}>
-              <span style={{ color: C.muted, flexShrink: 0, maxWidth: 170 }}>{k}</span>
-              <span style={{ fontFamily: FONT_MONO, color: C.ink, textAlign: "right" }}>{v}</span>
-            </div>
-          ))}
+        {/* tabs */}
+        <div style={{ display: "flex", gap: 26, borderBottom: `1px solid ${C.line}`, marginTop: 24 }}>
+          {tabBtn("main", "Overview", String(mainFields.length).padStart(2, "0"))}
+          {tabBtn("extra", "Extra info", String(extraFields.length).padStart(2, "0"))}
         </div>
 
-        {runHref && (
-          <a href={runHref} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 18, fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, color: C.ink, background: C.lime, padding: "13px 16px", borderRadius: 999, textDecoration: "none" }}>
-            ▶ Run this benchmark
-          </a>
-        )}
+        {/* facts grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px 28px", marginTop: 24 }}>
+          {fields.map(([k, v, wide]) => <Fact key={k} label={k} value={v} wide={wide} />)}
+          {fields.length === 0 && (
+            <div style={{ color: C.muted, fontSize: 13.5, gridColumn: "1 / -1" }}>No additional information recorded for this benchmark yet.</div>
+          )}
+        </div>
 
-        {b.paperLink && (
-          <a href={b.paperLink} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: runHref ? 10 : 18, fontFamily: FONT_SANS, fontSize: 13, fontWeight: 600, color: runHref ? C.ink : "#fff", background: runHref ? C.paper : C.brand, border: runHref ? `1px solid ${C.line}` : "none", padding: "10px 16px", borderRadius: 9, textDecoration: "none" }}>
-            View source paper <ExternalLink size={14} />
-          </a>
-        )}
+        {/* actions */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 28 }}>
+          {runHref && (
+            <a href={runHref} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, color: C.ink, background: C.lime, padding: "12px 20px", borderRadius: 999, textDecoration: "none" }}>
+              ▶ Run this benchmark
+            </a>
+          )}
+          {b.paperLink && (
+            <a href={b.paperLink} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: FONT_SANS, fontSize: 13, fontWeight: 600, color: runHref ? C.ink : "#fff", background: runHref ? C.paper : C.brand, border: runHref ? `1px solid ${C.line}` : "none", padding: "12px 18px", borderRadius: 999, textDecoration: "none" }}>
+              View source paper <ExternalLink size={14} />
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );
