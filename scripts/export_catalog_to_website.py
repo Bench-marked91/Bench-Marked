@@ -121,6 +121,14 @@ def main():
     if missing:
         print("! Warning: these expected columns were not found:", missing)
 
+    # Safety: the name column is essential. If the header changed or the read
+    # came back malformed, abort rather than silently exporting an empty catalog.
+    if "Benchmark name" not in col_idx:
+        print("[ABORT] 'Benchmark name' column not found in the sheet header "
+              "(the header may have changed or the read failed). "
+              "Refusing to overwrite website/benchmarks.json.")
+        sys.exit(1)
+
     records = []
     for i, row in enumerate(rows[1:], start=2):
         def get(name):
@@ -137,6 +145,25 @@ def main():
         rec["turn"] = normalize_turn(rec.get("turnRaw", ""))
         rec["sizeNum"] = first_int(rec.get("size", ""))
         records.append(rec)
+
+    # --- Safety guards: never overwrite a good catalog with an empty/gutted export.
+    # A transient sheet-read failure once wrote an empty [] and blanked the site.
+    if not records:
+        print("[ABORT] Export produced 0 benchmarks; refusing to overwrite "
+              "website/benchmarks.json (likely a transient sheet-read failure). "
+              "The existing catalog is left untouched.")
+        sys.exit(1)
+
+    if OUT_FILE.exists():
+        try:
+            prev = json.loads(OUT_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            prev = []
+        if len(prev) >= 5 and len(records) < len(prev) * 0.5:
+            print(f"[ABORT] New export has {len(records)} benchmarks vs {len(prev)} in the "
+                  f"current file (a drop of more than 50%). Refusing to overwrite as a safety "
+                  f"measure. If this deletion is intentional, run the script locally to confirm.")
+            sys.exit(1)
 
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     # Always write LF (no trailing CRLF on Windows) so local and CI output match.
