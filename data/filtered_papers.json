@@ -1,26 +1,215 @@
 [
   {
-    "id": "2607.15202v1",
-    "title": "Self-Evolving Human-Centered Framework for Explainable Depression Symptom Annotation",
-    "summary": "Annotation quality is a major bottleneck in building reliable and explainable artificial intelligence (XAI) systems for mental health research. In depression-related datasets, labels are often assigned without structured evidence, symptom-level justification, or traceable alignment with the criteria of the Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition, Text Revision (DSM-5-TR), limiting both transparency and downstream model interpretability. We propose a self-evolving, expert-in-the-loop annotation framework for Major Depressive Disorder (MDD) that combines large language model (LLM)-assisted labeling with expert verification. The framework is intended to support the construction of explainable, DSM-5-TR-aligned datasets rather than to perform clinical diagnosis. It operates in three stages: candidate evidence selection from textual records, criterion-level DSM-5-TR analysis, and case-level synthesis that produces label-level diagnostic and severity annotations. A dual-memory architecture, composed of Example Memory and Reflection Memory, is designed to internalize expert feedback and iteratively improve future annotations without retraining. We describe this mechanism and leave its evaluation across multiple feedback cycles to future work. In addition to final labels, the framework exports clinical evidence, reasoning traces, and edit histories, enabling comprehensive auditability. In a pilot study using expert-reviewed samples, the proposed approach improves annotation consistency and explainability while reducing manual revision effort.",
-    "published": "2026-07-16T16:59:54Z",
+    "id": "2607.22508v1",
+    "title": "Interpretable EEG biomarkers with bag-of-waves: Spatial and temporal waveform dictionaries for low-data regimes",
+    "summary": "Electroencephalography (EEG) is widely used to diagnose neurological conditions, but its analysis usually relies on either predefined spectral features or deep neural networks. Predefined features carry a strong bias, since they fix in advance what counts as informative, while deep neural networks and foundation models are hard to interpret and need large amounts of data and compute. We present bag-of-waves, an interpretable framework that learns a small dictionary of recurring EEG waveform templates, called atoms, using shift-invariant k-means without labels. The continuous EEG is then turned into a sequence of atom tokens, whose counts feed a simple downstream classifier or clustering step. We extend this representation in two ways: we add atom-to-atom transitions, which we call n- grams, to capture temporal structure, and we move from single-channel atoms to regional and cross-channel spatial atoms for the multichannel case. We test the method on three complementary datasets, each probing a different aspect: single-channel mouse genotype clustering with only sixteen animals (the low-data and temporal case), resting-state dementia classification (the spatial case), and the TUEV benchmark, a six-way classification of clinical EEG events (a high-data comparison against strong deep and foundation baselines). Across all three datasets, bag-of-waves achieves performance competitive with state-of-the-art deep and foundation models. Yet, it operates with a fraction of the parameter count and provides full interpretability: because every atom corresponds to an inspectable waveform, the method explicitly recovers known clinical morphologies that a neurophysiologist can directly validate. Its main advantage is that it works in the low-data regime where heavier models are a poor fit.",
+    "published": "2026-07-24T17:27:43Z",
     "authors": [
-      "Hoang-Loc Cao",
-      "Van Pham",
-      "Truong Thanh Hung Nguyen",
-      "Phuc Truong Loc Nguyen",
-      "Phuc Ho",
-      "Veronica Whitford",
-      "Hung Cao"
+      "Athanasios Papastathopoulos-Katsaros",
+      "Steven T. Lee",
+      "Lin Yao",
+      "Ajay Thomas",
+      "Junseok Park",
+      "Matthew J. McGinley",
+      "Zhandong Liu"
     ],
-    "abstract_url": "http://arxiv.org/abs/2607.15202v1",
-    "pdf_url": "https://arxiv.org/pdf/2607.15202v1",
+    "abstract_url": "http://arxiv.org/abs/2607.22508v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.22508v1",
     "source": "arXiv",
     "relevance": "Might Be Related",
-    "relevance_reason": "Paper introduces an LLM-assisted annotation framework for depression datasets aligned with DSM-5-TR criteria, but focuses on dataset construction and annotation quality rather than evaluating an AI model on a clinical mental-health task; the framework is explicitly stated as not intended for clinical diagnosis."
+    "relevance_reason": "The paper develops an interpretable EEG analysis method and tests it on dementia classification, which is a neurological rather than DSM-5 mental health condition, and does not explicitly evaluate an AI model on a clinical mental health task or diagnosis."
   },
   {
-    "id": "2607.13357v1",
+    "id": "2607.22304v1",
+    "title": "Synthetic Speech, Real Signal: Paralinguistic Preservation and Cross-Lingual Augmentation via Voice Cloning",
+    "summary": "Synthetic data augmentation in speech is common practice for linguistic tasks like ASR, but has seen far less work for paralinguistic ones, especially clinical tasks where labelled data is expensive and some patient groups are underrepresented. Voice cloning is one such augmentation approach, but is typically evaluated on speech intelligibility (WER) or speaker similarity (SS) rather than on downstream performance, and it remains unclear whether these preserve the paralinguistic signal such tasks depend on. We benchmark eight voice cloning models on five paralinguistic tasks across public and clinical datasets, showing most preserve signal with modest degradation. We then clone English clinical speech into Japanese and find that training on cloned data outperforms raw cross-lingual transfer for depression and anxiety detection on real Japanese speech, suggesting voice cloning is a promising direction for augmenting clinical speech data in low-resource languages.",
+    "published": "2026-07-24T13:46:00Z",
+    "authors": [
+      "Roseline Polle",
+      "Owen Parsons",
+      "George Fairs",
+      "Luis Miguel San Martin Fernandez",
+      "Cole Looney",
+      "Xiaoliang Wu",
+      "Alexandra Livia Georgescu",
+      "Stefano Goria"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.22304v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.22304v1",
+    "source": "arXiv",
+    "relevance": "Definitely Related",
+    "relevance_reason": "Paper evaluates AI models (voice cloning) on clinical tasks for detecting depression and anxiety, which are DSM-5 mental health conditions, using both clinical datasets and cross-lingual clinical speech data."
+  },
+  {
+    "id": "2607.22005v1",
+    "title": "What Clinicians Need: Designing, Developing and Evaluating an AI-Based Decision Support System for Autism Assessment",
+    "summary": "AI methods promise to support autism spectrum condition (ASC) diagnostics in adults, a complex and time-consuming process, that is characterized by a shortage of specialized clinicians. To date, clinicians' needs and their interaction with such AI-based support remain underexplored. Our work aims to develop and evaluate an AI-based clinical decision support system (CDSS) for ASC assessment, and to investigate how it impacts clinicians' decision-making. By interviewing clinicians of varying experience levels, we identified five challenges and derived design strategies. Based on that, we developed SIT-CARE, a CDSS, which provides AI-based recommendations and data visualizations of clinically relevant nonverbal behavior. Through an evaluation study with newly recruited clinicians, we found that SIT-CARE led to different decision paths in regard to the ASC assessment, which are reflected in clinicians' mental models and decision changes. Overall, SIT-CARE demonstrated potential in improving initial diagnostic assessments, supporting in-depth diagnosis and empowering less experienced clinicians.",
+    "published": "2026-07-24T06:10:06Z",
+    "authors": [
+      "Ulrike Sch\u00e4fer",
+      "William Saakyan",
+      "Matthias Norden",
+      "Fabrizio Kuruc",
+      "Peter S\u00f6rries",
+      "Isabel Dziobek",
+      "Claudia M\u00fcller-Birn",
+      "Hanna Drimalla"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.22005v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.22005v1",
+    "source": "arXiv",
+    "relevance": "Definitely Related",
+    "relevance_reason": "The paper evaluates an AI-based clinical decision support system for autism spectrum condition (a DSM-5 mental health condition) diagnosis and assessment in a clinical healthcare context."
+  },
+  {
+    "id": "2607.21988v1",
+    "title": "Analysing Self-Harm Representations in Language Models: a Cross-Architecture Study",
+    "summary": "Self-harm content is particularly challenging to detect using NLP techniques, and is also a high-stakes task which requires the highest accuracy to enable timely intervention or flagging at-risk users. We therefore present an analysis of how LLMs represent such self-harm content, which has downstream applications in self-harm detection, LLM intervention and governance and policing. In this paper, we focus on two datasets and four models, and perform two main experiments: (1) We train and evaluate linear probes across all layers of each model on two self-harm datasets: X-Sensitive and SH-Detection. Across both corpora, self-harm information crystallizes in the final 3 - 7% of network layers (93 to 97% depth). (2) We extract contrastive self-harm directions and, after performing a normaliation step, we find that the most accurate probes are not necessarily the most linearly separable. In particular, we find Gemma-3-4B to represent this \\textit{contrastive self-harm direction} in a slightly different, more intricate way than the other LLMs.",
+    "published": "2026-07-24T05:27:49Z",
+    "authors": [
+      "Luis Espinosa-Anke",
+      "Carla Perez-Almendros"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.21988v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.21988v1",
+    "source": "arXiv",
+    "relevance": "Definitely Related",
+    "relevance_reason": "The paper evaluates how LLMs represent self-harm content using linear probes and contrastive analysis on self-harm detection datasets, directly benchmarking AI models on a mental-health-related task (self-harm detection) with clinical applications for intervention and risk identification."
+  },
+  {
+    "id": "2607.21887v1",
+    "title": "Towards Reducing Foreign Language Anxiety Using Level-Appropriate Embodied Conversational Agents",
+    "summary": "Foreign language anxiety (FLA) can be a major barrier to second language acquisition (SLA), especially in conversational contexts. With the proliferation of large language models (LLMs) throughout all areas of life, recent work suggests that interacting with LLM agents can be instrumental within the field of SLA and foreign language education, especially for reducing FLA. Related work also suggests that linguistic demands and task complexity can be predictors of FLA, implying that the use of demanding, complex language could lead to learners experiencing higher FLA. In this paper, we propose a novel multi-agent embodied conversational system that generates level-appropriate dialogue for English language learners. These levels are based on those defined by the Common European Framework of Reference for Languages (CEFR) to describe non-native listener and speaker proficiency. Using a \"generate-evaluate-regenerate\" loop with multiple LLM agents and a level classifier, it achieves a desired simplicity that is adaptive to the user's proficiency level. We also share the results of a preliminary small-sample pilot study that tested this system with Japanese university students, to see whether it would yield lower FLA levels than an unsimplified embodied conversational agent. Analysis of conversational output showed that 87.4% of dialogue sentences generated by the proposed multi-agent system fell within one predicted CEFR level of the learner's self-assessed proficiency, compared to 54.1% for the unsimplified agent. This suggests that the novel system is better able to produce output at an appropriate level for the learner. Though this study did not yield statistically significant evidence that the system reduces FLA levels in Japanese learners of English, likely due to a small sample size, it provides usability findings and culturally-informed design insights that will inform future study.",
+    "published": "2026-07-24T01:31:13Z",
+    "authors": [
+      "Krishan Rajaratnam",
+      "Wenbin Gan",
+      "Yuan Sun"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.21887v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.21887v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "While foreign language anxiety is addressed, the paper focuses on language education technology rather than clinical mental-health evaluation; FLA is a situational anxiety in educational contexts rather than a DSM-5 disorder, and there is no clinical/diagnostic benchmark of an AI model against standardized mental-health outcomes."
+  },
+  {
+    "id": "2607.21496v1",
+    "title": "Toward Generalizable Cognitive Impairment Detection with Speech-Based Multimodal Large Language Models",
+    "summary": "Cognitive impairment (CI) is a growing public health concern. Early and accurate diagnosis is critical for enabling timely intervention and improving patient outcomes. Speech-based CI detection has emerged as a promising non-invasive approach, as speech signals encode both linguistic and acoustic markers associated with cognitive decline. Recent advances in large language models (LLMs) further strengthen the potential of speech-based assessment by enabling more expressive representation learning and improved generalization across diverse speakers, recording devices, and clinical environments. Moreover, multimodal learning by jointly modeling linguistic and acoustic features allows for a more comprehensive characterization of cognitive and behavioral changes related to CI, leading to more reliable detection. In this work, we propose a multimodal CI detection framework based on open-source LLMs that integrates speech audio and corresponding transcripts while preserving patient privacy. Acoustic embeddings are extracted directly from speech signals, while textual embeddings are generated from automatically transcribed speech. These modality-specific embeddings are then concatenated to create a combined feature vector and used for downstream classification, without requiring access to raw or sensitive patient data. The proposed approach is evaluated on the ADReSS20 and ADReSSo21 benchmark datasets. Experimental results show that the proposed multimodal framework achieves an CI classification accuracy of 92.4% and consistently outperforms single-modality baselines. Our work establishes a new state-of-the-art for CI identification, with the proposed method demonstrating superior cross-dataset generalization. This advance highlights the power of an LLM-based multimodal framework that fuses linguistic and acoustic data to enable robust, scalable, and non-invasive screening.",
+    "published": "2026-07-23T16:43:12Z",
+    "authors": [
+      "Yingchao Huang",
+      "Xin Wang",
+      "Yuhan Su",
+      "Shanshan Yao"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.21496v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.21496v1",
+    "source": "arXiv",
+    "relevance": "Definitely Related",
+    "relevance_reason": "The paper evaluates multimodal LLMs on cognitive impairment detection (a DSM-5-adjacent neurological condition) using clinical benchmark datasets (ADReSS20, ADReSSo21) for diagnostic screening in a healthcare context."
+  },
+  {
+    "id": "2607.21156v1",
+    "title": "SafeStep: AI-powered Travel Assistance for Elderly People with Frailty or Dementia",
+    "summary": "More than a million people in the UK suffer from frailty or dementia, which severely compromise their ability to travel in urban environments. This paper presents SafeStep, an AI-driven travel system that assists elderly users with their journeys. At the core of SafeStep is a novel travel graph representation, which integrates route planning with predictive modelling. For each stage of a journey, the system (i) generates personalized failure scenarios using a combi-nation of LLMs and the Anticip8 behavioral prediction engine, (ii) proposes targeted interventions, and (iii) estimates the impact of interventions on out-come probabilities. This enables SafeStep to select interventions that maximize the likelihood of the person reaching their destination. SafeStep was evaluated through experiments on travel graph generation and a field study involving 26 real-world journeys. Results showed that combining Anticip8 for failure pre-diction with GPT-based models for intervention evaluation yields the most re-liable performance. User feedback indicated that SafeStep improves confidence and perceived safety during travel, although interface usability needs to be im-proved for the target demographic. In the future, we would like to improve and release SafeStep. The AI system that was developed for SafeStep could be ap-plied in other areas, such as mental health, career coaching and addiction treatment.",
+    "published": "2026-07-23T10:37:28Z",
+    "authors": [
+      "Elderly People with Frailty or Dementia Azul Debenedetti",
+      "David Gamez",
+      "Franco Such",
+      "Nik Kairinos"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.21156v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.21156v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "Dementia is a neurological condition adjacent to mental health rather than a core DSM-5 mental disorder, and the paper focuses on travel assistance rather than clinical evaluation of AI on mental-health tasks; however, it mentions potential future applications in mental health domains."
+  },
+  {
+    "id": "2607.21019v1",
+    "title": "HiMe: Real-Time Self-Hosted Personal Agent Platform for Health Insights with Wearable Devices",
+    "summary": "Traditional approaches to wearable health signal analysis, such as smartwatches, are constrained by rigid analytical frameworks and limited personalisation. The emergence of LLM agents creates a new opportunity for Personal Health Agentic Analysis, where health insights can be generated adaptively and in context. However, currently there is no open-source locally deployable platform capable of processing personal health data in real time while preserving privacy. We present HiMe, a locally deployable, privacy-first agent platform that is fully compatible with real-time health data ecosystems across a wide range of wearable devices. HiMe is guided by three design principles. The database is treated as a first-class component. Effectiveness and efficiency are jointly optimised to achieve a low-cost Pareto-optimal balance. Data are processed in real time while the user is modelled over the long term. Together, these principles make it practical for individuals to harness Personal Health Agents for continuous, personalised health monitoring for better wellbeing.",
+    "published": "2026-07-23T08:05:21Z",
+    "authors": [
+      "Wei Liu",
+      "Siya Qi",
+      "Linhai Zhang",
+      "Lorainne Tudor Car",
+      "Yulan He"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.21019v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.21019v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "The paper presents a platform for wearable health monitoring with LLM agents but does not explicitly evaluate or benchmark the AI model on any DSM-5 mental health conditions or clinical mental health tasks."
+  },
+  {
+    "id": "2607.17442v1",
+    "title": "Calibrated Alzheimer's Conversion Risk in Mild Cognitive Impairment: Persistent Homology of Clinical Trajectories with Conformal Guarantees",
+    "summary": "Background. Predicting conversion from mild cognitive impairment (MCI) to Alzheimer's disease (AD) is central to trial enrichment and care planning, yet existing models provide no individual-level uncertainty estimates and rarely include transparent leakage audits. We introduce the first application of persistent homology to longitudinal clinical trajectory point clouds for this task, and the first split-conformal individual risk guarantee for any AD-conversion model. Methods. We analysed 741 MCI subjects (240 converters, 32.4%) from ADNI with a uniform 4-year follow-up cap. Five leakage sources were corrected; without them a naive pipeline achieved AUC=0.934, inflated by +0.075. Vietoris-Rips persistent homology and sublevel-set proxies were combined with trajectory slopes and engineered features (76 total) in a stacking ensemble evaluated by 5-fold cross-validation. Results. Cox and Random Survival Forest models with TDA features achieved concordance C=0.799 and C=0.826 versus C=0.753 and C=0.812 without (+0.045 and +0.014). The primary nested AUC is 0.840 (same-fold bound 0.866); external AUC was 0.879 on a zero-overlap ADNI-2/GO/3 cohort. H0 persistence entropy was the top SHAP feature and significantly associated with APOE4 dosage (Spearman r=-0.191, p<0.0001, Bonferroni-corrected). Cross-conformal coverage was 90.4%+-2.2% (target 90%); empirical external coverage 96.9%. Maximum fairness gap in false-negative rate across seven subgroups was 0.092. Conclusions. We propose H0 persistence entropy as a topological biomarker of cognitive decline and demonstrate that a leakage-audited, conformally calibrated pipeline reaches competitive accuracy with individual-level uncertainty quantification not previously available for this task.",
+    "published": "2026-07-20T00:00:17Z",
+    "authors": [
+      "Navin Bondade"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.17442v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.17442v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "While the paper addresses a neurological condition (Alzheimer's/MCI) with AI model evaluation, Alzheimer's disease and mild cognitive impairment are neurodegenerative disorders rather than DSM-5 mental health conditions, placing this outside the core scope of mental-health-focused benchmarking."
+  },
+  {
+    "id": "2607.16712v1",
+    "title": "DS@GT ARC at eRisk 2026: Hybrid Multi-Agent LLM System with Structured Algorithmic Guidance for Conversational Depression Screening",
+    "summary": "We describe DS@GT's submission to the eRisk 2026 Task 1 challenge on conversational depression screening, in which systems interview LLM personas that simulate individuals with varying depression profiles and produce a Beck Depression Inventory II (BDI-II) score plus four key symptoms per persona, without directly asking sensitive mental health questions. Our pipeline evolved through three stages: a monolithic single-model prototype to start off, a baseline multi-agent architecture that separates conversational interviewing from BDI-II scoring under a coordinating orchestration layer, and a final hybrid configuration that replaces the paid GPT-5-nano interviewer with the open-source Gemma 27B. To offset the model's weaker reasoning and instruction-following, the hybrid adds three algorithmic components: a precomputed dialogue tree that standardizes interview openers and follow-ups, a reliability-weighted consensus aggregation inspired by the Weaver framework, and a cluster-based imputation step for unprobed symptoms. We submitted three fully automated runs across all 20 personas, with Run 1 from the paid baseline and Runs 2 and 3 from the hybrid. Hybrid Run 3 achieved an ADODL of 0.9063, ranking 3rd among all complete-submission runs and placing DS@GT 2nd among the 21 teams overall, while outperforming our paid baseline Run 1 (0.8841) at roughly one-quarter of the per-persona API cost. These results support our central hypothesis that with sufficient algorithmic supervision, a weaker open-source model can compete with a stronger proprietary model in the conversational interviewer role. Our source code is available at https://github.com/dsgt-arc/erisk-task1-2026.",
+    "published": "2026-07-18T09:02:19Z",
+    "authors": [
+      "Victor Gong",
+      "David Guecha"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.16712v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.16712v1",
+    "source": "arXiv",
+    "relevance": "Definitely Related",
+    "relevance_reason": "The paper evaluates an AI system (multi-agent LLM pipeline) on conversational depression screening using the Beck Depression Inventory II, a clinical assessment tool, which is a DSM-5 mental health condition in a healthcare-oriented clinical context."
+  },
+  {
+    "id": "2607.18304v1",
+    "title": "TD-DPO: Difference-Aware Preference Optimization for Mitigating Sycophancy in Clinical Autism Intervention Dialogue",
+    "summary": "The sycophancy of large language models can increase the safety risk in intervention dialogue for autistic children. Supervised fine-tuning can somewhat reduce sycophancy, but relying solely on positive examples is often insufficient to identify and correct failure patterns. We observe that sycophancy behaviors can often be localized to a limited span within the model response. In this regime, sequence-level preference optimization can over-update preference-irrelevant tokens and degrade intervention ability. To address this, we propose the \\textbf{M}inimal \\textbf{E}dit \\textbf{D}ata \\textbf{A}ugmentation (MEDA) strategy to construct controlled, stable, minimal edit preference pairs and \\textbf{T}oken-level \\textbf{D}ifference \\textbf{D}irect \\textbf{P}reference \\textbf{O}ptimization (TD-DPO), which upweights difference tokens between chosen and rejected responses while downweighting shared tokens to suppress background drift. Extensive experiments across multiple backbones and evaluators show that TD-DPO achieves a better trade-off between sycophancy mitigation and intervention ability retention in our offline settings, highlighting its potential as a practical alignment approach for autism intervention.",
+    "published": "2026-07-17T05:25:48Z",
+    "authors": [
+      "Shuzhong Lai",
+      "Junhong Lai",
+      "Chenxi Li",
+      "Qing Zhou",
+      "Haifeng Li",
+      "Gang Pan",
+      "Lin Yao",
+      "Yueming Wang"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.18304v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.18304v1",
+    "source": "arXiv",
+    "relevance": "Definitely Related",
+    "relevance_reason": "The paper evaluates an LLM (via TD-DPO fine-tuning) on a clinical autism intervention task, addressing safety and sycophancy in dialogue systems designed to support autistic children."
+  },
+  {
+    "id": "2607.16325v1",
+    "title": "RegionFM: Interpretable Region-Based Brain MRI Classification Using Foundation Model Embeddings",
+    "summary": "Foundation models provide powerful representations for brain MRI analysis, but their predictions remain difficult to interpret in anatomically meaningful terms. Clinical assessment of brain MRI is commonly organized around anatomically defined structures and regional abnormalities, whereas conventional explanation methods typically produce voxel- or patch-level importance maps that do not explicitly quantify the contributions of individual brain regions. To address this mismatch, we propose RegionFM, an interpretable framework that integrates anatomical segmentation with brain MRI foundation-model embeddings. RegionFM first divides each MRI scan into anatomical regions and constructs a separate MRI volume for each region. A frozen foundation model then encodes each region into an embedding, and a region-additive logistic model combines these embeddings such that every anatomical region contributes an explicit scalar term to the final prediction. This formulation supports both subject-level and cohort-level analyses of regional contributions. We evaluate RegionFM on cognitive-impairment classification using embeddings from multiple pretrained brain MRI foundation models. The results show that RegionFM maintains performance comparable to less interpretable fine-tuning approaches while providing anatomically grounded explanations. Randomized embedding ablations yield near-chance performance, indicating that the predictions rely on meaningful structure captured by the foundation-model embeddings rather than simple feature statistics. Overall, RegionFM better aligns model explanations with anatomy-based clinical reasoning while maintaining competitive predictive performance.",
+    "published": "2026-07-15T12:45:44Z",
+    "authors": [
+      "Wei Zhang"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2607.16325v1",
+    "pdf_url": "https://arxiv.org/pdf/2607.16325v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "Involves AI evaluation on brain MRI for cognitive impairment classification, but cognitive impairment (MCI/dementia) is a neurological condition adjacent to DSM-5 mental health rather than a core psychiatric disorder, and the focus is on interpretability methods rather than clinical mental-health task benchmarking."
+  },
+  {
+    "id": "2607.13357v2",
     "title": "TANDE: Disentangling Verbal and Nonverbal Backchannels in Emotional AI-Avatar Conversations with Young Adults",
     "summary": "Embodied conversational agents (ECAs) need effective empathic grounding to foster social support and engagement. Expanding into emotional domains, ECAs now use Large Language Models (LLMs) and multimodal human-agent interactions to enhance their capabilities. Yet, understanding the impact of backchanneling modalities on young adults and their gender remains limited. We introduce TANDE, an LLM-powered ECA designed for emotional conversations with young adults, a population experiencing mental, personal, and social issues with limited tools to address them. In a within-subjects study with N=36 young adults, we explore nonverbal and combined verbal-and-nonverbal backchanneling modalities on rapport, empathy, and engagement and isolate for gender differences. Our research shows the importance of nuanced backchanneling cues with emotional ECAs with young adults, showing a preference for nonverbal cues. We derive design implications for more effective ECAs for emotional support and well-being in young adults. The code is available at https://github.com/Cornell-Tech-AIRLab/TANDE.",
     "published": "2026-07-15T00:45:51Z",
@@ -30,142 +219,10 @@
       "Nadine Wagener",
       "Angelique Taylor"
     ],
-    "abstract_url": "http://arxiv.org/abs/2607.13357v1",
-    "pdf_url": "https://arxiv.org/pdf/2607.13357v1",
+    "abstract_url": "http://arxiv.org/abs/2607.13357v2",
+    "pdf_url": "https://arxiv.org/pdf/2607.13357v2",
     "source": "arXiv",
     "relevance": "Might Be Related",
-    "relevance_reason": "The paper involves LLM-powered conversational agents for emotional support with young adults experiencing mental/social issues, but does not explicitly evaluate the AI on a clinical mental health condition diagnosis, screening, or treatment task."
-  },
-  {
-    "id": "2607.13260v1",
-    "title": "Discourse-Aware Policy Analysis with Argumentation: A Hybrid LLM-Symbolic Framework for Disaster Governance",
-    "summary": "Policy documents shape governance outcomes, but their reasoning is often implicit. Participatory commitments and managerial control routinely coexist in the same text, and the tensions between them are rarely stated directly. Existing computational approaches to policy discourse cannot express the frame-mediated relations that drive these tensions, where one argument narrows or instrumentalizes another rather than rejecting it. End-to-end summarization by large language models produces fluent text but offers little structure that domain experts can inspect or contest. We present Apaf, a hybrid LLM--symbolic pipeline that operationalizes critical discourse analysis as a quantitative bipolar argumentation framework over policy text. Arguments are first classified into deliberative or managerial frames. Four frame-mediated relation subtypes (agency reduction, agenda shift, instrumental support, and normative support) are then produced by deterministic rules over LLM-extracted features. We release a novel dataset of 100 sub-documents of disaster-risk-reduction policy from the USA, UK, Canada, and Australia, and show that the resulting argument graphs are accurate, interpretable, and stable across jurisdictions.",
-    "published": "2026-07-14T20:47:38Z",
-    "authors": [
-      "Stylianos Loukas Vasileiou",
-      "Olga Derendiaeva"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2607.13260v1",
-    "pdf_url": "https://arxiv.org/pdf/2607.13260v1",
-    "source": "arXiv",
-    "relevance": "Not Related",
-    "relevance_reason": "This paper focuses on policy discourse analysis and argumentation frameworks for disaster governance, with no involvement of mental health conditions, clinical evaluation, or healthcare tasks."
-  },
-  {
-    "id": "2607.12395v2",
-    "title": "Ring-Zero: Scaling Zero RL to a Trillion Parameters for Emergent Reasoning",
-    "summary": "Reinforcement learning with verifiable rewards without human-annotated data, often referred to as zero RL, has emerged as a powerful paradigm for eliciting chain-of-thought reasoning. However, due to computational constraints, existing studies are largely restricted to small models, leaving the training dynamics and emergent capabilities at a large scale unexplored. To meaningfully explore this frontier, we aim to elicit high-quality reasoning behaviors from the model. However, we find that naive scaling often suffers from poor readability, token redundancy, and a lack of adaptive reasoning depth. To address these challenges, we present a stable and efficient training pipeline, incorporating algorithmic and system optimizations such as clipped importance sampling, training-inference ratio correction, and mixed-precision control. Our experiments offer three key findings that validate the \"bitter lesson\" of scaling: (1) scaling to 1T parameters significantly enhances sample efficiency and performance ceilings; (2) the training process progresses sequentially through an initial discovery phase followed by a sharpening phase; and (3) the model spontaneously develops advanced cognitive behaviors, including anthropomorphism, structured formatting, self-verification, parallel reasoning, and context anxiety, rendering hand-crafted heuristics redundant. Evaluated on seven mathematical benchmarks, Ring-2.5-1T-Zero achieves competitive performance. Additionally, to assess CoT quality beyond final-answer correctness, we propose a structured evaluation framework across three dimensions: comprehensibility, reproducibility, and efficiency, where our model demonstrates clear advantages in producing structured and concise reasoning traces. By sharing our observed emergent phenomena, we hope to provide the community with deeper insights into scaling behaviors, particularly at the 1-trillion scale.",
-    "published": "2026-07-14T06:14:55Z",
-    "authors": [
-      "Xinyu Tang",
-      "Qianggang Cao",
-      "Yurou Liu",
-      "Yuliang Zhan",
-      "Xiaochong Lan",
-      "Yifan Li",
-      "Yuchen Yan",
-      "Han Peng",
-      "Zican Dong",
-      "Zhenduo Zhang",
-      "Tianshu Wang",
-      "Xinyu Kong",
-      "Zujie Wen",
-      "Wayne Xin Zhao",
-      "Zhiqiang Zhang",
-      "Jun Zhou"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2607.12395v2",
-    "pdf_url": "https://arxiv.org/pdf/2607.12395v2",
-    "source": "arXiv",
-    "relevance": "Not Related",
-    "relevance_reason": "This paper focuses on scaling reinforcement learning for mathematical reasoning in large language models with no evaluation or application to mental health conditions, clinical tasks, or healthcare contexts."
-  },
-  {
-    "id": "2607.12295v1",
-    "title": "A Longitudinal Analysis of Public Discourse on AI Ethics in Education Using Twitter Data",
-    "summary": "The rapid integration of artificial intelligence (AI) and generative AI (GenAI) into education presents significant opportunities to enhance teaching and learning, while raising ethical concerns about the responsible use of these technologies in educational settings. Understanding how the public perceives and debates these issues is increasingly important for educators, institutions, and policymakers seeking to integrate AI responsibly and equitably. Social media platforms, where such debates unfold frequently and at scale, offer a valuable lens for capturing large-scale, real-time public reactions to key developments as they emerge. In this study, we analyse five years (2019-2024) of discourse on Twitter (now X) to trace the evolving public conversation around AI ethics in education, paying particular attention to the release of ChatGPT as a pivotal moment that reshaped the nature and tone of that discourse. Using BERT-based topic modelling and SetFit sentiment analysis to identify dominant themes and track sentiment over time, we find that the discourse has been predominantly positive across the observation period, with negative sentiment concentrated around specific ethical controversies. More recently, anxieties about academic integrity and the broader implications of generative AI have come to dominate the conversation. Rather than reflecting a polarized debate, public discourse appears pragmatic and largely receptive to AI integration, though accompanied by growing calls for ethical oversight and institutional accountability. By providing a longitudinal account of public sentiment surrounding AI ethics in education, this study informs educators, institutions, and policymakers an empirically grounded understanding of public expectations, informing the development of responsible, transparent, and equitable approaches to AI integration across educational contexts.",
-    "published": "2026-07-14T03:08:47Z",
-    "authors": [
-      "Akriti Bagale",
-      "Nafisa Mehjabin",
-      "Ali \u00dcnl\u00fc",
-      "Aditya Johri"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2607.12295v1",
-    "pdf_url": "https://arxiv.org/pdf/2607.12295v1",
-    "source": "arXiv",
-    "relevance": "Not Related",
-    "relevance_reason": "The paper analyzes public discourse on AI ethics in education using sentiment analysis, but does not involve mental health conditions, clinical evaluation, or healthcare-oriented tasks."
-  },
-  {
-    "id": "2607.10871v1",
-    "title": "Toward Contemplative LLM: A Modular Framework for Evaluating and Enhancing LLM Alignment in Mental Health",
-    "summary": "Contemplative traditions have long guided ethical behavior and prosocial interaction, and recent work suggests that contemplative principles (e.g., mindfulness, compassion, non-dual reasoning) may offer a promising paradigm for aligning large language models (LLMs), improving cooperation and reducing ethical violations in LLM outputs. However, as new models, evaluation metrics, and benchmarks emerge rapidly, it remains challenging to systematically assess whether and how contemplative principles enhance LLM alignment across diverse and evolving scenarios, and existing approaches are often ad hoc and fail to generalize. We present a modular, extensible evaluation framework, initially targeted at the mental health domain, that enables seamless integration of new models, metrics, and benchmarks through a reusable pipeline. The framework currently reproduces existing state-of-the-art results and supports systematic cross-evaluation by flexibly mixing and matching models, metrics, and benchmarks, enabling fair comparison and deeper insight. Its plug-and-play prompting module offers a principled pathway for incorporating ethical perspectives such as contemplative principles, allowing domain experts to define alignment criteria without requiring technical expertise. Although initially focused on mental health, the framework is domain-agnostic and extends naturally to areas such as decision-making, moral reasoning, and human-AI collaboration. By bridging computational evaluation with human-centered ethical reasoning, this work lays the groundwork for interdisciplinary research spanning cognitive science, behavioral economics, philosophy, and system design, toward robust, trustworthy, and socially beneficial human-AI ecosystems.",
-    "published": "2026-07-12T18:23:52Z",
-    "authors": [
-      "Asher Sprigler",
-      "Yang-Yang Feng",
-      "Iftach Amir",
-      "Jonathan E. Bogard",
-      "Todd S Braver",
-      "Yi Ding",
-      "David Kinney",
-      "Yixue Zhao"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2607.10871v1",
-    "pdf_url": "https://arxiv.org/pdf/2607.10871v1",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "The paper introduces an evaluation framework for LLMs in mental health with contemplative principles, but does not clearly evaluate AI performance on specific DSM-5 mental health conditions or clinical tasks; it focuses on alignment and ethical behavior rather than diagnosis, screening, or symptom assessment."
-  },
-  {
-    "id": "2607.10678v1",
-    "title": "Personalized Emotional Intelligence in Generative AI through Symbolic Affective Reasoning",
-    "summary": "Emotional intelligence enables humans to recognize emotions, infer their causes, reason about interventions, and modify their environment to achieve desired affective states. Despite recent advances in artificial intelligence (AI), current models remain largely limited to generating realistic content or performing semantic reasoning, with little capacity for understanding, predicting, and personalizing human emotional responses. Here we introduce Emotion-augmented geneRatiOn System (EROS), a hybrid AI framework that integrates symbolic reasoning with deep learning to enable personalized emotion augmentation through visual content. Leveraging large-scale image-emotion datasets, EROS discovers generalizable affective rules, identifies emotion-relevant image regions, and predicts context-aware visual modifications that preserve scene semantics while steering emotional responses toward desired targets. To account for individual variability, EROS incorporates an expandable memory bank that supports inference-time personalization without model fine-tuning, yielding interpretable emotional profiles and rapid adaptation to new users. Across extensive human psychophysics experiments, EROS elicits target emotional responses more effectively than state-of-the-art large multimodal models while adapting to individual affective preferences. Beyond affective computing, EROS provides a foundation for AI systems that can understand, reason about, and augment human cognitive states, with potential applications in mental health, adaptive media, education, and human-computer interaction.",
-    "published": "2026-07-12T09:51:37Z",
-    "authors": [
-      "Qing Lin",
-      "Mengmi Zhang"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2607.10678v1",
-    "pdf_url": "https://arxiv.org/pdf/2607.10678v1",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "The paper develops an AI system for emotion recognition and modification with potential mental health applications mentioned, but does not evaluate the system on any clinical mental health condition or task (diagnosis, screening, therapy support, or symptom assessment) in a healthcare context."
-  },
-  {
-    "id": "2607.10633v1",
-    "title": "Auditing Construct Overlap in Explainable Machine Learning: Evidence from Burnout-Depression Prediction Across Student Cohorts",
-    "summary": "Explainable machine learning (XML) pipelines applied to composite mental health outcomes can produce apparently-robust, cross-population-stable risk hierarchies that are largely artefacts of how the outcome was constructed. We demonstrate this using an ElasticNet pipeline applied to 886 medical students at the University of Lausanne (primary cohort, 2022), validated across 2,580 longitudinal observations at three time points and 701 non-medical students from eight faculties; all three datasets share identical instruments. The pipeline produces a hierarchy in which trait anxiety and health satisfaction dominate wherever the outcome is measured, with Kendall $\u03c4= 1.0$ for the top-two positions across all five evaluation sets and consistent transfer performance ($R^2$: 0.41-0.49). Two residualization experiments, which isolate shared variance between correlated variables via regression, reveal the mechanism: when trait anxiety (STAI-T) is residualized against the co-included depression subscale (CES-D, $r = 0.72$), model $R^2$ drops from 0.41 to 0.16 and STAI-T falls from rank 1 to rank 6; when burnout subscales are residualized against CES-D, $R^2$ collapses to 0.016. Prediction intervals average 35.4 units on a 0-100 scale (2.4 outcome standard deviations), independently ruling out individual-level deployment. The residualization protocol is the paper's transferable contribution: any XAI study combining correlated predictor and outcome constructs should apply this check before interpreting apparent stability as a finding.",
-    "published": "2026-07-12T07:56:38Z",
-    "authors": [
-      "Alireza Dehghan",
-      "Negin Ashrafi"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2607.10633v1",
-    "pdf_url": "https://arxiv.org/pdf/2607.10633v1",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "The paper evaluates machine learning on mental health outcomes (burnout and depression) but focuses on methodological critique of construct overlap rather than benchmarking AI performance for clinical utility or diagnosis."
-  },
-  {
-    "id": "2607.02567v4",
-    "title": "Cross-Receiver Open-Set Radio Frequency Fingerprinting via Structure-First Adaptation",
-    "summary": "Radio frequency fingerprint identification (RFFI) provides a critical physical-layer security mechanism for dynamic Internet of Things (IoT) and ad hoc networks. However, the decentralized and open nature of these networks imposes two strict deployment criteria: the credential must transfer reliably across physically dispersed, heterogeneous receivers, and it must decisively reject unregistered rogue traffic. Cross-receiver hardware shifts depress the confidence of registered devices and may also place unseen rogue transmitters in high-confidence known regions under naive domain adaptation, increasing false acceptance. To address these risks, we propose CRODA-ST, a joint optimization framework that couples Discriminative Structure Anchoring (DSA) with Rejection Oriented Alignment (ROA). Within this coupled objective, DSA establishes a stable target-known semantic foundation for shifted registered devices, while ROA regularizes the open-set decision boundaries governing rejection of unseen rogue transmitters. In the canonical WiSig setting, CRODA-ST achieves an open-set classification rate (OSCR) of 0.9580 and a target-domain false positive rate of 0.0469 at a 90% true positive rate (FPR90). A controllable LoRa simulation provides a complementary diagnostic under synthesized hardware distortions. At the distinct source-calibrated deployment operating point with rho = 0.80, CRODA-ST yields a target-unknown false acceptance rate (FAR) of 0.0075 in the evaluated setting.",
-    "published": "2026-06-30T03:56:42Z",
-    "authors": [
-      "Fengchong Yao",
-      "Jianbing Li",
-      "Qing Liu",
-      "Kefeng Song",
-      "Haitao Li",
-      "Song Wang",
-      "Feixiang Wang"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2607.02567v4",
-    "pdf_url": "https://arxiv.org/pdf/2607.02567v4",
-    "source": "arXiv",
-    "relevance": "Not Related",
-    "relevance_reason": "This paper addresses radio frequency fingerprinting for IoT security and has no connection to mental health, clinical evaluation, or AI assessment on health-related tasks."
+    "relevance_reason": "The paper involves an LLM-powered ECA designed for emotional conversations with young adults experiencing mental and social issues, but it focuses on interaction design and backchanneling modalities rather than evaluating the AI on a specific DSM-5 mental health condition diagnosis, screening, or clinical assessment task."
   }
 ]

@@ -1,0 +1,40 @@
+{
+  "relevance_flag": "Might Be Related",
+  "benchmark_name": "What Clinicians Need: Designing, Developing and Evaluating an AI-Based Decision Support System for Autism Assessment",
+  "paper_link": "http://arxiv.org/abs/2607.22005v1",
+  "open_vs_closed_source": "",
+  "month_year": "July 2026",
+  "authors": [
+    "Ulrike Sch\u00e4fer",
+    "William Saakyan",
+    "Matthias Norden",
+    "Fabrizio Kuruc",
+    "Peter S\u00f6rries",
+    "Isabel Dziobek",
+    "Claudia M\u00fcller-Birn",
+    "Hanna Drimalla"
+  ],
+  "institutions": "Freie Universit\u00e4t Berlin, Germany; Bielefeld University, Germany; Humboldt-Universit\u00e4t zu Berlin, Germany",
+  "journal_venue": "Preprint \u2014 arXiv (cs.HC)",
+  "ground_truth_source": "Two real patient cases (one ASC, one Non-ASC) chosen by experienced clinicians based on diagnostic assessments; patients provided informed consent. AI model trained on 325 adult participants (168 ASC, 157 Non-ASC) with IRB-approved clinical diagnoses.",
+  "size_of_benchmark": "7 clinicians (formative study); 7 clinicians (evaluation study); 2 patient cases assessed at 3 decision points = 42 decisions total",
+  "what_assessed_skills": "Clinician decision-making accuracy and reasoning when assisted by AI-based CDSS; ability to interpret nonverbal behavior visualizations (gaze, facial expressions, voice); formation of mental models of AI; appropriateness of AI reliance (over-reliance, under-reliance)",
+  "tasks_assessed": "ASC vs. Non-ASC binary screening decision at three decision points (after SIT video, after data-based assessment, after model-based AI recommendation); think-aloud reasoning about nonverbal behavior; prediction of AI recommendation",
+  "population_represented": "Adult patients (ASC and Non-ASC); clinicians/psychotherapists of varying experience levels (formative and evaluation studies)",
+  "languages": "German (interviews conducted in German, based on institutional context; not explicitly stated)",
+  "num_domains": "",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Human evaluation \u2014 7 clinicians assessed 2 patient cases at 3 sequential decision points each (42 total decisions); think-aloud protocols and semi-structured interviews; inductive/deductive qualitative coding of ~8 hours of transcripts; decision path categorization (consistent AI-confirmed, consistent not AI-confirmed, uncertain-to-aligned, ambiguous). Metrics: decision path type, decision changes across DPs, qualitative mental model themes, clinician feedback ratings.",
+  "num_llms_assessed": "0",
+  "llms_evaluated": "",
+  "mental_health_conditions": "Autism Spectrum Condition (ASC) / Autism Spectrum Disorder (ASD)",
+  "performance_scores": "AI model (XGBoost late-fusion): accuracy 74%, precision 0.76, recall 0.74 (Leave-One-Out Cross-Validation on 325 participants). Clinician study: 7 of 14 decision paths showed consistent AI-confirmed decisions; 3 paths showed consistent non-AI-confirmed decisions; 2 paths changed from uncertain to aligning with AI; 2 paths showed decisions under ambiguity.",
+  "short_summary": "This paper designs, develops, and evaluates SIT-CARE, a human-centered AI-based clinical decision support system (CDSS) for autism spectrum condition (ASC) screening in adults. The system uses nonverbal behavioral data (gaze, facial expressions, voice) extracted from standardized video interactions (Simulated Interaction Task) and provides clinicians with data visualizations and an XGBoost-based AI recommendation. A formative study with 7 clinicians identified 5 key challenges and design strategies; an evaluation study with 7 newly recruited clinicians assessed how SIT-CARE influenced decision-making across 3 sequential decision points per patient case. Four distinct decision path types were identified, revealing varied mental models and reliance patterns. The study does not evaluate LLMs; the AI component is a classical ML model (XGBoost).",
+  "missing_or_uncertain_fields": [
+    "llms_evaluated \u2014 no LLMs tested; system uses XGBoost/logistic regression ML",
+    "open_vs_closed_source \u2014 not applicable (no LLM evaluated)",
+    "languages \u2014 interview language not explicitly stated",
+    "num_domains \u2014 not explicitly enumerated as domains",
+    "performance_scores \u2014 clinician-level diagnostic accuracy metrics not formally reported beyond decision path counts"
+  ]
+}

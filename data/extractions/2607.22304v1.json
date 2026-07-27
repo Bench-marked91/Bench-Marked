@@ -1,0 +1,38 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "Synthetic Speech, Real Signal: Paralinguistic Preservation and Cross-Lingual Augmentation via Voice Cloning",
+  "paper_link": "http://arxiv.org/abs/2607.22304v1",
+  "open_vs_closed_source": "Open",
+  "month_year": "July 2026",
+  "authors": [
+    "Roseline Polle",
+    "Owen Parsons",
+    "George Fairs",
+    "Luis M San Martin Fernandez",
+    "Cole Looney",
+    "Xiaoliang Wu",
+    "Alexandra L Georgescu",
+    "Stefano Goria"
+  ],
+  "institutions": "thymia, UK; The University of Edinburgh, UK; University of Southampton, UK",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "PHQ-8 score \u226510 + self-reported prior diagnosis (depression); GAD-7 score \u226510 + self-reported prior diagnosis (anxiety); dataset labels for public tasks (IEMOCAP, MELD, MUSTARD, VCTK)",
+  "size_of_benchmark": "Public: IEMOCAP 5,531; MELD 13,708; MUSTARD 690; VCTK 29,650; Proprietary EN 82,046 samples (30,537 speakers); Proprietary JP 14,159 samples (6,253 speakers)",
+  "what_assessed_skills": "Paralinguistic signal preservation through voice cloning; depression and anxiety detection from speech; emotion recognition; sentiment classification; sarcasm detection; accent classification; cross-lingual transfer of clinical speech biomarkers",
+  "tasks_assessed": "Depression detection (binary); Anxiety detection (binary); Emotion recognition (4-class, IEMOCAP); Emotion recognition (7-class, MELD); Sentiment classification (3-class, MELD); Sarcasm detection (binary, MUSTARD); Accent classification (3-class, VCTK)",
+  "population_represented": "English clinical: 30,537 speakers (F/M=60/40%, mean age=37, White/Black/Asian/Mixed=70/15/7/5%); Japanese clinical: 6,253 speakers (F/M/unspecified=40/50/10%, mean age=51, Asian/Other/unspecified=85/5/10%)",
+  "languages": "English; Japanese (cross-lingual transfer)",
+  "num_domains": "5",
+  "single_vs_multi_turn": "Single-Turn",
+  "evaluation_method": "Automated. WavLM Large embeddings (1024-dim) + Logistic Regression classifier; 5-fold stratified group cross-validation; AUC (one-vs-rest, macro-averaged for multi-class); preservation score P=(Ac\u22120.5)/(Ar\u22120.5); permutation test vs. chance; paired bootstrap test (cloned vs. real); paired z-test for cross-lingual conditions; Pearson correlation between speaker similarity and AUC degradation.",
+  "num_llms_assessed": "0",
+  "llms_evaluated": "None (paper evaluates voice cloning models, not LLMs; Qwen3 235B used only for translation preprocessing)",
+  "mental_health_conditions": "Depression; Anxiety",
+  "performance_scores": "RQ1 (monolingual): Real AUC on public tasks mean=0.785; best cloning model (repeat) mean=0.768 (E2-TTS); median degradation 3.2 pp; median preservation P=0.87; clinical corpus top models P=0.93\u20130.94. RQ2 (cross-lingual, N=10,000): Raw EN\u2192JP: depression AUC=0.593, anxiety=0.578; best cloned: OpenAudio depression=0.626, CosyVoice3 anxiety=0.618; in-language JP: depression=0.654, anxiety=0.664. RQ3: Speaker similarity vs. AUC degradation Pearson r=0.87 (clinical general), r=0.81 (mood), r=0.77 (paragraph), r=0.87 (IEMOCAP).",
+  "short_summary": "This paper investigates whether voice cloning models preserve paralinguistic signal relevant to clinical tasks such as depression and anxiety detection, and whether cloned speech can augment cross-lingual training data. Eight open-source voice cloning models (XTTS v2, Zonos, E2-TTS, F5-TTS, OpenAudio S1-mini, CosyVoice 2, CosyVoice 3, MaskGCT) are benchmarked on five paralinguistic tasks across four public datasets and one proprietary clinical English/Japanese corpus. WavLM Large embeddings and logistic regression are used with AUC as the primary metric, evaluated via stratified cross-validation and bootstrap tests. Results show that most cloning models preserve the majority of paralinguistic signal (median degradation 3.2 pp; best models P\u22650.90), and that training on English speech cloned into Japanese significantly outperforms raw cross-lingual transfer for depression and anxiety detection, suggesting voice cloning is a viable augmentation strategy for low-resource clinical speech settings.",
+  "missing_or_uncertain_fields": [
+    "llms_evaluated \u2014 no LLMs are tested as the evaluated systems are voice cloning models, not LLMs",
+    "num_llms_assessed \u2014 confirmed as 0 (voice cloning models are not LLMs)",
+    "performance_scores \u2014 clinical per-model AUC details are from Figure 1 (not fully tabulated in text); cross-lingual paragraph-only results partially reported"
+  ]
+}
