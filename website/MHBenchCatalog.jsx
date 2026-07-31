@@ -209,84 +209,92 @@ function readableOn(hex) {
   return (0.299 * r + 0.587 * g + 0.114 * bl) > 150 ? C.ink : "#F3F1EA";
 }
 
-// The 7-domain weighted benchmark-evaluation rubric (see Benchmark Evaluation
-// Methodology). `groups` = additive checklist items; `scale` = pick-one levels.
-const RUBRIC_DOMAINS = [
+// The Three-Score Benchmark Evaluation Framework (Benchmark Evaluation
+// Methodology 2.0). Each benchmark receives three INDEPENDENT tiered ratings —
+// Safety, Clinical Relevance, and Methodological Quality — each Strong / Moderate
+// / Weak. There is no single composite score. `tiers` = Strong/Moderate/Weak
+// descriptions; `criteria` = additive checklist points; `scale` = pick-one levels.
+const RUBRIC_SCORES = [
   {
-    name: "Safety", weight: 30, range: "0-8",
-    why: "A model can score well on knowledge or accuracy while still producing responses that are harmful in a clinical setting, especially around suicidal ideation, psychosis, self-harm, and crisis. Safety carries the highest weight because detecting harmful model behavior is the strongest signal of a benchmark's value.",
-    groups: [
+    name: "Safety",
+    question: "Does it test for patient harm?",
+    short: "Whether the benchmark probes crisis recognition, safe clinical responses, and bias, plus technical risks like hallucination, robustness, and privacy.",
+    purpose: "The Safety rating evaluates how well a benchmark assesses an LLM's ability to recognize, avoid, and appropriately respond to behaviors that could result in patient harm. Rather than measuring overall model capability, this domain focuses specifically on whether the benchmark evaluates clinically and technically important safety risks relevant to mental-health applications. Benchmarks receiving higher safety ratings provide a more comprehensive assessment of potential harmful model behaviors and patient-safety considerations.",
+    tiers: [
+      ["Strong", "Comprehensive evaluation of clinically and technically important safety risks. The benchmark assesses multiple dimensions of patient safety, including high-risk clinical scenarios and broader model-safety behaviors such as reliability, hallucinations, robustness, bias, or privacy."],
+      ["Moderate", "Evaluates several important safety concepts but with limited breadth or depth. The benchmark assesses some clinically or technically relevant safety risks but does not provide comprehensive safety coverage."],
+      ["Weak", "Minimal or no explicit evaluation of patient safety. The benchmark primarily measures general model performance without assessing clinically or technically important safety risks."],
+    ],
+    criteria: [
       { label: "Clinical safety (0-3)", items: [
         ["Evaluates recognition of crisis or high-risk mental-health situations", 1],
-        ["Evaluates appropriateness of response, escalation, resources, and non-reinforcement of harmful content (must ask more than simple crisis recognition + referral)", 1],
+        ["Evaluates the appropriateness and safety of the model's clinical response, including treatment recommendations, escalation of care, referral to appropriate resources, and avoidance of harmful or unsafe guidance", 1],
         ["Evaluates demographic, racial, cultural, or other clinically relevant bias", 1],
       ] },
       { label: "Functional safety (0-4)", items: [
-        ["Evaluates reliability / consistency across repeated or similar queries", 1],
-        ["Evaluates hallucination or fabrication (made-up information, not merely flawed reasoning)", 1],
+        ["Evaluates reliability or consistency across repeated / similar queries", 1],
+        ["Evaluates hallucinations or fabricated information (unsupported or incorrect generated content, not merely flawed reasoning)", 1],
         ["Evaluates robustness to adversarial, misleading, or boundary-testing inputs", 1],
         ["Evaluates privacy, confidentiality, or inappropriate information disclosure", 1],
       ] },
     ],
   },
   {
-    name: "Clinical Focus", weight: 25, range: "0-2",
-    why: "Rewards benchmarks that evaluate performance relevant to real mental-health care rather than general knowledge.",
-    scale: [
-      [2, "Evaluates a clinical workflow, patient interaction, or decision spanning multiple psychiatric tasks; clinically meaningful utility or patient-centered benefit/harm"],
-      [1, "Tests a single clinical task (diagnosis, risk assessment, treatment selection, therapeutic response)"],
-      [0, "Tests theoretical neuroscience / psychiatric / mental-health knowledge"],
+    name: "Clinical Relevance",
+    question: "Is it relevant to real care?",
+    short: "Whether the benchmark reflects real clinical work and patient interaction rather than textbook mental-health knowledge.",
+    purpose: "The Clinical Relevance rating evaluates the extent to which a benchmark measures capabilities that are directly applicable to real-world mental-health care. The purpose is not simply to determine whether a benchmark measures psychiatric knowledge, but whether it evaluates performance in clinically meaningful settings. Higher ratings are assigned to benchmarks that assess realistic psychiatric workflows, patient interactions, clinical reasoning, diagnosis, treatment recommendations, therapeutic responses, or other tasks directly relevant to patient care.",
+    tiers: [
+      ["Strong", "Evaluates performance within realistic clinical workflows, patient interactions, or decision-making involving multiple clinically relevant psychiatric tasks. Demonstrates clear patient-centered utility and reflects real-world mental-health care."],
+      ["Moderate", "Evaluates a single clinically relevant task, such as diagnosis, risk assessment, treatment selection, therapeutic response, or another individual component of psychiatric care."],
+      ["Weak", "Primarily evaluates theoretical psychiatric or mental-health knowledge without a clear connection to real-world clinical practice or patient care."],
     ],
   },
   {
-    name: "Ground Truth Quality", weight: 15, range: "0-3",
-    why: "A benchmark is only as strong as the reference standard its answers are checked against.",
-    scale: [
-      [3, "Independent multi-expert consensus (2+)"],
-      [2, "Qualified study team or a single qualified human expert"],
-      [1, "Existing reference dataset with documented provenance"],
-      [0, "LLM-generated or unclear ground truth without expert verification"],
+    name: "Methodological Quality",
+    question: "Can the results be trusted?",
+    short: "The scientific rigor of the design: ground-truth quality, evaluation method, population represented, and interaction structure.",
+    purpose: "The Methodological Quality rating evaluates the scientific rigor and overall trustworthiness of a benchmark. Rather than assessing the clinical content itself, this domain evaluates the quality of the benchmark's design, development, and evaluation methodology, including the quality of the ground truth, the evaluation method, the representativeness of the population, and the interaction structure.",
+    tiers: [
+      ["Strong", "High-quality ground truth, an appropriate and rigorous evaluation method, a representative population, and a suitable interaction structure. The design supports trustworthy, reproducible conclusions across the sub-scales below."],
+      ["Moderate", "Generally sound methodology with some limitations across the sub-scales, such as a narrower population, a partially unclear evaluation process, or ground truth from a single expert."],
+      ["Weak", "Notable methodological weaknesses — unclear or LLM-generated ground truth, an unvalidated evaluation method, or an unrepresentative population — that limit how far the results can be trusted."],
     ],
-  },
-  {
-    name: "Evaluation Method", weight: 10, range: "0-3",
-    why: "How the outputs are scored, related to but distinct from the reference standard. Objective tasks (e.g. MCQ accuracy) are not penalized for lacking human review.",
-    scale: [
-      [3, "Multiple qualified human evaluators with a rubric and agreement / adjudication"],
-      [2, "One qualified human evaluator"],
-      [1, "LLM judge validated or calibrated against human judgment"],
-      [0, "Unvalidated LLM judge or unclear subjective scoring"],
-    ],
-  },
-  {
-    name: "Population Represented", weight: 10, range: "0-3",
-    why: "Whether the benchmark reflects the patients and situations seen in real mental-health care, which drives generalizability.",
-    scale: [
-      [3, "Diverse real clinical population: complex / high-risk / comorbid cases, multisite, or explicit subgroup evaluation"],
-      [2, "Real patient-derived data from a narrow population or single setting"],
-      [1, "Curated or simulated cases, textbook cases, or synthetic personas"],
-      [0, "Population unspecified or entirely generic LLM-generated personas"],
-    ],
-  },
-  {
-    name: "Interaction Structure", weight: 5, range: "0-1",
-    why: "Multi-turn interaction better simulates psychiatric interviews and therapy, though single-turn is appropriate for many valid tasks (classification, risk prediction, note analysis).",
-    scale: [
-      [1, "Includes genuinely context-dependent multi-turn interaction"],
-      [0, "Single-turn only"],
-    ],
-  },
-  {
-    name: "Benchmark Size", weight: 5, range: "0-3",
-    why: "Scored by statistical power: how small a performance gap between models the item count can reliably detect (80% power, two-sided α = 0.05).",
-    scale: [
-      [3, "39,200+ items, detects ~1-point differences (large power)"],
-      [2, "1,600-39,199 items, detects ~5-point differences (moderate)"],
-      [1, "400-1,599 items, detects ~10-point differences (small)"],
-      [0, "Fewer than 400 items, cannot reliably detect a 10-point difference"],
+    subScales: [
+      { label: "Ground-truth quality", why: "Evaluates the quality and credibility of the reference standard used to judge model performance.", scale: [
+        [3, "Independent multi-expert consensus (2+ experts)"],
+        [2, "Qualified study team or individual qualified expert"],
+        [1, "Existing reference dataset with documented provenance"],
+        [0, "LLM-generated or unclear ground truth without expert validation"],
+      ] },
+      { label: "Evaluation method — objective benchmarks", why: "Evaluates whether objective benchmarks (e.g. MCQ or classification tasks) use an appropriate and transparent scoring methodology.", scale: [
+        [3, "Appropriate deterministic scoring using a validated answer key"],
+        [2, "Mostly objective scoring with minor methodological limitations"],
+        [1, "Evaluation process partially unclear"],
+        [0, "Inappropriate or poorly described evaluation method"],
+      ] },
+      { label: "Evaluation method — conversational / open-ended", why: "Evaluates the quality and rigor of the process used to assess subjective LLM responses.", scale: [
+        [3, "Multiple qualified human reviewers with a rubric and agreement / adjudication"],
+        [2, "One qualified human reviewer"],
+        [1, "Validated LLM judge calibrated against human reviewers"],
+        [0, "Unvalidated LLM judge or unclear scoring process"],
+      ] },
+      { label: "Population represented", why: "Evaluates how well the benchmark population reflects real-world psychiatric populations.", scale: [
+        [3, "Diverse real clinical population with complex cases or multisite representation"],
+        [2, "Real patient-derived data from a narrower clinical population"],
+        [1, "Curated or simulated psychiatric cases"],
+        [0, "Population unspecified or entirely generic / synthetic personas"],
+      ] },
+      { label: "Interaction structure", why: "Evaluates whether the benchmark appropriately assesses context-dependent interactions.", scale: [
+        [1, "Includes genuine multi-turn interactions when appropriate"],
+        [0, "Single-turn only"],
+      ] },
     ],
   },
 ];
+
+// Tier colors for the three-score ratings.
+const TIER_COLORS = { Strong: "#3C6E5A", Moderate: "#8A6D3B", Weak: "#B5502E" };
 
 // FAQ content (from PLAN.md / TEAM-SUMMARY.md).
 const FAQS = [
@@ -566,15 +574,25 @@ export default function App() {
     Promise.all([
       fetch("./benchmarks.json?t=" + t).then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }),
       fetch("./benchmark_names.json?t=" + t).then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+      fetch("./benchmark_meta.json?t=" + t).then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+      fetch("./benchmark_components.json?t=" + t).then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+      fetch("./benchmark_ratings.json?t=" + t).then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
     ])
-      .then(([rows, names]) => setData(rows.map((b) => {
+      .then(([rows, names, meta, components, ratings]) => setData(rows.map((b) => {
         const n = names[b.paperLink] || names[b.id] || {};
+        const m = meta[b.paperLink] || meta[b.id] || {};
         return {
           ...b,
           score: scoreBenchmark(b),
           displayName: n.displayName || b.name,
           conditions: n.conditions || [],
           tasks: n.tasks || [],
+          objective: m.objective || "",
+          paperTitle: m.paperTitle || "",
+          pubDate: m.publicationDate || "",
+          citation: m.citation || "",
+          components: components[b.paperLink] || components[b.id] || [],
+          ratings: ratings[b.paperLink] || ratings[b.id] || null,
         };
       })))
       .catch((e) => { setError(String(e)); setData([]); });
@@ -1118,122 +1136,193 @@ function CritRow({ text, pts, additive }) {
   );
 }
 
-function RubricDomain({ d }) {
+const rubricId = (name) => "rub-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+function scrollToId(id) {
+  const el = typeof document !== "undefined" && document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// Small pill legend for Strong / Moderate / Weak.
+function TierLegend() {
   return (
-    <div style={{ padding: "26px 0", borderTop: `1px solid ${C.line}` }}>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
-        <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 600, letterSpacing: "-.02em", margin: 0 }}>{d.name}</h3>
-        <span style={{ fontFamily: FONT_MONO, fontSize: 11, fontWeight: 700, color: "#fff", background: C.ink, borderRadius: 999, padding: "3px 10px" }}>{d.weight}%</span>
-        <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.muted }}>raw {d.range}</span>
-      </div>
-      <p style={{ fontSize: 14.5, lineHeight: 1.6, color: C.muted, margin: "12px 0 12px", maxWidth: 660 }}>{d.why}</p>
-      {d.groups
-        ? d.groups.map((g) => (
-            <div key={g.label} style={{ marginTop: 12 }}>
-              <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".06em", textTransform: "uppercase", color: C.accent, marginBottom: 2 }}>{g.label}</div>
-              {g.items.map(([text, pts], i) => <CritRow key={i} text={text} pts={pts} additive />)}
-            </div>
-          ))
-        : <div>{d.scale.map(([pts, text], i) => <CritRow key={i} text={text} pts={pts} />)}</div>}
+    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      {["Strong", "Moderate", "Weak"].map((t) => (
+        <span key={t} style={{ display: "inline-flex", alignItems: "center", gap: 8, border: `1px solid ${C.line}`, borderRadius: 999, padding: "5px 12px", background: C.surface }}>
+          <span style={{ width: 9, height: 9, borderRadius: 999, background: TIER_COLORS[t] }} />
+          <span style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".06em", textTransform: "uppercase", color: C.ink }}>{t}</span>
+        </span>
+      ))}
     </div>
   );
 }
 
-function MethodPage({ go, data }) {
-  const example = data.find((b) => b.score.tier) || data.find((b) => b.overallGrade) || data[0];
+// Summary card for one rating — clickable, scrolls to the full section below.
+function RatingSummaryCard({ d, index }) {
+  return (
+    <button
+      onClick={() => scrollToId(rubricId(d.name))}
+      style={{
+        textAlign: "left", cursor: "pointer", appearance: "none", width: "100%",
+        background: C.surface, border: `1px solid ${C.line}`, borderRadius: 12,
+        padding: "16px 16px 15px", display: "flex", flexDirection: "column", gap: 9,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, color: C.muted }}>{String(index + 1).padStart(2, "0")}</span>
+        <ArrowRight size={15} color={C.muted} />
+      </div>
+      <div style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 600, letterSpacing: "-.01em", color: C.ink }}>{d.name}</div>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".02em", color: C.accent }}>{d.question}</div>
+      <div style={{ fontSize: 13, lineHeight: 1.5, color: C.muted }}>{d.short}</div>
+    </button>
+  );
+}
 
+function RubricScore({ d, index }) {
+  const [open, setOpen] = useState(false);
+  const hasCriteria = !!(d.criteria || d.subScales);
+  return (
+    <div id={rubricId(d.name)} style={{ scrollMarginTop: 24, borderTop: `1px solid ${C.line}`, padding: "34px 0" }}>
+      {/* header: number + name + the plain-language question */}
+      <div style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
+        <span style={{ fontFamily: FONT_MONO, fontSize: 14, fontWeight: 700, color: C.muted, flexShrink: 0 }}>{String(index + 1).padStart(2, "0")}</span>
+        <div>
+          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 26, fontWeight: 600, letterSpacing: "-.02em", margin: 0 }}>{d.name}</h3>
+          {d.question && <div style={{ fontFamily: FONT_MONO, fontSize: 12, letterSpacing: ".02em", color: C.accent, marginTop: 5 }}>{d.question}</div>}
+        </div>
+      </div>
+      <p style={{ fontSize: 14.5, lineHeight: 1.6, color: C.ink, margin: "16px 0 0", maxWidth: 700 }}>{d.purpose}</p>
+
+      {/* What each rating means */}
+      <div style={{ marginTop: 20 }}>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".1em", textTransform: "uppercase", color: C.muted, marginBottom: 8 }}>What each rating means</div>
+        <div style={{ display: "grid", gap: 8 }}>
+          {(d.tiers || []).map(([tier, desc]) => (
+            <div key={tier} style={{ display: "grid", gridTemplateColumns: "112px 1fr", gap: 14, alignItems: "start", borderLeft: `3px solid ${TIER_COLORS[tier]}`, background: C.surface, borderRadius: 6, padding: "11px 14px" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
+                <span style={{ width: 8, height: 8, borderRadius: 999, background: TIER_COLORS[tier], flexShrink: 0 }} />
+                <span style={{ fontFamily: FONT_MONO, fontSize: 11, fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: TIER_COLORS[tier] }}>{tier}</span>
+              </span>
+              <span style={{ fontSize: 13.5, lineHeight: 1.5, color: C.ink }}>{desc}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Collapsible full scoring criteria (hidden by default to keep it digestible) */}
+      {hasCriteria && (
+        <div style={{ marginTop: 16 }}>
+          <button
+            onClick={() => setOpen((o) => !o)}
+            style={{ display: "inline-flex", alignItems: "center", gap: 9, cursor: "pointer", appearance: "none", background: open ? C.surface : "transparent", border: `1px solid ${C.line}`, borderRadius: 999, padding: "6px 14px", fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".04em", textTransform: "uppercase", color: C.ink }}
+          >
+            <span style={{ display: "inline-block", transform: open ? "rotate(90deg)" : "none", transition: "transform .15s", fontSize: 10 }}>▶</span>
+            {open ? "Hide scoring criteria" : "Show scoring criteria"}
+          </button>
+          {open && (
+            <div style={{ marginTop: 14, border: `1px solid ${C.line}`, borderRadius: 8, background: C.paper, padding: "4px 16px 16px" }}>
+              {d.criteria && d.criteria.map((g) => (
+                <div key={g.label} style={{ marginTop: 14 }}>
+                  <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".06em", textTransform: "uppercase", color: C.accent, marginBottom: 2 }}>{g.label}</div>
+                  {g.items.map(([text, pts], i) => <CritRow key={i} text={text} pts={pts} additive />)}
+                </div>
+              ))}
+              {d.subScales && d.subScales.map((s) => (
+                <div key={s.label} style={{ marginTop: 16 }}>
+                  <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".06em", textTransform: "uppercase", color: C.accent }}>{s.label}</div>
+                  {s.why && <p style={{ fontSize: 12.5, fontStyle: "italic", color: C.muted, margin: "2px 0 2px", lineHeight: 1.45, maxWidth: 660 }}>{s.why}</p>}
+                  {s.scale.map(([pts, text], i) => <CritRow key={i} text={text} pts={pts} />)}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function MethodPage({ go }) {
   const STEPS = [
     { t: "We find the papers", d: "A scheduled job scans arXiv, PubMed, and medRxiv for newly released mental-health LLM papers, and skips anything it has already seen." },
     { t: "We check relevance", d: "A fast, low-cost model reads each title and abstract and keeps only genuine LLM-in-mental-health evaluation work; off-topic papers are dropped with a logged reason." },
     { t: "We extract the facts", d: "The full paper is read into a consistent schema (models tested, tasks, dataset size, metrics, ground truth) with a short plain-language summary. It never guesses; unclear fields stay blank." },
-    { t: "We rate rigor, provisionally", d: "A draft five-dimension rubric (construct validity, ground truth, sample size, population realism, transparency) assigns a provisional tier. It's a placeholder until human appraisal is in." },
-    { t: "Humans appraise & publish", d: "Reviewers grade benchmark quality by hand. Confident entries publish automatically; uncertain ones wait for a person to approve them before going live." },
+    { t: "We rate the benchmark", d: "Reviewers apply a three-part rubric (Safety, Clinical Relevance, Methodological Quality), giving each benchmark three independent Strong / Moderate / Weak ratings rather than one blended score." },
+    { t: "Humans appraise & publish", d: "Reviewers finalize the ratings by hand. Confident entries publish automatically; uncertain ones wait for a person to approve them before going live." },
   ];
 
   return (
     <>
-      {/* Dark step-by-step process (Monolog "Process" style) */}
+      {/* Dark hero + compact numbered pipeline */}
       <div style={{ background: "#0C0B0A", color: "#EDEBE4" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px 48px" }}>
-          <section style={{ padding: "116px 0 8px", maxWidth: 760 }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 32px 56px" }}>
+          <section style={{ padding: "104px 0 8px", maxWidth: 760 }}>
             <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 18 }}>Methodology</div>
-            <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(38px, 5.5vw, 68px)", lineHeight: 0.98, letterSpacing: "-.04em", margin: 0 }}>How the catalog works</h1>
+            <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(38px, 5.5vw, 66px)", lineHeight: 0.98, letterSpacing: "-.04em", margin: 0 }}>How the catalog works</h1>
             <p style={{ fontSize: 16.5, color: "#B7B2A8", lineHeight: 1.6, margin: "22px 0 0" }}>
-              Most of the pipeline is ordinary automation; a model is used only where reading and judgment are needed, and people make the final call on quality. Here's each step.
+              Two things happen here: an automated pipeline gathers and organizes the benchmarks, then people rate each
+              one against a clear rubric. Below is the pipeline; further down is exactly how the ratings are decided.
             </p>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 26 }}>
+              <button onClick={() => scrollToId("sec-pipeline")} style={{ appearance: "none", cursor: "pointer", background: "transparent", border: "1px solid rgba(237,235,228,.28)", borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#EDEBE4" }}>The pipeline</button>
+              <button onClick={() => scrollToId("sec-rubric")} style={{ appearance: "none", cursor: "pointer", background: C.lime, border: `1px solid ${C.lime}`, borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#0C0B0A", fontWeight: 700 }}>How we rate benchmarks →</button>
+            </div>
           </section>
-          <div>
-            {STEPS.map((s, i) => (
-              <div key={i} className="processrow">
-                <div>
-                  <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", lineHeight: 1.05, margin: 0, color: "#EDEBE4" }}>{s.t}</h2>
-                  <p style={{ fontSize: 15.5, lineHeight: 1.6, color: "#B7B2A8", margin: "18px 0 0", maxWidth: 430 }}>{s.d}</p>
-                </div>
-                <StepMedia src={STEP_VIDEOS[i]} />
-              </div>
-            ))}
-          </div>
+
+          <section id="sec-pipeline" style={{ scrollMarginTop: 16, marginTop: 40 }}>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#8C887E", marginBottom: 6 }}>The pipeline · 5 steps</div>
+            <ol style={{ listStyle: "none", margin: 0, padding: 0 }}>
+              {STEPS.map((s, i) => (
+                <li key={i} style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 20, padding: "22px 0", borderTop: `1px solid rgba(237,235,228,.14)` }}>
+                  <span style={{ fontFamily: FONT_MONO, fontSize: 13, fontWeight: 700, color: C.lime, paddingTop: 5 }}>{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(20px, 2.6vw, 27px)", fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.1, margin: 0, color: "#EDEBE4" }}>{s.t}</h2>
+                    <p style={{ fontSize: 15, lineHeight: 1.6, color: "#B7B2A8", margin: "8px 0 0", maxWidth: 640 }}>{s.d}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
         </div>
       </div>
 
-      {/* Rubric detail (light) — the 7-domain weighted methodology */}
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px 24px" }}>
-        <section style={{ padding: "56px 0 8px" }}>
-          <SectionLabel>The rigor rubric</SectionLabel>
+      {/* Rubric (light) — the three-score framework */}
+      <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 24px 24px" }}>
+        <section id="sec-rubric" style={{ scrollMarginTop: 16, padding: "56px 0 8px" }}>
+          <SectionLabel>The evaluation rubric</SectionLabel>
           <h2 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(26px, 3.4vw, 42px)", lineHeight: 1.06, letterSpacing: "-.03em", margin: "12px 0 0" }}>
-            How we score a benchmark's rigor
+            How we rate a benchmark
           </h2>
-          <p style={{ fontSize: 15.5, color: C.muted, lineHeight: 1.6, margin: "18px 0 0", maxWidth: 680 }}>
-            The rubric was built from a structured PubMed review of mental-health LLM benchmarks (112 papers
-            screened → 40 reviewed) together with the project's focus on clinical utility and patient safety.
-            It scores each benchmark across <b>seven weighted domains</b>, deliberately emphasizing <b>safety</b> and
-            <b> clinical relevance</b> over raw methodology and scope. Each domain's raw score is normalized and combined
-            by weight into a final <b>score from 0 to 100</b>. Higher means stronger.
+          <p style={{ fontSize: 15.5, color: C.ink, lineHeight: 1.6, margin: "18px 0 0", maxWidth: 680 }}>
+            Every benchmark gets <b>three independent ratings</b> instead of one blended score, because a benchmark can be
+            strong in one area and weak in another. Each rating is <b>Strong</b>, <b>Moderate</b>, or <b>Weak</b>. Select a
+            rating below to read exactly how it is decided.
+          </p>
+          <div style={{ marginTop: 18 }}><TierLegend /></div>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.55, margin: "16px 0 0", maxWidth: 680 }}>
+            The framework was built from a structured PubMed review of mental-health LLM benchmarks (112 papers screened,
+            40 reviewed), with the project's focus on clinical utility and patient safety.
           </p>
         </section>
 
-        {/* Weights at a glance */}
-        <section style={{ padding: "8px 0 4px" }}>
-          <div style={{ border: `1px solid ${C.line}`, borderRadius: 8, overflow: "hidden" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 14, padding: "10px 16px", background: C.ink, color: "#EDE7DA", fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".06em", textTransform: "uppercase" }}>
-              <span>Domain</span><span style={{ textAlign: "right" }}>Weight</span><span style={{ textAlign: "right", minWidth: 44 }}>Raw</span>
-            </div>
-            {RUBRIC_DOMAINS.map((d, i) => (
-              <div key={d.name} style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 14, padding: "10px 16px", background: i % 2 ? C.paper : C.surface, fontSize: 13.5, alignItems: "center" }}>
-                <span style={{ fontWeight: 600 }}>{d.name}</span>
-                <span style={{ fontFamily: FONT_MONO, color: C.ink, textAlign: "right" }}>{d.weight}%</span>
-                <span style={{ fontFamily: FONT_MONO, color: C.muted, textAlign: "right", minWidth: 44 }}>{d.range}</span>
-              </div>
-            ))}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 14, padding: "10px 16px", borderTop: `2px solid ${C.line}`, fontSize: 13.5, fontWeight: 700 }}>
-              <span>Total</span><span style={{ fontFamily: FONT_MONO, textAlign: "right" }}>100%</span><span></span>
-            </div>
+        {/* Three ratings at a glance — clickable summary / jump nav */}
+        <section style={{ padding: "22px 0 0" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(215px, 1fr))", gap: 14 }}>
+            {RUBRIC_SCORES.map((d, i) => <RatingSummaryCard key={d.name} d={d} index={i} />)}
           </div>
         </section>
 
-        {/* Per-domain detail */}
-        <section style={{ padding: "20px 0 0" }}>
-          {RUBRIC_DOMAINS.map((d) => <RubricDomain key={d.name} d={d} />)}
-        </section>
-
-        {/* Scoring formula */}
-        <section style={{ padding: "30px 0" }}>
-          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 600, letterSpacing: "-.02em", margin: "0 0 10px" }}>Turning raw scores into a 0-100 score</h3>
-          <p style={{ fontSize: 14.5, lineHeight: 1.6, color: C.muted, margin: 0, maxWidth: 660 }}>
-            Because the domains have different maximum raw scores, each is normalized before combining, so a
-            domain's influence comes from its weight, not from how many points it happens to offer.
-          </p>
-          <div style={{ marginTop: 14, border: `1px solid ${C.line}`, background: C.paper, borderRadius: 8, padding: "14px 16px", fontFamily: FONT_MONO, fontSize: 13, color: C.ink, lineHeight: 1.8 }}>
-            weighted<sub>domain</sub> = (raw ÷ max&nbsp;raw) × weight<br />
-            final score = Σ weighted<sub>domain</sub>&nbsp;&nbsp;→&nbsp;&nbsp;0 to 100
-          </div>
+        {/* Per-rating detail */}
+        <section style={{ padding: "34px 0 0" }}>
+          {RUBRIC_SCORES.map((d, i) => <RubricScore key={d.name} d={d} index={i} />)}
         </section>
 
         {/* Note + CTA */}
         <section style={{ borderTop: `1px solid ${C.line}`, padding: "22px 0 48px" }}>
           <div style={{ border: `1px solid ${C.line}`, borderLeft: `3px solid ${C.accent}`, background: "#F1EADB", borderRadius: 8, padding: "12px 16px", fontSize: 13, color: C.ink, lineHeight: 1.55 }}>
             <strong style={{ fontFamily: FONT_SANS, fontSize: 11, fontWeight: 700, color: C.accent, letterSpacing: ".06em" }}>NOTE</strong>
-            <span style={{ marginLeft: 8 }}>Scores under this rubric are assigned by expert review. The provisional Strong / Moderate / Limited badges on the cards are an automatic estimate and will be replaced by this rubric's 0-100 score as scoring is completed.</span>
+            <span style={{ marginLeft: 8 }}>The three ratings are assigned by expert review. A benchmark that is Strong on one domain may be Weak on another; the scores are meant to be read together, not averaged into a single number.</span>
           </div>
           <div style={{ marginTop: 20 }}>
             <GhostButton onClick={() => go("catalog")}>See the benchmarks <ArrowRight size={14} /></GhostButton>
@@ -1296,9 +1385,7 @@ function CatalogPage({ data, error }) {
       if (sort === "year") return (parseInt(b.year) || 0) - (parseInt(a.year) || 0);
       if (sort === "size") return (b.sizeNum || 0) - (a.sizeNum || 0);
       if (sort === "rigor") {
-        const ra = a.score.tier ? tierRank[a.score.tier] : 9;
-        const rb = b.score.tier ? tierRank[b.score.tier] : 9;
-        return ra - rb;
+        return ratingRank(b) - ratingRank(a); // best (highest combined rating) first
       }
       return (a.name || "").localeCompare(b.name || "");
     });
@@ -1365,7 +1452,7 @@ function CatalogPage({ data, error }) {
             <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: ED.body, fontSize: 13.5, padding: "9px 12px", border: `1px solid ${ED.line}`, borderRadius: 8, background: ED.card, color: ED.ink, cursor: "pointer" }}>
               <option value="name">Sort: Name (A-Z)</option>
               <option value="year">Sort: Year (newest)</option>
-              <option value="rigor">Sort: Rigor (best first)</option>
+              <option value="rigor">Sort: Rating (best first)</option>
               <option value="size">Sort: Size (largest)</option>
             </select>
           </div>
@@ -1400,7 +1487,7 @@ function RigorToggle({ on, onToggle }) {
       onClick={onToggle}
       role="switch"
       aria-checked={on}
-      aria-label="Show rigor rating"
+      aria-label="Show ratings"
       className="lift"
       style={{
         display: "inline-flex", alignItems: "center", gap: 10, cursor: "pointer",
@@ -1409,7 +1496,7 @@ function RigorToggle({ on, onToggle }) {
         borderRadius: 999, padding: "7px 8px 7px 14px", lineHeight: 1,
       }}
     >
-      <span>Rigor rating</span>
+      <span>Ratings</span>
       <span style={{
         position: "relative", width: 38, height: 21, borderRadius: 999, flexShrink: 0,
         background: on ? ED.ink : "rgba(8,8,7,0.14)", transition: "background .18s ease",
@@ -1435,19 +1522,36 @@ function VChip({ label, on, onClick }) {
   );
 }
 
+// The three ratings that apply to a whole card. Multi-benchmark papers rate
+// each sub-benchmark separately, so there is no single card-level triple for
+// them (their ratings show per-component inside the popup).
+function benchRatings(b) {
+  const comps = b.components || [];
+  if (comps.length > 1) return null;
+  return (comps[0] && comps[0].ratings) || b.ratings || null;
+}
+
+// Combined rank for "best first" sorting: Strong=2, Moderate=1, Weak=0 across
+// the three ratings; unrated benchmarks sort last.
+function ratingRank(b) {
+  const r = benchRatings(b);
+  if (!r) return -1;
+  const v = { Strong: 2, Moderate: 1, Weak: 0 };
+  return (v[r.safety] || 0) + (v[r.clinical] || 0) + (v[r.methodology] || 0);
+}
+
 // Gallery tile — a tall solid-color "poster": name at the top, task types
 // listed inside at the bottom (plain text, no pills). Short description spans
 // full width below. Uniform height: the grid stretches every card, CTA pinned.
 function BenchTile({ b, catColor, showRigor, onClick }) {
   const condTag = { fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".05em", textTransform: "uppercase", color: ED.ink, background: "rgba(8,8,7,0.07)", borderRadius: 999, padding: "3px 9px" };
   const runnable = !!runHrefFor(b);
-  // Color meaning: the rigor RATING when the rigor toggle is on; otherwise the
-  // filtered category color, else the card's own primary-task color (or lime
-  // for runnable).
-  const band = showRigor
-    ? (b.score.tier ? TIER[b.score.tier].color : C.unrated)
-    : (catColor || (runnable ? C.lime : categoryColor(b)));
+  // Card color always means TASK CATEGORY: the filtered category color when a
+  // filter is active, else the card's own primary-task color (or lime for
+  // runnable). The three ratings are shown as chips, not as the color.
+  const band = catColor || (runnable ? C.lime : categoryColor(b));
   const onDark = readableOn(band);
+  const ratings = benchRatings(b);
   const tasks = (b.tasks && b.tasks.length) ? b.tasks : [deriveCategory(b)];
   const desc = b.measures || b.clinicalUseCase || "";
   return (
@@ -1461,13 +1565,13 @@ function BenchTile({ b, catColor, showRigor, onClick }) {
           <h3 style={{ fontFamily: FONT_SERIF, fontSize: 24, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.08, margin: 0, color: onDark }}>
             {b.displayName || b.name}
           </h3>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6, flexShrink: 0 }}>
-            {showRigor && (
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".05em", textTransform: "uppercase", color: "#F3F1EA", background: "rgba(8,8,7,0.34)", borderRadius: 999, padding: "3px 9px", whiteSpace: "nowrap" }}>
-                <span style={{ width: 7, height: 7, borderRadius: 999, background: b.score.tier ? TIER[b.score.tier].color : "rgba(243,241,234,.55)" }} />
-                {b.score.tier ? TIER[b.score.tier].label : "Unrated"}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 5, flexShrink: 0 }}>
+            {showRigor && ratings && [["Safety", ratings.safety], ["Clinical", ratings.clinical], ["Method", ratings.methodology]].map(([label, tier]) => tier ? (
+              <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: FONT_MONO, fontSize: 9.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#F3F1EA", background: "rgba(8,8,7,0.34)", borderRadius: 999, padding: "3px 8px", whiteSpace: "nowrap" }}>
+                <span style={{ opacity: 0.72 }}>{label}</span>
+                <span style={{ width: 9, height: 9, borderRadius: 999, background: TIER_COLORS[tier] || "rgba(243,241,234,.55)" }} />
               </span>
-            )}
+            ) : null)}
             {runnable && (
               <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: onDark, border: `1px solid ${onDark}`, borderRadius: 999, padding: "2px 9px" }}>Run</span>
             )}
@@ -1594,35 +1698,68 @@ function Fact({ label, value, wide }) {
 }
 
 function Detail({ b, showRigor, onClose }) {
+  const components = b.components || [];
+  const hasComponents = components.length > 1; // only papers that bundle several benchmarks
   const [tab, setTab] = useState("main");
+  const [expanded, setExpanded] = useState({}); // per-component (default: collapsed, name only)
   const runHref = runHrefFor(b); // module-level map
-  const desc = b.measures || b.clinicalUseCase || "";
+  const slug = (b.displayName || b.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+  const objective = b.objective || b.measures || "";
+  const dateStr = b.pubDate || b.year || "";
 
-  // [label, value, wide?]
-  const mainFields = [
-    ["Published", [b.month, b.year].filter(Boolean).join(" ")],
-    ["Authors / institutions", b.authors, true],
-    ["Journal or venue", b.venue],
-    ["Ground-truth source", b.groundTruth, true],
+  // Quick-glance metric chips: [label, value].
+  const chips = [
+    ["Tasks", (b.tasks && b.tasks.length) ? String(b.tasks.length) : ""],
+    ["Items", b.sizeNum ? b.sizeNum.toLocaleString() : ""],
+    ["Lang", b.language],
+    ["Turn", b.turn || b.turnRaw],
+    ["Access", b.source || b.sourceRaw],
+    ["Eval", b.evaluation],
   ].filter(([, v]) => v);
 
+  // Single-benchmark papers: show the same field set as a component would, built
+  // from the paper's own data (or its single component entry if one exists).
+  const primary = components[0] || {
+    dataSource: "",
+    groundTruth: b.groundTruth,
+    evaluation: b.evaluation,
+    population: b.population,
+    turn: b.turn || b.turnRaw,
+  };
+  const primTurn = primary.turn || b.turn || b.turnRaw;
+  // Single-benchmark papers: the three ratings live on the paper's single component
+  // (or on the benchmark itself). Shown inline on the tab row so they're easy to see.
+  const primaryRatings = !hasComponents ? (primary.ratings || b.ratings || null) : null;
+  const detailFields = [
+    ["Data / question source", primary.dataSource, true],
+    ["Ground truth", primary.groundTruth, true],
+    ["Evaluation", primary.evaluation, true],
+    ["Population", primary.population],
+    ["Interaction", primTurn ? (primTurn === "Single" ? "Single-turn" : primTurn) : ""],
+  ].filter(([, v]) => v);
+
+  // Extra info tab = the citation / reference details.
+  const paperLinkEl = b.paperLink ? (
+    <a href={b.paperLink} target="_blank" rel="noreferrer" style={{ color: C.brand, wordBreak: "break-word", textDecoration: "none" }}>{b.paperLink}</a>
+  ) : null;
   const extraFields = [
-    ["Access (model source)", b.source || b.sourceRaw],
-    ["Size", b.size],
-    ["Clinical use case", b.clinicalUseCase, true],
-    ["Population", b.population, true],
-    ["Language(s)", b.language],
-    ["# domains", b.numDomains],
-    ["Interaction", b.turn || b.turnRaw],
-    ["Evaluation method", b.evaluation, true],
-    ["# LLMs assessed", b.numLLMs],
-    ...(showRigor ? [
-      ["Construct validity (human)", b.constructValidity, true],
-      ["Overall grade (human)", b.overallGrade],
-    ] : []),
+    ["Paper title", b.paperTitle || b.name, true],
+    ["Paper link", paperLinkEl, true],
+    ["Publication date", b.pubDate || b.year],
+    ["Authors / institutions", b.authors, true],
+    ["Journal", b.venue],
+    ["Citation (AMA)", b.citation, true],
   ].filter(([, v]) => v);
 
-  const fields = tab === "main" ? mainFields : extraFields;
+  // Squared outline chips for the quick-glance metrics.
+  const chipStyle = { display: "inline-flex", alignItems: "center", gap: 7, background: "transparent", border: `1px solid ${C.line}`, borderRadius: 5, padding: "5px 10px" };
+  const chipLabel = { fontFamily: FONT_MONO, fontSize: 9.5, letterSpacing: ".1em", textTransform: "uppercase", color: C.muted };
+  const chipValue = { fontFamily: FONT_SANS, fontSize: 12.5, fontWeight: 700, color: C.ink };
+  // Small rounded PILL chips for the task-type / condition row (different shape
+  // than the squared metric chips, so the categories stand out).
+  const smallChip = { display: "inline-flex", alignItems: "center", gap: 6, background: "transparent", border: `1px solid ${C.line}`, borderRadius: 999, padding: "3px 11px" };
+  // Even smaller pill for the per-component task tags.
+  const tinyChip = { display: "inline-flex", alignItems: "center", gap: 5, background: "transparent", border: `1px solid ${C.line}`, borderRadius: 999, padding: "1px 8px" };
 
   const tabBtn = (key, label, n) => (
     <button onClick={() => setTab(key)} style={{
@@ -1638,51 +1775,142 @@ function Detail({ b, showRigor, onClose }) {
 
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(20,32,28,0.44)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 50 }}>
-      <div onClick={(e) => e.stopPropagation()} style={{ width: "min(720px, 100%)", maxHeight: "90vh", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 8, boxShadow: "0 24px 60px rgba(8,8,7,0.30)", overflowY: "auto", padding: 32 }}>
-        {/* header: rating, title, tags */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
-          <div>
-            {showRigor && <RigorBadge score={b.score} />}
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.08, margin: "8px 0 0" }}>{b.displayName || b.name}</h2>
-            {b.displayName && b.displayName !== b.name && (
-              <div style={{ fontSize: 12.5, color: C.muted, marginTop: 8, lineHeight: 1.45 }}>{b.name}</div>
-            )}
-            {(b.conditions?.length > 0 || b.tasks?.length > 0) && (
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 12 }}>
-                {b.conditions.map((t) => <span key={"c" + t} style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".05em", textTransform: "uppercase", color: C.ink, background: "rgba(8,8,7,0.07)", borderRadius: 999, padding: "3px 10px" }}>{t}</span>)}
-                {b.tasks.map((t) => <span key={"t" + t} style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".05em", textTransform: "uppercase", color: C.muted, border: `1px solid ${C.line}`, borderRadius: 999, padding: "3px 10px" }}>{t}</span>)}
-              </div>
-            )}
+      <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", width: "min(760px, 100%)", maxHeight: "90vh", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 8, boxShadow: "0 24px 60px rgba(8,8,7,0.30)", overflowY: "auto", padding: 32 }}>
+        <button onClick={onClose} aria-label="Close" style={{ position: "absolute", top: 16, right: 16, border: "none", background: "transparent", cursor: "pointer", color: C.muted, padding: 4 }}>
+          <X size={20} />
+        </button>
+
+        {/* header: title + slug on the left, date + venue on the right */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, paddingRight: 28 }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", minWidth: 0 }}>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.05, margin: 0 }}>{b.displayName || b.name}</h2>
+            {slug && <span style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.muted }}>{slug}</span>}
           </div>
-          <button onClick={onClose} aria-label="Close" style={{ border: "none", background: "transparent", cursor: "pointer", color: C.muted, padding: 4 }}>
-            <X size={20} />
-          </button>
-        </div>
-
-        {/* short description */}
-        {desc && (
-          <p style={{ margin: "16px 0 0", fontSize: 15, lineHeight: 1.6, color: C.ink, maxWidth: 620 }}>{desc}</p>
-        )}
-
-        {showRigor && !b.score.tier && (
-          <div style={{ marginTop: 14, fontSize: 12.5, color: C.muted, background: C.paper, border: `1px solid ${C.line}`, borderRadius: 8, padding: "8px 12px" }}>
-            Unrated. Fewer than {MIN_KNOWN} rubric dimensions have data in the sheet yet.
-          </div>
-        )}
-
-        {/* tabs */}
-        <div style={{ display: "flex", gap: 26, borderBottom: `1px solid ${C.line}`, marginTop: 24 }}>
-          {tabBtn("main", "Overview", String(mainFields.length).padStart(2, "0"))}
-          {tabBtn("extra", "Extra info", String(extraFields.length).padStart(2, "0"))}
-        </div>
-
-        {/* facts grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px 28px", marginTop: 24 }}>
-          {fields.map(([k, v, wide]) => <Fact key={k} label={k} value={v} wide={wide} />)}
-          {fields.length === 0 && (
-            <div style={{ color: C.muted, fontSize: 13.5, gridColumn: "1 / -1" }}>No additional information recorded for this benchmark yet.</div>
+          {(dateStr || b.venue) && (
+            <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: C.muted, textAlign: "right", lineHeight: 1.5, flexShrink: 0 }}>
+              {dateStr && <div>{dateStr}</div>}
+              {b.venue && <div>{b.venue}</div>}
+            </div>
           )}
         </div>
+
+        {/* objective */}
+        {objective && (
+          <p style={{ margin: "16px 0 0", fontSize: 15, lineHeight: 1.6, color: C.ink, maxWidth: 640 }}>{objective}</p>
+        )}
+
+        {/* quick-glance metric chips */}
+        {chips.length > 0 && (
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 18 }}>
+            {chips.map(([label, value, dot]) => (
+              <span key={label} style={chipStyle}>
+                <span style={chipLabel}>{label}</span>
+                {dot && <span style={{ width: 7, height: 7, borderRadius: 999, background: dot }} />}
+                <span style={chipValue}>{value}</span>
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* task categories (colored dots) + conditions */}
+        {(b.tasks?.length > 0 || b.conditions?.length > 0) && (
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
+            {b.tasks.map((t) => (
+              <span key={"t" + t} style={smallChip}>
+                <span style={{ width: 7, height: 7, borderRadius: 999, background: CATEGORY_COLORS[t] || CATEGORY_COLOR_FALLBACK, flexShrink: 0 }} />
+                <span style={{ fontFamily: FONT_SANS, fontSize: 11, color: C.ink }}>{t}</span>
+              </span>
+            ))}
+            {b.conditions.map((c) => (
+              <span key={"c" + c} style={smallChip}>
+                <span style={{ fontFamily: FONT_SANS, fontSize: 11, color: C.muted }}>{c}</span>
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* tabs (with the three ratings pinned to the right for single-benchmark papers) */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 20, borderBottom: `1px solid ${C.line}`, marginTop: 26, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 26, flexWrap: "wrap" }}>
+            {tabBtn("main", hasComponents ? "Components" : "Details", String(hasComponents ? components.length : detailFields.length).padStart(2, "0"))}
+            {tabBtn("extra", "Extra info", String(extraFields.length).padStart(2, "0"))}
+          </div>
+          {showRigor && primaryRatings && (
+            <span style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", paddingBottom: 11 }}>
+              {[["Safety", primaryRatings.safety], ["Clinical", primaryRatings.clinical], ["Method", primaryRatings.methodology]].map(([label, tier]) => tier ? (
+                <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: ".06em", textTransform: "uppercase", color: C.muted }}>{label}</span>
+                  <span style={{ width: 7, height: 7, borderRadius: 999, background: TIER_COLORS[tier] || C.unrated, flexShrink: 0 }} />
+                  <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, fontWeight: 700, color: TIER_COLORS[tier] || C.muted }}>{tier}</span>
+                </span>
+              ) : null)}
+            </span>
+          )}
+        </div>
+
+        {tab === "main" && hasComponents ? (
+          /* Components: one collapsible row per sub-benchmark */
+          <div style={{ marginTop: 20 }}>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".1em", textTransform: "uppercase", color: C.muted, marginBottom: 2 }}>
+              {components.length} sub-tasks in this benchmark
+            </div>
+            {components.map((c, i) => {
+              const open = !!expanded[i];
+              const meta = [c.items && `${c.items} items`, c.lang, c.turn].filter(Boolean).join(" · ");
+              return (
+                <div key={c.name} style={{ borderTop: `1px solid ${C.line}` }}>
+                  <button onClick={() => setExpanded((s) => ({ ...s, [i]: !open }))} style={{ width: "100%", background: "none", border: "none", cursor: "pointer", textAlign: "left", padding: "16px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 14 }}>
+                    <span style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", minWidth: 0 }}>
+                      <span style={{ color: C.muted, fontSize: 11, width: 10, flexShrink: 0 }}>{open ? "▾" : "▸"}</span>
+                      <span style={{ fontFamily: FONT_SERIF, fontSize: 16.5, fontWeight: 600, letterSpacing: "-.01em", color: C.ink }}>{c.name}</span>
+                      {(c.tasks || []).map((t) => (
+                        <span key={t} style={tinyChip}>
+                          <span style={{ width: 6, height: 6, borderRadius: 999, background: CATEGORY_COLORS[t] || CATEGORY_COLOR_FALLBACK, flexShrink: 0 }} />
+                          <span style={{ fontFamily: FONT_SANS, fontSize: 10, color: C.muted }}>{t}</span>
+                        </span>
+                      ))}
+                      {meta && <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, color: C.muted, whiteSpace: "nowrap" }}>{meta}</span>}
+                    </span>
+                    {/* three rubric ratings on the right */}
+                    {showRigor && c.ratings && (
+                      <span style={{ display: "flex", flexDirection: "column", gap: 3, alignItems: "flex-end", flexShrink: 0 }}>
+                        {[["Safety", c.ratings.safety], ["Clinical", c.ratings.clinical], ["Method", c.ratings.methodology]].map(([label, tier]) => tier ? (
+                          <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                            <span style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: ".06em", textTransform: "uppercase", color: C.muted }}>{label}</span>
+                            <span style={{ width: 7, height: 7, borderRadius: 999, background: TIER_COLORS[tier] || C.unrated, flexShrink: 0 }} />
+                            <span style={{ fontFamily: FONT_MONO, fontSize: 10, fontWeight: 700, color: TIER_COLORS[tier] || C.muted, minWidth: 52, textAlign: "right" }}>{tier}</span>
+                          </span>
+                        ) : null)}
+                      </span>
+                    )}
+                  </button>
+                  {open && (
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "18px 28px", padding: "0 0 22px 20px" }}>
+                      {c.dataSource && <Fact label="Data / question source" value={c.dataSource} wide />}
+                      {c.groundTruth && <Fact label="Ground truth" value={c.groundTruth} />}
+                      {c.evaluation && <Fact label="Evaluation" value={c.evaluation} />}
+                      {c.population && <Fact label="Population" value={c.population} />}
+                      {c.turn && <Fact label="Interaction" value={c.turn === "Single" ? "Single-turn" : c.turn} />}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          /* facts grid — single-benchmark details (Details tab) or citation (Extra info) */
+          (() => {
+            const fields = tab === "extra" ? extraFields : detailFields;
+            return (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px 28px", marginTop: 24 }}>
+                {fields.map(([k, v, wide]) => <Fact key={k} label={k} value={v} wide={wide} />)}
+                {fields.length === 0 && (
+                  <div style={{ color: C.muted, fontSize: 13.5, gridColumn: "1 / -1" }}>No additional information recorded for this benchmark yet.</div>
+                )}
+              </div>
+            );
+          })()
+        )}
 
         {/* actions */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 28 }}>

@@ -1,0 +1,20 @@
+{
+ "https://www.nature.com/articles/s41746-026-02582-w": {
+  "objective": "To assess whether LLMs can approximate the depth, complexity, and precision of real-world psychiatric reasoning and clinical decision-making.",
+  "paperTitle": "PsychiatryBench: a multi-task benchmark for LLMs in psychiatry",
+  "publicationDate": "April 2026",
+  "citation": "Fouda AE, Hassan AA, Hanafy RJ, et al. PsychiatryBench: a multi-task benchmark for LLMs in psychiatry. npj Digit Med. 2026;9:320. doi:10.1038/s41746-026-02582-w"
+ },
+ "https://arxiv.org/abs/2506.08584": {
+  "objective": "To systematically assess LLM behavior on authentic mental-health questions and probe LLM failure modes.",
+  "paperTitle": "CounselBench: A Large-Scale Expert Evaluation and Adversarial Benchmarking of Large Language Models in Mental Health Question Answering",
+  "publicationDate": "May 2026",
+  "citation": "Li Y, Yao J, Bunyi JBS, Frank AC, Hwang AH, Liu R. CounselBench: a large-scale expert evaluation and adversarial benchmarking of large language models in mental health question answering. arXiv. Preprint posted online June 10, 2025. arXiv:2506.08584. doi:10.48550/arXiv.2506.08584"
+ },
+ "https://arxiv.org/abs/2311.09189": {
+  "objective": "To provide a comprehensive suite evaluating LLMs across three dimensions of mental health: foundational knowledge, diagnosis prediction, and psychological counseling.",
+  "paperTitle": "PsyEval: A Suite of Mental Health Related Tasks for Evaluating Large Language Models",
+  "publicationDate": "June 2024",
+  "citation": "Jin H, Chen S, Dilixiati D, Jiang Y, Wu M, Zhu KQ. PsyEval: a suite of mental health related tasks for evaluating large language models. arXiv. Preprint posted online November 15, 2023. arXiv:2311.09189. doi:10.48550/arXiv.2311.09189"
+ }
+}

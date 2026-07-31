@@ -1,0 +1,182 @@
+{
+ "https://arxiv.org/abs/2602.12871": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://www.nature.com/articles/s44277-025-00049-6": {
+  "safety": "Strong",
+  "clinical": "Strong",
+  "methodology": "Strong"
+ },
+ "https://arxiv.org/abs/2506.01329": {
+  "safety": "Strong",
+  "clinical": "Strong",
+  "methodology": "Strong"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12134693/": {
+  "safety": "Weak",
+  "clinical": "Weak",
+  "methodology": "Moderate"
+ },
+ "https://arxiv.org/abs/2605.23148": {
+  "safety": "Moderate",
+  "clinical": "Moderate",
+  "methodology": "Strong"
+ },
+ "https://arxiv.org/abs/2510.15297": {
+  "safety": "Strong",
+  "clinical": "Strong",
+  "methodology": "Moderate"
+ },
+ "https://journals.plos.org/digitalhealth/article?id=10.1371/journal.pdig.0001205": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12101789/": {
+  "safety": "Weak",
+  "clinical": "Weak",
+  "methodology": "Weak"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12166901/": {
+  "safety": "Weak",
+  "clinical": "Weak",
+  "methodology": "Weak"
+ },
+ "https://www.nature.com/articles/s41598-025-26944-8": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Strong"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12239686/": {
+  "safety": "Moderate",
+  "clinical": "Strong",
+  "methodology": "Moderate"
+ },
+ "https://doi.org/10.64898/2026.02.03.26345402": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://medinform.jmir.org/2026/1/e86965": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://doi.org/10.3389/fdgth.2026.1790533": {
+  "safety": "Weak",
+  "clinical": "Weak",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC11978496/": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Strong"
+ },
+ "https://www.nature.com/articles/s41746-026-02584-8": {
+  "safety": "Strong",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://doi.org/10.2196/87586": {
+  "safety": "Moderate",
+  "clinical": "Moderate",
+  "methodology": "Strong"
+ },
+ "https://doi.org/10.1371/journal.pdig.0001352": {
+  "safety": "Strong",
+  "clinical": "Strong",
+  "methodology": "Moderate"
+ },
+ "https://doi.org/10.3390/diagnostics15222871": {
+  "safety": "Moderate",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC13256495/": {
+  "safety": "Strong",
+  "clinical": "Strong",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC13263661/": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12910072/": {
+  "safety": "Weak",
+  "clinical": "Weak",
+  "methodology": "Strong"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC13065625/": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC10787336/?utm_source=chatgpt.com": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://ai.jmir.org/2025/1/e75030/": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://pubmed.ncbi.nlm.nih.gov/41933065/": {
+  "safety": "Strong",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12968175/": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12869570/": {
+  "safety": "Strong",
+  "clinical": "Weak",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12694945/": {
+  "safety": "Moderate",
+  "clinical": "Strong",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC13138846/": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://pubmed.ncbi.nlm.nih.gov/32401222/": {
+  "safety": "Moderate",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://pubmed.ncbi.nlm.nih.gov/40868395/": {
+  "safety": "Moderate",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://pubmed.ncbi.nlm.nih.gov/41875403/": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC11974973/#R4": {
+  "safety": "Weak",
+  "clinical": "Weak",
+  "methodology": "Moderate"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC11040439/": {
+  "safety": "Weak",
+  "clinical": "Weak",
+  "methodology": "Moderate"
+ },
+ "https://www.sciencedirect.com/science/article/pii/S1532046425001285": {
+  "safety": "Weak",
+  "clinical": "Moderate",
+  "methodology": "Moderate"
+ }
+}
