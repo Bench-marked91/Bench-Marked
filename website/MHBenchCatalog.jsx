@@ -1070,6 +1070,49 @@ function OrbitCards({ items, go }) {
   );
 }
 
+// "Tasks Type" dashboard — the 8 task categories as translucent dark cards with
+// a per-category accent, revealed with a staggered fade + rise + slight scale-up
+// when the grid scrolls into view. Respects reduced-motion.
+function TaskTypeCards() {
+  const [shown, setShown] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const reduce = typeof window !== "undefined" && window.matchMedia
+      && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || typeof IntersectionObserver === "undefined") { setShown(true); return; }
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) { setShown(true); io.disconnect(); break; }
+    }, { threshold: 0.12 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div ref={ref} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(258px, 1fr))", gap: 18 }}>
+      {CATEGORY_INFO.map((c, i) => {
+        const accent = CATEGORY_COLORS[c.name] || CATEGORY_COLOR_FALLBACK;
+        return (
+          <div key={c.name} style={{
+            position: "relative", borderRadius: 16, padding: "22px 22px 24px",
+            background: "rgba(237,235,228,.035)", border: "1px solid rgba(237,235,228,.10)",
+            boxShadow: `0 0 26px -16px ${accent}, inset 0 1px 0 rgba(255,255,255,.03)`,
+            willChange: "opacity, transform",
+            opacity: shown ? 1 : 0,
+            transform: shown ? "translateY(0) scale(1)" : "translateY(18px) scale(.965)",
+            transition: `opacity .55s ease-out ${i * 85}ms, transform .6s cubic-bezier(.22,.61,.36,1) ${i * 85}ms`,
+          }}>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, letterSpacing: ".1em", color: accent }}>{String(i + 1).padStart(2, "0")}</div>
+            <div style={{ width: 26, height: 2, borderRadius: 2, background: accent, opacity: 0.85, margin: "11px 0 13px" }} />
+            <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 700, letterSpacing: "-.01em", color: DASH_INK, margin: 0, lineHeight: 1.2 }}>{c.name}</h3>
+            <p style={{ fontFamily: FONT_SANS, fontSize: 13.5, lineHeight: 1.55, color: DASH_MUTED, margin: "11px 0 0" }}>{c.desc}</p>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function LandingPage({ go, data }) {
   const total = data.length;
   const openCount = data.filter((b) => b.source === "Open").length;
@@ -1208,18 +1251,11 @@ function LandingPage({ go, data }) {
         <OrbitCards items={featured.slice(0, 5)} go={go} />
       </section>
 
-      {/* What it covers — task categories */}
-      <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0" }}>
+      {/* Tasks Type — task-category dashboard with staggered entrance */}
+      <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "68px 0" }}>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".18em", textTransform: "uppercase", color: DASH_MUTED, marginBottom: 12 }}>Tasks Type</div>
         <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0 0 28px", color: DASH_INK }}>Tasks models are tested on</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
-          {CATEGORY_INFO.map((c, i) => (
-            <div key={c.name} style={{ borderRadius: 14, padding: 22, background: DASH_PANEL, borderLeft: `3px solid ${CATEGORY_COLORS[c.name] || CATEGORY_COLOR_FALLBACK}` }}>
-              <div style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.lime }}>{String(i + 1).padStart(2, "0")}</div>
-              <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 600, letterSpacing: "-.02em", margin: "10px 0 8px", color: DASH_INK }}>{c.name}</h3>
-              <p style={{ fontSize: 14, lineHeight: 1.55, color: DASH_MUTED, margin: 0 }}>{c.desc}</p>
-            </div>
-          ))}
-        </div>
+        <TaskTypeCards />
       </section>
 
       {/* How it's built — process */}
