@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { ExternalLink, X, ArrowUpDown, Search, ArrowRight, ShieldCheck, Layers } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -667,6 +667,28 @@ export default function App() {
           .herofx .s3{ animation: smokeC 26s ease-in-out infinite alternate; }
           .herofx .s4{ animation: smokeD 22s ease-in-out infinite alternate; }
         }
+
+        /* Same live smoke, held fixed to the viewport behind the whole page so
+           every section shares one pulsing atmosphere (transparent base). */
+        .pagefx{ position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+        .pagefx b{ position: absolute; display: block; border-radius: 50%; filter: blur(80px); mix-blend-mode: screen; will-change: transform, opacity; }
+        .pagefx .s1{ width: 80vw; height: 80vw; top: -20%; left: -12%; opacity: .52;
+          background: radial-gradient(circle at center, #74736c 0%, rgba(116,115,108,0) 60%); }
+        .pagefx .s2{ width: 74vw; height: 74vw; bottom: -24%; right: -12%; opacity: .44;
+          background: radial-gradient(circle at center, #3c3b37 0%, rgba(60,59,55,0) 62%); }
+        .pagefx .s3{ width: 52vw; height: 52vw; top: 26%; left: 34%; opacity: .38;
+          background: radial-gradient(circle at center, #9a988f 0%, rgba(154,152,143,0) 62%); }
+        .pagefx .s4{ width: 46vw; height: 46vw; bottom: 2%; left: 4%; opacity: .34;
+          background: radial-gradient(circle at center, #5a594f 0%, rgba(90,89,79,0) 62%); }
+        .pagefx:after{ content: ""; position: absolute; inset: 0;
+          background-image: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+          background-size: 3px 3px; opacity: .5; }
+        @media (prefers-reduced-motion: no-preference){
+          .pagefx .s1{ animation: smokeA 24s ease-in-out infinite alternate; }
+          .pagefx .s2{ animation: smokeB 19s ease-in-out infinite alternate; }
+          .pagefx .s3{ animation: smokeC 30s ease-in-out infinite alternate; }
+          .pagefx .s4{ animation: smokeD 26s ease-in-out infinite alternate; }
+        }
       `}</style>
 
       {!accepted ? (
@@ -907,12 +929,12 @@ const DASH_TRACK = "rgba(237,235,228,.07)";
 const DASH_PANEL = "rgba(237,235,228,.035)"; // soft borderless panel fill
 const DASH_LINE = "rgba(237,235,228,.12)";   // hairline divider on dark
 
-// One stat in the lively strip: a big figure over a small mono label. The lead
-// stat renders oversized and in brand lime to anchor the composition.
-function StatCell({ n, label, lead }) {
+// One stat in the strip: a figure over a small mono label. All stats share the
+// same size and the same count-up animation for a uniform, lively row.
+function StatCell({ n, label }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-      <div style={{ fontFamily: FONT_SERIF, fontWeight: 600, letterSpacing: "-.03em", lineHeight: 0.85, color: lead ? C.lime : DASH_INK, fontSize: lead ? "clamp(58px, 8.5vw, 92px)" : "clamp(30px, 4.4vw, 46px)" }}>{n}</div>
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <div style={{ fontFamily: FONT_SERIF, fontWeight: 700, letterSpacing: "-.03em", lineHeight: 0.9, color: DASH_INK, fontSize: "clamp(38px, 5vw, 56px)" }}><CountUp to={n} /></div>
       <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: DASH_MUTED, lineHeight: 1.4, maxWidth: 128 }}>{label}</div>
     </div>
   );
@@ -972,6 +994,33 @@ function GrowthBars({ rows }) {
   );
 }
 
+// Minimalist count-up: rapidly ticks 0 -> `to` on mount and lands there,
+// easeOut at a ~30fps cadence. Flat and clean (no shadow); tabular figures keep
+// the width steady. Respects reduced-motion by snapping to the final value.
+function CountUp({ to, suffix = "", duration = 1300 }) {
+  const [val, setVal] = useState(0);
+  const last = useRef(0);
+  useEffect(() => {
+    const reduce = typeof window !== "undefined" && window.matchMedia
+      && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !to) { setVal(to || 0); return; }
+    let raf, start = null;
+    const step = (t) => {
+      if (start === null) start = t;
+      const p = Math.min(1, (t - start) / duration);
+      if (t - last.current >= 33 || p === 1) { // ~30fps
+        last.current = t;
+        const eased = 1 - Math.pow(1 - p, 3);  // easeOutCubic
+        setVal(Math.round(eased * to));
+      }
+      if (p < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [to, duration]);
+  return <span style={{ fontVariantNumeric: "tabular-nums" }}>{val}{suffix}</span>;
+}
+
 function LandingPage({ go, data }) {
   const total = data.length;
   const openCount = data.filter((b) => b.source === "Open").length;
@@ -1001,18 +1050,13 @@ function LandingPage({ go, data }) {
     .slice(0, 6);
 
   return (
-    <div style={{
-      color: DASH_INK,
-      backgroundColor: DASH_BG,
-      // Page-wide ambient glow (same warm-grey palette as the hero smoke), held
-      // fixed to the viewport so every section shares one continuous atmosphere.
-      backgroundImage: "radial-gradient(56vw 40vw at 10% 4%, rgba(120,118,110,.17), transparent 60%), radial-gradient(52vw 46vw at 90% 24%, rgba(96,94,84,.13), transparent 58%), radial-gradient(64vw 58vw at 50% 96%, rgba(154,152,143,.10), transparent 62%)",
-      backgroundAttachment: "fixed",
-      backgroundRepeat: "no-repeat",
-    }}>
-      {/* Dark full-screen hero — giant wordmark (Monolog-style) */}
-      <section style={{ position: "relative", background: "#0C0B0A", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", padding: "104px 32px 40px" }}>
-        <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
+    <div style={{ position: "relative", color: DASH_INK, background: DASH_BG }}>
+      {/* Live pulsing smoke behind the whole page (fixed to the viewport). */}
+      <div className="pagefx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
+      <div style={{ position: "relative", zIndex: 1 }}>
+      {/* Dark full-screen hero — giant wordmark (Monolog-style). Shares the
+          page-wide pagefx smoke, so there's a single continuous gradient. */}
+      <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", padding: "104px 32px 40px" }}>
 
         {/* top-centered intro + entry buttons */}
         <div style={{ position: "relative", maxWidth: 480, margin: "0 auto", textAlign: "center" }}>
@@ -1032,7 +1076,7 @@ function LandingPage({ go, data }) {
           </div>
           <div className="herobottom">
             <div>
-              <div style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 54px)", fontWeight: 600, letterSpacing: "-.03em", lineHeight: 1 }}>{total}+</div>
+              <div style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 54px)", fontWeight: 700, letterSpacing: "-.03em", lineHeight: 1 }}><CountUp to={total} suffix="+" /></div>
               <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: "#8C887E", marginTop: 8, lineHeight: 1.5 }}>Benchmarks catalogued<br />(arXiv · PubMed · medRxiv)</div>
             </div>
             <div style={{ maxWidth: 430, justifySelf: "end" }}>
@@ -1061,9 +1105,10 @@ function LandingPage({ go, data }) {
             <span style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".18em", textTransform: "uppercase", color: DASH_MUTED }}>By the numbers</span>
           </div>
 
-          {/* lively stat strip — oversized lead figure, baseline-aligned */}
-          <div style={{ display: "flex", alignItems: "flex-end", flexWrap: "wrap", gap: "28px 48px", margin: "30px 0 6px" }}>
-            <StatCell n={total} label="Benchmarks cataloged" lead />
+          {/* stat strip — uniform figures on an even grid so the numbers and
+              their labels line up regardless of how the labels wrap */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", alignItems: "start", gap: "26px 32px", margin: "30px 0 6px" }}>
+            <StatCell n={total} label="Benchmarks cataloged" />
             <StatCell n={8} label="Task categories" />
             <StatCell n={openCount} label="Open-source" />
             <StatCell n={sinceRecent} label="Added in 2025–2026" />
@@ -1195,6 +1240,7 @@ function LandingPage({ go, data }) {
           <button onClick={() => go("method")} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "transparent", color: DASH_INK, border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
         </div>
       </section>
+    </div>
     </div>
     </div>
   );
