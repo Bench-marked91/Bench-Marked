@@ -1562,7 +1562,7 @@ function BenchTile({ b, catColor, showRigor, onClick }) {
       {/* tall solid-color poster: name top-left + rigor/run; tasks inside at bottom */}
       <div style={{ height: 380, flexShrink: 0, borderRadius: 8, background: band, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 22 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
-          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 24, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.08, margin: 0, color: onDark }}>
+          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 24, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.08, margin: 0, color: onDark, overflowWrap: "anywhere", hyphens: "auto", minWidth: 0 }}>
             {b.displayName || b.name}
           </h3>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 5, flexShrink: 0 }}>
