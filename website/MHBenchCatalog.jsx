@@ -16,11 +16,11 @@ import { ExternalLink, X, ArrowUpDown, Search, ArrowRight, ShieldCheck, Layers }
 // their stylesheet): warm greige canvas, near-black ink, warm greys, and their
 // signature lime accent. Tier colors stay semantic for the rigor charts.
 const C = {
-  paper: "#D1D1C7",      // beige-300 — page background (their --background)
-  surface: "#E8E8E3",    // beige-100 — cards / nav
+  paper: "#EBEBEB",      // off-white grey — page background (matches catalog)
+  surface: "#E2E2E2",    // neutral grey — cards / surfaces
   ink: "#080807",        // black-400 — primary text
-  muted: "#6B645C",      // black-100 — secondary text
-  line: "#BFBFB1",       // beige-400 — hairline borders
+  muted: "#66666B",      // neutral grey — secondary text
+  line: "#CFCFCF",       // neutral grey — hairline borders
   brand: "#080807",      // primary = ink (buttons, nav)
   accent: "#080807",     // emphasis = ink (monochrome, like Monolog)
   lime: "#F1FE67",       // their signature highlight (use with dark text)
@@ -52,11 +52,11 @@ const SOURCE_OPTIONS = ["Open", "Mixed", "Restricted", "Closed"];
  *  the existing `C` / FONT_* look.
  * ------------------------------------------------------------------ */
 const ED = {
-  bg: "#D1D1C7",       // beige-300 canvas (matches Monolog)
-  card: "#E8E8E3",     // beige-100 card surface
-  ink: "#080807",      // black-400
-  muted: "#6B645C",    // black-100
-  line: "#BFBFB1",     // beige-400 hairline
+  bg: "#EBEBEB",       // off-white canvas
+  card: "#E2E2E2",     // neutral grey surface (inputs / toggle)
+  ink: "#080807",      // ink
+  muted: "#66666B",    // neutral grey text
+  line: "#CFCFCF",     // neutral grey hairline
   display: "'Space Grotesk', 'Inter', system-ui, sans-serif",
   body: "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
 };
@@ -698,7 +698,7 @@ export default function App() {
       <div style={(page === "landing" || page === "method")
         ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "linear-gradient(to bottom, rgba(11,10,9,.62), rgba(11,10,9,0))" }
         : { position: "sticky", top: 0, zIndex: 40 }}>
-        <div style={{ background: (page === "landing" || page === "method") ? "transparent" : "#EAE4D7", color: (page === "landing" || page === "method") ? "rgba(237,235,228,.72)" : C.muted, fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
+        <div style={{ background: (page === "landing" || page === "method") ? "transparent" : "#DCDCDC", color: (page === "landing" || page === "method") ? "rgba(237,235,228,.72)" : "#5C5C5C", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
           Live data from the team catalog · rigor tiers are provisional (draft rubric) pending human appraisal
         </div>
         <TopNav page={page} go={go} overlay={page === "landing" || page === "method"} />
@@ -732,11 +732,11 @@ function Loading() {
 function TopNav({ page, go, overlay }) {
   const wordColor = overlay ? "#EDEBE4" : C.ink;
   return (
-    <nav style={{ borderBottom: overlay ? "none" : `1px solid ${C.line}`, background: overlay ? "transparent" : C.surface }}>
+    <nav style={{ borderBottom: overlay ? "none" : "1px solid #D4D4D4", background: overlay ? "transparent" : "#E6E6E6" }}>
       <div style={{ maxWidth: 1180, margin: "0 auto", padding: "11px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
         <button onClick={() => go("landing")} style={{ display: "flex", alignItems: "center", gap: 9, border: "none", background: "transparent", cursor: "pointer", padding: 0 }}>
           <span style={{ width: 10, height: 10, borderRadius: 2, background: wordColor, display: "inline-block" }} />
-          <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>Mental Health Benchmarks</span>
+          <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>BENCHLY-MH</span>
         </button>
         <div style={{ display: "flex", gap: 2 }}>
           {NAV.map((n) => {
@@ -876,7 +876,7 @@ function Footer({ go }) {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
             <span style={{ width: 10, height: 10, borderRadius: 2, background: "#E7E1D4", display: "inline-block" }} />
-            <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 19, letterSpacing: "-.02em" }}>Mental Health Benchmarks</span>
+            <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 19, letterSpacing: "-.02em" }}>BENCHLY-MH</span>
           </div>
           <p style={{ maxWidth: 420, marginTop: 16, fontSize: 14.5, lineHeight: 1.6, color: "#B7B0A2" }}>
             A curated, growing index of how AI models are evaluated on mental-health tasks, a few of which you can run yourself.
@@ -1056,41 +1056,28 @@ function LandingPage({ go, data }) {
       <div style={{ position: "relative", zIndex: 1 }}>
       {/* Dark full-screen hero — giant wordmark (Monolog-style). Shares the
           page-wide pagefx smoke, so there's a single continuous gradient. */}
-      <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", padding: "104px 32px 40px" }}>
+      <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 40px" }}>
 
-        {/* top-centered intro + entry buttons */}
-        <div style={{ position: "relative", maxWidth: 480, margin: "0 auto", textAlign: "center" }}>
-          <p style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: 0 }}>
+        {/* top-centered title + entry buttons */}
+        <div style={{ position: "relative", maxWidth: 780, margin: "0 auto", textAlign: "center" }}>
+          <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(34px, 6vw, 78px)", lineHeight: 1.03, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 640 }}>
+            The Mental Health Benchmark Catalog
+          </h1>
+          <p style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "22px auto 0", maxWidth: 520 }}>
             We index how AI models are really tested on mental-health tasks: what each benchmark measures, and how far to trust it.
           </p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 22, flexWrap: "wrap" }}>
-            <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "11px 24px", fontFamily: FONT_SANS, fontSize: 13.5, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
-            <button onClick={() => go("method")} style={{ background: "transparent", color: "#EDEBE4", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "11px 22px", fontFamily: FONT_SANS, fontSize: 13.5, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 28, flexWrap: "wrap" }}>
+            <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "12px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
+            <button onClick={() => go("method")} style={{ background: "transparent", color: "#EDEBE4", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
           </div>
         </div>
 
-        {/* giant wordmark + bottom stat/paragraph row */}
-        <div style={{ position: "relative" }}>
-          <div style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(34px, 13vw, 230px)", lineHeight: 0.82, letterSpacing: "-.04em", textAlign: "center", color: "#A6A299", whiteSpace: "nowrap", maxWidth: "100%" }}>
-            BENCHMARKS
-          </div>
+        {/* bottom stat row — pinned to the bottom so the intro stays centered */}
+        <div style={{ position: "absolute", left: 32, right: 32, bottom: 40 }}>
           <div className="herobottom">
             <div>
               <div style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 54px)", fontWeight: 700, letterSpacing: "-.03em", lineHeight: 1 }}><CountUp to={total} suffix="+" /></div>
               <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: "#8C887E", marginTop: 8, lineHeight: 1.5 }}>Benchmarks catalogued<br />(arXiv · PubMed · medRxiv)</div>
-            </div>
-            <div style={{ maxWidth: 430, justifySelf: "end" }}>
-              <p style={{ fontSize: 15.5, lineHeight: 1.5, margin: 0 }}>
-                <b style={{ fontWeight: 600, color: "#EDEBE4" }}>Teams building mental-health AI deserve to know exactly what they're testing against.</b>{" "}
-                <span style={{ color: "#8C887E" }}>What a benchmark measures, and how far to trust it, is rarely legible.</span>
-              </p>
-              <p style={{ fontSize: 15.5, lineHeight: 1.5, margin: "14px 0 0", color: "#8C887E" }}>
-                That gap costs more than accuracy. It costs knowing whether a model is safe to rely on.
-              </p>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 20 }}>
-                <span style={{ width: 22, height: 22, borderRadius: 999, background: C.lime, display: "inline-block", flexShrink: 0 }} />
-                <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: "#CFCCC2", lineHeight: 1.4 }}>MH Benchmarks<br />Research catalog</span>
-              </div>
             </div>
           </div>
         </div>
@@ -1429,7 +1416,8 @@ function MethodPage({ go }) {
         </div>
       </div>
 
-      {/* Rubric (light) — the three-score framework */}
+      {/* Rubric (light) — the three-score framework, on the off-white canvas */}
+      <div style={{ background: "#EBEBEB" }}>
       <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 24px 24px" }}>
         <section id="sec-rubric" style={{ scrollMarginTop: 16, padding: "56px 0 8px" }}>
           <SectionLabel>The evaluation rubric</SectionLabel>
@@ -1462,7 +1450,7 @@ function MethodPage({ go }) {
 
         {/* Note + CTA */}
         <section style={{ borderTop: `1px solid ${C.line}`, padding: "22px 0 48px" }}>
-          <div style={{ border: `1px solid ${C.line}`, borderLeft: `3px solid ${C.accent}`, background: "#F1EADB", borderRadius: 8, padding: "12px 16px", fontSize: 13, color: C.ink, lineHeight: 1.55 }}>
+          <div style={{ border: `1px solid ${C.line}`, borderLeft: `3px solid ${C.accent}`, background: "#E4E4E4", borderRadius: 8, padding: "12px 16px", fontSize: 13, color: C.ink, lineHeight: 1.55 }}>
             <strong style={{ fontFamily: FONT_SANS, fontSize: 11, fontWeight: 700, color: C.accent, letterSpacing: ".06em" }}>NOTE</strong>
             <span style={{ marginLeft: 8 }}>The three ratings are assigned by expert review. A benchmark that is Strong on one domain may be Weak on another; the scores are meant to be read together, not averaged into a single number.</span>
           </div>
@@ -1470,6 +1458,7 @@ function MethodPage({ go }) {
             <GhostButton onClick={() => go("catalog")}>See the benchmarks <ArrowRight size={14} /></GhostButton>
           </div>
         </section>
+      </div>
       </div>
     </>
   );
