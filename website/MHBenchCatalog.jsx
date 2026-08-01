@@ -1021,6 +1021,55 @@ function CountUp({ to, suffix = "", duration = 1300 }) {
   return <span style={{ fontVariantNumeric: "tabular-nums" }}>{val}{suffix}</span>;
 }
 
+// "Orbit: Cards" style loop — the real catalog cards (BenchTile) circle a
+// center point on a shallow ellipse, with depth-driven scale / opacity / blur
+// for parallax layering. Continuous (seamless) rotation; respects reduced-motion.
+function OrbitCards({ items, go }) {
+  const wrapRefs = useRef([]);
+  useEffect(() => {
+    const N = items.length;
+    if (!N) return;
+    const RX = 300, RY = 68, BASE = 0.54, PERIOD = 42000; // slow revolution
+    const apply = (base) => {
+      for (let i = 0; i < N; i++) {
+        const el = wrapRefs.current[i];
+        if (!el) continue;
+        const a = base + (i / N) * Math.PI * 2;
+        const x = Math.cos(a) * RX;
+        const y = Math.sin(a) * RY;
+        const depth = (Math.sin(a) + 1) / 2;         // 0 = back/top, 1 = front/bottom
+        const s = BASE * (0.8 + depth * 0.34);
+        el.style.transform = `translate(-50%,-50%) translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${s.toFixed(3)})`;
+        el.style.opacity = (0.5 + depth * 0.5).toFixed(3);
+        el.style.zIndex = String(Math.round(depth * 100));
+        el.style.filter = depth < 0.5 ? `blur(${((0.5 - depth) * 3.4).toFixed(2)}px)` : "none";
+      }
+    };
+    const reduce = typeof window !== "undefined" && window.matchMedia
+      && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) { apply(Math.PI / 2); return; }        // static, front card centered
+    let raf, start = null;
+    const loop = (ts) => {
+      if (start == null) start = ts;
+      apply(((ts - start) / PERIOD) * Math.PI * 2 + Math.PI / 2);
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, [items.length]);
+
+  return (
+    <div style={{ position: "relative", height: 640, margin: "0 auto", maxWidth: 1040, overflow: "hidden" }}>
+      {items.map((b, i) => (
+        <div key={b.id} ref={(el) => (wrapRefs.current[i] = el)}
+          style={{ position: "absolute", top: "50%", left: "50%", width: 250, willChange: "transform, opacity, filter" }}>
+          <BenchTile b={b} showRigor={false} catColor={null} onClick={() => go("catalog")} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function LandingPage({ go, data }) {
   const total = data.length;
   const openCount = data.filter((b) => b.source === "Open").length;
@@ -1156,25 +1205,7 @@ function LandingPage({ go, data }) {
           </div>
           <button onClick={() => go("catalog")} style={{ border: "none", background: "transparent", color: C.lime, fontWeight: 600, fontSize: "inherit", cursor: "pointer", padding: 0, fontFamily: "inherit" }}>All benchmarks →</button>
         </div>
-        <div style={{ display: "flex", gap: 18, overflowX: "auto", paddingBottom: 10 }}>
-          {featured.map((b) => (
-            <button key={b.id} onClick={() => go("catalog")} className="edcard" style={{ textAlign: "left", cursor: "pointer", flex: "0 0 300px", background: DASH_PANEL, border: `1px solid ${DASH_LINE}`, borderRadius: 12, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-              <div style={{ height: 7, background: runHrefFor(b) ? C.lime : bandColor(b.id) }} />
-              <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                {runHrefFor(b) && (
-                  <span style={{ alignSelf: "flex-start", fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: C.ink, background: C.lime, borderRadius: 999, padding: "3px 9px" }}>Runnable</span>
-                )}
-                <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".07em", textTransform: "uppercase", color: DASH_MUTED }}>
-                  {[b.venue, b.year].filter(Boolean).join(" · ") || "Benchmark"}
-                </div>
-                <h3 style={{ fontFamily: FONT_SERIF, fontSize: 18, fontWeight: 600, lineHeight: 1.15, letterSpacing: "-.02em", margin: 0, color: DASH_INK }}>{b.displayName || b.name}</h3>
-                <div style={{ marginTop: "auto", fontFamily: FONT_MONO, fontSize: 12, color: DASH_INK }}>
-                  {b.sizeNum ? b.sizeNum.toLocaleString() + " items" : deriveCategory(b)}
-                </div>
-              </div>
-            </button>
-          ))}
-        </div>
+        <OrbitCards items={featured.slice(0, 5)} go={go} />
       </section>
 
       {/* What it covers — task categories */}
