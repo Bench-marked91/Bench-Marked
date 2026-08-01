@@ -389,8 +389,8 @@ function Stat({ n, label, accent }) {
  * ================================================================== */
 const NAV = [
   { id: "landing", label: "Overview", hash: "#/" },
-  { id: "method", label: "Methodology", hash: "#/method" },
   { id: "catalog", label: "Catalog", hash: "#/catalog" },
+  { id: "method", label: "Methodology", hash: "#/method" },
 ];
 
 function hashToPage() {
@@ -831,15 +831,18 @@ function ChartEmpty() {
 /* ------------------------------------------------------------------ *
  *  Accordion (FAQ) + site-wide Footer
  * ------------------------------------------------------------------ */
-function Accordion({ q, a }) {
+function Accordion({ q, a, dark }) {
   const [open, setOpen] = useState(false);
+  const line = dark ? DASH_LINE : C.line;
+  const ink = dark ? DASH_INK : C.ink;
+  const muted = dark ? DASH_MUTED : C.muted;
   return (
-    <div style={{ borderTop: `1px solid ${C.line}` }}>
+    <div style={{ borderTop: `1px solid ${line}` }}>
       <button onClick={() => setOpen(!open)} style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "22px 0", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
-        <span style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 500, color: C.ink, letterSpacing: "-.015em" }}>{q}</span>
-        <span style={{ fontFamily: FONT_SANS, fontSize: 24, color: C.muted, lineHeight: 1, flexShrink: 0 }}>{open ? "-" : "+"}</span>
+        <span style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 500, color: ink, letterSpacing: "-.015em" }}>{q}</span>
+        <span style={{ fontFamily: FONT_SANS, fontSize: 24, color: muted, lineHeight: 1, flexShrink: 0 }}>{open ? "-" : "+"}</span>
       </button>
-      {open && <div style={{ fontSize: 15.5, lineHeight: 1.65, color: C.muted, padding: "0 0 24px", maxWidth: 760 }}>{a}</div>}
+      {open && <div style={{ fontSize: 15.5, lineHeight: 1.65, color: muted, padding: "0 0 24px", maxWidth: 760 }}>{a}</div>}
     </div>
   );
 }
@@ -892,29 +895,105 @@ function Logo({ src, name, h = 32, color }) {
 /* ------------------------------------------------------------------ *
  *  PAGE 1 — Landing
  * ------------------------------------------------------------------ */
+/* ---- Overview "by the numbers" dashboard (dark) ---------------------- *
+ * Two single-measure magnitude charts (task coverage + growth over time)
+ * plus a stat-tile row. Per the dataviz method: one hue per chart (no
+ * rainbow), category identity carried by a small color dot + a direct label,
+ * recessive tracks, rounded bar ends, value labels, hover tooltips.          */
+const DASH_BG = "#0C0B0A";
+const DASH_INK = "#EDEBE4";
+const DASH_MUTED = "#8C887E";
+const DASH_TRACK = "rgba(237,235,228,.07)";
+const DASH_PANEL = "rgba(237,235,228,.035)"; // soft borderless panel fill
+const DASH_LINE = "rgba(237,235,228,.12)";   // hairline divider on dark
+
+// One stat in the lively strip: a big figure over a small mono label. The lead
+// stat renders oversized and in brand lime to anchor the composition.
+function StatCell({ n, label, lead }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+      <div style={{ fontFamily: FONT_SERIF, fontWeight: 600, letterSpacing: "-.03em", lineHeight: 0.85, color: lead ? C.lime : DASH_INK, fontSize: lead ? "clamp(58px, 8.5vw, 92px)" : "clamp(30px, 4.4vw, 46px)" }}>{n}</div>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: DASH_MUTED, lineHeight: 1.4, maxWidth: 128 }}>{label}</div>
+    </div>
+  );
+}
+
+function DashCard({ label, title, children }) {
+  return (
+    <div style={{ borderRadius: 18, padding: "24px 26px 28px", background: DASH_PANEL }}>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", color: DASH_MUTED }}>{label}</div>
+      <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 600, letterSpacing: "-.02em", color: DASH_INK, margin: "8px 0 24px" }}>{title}</h3>
+      {children}
+    </div>
+  );
+}
+
+// Horizontal pill bars, one per task category, each in its own category color
+// (the same hues as the catalog cards) so the chart is colorful and legible;
+// every bar is directly labeled, so color reinforces rather than carries alone.
+function TaskBars({ rows }) {
+  const max = rows.length ? rows[0][1] : 1;
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      {rows.map(([name, n]) => {
+        const col = CATEGORY_COLORS[name] || CATEGORY_COLOR_FALLBACK;
+        return (
+          <div key={name} className="dashbar" title={`${name}: ${n}`} style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
+              <span style={{ fontFamily: FONT_SANS, fontSize: 12.5, color: DASH_INK, lineHeight: 1.3 }}>{name}</span>
+              <span style={{ fontFamily: FONT_MONO, fontSize: 12.5, fontWeight: 700, color: col, flexShrink: 0 }}>{n}</span>
+            </div>
+            <div style={{ height: 12, borderRadius: 999, background: DASH_TRACK, overflow: "hidden" }}>
+              <div style={{ width: `${(n / max) * 100}%`, height: "100%", background: col, borderRadius: 999, minWidth: 6 }} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// Vertical bars over time in brand lime with a soft top gradient and rounded
+// caps. Gap years render as an empty slot so the growth curve reads honestly.
+function GrowthBars({ rows }) {
+  const max = rows.reduce((m, [, n]) => Math.max(m, n), 0) || 1;
+  return (
+    <div style={{ display: "flex", alignItems: "flex-end", gap: 10 }}>
+      {rows.map(([y, n]) => (
+        <div key={y} className="dashbar" title={`${y}: ${n} benchmark${n === 1 ? "" : "s"}`} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ width: "100%", height: 172, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", gap: 7 }}>
+            <span style={{ fontFamily: FONT_MONO, fontSize: 11.5, fontWeight: 700, color: n ? DASH_INK : DASH_MUTED }}>{n}</span>
+            <div style={{ width: "100%", maxWidth: 52, height: `${(n / max) * 82}%`, minHeight: n ? 6 : 3, background: n ? "linear-gradient(180deg,#F4FF7A,#CBDE46)" : "rgba(237,235,228,.10)", borderRadius: "8px 8px 3px 3px" }} />
+          </div>
+          <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".04em", color: DASH_MUTED, marginTop: 8 }}>{y}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function LandingPage({ go, data }) {
   const total = data.length;
-  const withSource = data.filter((b) => b.source).length;
-  const rated = data.filter((b) => b.score.tier).length;
-  const graded = data.filter((b) => b.overallGrade).length;
+  const openCount = data.filter((b) => b.source === "Open").length;
+  const maxLLMs = data.reduce((m, b) => {
+    const d = String(b.numLLMs || "").match(/\d+/);
+    return Math.max(m, d ? parseInt(d[0], 10) : 0);
+  }, 0);
 
-  const rigorMix = [
-    { label: "Strong", value: data.filter((b) => b.score.tier === "strong").length, color: C.strong },
-    { label: "Moderate", value: data.filter((b) => b.score.tier === "moderate").length, color: C.moderate },
-    { label: "Limited", value: data.filter((b) => b.score.tier === "limited").length, color: C.limited },
-    { label: "Unrated", value: data.filter((b) => !b.score.tier).length, color: C.unrated },
-  ].filter((s) => s.value > 0);
+  // Benchmarks per task category (multi-label), most-covered first.
+  const taskCounts = (() => {
+    const c = {};
+    data.forEach((b) => (b.tasks || []).forEach((t) => { c[t] = (c[t] || 0) + 1; }));
+    return Object.entries(c).sort((a, b) => b[1] - a[1]);
+  })();
 
+  // Benchmarks per year, filled continuously so gap years show as empty.
   const yearMap = {};
-  data.forEach((b) => { const m = (b.year || "").match(/\d{4}/); if (m) yearMap[m[0]] = (yearMap[m[0]] || 0) + 1; });
-  const yearCounts = Object.keys(yearMap).sort().map((y) => ({ year: y, n: yearMap[y] }));
-
-  const accessPalette = { Open: C.strong, Mixed: C.moderate, Restricted: C.brand, Closed: C.limited, Unknown: C.unrated };
-  const accessMix = ["Open", "Mixed", "Restricted", "Closed", "Unknown"].map((k) => ({
-    label: k,
-    value: k === "Unknown" ? data.filter((b) => !SOURCE_OPTIONS.includes(b.source)).length : data.filter((b) => b.source === k).length,
-    color: accessPalette[k],
-  })).filter((d) => d.value > 0);
+  data.forEach((b) => { const m = (b.year || "").match(/20\d\d/); if (m) yearMap[m[0]] = (yearMap[m[0]] || 0) + 1; });
+  const yrs = Object.keys(yearMap).map(Number);
+  const growth = [];
+  if (yrs.length) { for (let y = Math.min(...yrs); y <= Math.max(...yrs); y++) growth.push([String(y), yearMap[String(y)] || 0]); }
+  const sinceRecent = (yearMap["2025"] || 0) + (yearMap["2026"] || 0);
 
   const runnableCount = data.filter((b) => runHrefFor(b)).length;
   const featured = [...data]
@@ -922,7 +1001,15 @@ function LandingPage({ go, data }) {
     .slice(0, 6);
 
   return (
-    <>
+    <div style={{
+      color: DASH_INK,
+      backgroundColor: DASH_BG,
+      // Page-wide ambient glow (same warm-grey palette as the hero smoke), held
+      // fixed to the viewport so every section shares one continuous atmosphere.
+      backgroundImage: "radial-gradient(56vw 40vw at 10% 4%, rgba(120,118,110,.17), transparent 60%), radial-gradient(52vw 46vw at 90% 24%, rgba(96,94,84,.13), transparent 58%), radial-gradient(64vw 58vw at 50% 96%, rgba(154,152,143,.10), transparent 62%)",
+      backgroundAttachment: "fixed",
+      backgroundRepeat: "no-repeat",
+    }}>
       {/* Dark full-screen hero — giant wordmark (Monolog-style) */}
       <section style={{ position: "relative", background: "#0C0B0A", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", padding: "104px 32px 40px" }}>
         <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
@@ -965,82 +1052,91 @@ function LandingPage({ go, data }) {
         </div>
       </section>
 
-    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 20px" }}>
+      {/* By the numbers — dark data dashboard (replaces the old rigor stats) */}
+      <section style={{ color: DASH_INK }}>
+        <style>{`.dashbar{transition:opacity .16s ease,transform .16s ease}.dashbar:hover{opacity:.8}`}</style>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 32px 82px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span style={{ width: 20, height: 20, borderRadius: 999, background: C.lime, flexShrink: 0 }} />
+            <span style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".18em", textTransform: "uppercase", color: DASH_MUTED }}>By the numbers</span>
+          </div>
 
-      {/* Stats + charts */}
-      <section style={{ borderTop: `1px solid ${C.line}`, padding: "48px 0" }}>
-        <div style={{ display: "flex", gap: 48, flexWrap: "wrap", marginBottom: 32 }}>
-          <Stat n={total} label="benchmarks cataloged" />
-          <Stat n={rated} label="provisional rigor tier" />
-          <Stat n={graded} label="human appraisal grade" />
-          <Stat n={runnableCount} label="runnable in-browser" accent />
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
-          <ChartCard title="Rigor mix" subtitle="provisional">
-            <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-              <Donut data={rigorMix} total={total} />
-              <Legend items={rigorMix} />
-            </div>
-          </ChartCard>
-          <ChartCard title="Benchmarks by year">
-            {yearCounts.length ? <YearBars counts={yearCounts} /> : <ChartEmpty />}
-          </ChartCard>
-          <ChartCard title="Access (model source)">
-            {accessMix.length ? <HBars data={accessMix} /> : <ChartEmpty />}
-          </ChartCard>
+          {/* lively stat strip — oversized lead figure, baseline-aligned */}
+          <div style={{ display: "flex", alignItems: "flex-end", flexWrap: "wrap", gap: "28px 48px", margin: "30px 0 6px" }}>
+            <StatCell n={total} label="Benchmarks cataloged" lead />
+            <StatCell n={8} label="Task categories" />
+            <StatCell n={openCount} label="Open-source" />
+            <StatCell n={sinceRecent} label="Added in 2025–2026" />
+            <StatCell n={maxLLMs} label="Models tested in one study" />
+          </div>
+
+          {/* charts */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 18, marginTop: 40 }}>
+            <DashCard label="Coverage" title="Benchmarks by task category">
+              <TaskBars rows={taskCounts} />
+              <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, color: DASH_MUTED, marginTop: 20, lineHeight: 1.5 }}>
+                {total} benchmarks; many cover more than one task.
+              </div>
+            </DashCard>
+            <DashCard label="Growth" title="Benchmarks by year">
+              {growth.length ? <GrowthBars rows={growth} /> : null}
+            </DashCard>
+          </div>
         </div>
       </section>
 
+    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 20px" }}>
+
       {/* About — the people behind the project */}
-      <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0", display: "grid", gridTemplateColumns: "0.7fr 1.3fr", gap: 40 }}>
+      <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0", display: "grid", gridTemplateColumns: "0.7fr 1.3fr", gap: 40 }}>
         <div>
           <div style={{ marginTop: 0 }}>
-            <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: C.muted, marginBottom: 20 }}>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: DASH_MUTED, marginBottom: 20 }}>
               With support from
             </div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 24 }}>
-              <Logo src="./logos/mdplus.png" name="MDplus" h={30} color="#0A2472" />
-              <Logo src="./logos/stanford.png" name="Stanford" h={50} color="#8C1515" />
-              <Logo src="./logos/google.png" name="Google" h={30} />
+              <Logo src="./logos/mdplus.png" name="MDplus" h={30} color="#A7B6EC" />
+              <Logo src="./logos/stanford.png" name="Stanford" h={50} color="#E19A9A" />
+              <Logo src="./logos/google.png" name="Google" h={30} color={DASH_INK} />
             </div>
           </div>
         </div>
         <div>
-          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", lineHeight: 1.08, margin: 0 }}>
+          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", lineHeight: 1.08, margin: 0, color: DASH_INK }}>
             Built by medical students, guided by clinicians.
           </h2>
-          <p style={{ fontSize: 16, lineHeight: 1.65, color: C.muted, marginTop: 20, maxWidth: 640 }}>
+          <p style={{ fontSize: 16, lineHeight: 1.65, color: DASH_MUTED, marginTop: 20, maxWidth: 640 }}>
             Everything here (the website, the benchmark-evaluation rubric, and the sorting, naming, and
-            runnable-benchmark systems) was created by <b>four medical students</b> through the{" "}
-            <b>MDplus Catalysis Fellowship</b>.
+            runnable-benchmark systems) was created by <b style={{ color: DASH_INK }}>four medical students</b> through the{" "}
+            <b style={{ color: DASH_INK }}>MDplus Catalysis Fellowship</b>.
           </p>
-          <p style={{ fontSize: 16, lineHeight: 1.65, color: C.muted, marginTop: 14, maxWidth: 640 }}>
-            The project is mentored by <b>Dr. Havlik</b> (Stanford) and <b>Dr. Kwon</b>.
+          <p style={{ fontSize: 16, lineHeight: 1.65, color: DASH_MUTED, marginTop: 14, maxWidth: 640 }}>
+            The project is mentored by <b style={{ color: DASH_INK }}>Dr. Havlik</b> (Stanford) and <b style={{ color: DASH_INK }}>Dr. Kwon</b>.
           </p>
         </div>
       </section>
 
       {/* Featured */}
-      <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
+      <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 28 }}>
           <div>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0" }}>Start here</h2>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0", color: DASH_INK }}>Start here</h2>
           </div>
-          <button onClick={() => go("catalog")} style={linkBtn}>All benchmarks →</button>
+          <button onClick={() => go("catalog")} style={{ border: "none", background: "transparent", color: C.lime, fontWeight: 600, fontSize: "inherit", cursor: "pointer", padding: 0, fontFamily: "inherit" }}>All benchmarks →</button>
         </div>
         <div style={{ display: "flex", gap: 18, overflowX: "auto", paddingBottom: 10 }}>
           {featured.map((b) => (
-            <button key={b.id} onClick={() => go("catalog")} className="edcard" style={{ textAlign: "left", cursor: "pointer", flex: "0 0 300px", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 8, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+            <button key={b.id} onClick={() => go("catalog")} className="edcard" style={{ textAlign: "left", cursor: "pointer", flex: "0 0 300px", background: DASH_PANEL, border: `1px solid ${DASH_LINE}`, borderRadius: 12, overflow: "hidden", display: "flex", flexDirection: "column" }}>
               <div style={{ height: 7, background: runHrefFor(b) ? C.lime : bandColor(b.id) }} />
               <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
                 {runHrefFor(b) && (
                   <span style={{ alignSelf: "flex-start", fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: C.ink, background: C.lime, borderRadius: 999, padding: "3px 9px" }}>Runnable</span>
                 )}
-                <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".07em", textTransform: "uppercase", color: C.muted }}>
+                <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".07em", textTransform: "uppercase", color: DASH_MUTED }}>
                   {[b.venue, b.year].filter(Boolean).join(" · ") || "Benchmark"}
                 </div>
-                <h3 style={{ fontFamily: FONT_SERIF, fontSize: 18, fontWeight: 600, lineHeight: 1.15, letterSpacing: "-.02em", margin: 0 }}>{b.displayName || b.name}</h3>
-                <div style={{ marginTop: "auto", fontFamily: FONT_MONO, fontSize: 12, color: C.ink }}>
+                <h3 style={{ fontFamily: FONT_SERIF, fontSize: 18, fontWeight: 600, lineHeight: 1.15, letterSpacing: "-.02em", margin: 0, color: DASH_INK }}>{b.displayName || b.name}</h3>
+                <div style={{ marginTop: "auto", fontFamily: FONT_MONO, fontSize: 12, color: DASH_INK }}>
                   {b.sizeNum ? b.sizeNum.toLocaleString() + " items" : deriveCategory(b)}
                 </div>
               </div>
@@ -1050,22 +1146,22 @@ function LandingPage({ go, data }) {
       </section>
 
       {/* What it covers — task categories */}
-      <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0 0 28px" }}>Tasks models are tested on</h2>
+      <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0" }}>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0 0 28px", color: DASH_INK }}>Tasks models are tested on</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
           {CATEGORY_INFO.map((c, i) => (
-            <div key={c.name} style={{ border: `1px solid ${C.line}`, borderRadius: 8, padding: 22, background: C.surface }}>
-              <div style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.accent }}>{String(i + 1).padStart(2, "0")}</div>
-              <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 600, letterSpacing: "-.02em", margin: "10px 0 8px" }}>{c.name}</h3>
-              <p style={{ fontSize: 14, lineHeight: 1.55, color: C.muted, margin: 0 }}>{c.desc}</p>
+            <div key={c.name} style={{ borderRadius: 14, padding: 22, background: DASH_PANEL, borderLeft: `3px solid ${CATEGORY_COLORS[c.name] || CATEGORY_COLOR_FALLBACK}` }}>
+              <div style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.lime }}>{String(i + 1).padStart(2, "0")}</div>
+              <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 600, letterSpacing: "-.02em", margin: "10px 0 8px", color: DASH_INK }}>{c.name}</h3>
+              <p style={{ fontSize: 14, lineHeight: 1.55, color: DASH_MUTED, margin: 0 }}>{c.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* How it's built — process */}
-      <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0" }}>How the catalog is built</h2>
+      <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0" }}>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0", color: DASH_INK }}>How the catalog is built</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 28, marginTop: 28 }}>
           {[
             { n: "01", t: "Find", d: "A scheduled job scans arXiv, PubMed, and medRxiv for new mental-health LLM papers and skips anything already seen." },
@@ -1073,34 +1169,34 @@ function LandingPage({ go, data }) {
             { n: "03", t: "Publish & appraise", d: "Confident entries publish automatically; uncertain ones wait for a reviewer. Humans grade benchmark quality by hand." },
           ].map((s) => (
             <div key={s.n}>
-              <div style={{ fontFamily: FONT_SERIF, fontSize: 42, fontWeight: 600, color: C.line, letterSpacing: "-.03em" }}>{s.n}</div>
-              <h3 style={{ fontFamily: FONT_SERIF, fontSize: 20, fontWeight: 600, margin: "6px 0 8px", letterSpacing: "-.02em" }}>{s.t}</h3>
-              <p style={{ fontSize: 14.5, lineHeight: 1.6, color: C.muted, margin: 0 }}>{s.d}</p>
+              <div style={{ fontFamily: FONT_SERIF, fontSize: 42, fontWeight: 600, color: "rgba(237,235,228,.16)", letterSpacing: "-.03em" }}>{s.n}</div>
+              <h3 style={{ fontFamily: FONT_SERIF, fontSize: 20, fontWeight: 600, margin: "6px 0 8px", letterSpacing: "-.02em", color: DASH_INK }}>{s.t}</h3>
+              <p style={{ fontSize: 14.5, lineHeight: 1.6, color: DASH_MUTED, margin: 0 }}>{s.d}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* FAQ */}
-      <section style={{ borderTop: `1px solid ${C.line}`, padding: "60px 0" }}>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0 0 22px" }}>Frequently asked</h2>
-        <div style={{ borderBottom: `1px solid ${C.line}` }}>
-          {FAQS.map((f) => <Accordion key={f.q} q={f.q} a={f.a} />)}
+      <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0" }}>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0 0 22px", color: DASH_INK }}>Frequently asked</h2>
+        <div style={{ borderBottom: `1px solid ${DASH_LINE}` }}>
+          {FAQS.map((f) => <Accordion key={f.q} q={f.q} a={f.a} dark />)}
         </div>
       </section>
 
       {/* Final CTA */}
-      <section style={{ borderTop: `1px solid ${C.line}`, padding: "80px 0 48px", textAlign: "center" }}>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 600, letterSpacing: "-.04em", lineHeight: 1.02, margin: "0 auto", maxWidth: 780 }}>
+      <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "80px 0 48px", textAlign: "center" }}>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 600, letterSpacing: "-.04em", lineHeight: 1.02, margin: "0 auto", maxWidth: 780, color: DASH_INK }}>
           See how AI is really tested on mental health.
         </h2>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 30, flexWrap: "wrap" }}>
-          <PrimaryButton onClick={() => go("catalog")}>Browse the catalog <ArrowRight size={15} /></PrimaryButton>
-          <GhostButton onClick={() => go("method")}>How we rate rigor</GhostButton>
+          <button onClick={() => go("catalog")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "13px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog <ArrowRight size={15} /></button>
+          <button onClick={() => go("method")} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "transparent", color: DASH_INK, border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
         </div>
       </section>
     </div>
-    </>
+    </div>
   );
 }
 
