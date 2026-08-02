@@ -479,7 +479,7 @@ function AgreementGate({ onAccept }) {
   const h3 = { fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 600, color: "#EDEBE4", margin: "0 0 6px", letterSpacing: "-.01em" };
   const p = { fontSize: 13, lineHeight: 1.6, color: "#B7B2A8", margin: 0 };
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "#0C0B0A", color: "#EDEBE4", display: "flex", alignItems: "center", justifyContent: "center", overflow: "auto", padding: "32px 20px" }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "#080A21", color: "#EDEBE4", display: "flex", alignItems: "center", justifyContent: "center", overflow: "auto", padding: "32px 20px" }}>
       <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
       <div style={{ position: "relative", width: "min(640px, 100%)", background: "rgba(18,17,13,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(237,235,228,.14)", borderRadius: 8, padding: "clamp(24px, 4vw, 40px)", maxHeight: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
         <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 14 }}>Confidential Beta · Access Agreement</div>
@@ -922,7 +922,7 @@ function Logo({ src, name, h = 32, color }) {
  * plus a stat-tile row. Per the dataviz method: one hue per chart (no
  * rainbow), category identity carried by a small color dot + a direct label,
  * recessive tracks, rounded bar ends, value labels, hover tooltips.          */
-const DASH_BG = "#0C0B0A";
+const DASH_BG = "#080A21";
 const DASH_INK = "#EDEBE4";
 const DASH_MUTED = "#8C887E";
 const DASH_TRACK = "rgba(237,235,228,.07)";
@@ -1105,7 +1105,7 @@ function TaskTypeCards() {
             <div style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, letterSpacing: ".1em", color: accent }}>{String(i + 1).padStart(2, "0")}</div>
             <div style={{ width: 26, height: 2, borderRadius: 2, background: accent, opacity: 0.85, margin: "11px 0 13px" }} />
             <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 700, letterSpacing: "-.01em", color: DASH_INK, margin: 0, lineHeight: 1.2 }}>{c.name}</h3>
-            <p style={{ fontFamily: FONT_SANS, fontSize: 13.5, lineHeight: 1.55, color: DASH_MUTED, margin: "11px 0 0" }}>{c.desc}</p>
+            <p style={{ fontFamily: FONT_SANS, fontSize: 13.5, lineHeight: 1.55, color: "#EDEBE4", margin: "11px 0 0" }}>{c.desc}</p>
           </div>
         );
       })}
@@ -1451,7 +1451,7 @@ function MethodPage({ go }) {
   return (
     <>
       {/* Dark hero + compact numbered pipeline */}
-      <div style={{ background: "#0C0B0A", color: "#EDEBE4" }}>
+      <div style={{ background: "#080A21", color: "#EDEBE4" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 32px 56px" }}>
           <section style={{ padding: "104px 0 8px", maxWidth: 760 }}>
             <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 18 }}>Methodology</div>
@@ -1462,7 +1462,7 @@ function MethodPage({ go }) {
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 26 }}>
               <button onClick={() => scrollToId("sec-pipeline")} style={{ appearance: "none", cursor: "pointer", background: "transparent", border: "1px solid rgba(237,235,228,.28)", borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#EDEBE4" }}>The pipeline</button>
-              <button onClick={() => scrollToId("sec-rubric")} style={{ appearance: "none", cursor: "pointer", background: C.lime, border: `1px solid ${C.lime}`, borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#0C0B0A", fontWeight: 700 }}>How we rate benchmarks →</button>
+              <button onClick={() => scrollToId("sec-rubric")} style={{ appearance: "none", cursor: "pointer", background: C.lime, border: `1px solid ${C.lime}`, borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#080A21", fontWeight: 700 }}>How we rate benchmarks →</button>
             </div>
           </section>
 
