@@ -736,7 +736,7 @@ function TopNav({ page, go, overlay }) {
       <div style={{ maxWidth: 1180, margin: "0 auto", padding: "11px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
         <button onClick={() => go("landing")} style={{ display: "flex", alignItems: "center", gap: 9, border: "none", background: "transparent", cursor: "pointer", padding: 0 }}>
           <span style={{ width: 10, height: 10, borderRadius: 2, background: wordColor, display: "inline-block" }} />
-          <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>BENCHLY-MH</span>
+          <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>BENCHLY</span>
         </button>
         <div style={{ display: "flex", gap: 2 }}>
           {NAV.map((n) => {
@@ -876,7 +876,7 @@ function Footer({ go }) {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
             <span style={{ width: 10, height: 10, borderRadius: 2, background: "#E7E1D4", display: "inline-block" }} />
-            <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 19, letterSpacing: "-.02em" }}>BENCHLY-MH</span>
+            <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 19, letterSpacing: "-.02em" }}>BENCHLY</span>
           </div>
           <p style={{ maxWidth: 420, marginTop: 16, fontSize: 14.5, lineHeight: 1.6, color: "#B7B0A2" }}>
             A curated, growing index of how AI models are evaluated on mental-health tasks, a few of which you can run yourself.
