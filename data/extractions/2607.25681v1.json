@@ -1,0 +1,36 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "Cognivia: A Cognitive Behavioral Therapy Copilot for Evidence-Based Mental Healthcare",
+  "paper_link": "http://arxiv.org/abs/2607.25681v1",
+  "open_vs_closed_source": "Mixed",
+  "month_year": "July 2026",
+  "authors": [
+    "Qi Chen",
+    "Siria Xiyueyao Luo",
+    "Jian Wang",
+    "Yuan Shi",
+    "Haocong Rao",
+    "Xuejiao Zhao"
+  ],
+  "institutions": "Sichuan University; Southwest Petroleum University; University of Groningen; West China Hospital, Sichuan University; Nanyang Technological University",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "Expert seed set manually curated from core CBT literature (Feeling Good Handbook; Feeling Good: The New Mood Therapy); 100-case subset annotated by professional psychotherapists according to CBT-based guidelines for distortion identification evaluation; 10 behavioral science experts rating 10 test-set samples for human evaluation",
+  "size_of_benchmark": "Augmented CBT Cognitive Triplet Dataset: 9,437 entries (question, cognitive distortion, rational response triplets); Expert seed set: 296 curated examples; Test set: 1,435 instances (CBT pathway analysis); Human evaluation: 10 samples rated by 10 experts",
+  "what_assessed_skills": "Cognitive distortion identification; CBT-aligned rational response generation; Therapeutic fidelity; Semantic fidelity; Safety and robustness; Empathy and deployment feasibility; Relational boundary integrity",
+  "tasks_assessed": "Cognitive distortion identification (classification of 11 distortion types); Rational response generation (structured 5-component CBT responses); CBT-structured dialogue quality assessment",
+  "population_represented": "General mental health help-seekers; users presenting cognitive distortions; sourced from PsyQA (Chinese online mental health forum posts)",
+  "languages": "English (model output); Chinese (PsyQA source data, translated to English)",
+  "num_domains": "4",
+  "single_vs_multi_turn": "Single-Turn",
+  "evaluation_method": "Both \u2014 (1) Automated: BLEU, ROUGE-1/2/L, GLEU (lexical similarity); LLM-as-a-judge with existing criteria (Relevance, CBT Structure, Helpfulness out of 10) and proposed CogEval criteria (12 sub-dimensions on 1\u20135 Likert scale); (2) Human: 10 behavioral science experts rated 10 test samples using structured CogEval questionnaire with 5-point Likert scale; ICC \u2248 0.95",
+  "num_llms_assessed": "10",
+  "llms_evaluated": "Cognivia (fine-tuned Qwen2.5-7B-Instruct); Qwen2.5-7B-Instruct (baseline); CBT-LLM; llama-3.2-psychotherapy-cbt-i1-Q6_K; Gemini 3 Flash Preview; PsyCoPref-Llama3-8B-main; Qwen3-235B-A22B; Llama-3.3-70B-Instruct; Mistral Medium 3; GPT-5 Mini",
+  "mental_health_conditions": "Cognitive distortions (All-or-Nothing Thinking, Overgeneralization, Mental Filter, Discounting the Positive, Mind Reading, Fortune Telling, Magnification or Minimization, Emotional Reasoning, Should Statements, Labeling, Personalization and Blame); general mental health support",
+  "performance_scores": "Cognivia (best): ROUGE-1=0.592, ROUGE-2=0.166, ROUGE-L=0.246, BLEU-1=0.103, BLEU-2=0.103, GLEU=0.242; Relevance=9.869/10, CBT Structure=9.868/10, Helpfulness=9.868/10; CogEval: SC=4.75, DO=4.93, SS=4.75, CA=4.98, EV=4.90, IC=4.81, CC=4.63, WF=4.91, BF=5.00, NE=5.00, DA=4.99, AR=4.97 (all out of 5)",
+  "short_summary": "Cognivia is an evidence-based AI therapist that operationalizes Cognitive Behavioral Therapy (CBT) by automatically identifying cognitive distortions and generating structured rational responses. The system is built on a novel Augmented CBT Cognitive Triplet Dataset (9,437 entries) derived from expert-curated CBT literature seeds and PsyQA mental health Q&A data, using multi-stage prompting with DeepSeek and GPT-5 Mini, then fine-tuning Qwen2.5-7B-Instruct via LoRA. The paper also introduces CogEval, the first hierarchically structured evaluation framework with 12 sub-dimensions across 4 categories for assessing CBT rational responses. Evaluation used BLEU/ROUGE lexical metrics, LLM-as-a-judge scoring with both existing and CogEval criteria, and human assessment by 10 behavioral science experts. Cognivia consistently outperforms 9 strong baselines, achieving top scores across all automatic and human evaluation protocols.",
+  "missing_or_uncertain_fields": [
+    "journal_venue \u2014 submitted to an ACM conference (title placeholder 'Conference acronym XX'), not yet published; treated as preprint",
+    "num_llms_assessed \u2014 Cognivia itself is the proposed model; count of 10 includes Cognivia + 9 baselines; non-LLM baselines unclear for some entries",
+    "open_vs_closed_source \u2014 mix of open (Qwen, LLaMA, Mistral) and closed (GPT-5 Mini, Gemini 3 Flash Preview) models tested"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "The MADRS Pipeline: Supporting Depression Assessment in Clinical Trials",
+  "paper_link": "http://arxiv.org/abs/2607.28190v1",
+  "open_vs_closed_source": "Mixed",
+  "month_year": "July 2026",
+  "authors": [
+    "Mila Fodor",
+    "Katalin \u00d3csai",
+    "Francesco Periti",
+    "Rien Sonck",
+    "Alex Boudreau"
+  ],
+  "institutions": "Clario, part of Thermo Fisher Scientific",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "Expert MADRS ratings assigned by a reviewer team (senior clinicians) who independently evaluated audio recordings of clinical interviews conducted by trained raters at private clinics; quality labels (Compliant/Non-compliant) derived from discrepancies between rater and reviewer scores",
+  "size_of_benchmark": "1,602 interviews (~40 min each); ~16,000 expert-rated MADRS instances; MADRS assessment: 1,100 train / 251 dev / 251 test interviews; Quality assessment: 610 interviews (305 train / 305 test); Transcript segmentation: 14 interviews (3,970 utterances); Transcription: 8 interviews (2,642 utterances)",
+  "what_assessed_skills": "Automatic depression severity estimation via MADRS scale from clinical interview transcripts; transcript segmentation by symptom item; speech-to-text transcription quality; clinical rating quality/compliance detection",
+  "tasks_assessed": "Interview transcription (ASR + speaker diarization); Transcript segmentation into 10 MADRS/SIGMA symptom sections (multi-class classification); MADRS symptom severity estimation per item (ordinal regression, 0\u20136 scale); Quality assessment of clinical ratings (binary classification: Compliant vs. Non-compliant)",
+  "population_represented": "Patients enrolled in depression clinical trials; interviews conducted by trained clinicians in private clinics following SIGMA guidelines",
+  "languages": "English",
+  "num_domains": "1",
+  "single_vs_multi_turn": "Single-Turn",
+  "evaluation_method": "Automated evaluation against expert reviewer MADRS scores and quality labels. Metrics: Spearman correlation, MAE, Accuracy@1 (MADRS assessment); weighted F1 / one-vs-all F1 (transcript segmentation); temporal Dice, Jaccard index, cosine embedding similarity (transcription); MCC, TP, TN, FP, FN (quality assessment). Human expert ratings used as ground truth but evaluation process itself is Automated.",
+  "num_llms_assessed": "3",
+  "llms_evaluated": "GPT-4.1 (closed-source; used for transcript segmentation and LLAMADRS baseline); Claude Sonnet 4.5 (closed-source; transcript segmentation and LLAMADRS baseline); Llama 3.3 70B (open-weight; transcript segmentation and LLAMADRS baseline). Encoder models fine-tuned (RoBERTa, ModernBERT, MentalBERT, ClinicalBERT, PubMedBERT) are not counted as LLMs for this field.",
+  "mental_health_conditions": "Depression (assessed via Montgomery\u2013\u00c5sberg Depression Rating Scale, MADRS)",
+  "performance_scores": "MADRS Assessment (best model RoBERTa): Spearman=0.867, MAE=2.956, Accuracy@1=0.895. Transcript Segmentation: GPT-4.1 weighted F1=0.983, Claude Sonnet 4.5=0.978, Llama 3.3 70B=0.615. Quality Assessment (Random Forest w/ reviewer scores): MCC=0.704. LLAMADRS baselines: GPT-4.1 Spearman=0.849, Claude Sonnet 4.5=0.848, Llama 3.3 70B=0.851.",
+  "short_summary": "This paper introduces the MADRS Pipeline, an end-to-end LLM-based system designed to support depression assessment in clinical trials using structured SIGMA interviews. The pipeline processes audio recordings through four sequential components: interview transcription, transcript segmentation into 10 MADRS symptom sections, symptom severity estimation (0\u20136), and quality assessment of clinical ratings. Evaluated on ~1,602 real clinical trial interviews with expert MADRS ratings, the pipeline compares fine-tuned encoder models (RoBERTa, MentalBERT, etc.) against decoder LLMs (GPT-4.1, Claude Sonnet 4.5, Llama 3.3 70B) using the LLAMADRS zero-shot prompting baseline. The best-performing model (fine-tuned RoBERTa) achieves a Spearman correlation of 0.867 with expert reviewer ratings on total MADRS scores, outperforming all LLM baselines on MAE and Accuracy@1.",
+  "missing_or_uncertain_fields": [
+    "paper_link (provided by user, not verifiable from paper text)",
+    "Population demographics (age, gender breakdown not specified)",
+    "Exact number of unique patients vs. interviews not stated"
+  ]
+}

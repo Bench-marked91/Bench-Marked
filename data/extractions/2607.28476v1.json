@@ -1,0 +1,33 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "Improving Mental Health Screening and Early Risk Detection in Spanish",
+  "paper_link": "http://arxiv.org/abs/2607.28476v1",
+  "open_vs_closed_source": "Open",
+  "month_year": "July 2026",
+  "authors": [
+    "Andreu Casamayor-Segarra",
+    "Vicent Ahuir",
+    "Antonio Molina-Marco",
+    "Llu\u00eds-F. Hurtado"
+  ],
+  "institutions": "VRAIN: Valencian Research Institute for Artificial Intelligence, Universitat Polit\u00e8cnica de Val\u00e8ncia; ValgrAI: Valencian Graduate School and Research Network of Artificial Intelligence",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "MentalRisk shared task datasets (IberLEF 2023 and 2024): user-level labels from Telegram posts for depression, anxiety, and eating disorders (anorexia/bulimia)",
+  "size_of_benchmark": "MR24-DD: 885 users (train+val+test); MR23-ED: 335 users; MR23-D: 335 users",
+  "what_assessed_skills": "Domain-adapted language model representations for Spanish mental health discourse; early risk detection timing (when to issue a prediction); classification accuracy under incremental context; latency-accuracy tradeoff",
+  "tasks_assessed": "Multi-class disorder detection (depression/anxiety/none); Binary eating disorder detection (anorexia/bulimia); Binary depression detection; Early risk detection with incremental context expansion (ICE)",
+  "population_represented": "Spanish-speaking social media users on Telegram with depression, anxiety, eating disorders, or no disorder",
+  "languages": "Spanish",
+  "num_domains": "3",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Automated evaluation using MentalRisk shared task protocol: sequential/incremental prediction rounds; metrics: Macro F1-score, ERDE5, ERDE30, LTP (Latency True Positive). Standard classification also evaluated with Precision, Recall, F1. No human evaluation.",
+  "num_llms_assessed": "3",
+  "llms_evaluated": "RoBERTa-es-mental-large (RoBERTa-large-bne + DAP, 355M params); Longformer-es-mental-base (Longformer-base-4096-bne + DAP, 149M params); Longformer-es-mental-large (RoBERTa-es-mental-large adapted to Longformer, 435M params)",
+  "mental_health_conditions": "Depression; Anxiety; Eating disorders (anorexia, bulimia)",
+  "performance_scores": "Standard classification best (Longformer-es-m-large): MR24-DD F1=0.907, MR23-ED F1=0.920, MR23-D F1=0.767. Early detection best ICE+100w: MR24-DD F1=0.905 (ERDE30=0.040), MR23-ED F1=0.923 (ERDE30=0.043), MR23-D F1=0.753 (ERDE30=0.139)",
+  "short_summary": "This paper addresses two challenges in Spanish mental health NLP: lack of domain-adapted Spanish language models and the difficulty of early detection from evolving social media post histories. The authors introduce three Spanish foundational models (RoBERTa-es-mental-large, Longformer-es-mental-base, Longformer-es-mental-large) via domain-adaptive pre-training on ~1.9M translated Reddit mental health posts. They also propose the Incremental Context Expansion (ICE) methodology, which automatically relabels user-level datasets into context-level datasets to train models for early detection. Models are evaluated on three MentalRisk shared task benchmarks (depression, anxiety, eating disorders) using F1, ERDE5, ERDE30, and LTP metrics via fully automated sequential evaluation. Results show that domain-adapted models consistently outperform general-purpose baselines, and ICE further improves early detection by teaching models to delay predictions until sufficient evidence accumulates, achieving new state-of-the-art on most Spanish early-detection tasks.",
+  "missing_or_uncertain_fields": [
+    "LLMs evaluated \u2014 the models are encoder-based transformer models (RoBERTa/Longformer), not generative LLMs; counted as 3 fine-tuned encoder models",
+    "num_llms_assessed \u2014 count depends on definition of LLM; these are masked language models not generative LLMs"
+  ]
+}
