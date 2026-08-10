@@ -1,0 +1,37 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "ECHO: A Locally-Deployable Agentic Health Assistant with Temporal Memory, Safety Guardrails, and Speech Assessment",
+  "paper_link": "http://arxiv.org/abs/2608.06110v1",
+  "open_vs_closed_source": "Mixed",
+  "month_year": "August 2026",
+  "authors": [
+    "Abdulkadir K\u00fcl\u00e7e",
+    "Alihan Esen",
+    "\u00c7a\u011fla Fikir",
+    "Berke Kurt",
+    "Kuzey Arar",
+    "G\u00f6khan Ercan",
+    "Faik Boray Tek"
+  ],
+  "institutions": "Dept. of Artificial Intelligence and Data Engineering, Istanbul Technical University, Istanbul, Turkey; Dept. of Computer Engineering, Istanbul Technical University, Istanbul, Turkey",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "59-scenario benchmark suite (tool execution); 2,537-query annotated Turkish health dataset (safety classifier); IEMOCAP, CREMA-D, RAVDESS (emotion); DAIC-WOZ (depression); TAME Pain (pain)",
+  "size_of_benchmark": "59 scenarios / 110 turns (tool benchmark); 2,537 queries (safety dataset, 508 held-out); multiple speech corpora",
+  "what_assessed_skills": "Clinical tool execution accuracy; safety/guardrail classification of health queries; multimodal speech-based emotion, depression, and pain estimation; cross-session temporal memory recall",
+  "tasks_assessed": "Clinical tool execution (medication management, calendar scheduling, symptom logging, emergency protocols); health query safety classification (9-class intent + binary safe/unsafe); multimodal speech assessment (emotion classification 5-class, depression detection binary, pain detection binary); cross-session memory retrieval",
+  "population_represented": "Chronic care patients (Turkish-language health queries); general speech emotion/depression/pain datasets",
+  "languages": "Turkish (safety dataset, Turkish NLP); English (speech corpora)",
+  "num_domains": "9",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Automated evaluation: tool execution Pass Rate and argument-level F1 on 59-scenario benchmark; accuracy, safe recall, unsafe recall on held-out safety queries (n=508); macro F1 on participant-level held-out speech splits. No human evaluation reported.",
+  "num_llms_assessed": "7",
+  "llms_evaluated": "GPT-OSS 120B; GPT-5 Mini; Gemma 4 26B IT; GPT-5 Nano; Qwen 3 32B; GPT-5.4 Nano; Gemini 2.5 Flash Lite; Llama 3.1 8B (zero-shot safety baseline); Qwen3 32B (zero-shot safety baseline); Gemini 2.5 FL (zero-shot safety baseline); Llama 3.3 70B (zero-shot safety baseline)",
+  "mental_health_conditions": "Depression; emotional distress; self-harm risk; pain",
+  "performance_scores": "Tool execution: GPT-5 Mini 94.92% pass rate, F1 0.977; GPT-OSS 120B 96.61%, F1 0.980. Safety classifier (full model): 88.8% accuracy, 87.0% safe recall, 90.6% unsafe recall. Speech assessment mean macro F1: 0.652 (emotion 0.732, pain 0.685, depression 0.538)",
+  "short_summary": "This paper presents ECHO, a locally-deployable agentic conversational health assistant for chronic care management integrating three modules: a ReAct/LangGraph agentic core with 17 clinical tools and a temporal knowledge graph, a two-stage hybrid safety guardrail (rule-based + signed GNN), and a multimodal speech assessment module. The system is evaluated on a 59-scenario tool-execution benchmark, a 2,537-query annotated Turkish health safety dataset, and held-out speech corpora for emotion/depression/pain. Evaluation is fully automated using pass rate, F1, accuracy, recall, and macro F1 metrics. Key results include 94.92% tool-execution pass rate (GPT-5 Mini), 88.8% safety classification accuracy with 90.6% unsafe recall, and mean speech assessment macro F1 of 0.652. The system runs entirely on consumer hardware with no external data transmission, supporting GDPR/KVKK compliance.",
+  "missing_or_uncertain_fields": [
+    "LLMs evaluated \u2014 the paper lists 7 models in the tool benchmark table and 4 additional zero-shot LLM baselines for safety; total count depends on whether safety baselines are counted as separate LLM evaluations",
+    "Some model names (GPT-OSS 120B, GPT-5 Mini, GPT-5 Nano, GPT-5.4 Nano) are non-standard/future model designations not verifiable externally",
+    "Exact size of speech corpora held-out splits not explicitly stated"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "Natural Language Processing Psychometrics",
+  "paper_link": "http://arxiv.org/abs/2608.07316v1",
+  "open_vs_closed_source": "Mixed",
+  "month_year": "August 2026",
+  "authors": [
+    "Edoardo Sebastiano De Duro",
+    "Emma Franchino",
+    "Massimo Stella"
+  ],
+  "institutions": "CogNoscoLab, Department of Psychology and Cognitive Science, University of Trento, Italy",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "LLM-generated psychometric questionnaire responses (SWLS, PHQ-9, DASS-21) with item-level free-text explanations, conditioned on controlled personas (cognitive digital shadows); for out-of-domain transfer to human data: binary clinical labels (depressed vs. control) from the Androids Corpus (N=115; 63 clinically depressed, 52 controls), transcribed by Borraccino (2025)",
+  "size_of_benchmark": "2,500 questionnaire-explanation instances per LLM for SWLS; 2,500 per LLM for PHQ-9; 2,500 for DASS-21 (Mistral Small only); 500 LLM-generated diary entries per questionnaire; 115 human speech transcripts",
+  "what_assessed_skills": "Ability of emotion features, syntactic-semantic network features (textual forma mentis networks), personality (Big Five), and sociodemographic variables to predict psychometric scores (life satisfaction, depression, anxiety, stress) from LLM-generated text; generalisability of learned language-to-psychometric mappings across text genres and to real human clinical speech; interpretability of psychometric signal in LLM-generated language",
+  "tasks_assessed": "Psychometric questionnaire completion with free-text item explanations (SWLS, PHQ-9, DASS-21); ablated random forest regression to predict psychometric scores from text-derived features; SHAP feature importance analysis; out-of-domain transfer to LLM-generated diary entries; out-of-domain transfer and binary classification on human clinical speech transcripts (depressed vs. control)",
+  "population_represented": "Simulated personas (LLMs conditioned on randomly varied sociodemographics and Big Five personality traits, weighted to approximate Italian COVID-19 lockdown mental health prevalences); human clinical sample: 115 Italian speakers (63 clinically depressed, 52 controls) from the Androids Corpus",
+  "languages": "Italian (questionnaire text and diary entries generated in Italian; human speech transcripts are Italian)",
+  "num_domains": "4",
+  "single_vs_multi_turn": "Single-Turn",
+  "evaluation_method": "Automated. Random Forest regressors trained on LLM-generated data, evaluated via 5-fold cross-validation; metrics: RMSE, MAE, R\u00b2, Spearman correlation (\u03c1s). SHAP (TreeExplainer) used for feature importance. Out-of-domain transfer evaluated with Mann\u2013Whitney U test, effect size r, AUC, and leave-one-out cross-validated classification metrics (precision, recall, F1, accuracy).",
+  "num_llms_assessed": "9",
+  "llms_evaluated": "Mistral Small 3.2 (24B, mistral-small-2506); ANITA-NEXT-24B / Anita Uncensored (24B, m-polignano/ANITA-NEXT-24B-Dolphin-Mistral-UNCENSORED-ITA); Qwen3-4B-Instruct (4B, Qwen/Qwen3-4B-Instruct-2507); GPT-OSS (20B, openai/gpt-oss-20b); GPT-OSS-Uncensored (20B, huihui_ai/gpt-oss-abliterated); Qwen3-4B-Thinking (4B, Qwen/Qwen3-4B-Thinking-2507); OLMo3-32B-Think (32B, allenai/Olmo-3-32B-Think); Granite-3.3-8B (8B, ibm-granite/granite-3.3-8b-instruct); Nemotron-3-Nano (30B/3B active, nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B)",
+  "mental_health_conditions": "Depression (PHQ-9, DASS-21 depression subscale); Anxiety (DASS-21 anxiety subscale); Stress (DASS-21 stress subscale); Life satisfaction / subjective well-being (SWLS)",
+  "performance_scores": "Full RF model R\u00b2: SWLS up to 0.708 (Qwen-4B-Thinking); PHQ-9 up to 0.557 (Mistral Small, Qwen-4B-Instruct); DASS-21 Depression 0.685, Anxiety 0.760, Stress 0.724 (Mistral Small). Out-of-domain diary transfer effect sizes: SWLS r=+0.690; PHQ-9 r=+0.907; DASS-21 Depression r=+0.803 (whole-scale). Human transcript transfer (Mistral Small, network+emotion features only): PHQ-9 AUC=0.695, accuracy=0.62, macro-F1=0.62; DASS-21 Depression AUC=0.780, accuracy=0.68, macro-F1=0.67",
+  "short_summary": "This paper introduces NLP Psychometrics, a framework that treats psychological prediction from text as a psychometric problem. Nine LLMs were prompted to impersonate controlled personas (cognitive digital shadows) and complete validated questionnaires (SWLS, PHQ-9, DASS-21) with free-text item explanations in Italian. Textual forma mentis networks and EmoAtlas-derived emotional profiles were combined with sociodemographic and Big Five personality features in ablated random forest regressors, with SHAP used to identify which features drove predictions. Full models explained up to 70.8% variance in SWLS, 55.7% in PHQ-9, and up to 76.0% in DASS-21 subscales. Without retraining, learned mappings transferred to LLM-generated diaries (effect sizes r up to 0.91) and separated clinically depressed from control speakers in real human transcripts with up to 68% accuracy (AUC up to 0.78), demonstrating that synthetic training data can capture linguistically meaningful psychometric signals.",
+  "missing_or_uncertain_fields": [
+    "num_domains \u2014 the paper covers SWLS (well-being/life satisfaction), depression, anxiety, and stress across 3 questionnaires; 4 is inferred from these constructs, not explicitly named as 'domains'",
+    "single_vs_multi_turn \u2014 the paper does not explicitly label the prompting format; inferred as Single-Turn from the description of item-level prompting"
+  ]
+}
