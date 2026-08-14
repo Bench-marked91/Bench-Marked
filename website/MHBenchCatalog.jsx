@@ -1222,6 +1222,7 @@ function TaskTypeCards() {
 function LandingPage({ go, data }) {
   const total = data.length;
   const openCount = data.filter((b) => b.source === "Open").length;
+  const multiTurn = data.filter((b) => /multi/i.test(String(b.turn || b.turnRaw || ""))).length;
   const maxLLMs = data.reduce((m, b) => {
     const d = String(b.numLLMs || "").match(/\d+/);
     return Math.max(m, d ? parseInt(d[0], 10) : 0);
@@ -1257,14 +1258,17 @@ function LandingPage({ go, data }) {
       <div style={{ position: "relative", zIndex: 1 }}>
       {/* Dark full-screen hero — giant wordmark (Monolog-style) on the solid navy base. */}
 
-      <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 40px" }}>
+      <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 48px" }}>
             {/* Load-in choreography: one staged entrance for the hero — each
                 piece rises and sharpens in sequence. Respects reduced-motion. */}
+            <style>{`
+              @keyframes heroin { from { opacity: 0; transform: translateY(22px); filter: blur(5px); } to { opacity: 1; transform: none; filter: none; } }
+              .heroin { animation: heroin .9s cubic-bezier(.16,1,.3,1) both; }
+              @media (prefers-reduced-motion: reduce) { .heroin { animation: none; } }
+            `}</style>
 
-
-
-            {/* top-centered title + entry buttons */}
-            <div style={{ position: "relative", maxWidth: 780, margin: "0 auto", textAlign: "center" }}>
+            {/* one centered composition: lockup, copy, CTA, then the numbers */}
+            <div style={{ position: "relative", maxWidth: 860, margin: "0 auto", textAlign: "center" }}>
               <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, lineHeight: 1.02, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 720, textWrap: "balance" }}>
                 <span className="heroin" style={{ display: "block", fontSize: "clamp(19px, 2.6vw, 30px)", fontWeight: 400, letterSpacing: "-.02em", color: "#B7B2A8", marginBottom: 12, animationDelay: ".05s" }}>The Mental Health</span>
                 <span className="heroin" style={{ display: "block", fontSize: "clamp(42px, 7.4vw, 92px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
@@ -1278,44 +1282,31 @@ function LandingPage({ go, data }) {
                   <button onClick={() => go("method")} style={{ background: "transparent", color: "#EDEBE4", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
                 )}
               </div>
-            </div>
 
-            {/* bottom stat row — parked behind LAUNCH.heroStat */}
-            {LAUNCH.heroStat && (
-            <div className="heroin" style={{ position: "absolute", left: 32, right: 32, bottom: 40, animationDelay: ".62s", willChange: "transform, opacity, filter" }}>
-              <div className="herobottom">
-                <div>
-                  <div style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 54px)", fontWeight: 400, letterSpacing: "-.03em", lineHeight: 1 }}><CountUp to={total} suffix="+" /></div>
-                  <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: "#B9CDDE", marginTop: 8, lineHeight: 1.5 }}>Benchmarks catalogued<br />(arXiv · PubMed · medRxiv)</div>
-                </div>
+              {/* by the numbers — centered strip, part of the hero */}
+              <div className="heroin" style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flexWrap: "wrap", gap: "30px 64px", marginTop: 58, animationDelay: ".62s" }}>
+                {[
+                  [total, "+", "Benchmarks catalogued"],
+                  [TASK_ORDER.length, "", "Task categories"],
+                  [openCount, "", "Open-source"],
+                  [multiTurn, "", "Multi-turn"],
+                ].map(([n, suffix, label]) => (
+                  <div key={label} style={{ textAlign: "center", minWidth: 110 }}>
+                    <div style={{ fontFamily: FONT_SERIF, fontWeight: 400, letterSpacing: "-.03em", lineHeight: 1, fontSize: "clamp(30px, 3.6vw, 46px)", color: "#EDEBE4" }}><CountUp to={n} suffix={suffix} /></div>
+                    <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: "#B9CDDE", marginTop: 9, lineHeight: 1.4 }}>{label}</div>
+                  </div>
+                ))}
               </div>
             </div>
-            )}
-
       </section>
 
 
-      {/* By the numbers — dark data dashboard (replaces the old rigor stats) */}
+      {/* Charts — the stat strip now lives in the hero above */}
       <section style={{ color: DASH_INK }}>
         <style>{`.dashbar{transition:opacity .16s ease,transform .16s ease}.dashbar:hover{opacity:.8}`}</style>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 32px 82px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ width: 20, height: 20, borderRadius: 999, background: C.lime, flexShrink: 0 }} />
-            <span style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".18em", textTransform: "uppercase", color: DASH_MUTED }}>By the numbers</span>
-          </div>
-
-          {/* stat strip — uniform figures on an even grid so the numbers and
-              their labels line up regardless of how the labels wrap */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", alignItems: "start", gap: "26px 32px", margin: "30px 0 6px" }}>
-            <StatCell n={total} label="Benchmarks cataloged" />
-            <StatCell n={8} label="Task categories" />
-            <StatCell n={openCount} label="Open-source" />
-            <StatCell n={sinceRecent} label="Added in 2025–2026" />
-            <StatCell n={maxLLMs} label="Models tested in one study" />
-          </div>
-
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 32px 82px" }}>
           {/* charts */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 18, marginTop: 40 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 18 }}>
             <DashCard title="Benchmarks by task category">
               <TaskBars rows={taskCounts} />
               <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, color: PANEL_MUTED, marginTop: 20, lineHeight: 1.5 }}>
