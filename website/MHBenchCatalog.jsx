@@ -323,6 +323,7 @@ const LAUNCH = {
   ratings: false,             // rating features: card rating chips, Ratings toggle, rating sort, rigor FAQ/banner copy
   tasksType: false,           // landing: "Tasks models are tested on" category grid
   howItsBuilt: false,         // landing: "How the catalog is built" 3-step section
+  startHere: false,           // landing: "Start here" rotating cards + reading guide
 };
 
 // FAQ content (from PLAN.md / TEAM-SUMMARY.md).
@@ -1354,7 +1355,8 @@ function LandingPage({ go, data }) {
         </div>
       </section>
 
-      {/* Featured */}
+      {/* Featured — "Start here" rotating cards, parked behind LAUNCH.startHere */}
+      {LAUNCH.startHere && (
       <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 28 }}>
           <div>
@@ -1364,6 +1366,7 @@ function LandingPage({ go, data }) {
         </div>
         <OrbitCards items={featured.slice(0, 5)} go={go} />
       </section>
+      )}
 
       {/* Tasks Type — parked behind LAUNCH.tasksType */}
       {LAUNCH.tasksType && (
