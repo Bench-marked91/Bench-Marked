@@ -969,11 +969,15 @@ function StatCell({ n, label }) {
   );
 }
 
-function DashCard({ label, title, children }) {
+// Chart panel — light-blue ground card so the two graphs pop off the canvas.
+const PANEL_BG = "#DEEBF7";
+const PANEL_INK = "#1C4773";
+const PANEL_MUTED = "#4A6E8F";
+const PANEL_TRACK = "rgba(28,71,115,.12)";
+function DashCard({ title, children }) {
   return (
-    <div style={{ borderRadius: 18, padding: "24px 26px 28px", background: DASH_PANEL }}>
-      <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", color: DASH_MUTED }}>{label}</div>
-      <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 400, letterSpacing: "-.02em", color: DASH_INK, margin: "8px 0 24px" }}>{title}</h3>
+    <div style={{ borderRadius: 18, padding: "24px 26px 28px", background: PANEL_BG }}>
+      <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 400, letterSpacing: "-.02em", color: PANEL_INK, margin: "0 0 24px" }}>{title}</h3>
       {children}
     </div>
   );
@@ -991,10 +995,10 @@ function TaskBars({ rows }) {
         return (
           <div key={name} className="dashbar" title={`${name}: ${n}`} style={{ display: "flex", flexDirection: "column", gap: 7 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
-              <span style={{ fontFamily: FONT_SANS, fontSize: 12.5, color: DASH_INK, lineHeight: 1.3 }}>{name}</span>
+              <span style={{ fontFamily: FONT_SANS, fontSize: 12.5, color: PANEL_INK, lineHeight: 1.3 }}>{name}</span>
               <span style={{ fontFamily: FONT_MONO, fontSize: 12.5, fontWeight: 700, color: col, flexShrink: 0 }}>{n}</span>
             </div>
-            <div style={{ height: 12, borderRadius: 999, background: DASH_TRACK, overflow: "hidden" }}>
+            <div style={{ height: 12, borderRadius: 999, background: PANEL_TRACK, overflow: "hidden" }}>
               <div style={{ width: `${(n / max) * 100}%`, height: "100%", background: col, borderRadius: 999, minWidth: 6 }} />
             </div>
           </div>
@@ -1013,10 +1017,10 @@ function GrowthBars({ rows }) {
       {rows.map(([y, n]) => (
         <div key={y} className="dashbar" title={`${y}: ${n} benchmark${n === 1 ? "" : "s"}`} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div style={{ width: "100%", height: 172, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", gap: 7 }}>
-            <span style={{ fontFamily: FONT_MONO, fontSize: 11.5, fontWeight: 700, color: n ? DASH_INK : DASH_MUTED }}>{n}</span>
-            <div style={{ width: "100%", maxWidth: 52, height: `${(n / max) * 82}%`, minHeight: n ? 6 : 3, background: n ? "linear-gradient(180deg,#F5A55F,#E0782F)" : "rgba(237,235,228,.10)", borderRadius: "8px 8px 3px 3px" }} />
+            <span style={{ fontFamily: FONT_MONO, fontSize: 11.5, fontWeight: 700, color: n ? PANEL_INK : PANEL_MUTED }}>{n}</span>
+            <div style={{ width: "100%", maxWidth: 52, height: `${(n / max) * 82}%`, minHeight: n ? 6 : 3, background: n ? "linear-gradient(180deg,#F5A55F,#E0782F)" : "rgba(28,71,115,.12)", borderRadius: "8px 8px 3px 3px" }} />
           </div>
-          <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".04em", color: DASH_MUTED, marginTop: 8 }}>{y}</span>
+          <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".04em", color: PANEL_MUTED, marginTop: 8 }}>{y}</span>
         </div>
       ))}
     </div>
@@ -1285,13 +1289,13 @@ function LandingPage({ go, data }) {
 
           {/* charts */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 18, marginTop: 40 }}>
-            <DashCard label="Coverage" title="Benchmarks by task category">
+            <DashCard title="Benchmarks by task category">
               <TaskBars rows={taskCounts} />
-              <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, color: DASH_MUTED, marginTop: 20, lineHeight: 1.5 }}>
+              <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, color: PANEL_MUTED, marginTop: 20, lineHeight: 1.5 }}>
                 {total} benchmarks; many cover more than one task.
               </div>
             </DashCard>
-            <DashCard label="Growth" title="Benchmarks by year">
+            <DashCard title="Benchmarks by year">
               {growth.length ? <GrowthBars rows={growth} /> : null}
             </DashCard>
           </div>
