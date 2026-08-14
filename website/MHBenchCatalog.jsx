@@ -1256,6 +1256,7 @@ function LandingPage({ go, data }) {
       <div style={{ position: "relative", zIndex: 1 }}>
       {/* Dark full-screen hero — giant wordmark (Monolog-style) on the solid navy base. */}
 
+
       <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 48px" }}>
             {/* Load-in choreography: one staged entrance for the hero — each
                 piece rises and sharpens in sequence. Respects reduced-motion. */}
@@ -1300,6 +1301,7 @@ function LandingPage({ go, data }) {
               </div>
             </div>
       </section>
+
 
 
       {/* Charts — the stat strip now lives in the hero above */}
