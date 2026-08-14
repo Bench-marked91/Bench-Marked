@@ -33,7 +33,7 @@ const C = {
 
 // Site fonts: Lexend for titles/display, EB Garamond for body text,
 // Space Mono for labels/metadata.
-const FONT_SANS = "'EB Garamond', Georgia, 'Times New Roman', serif"; // body
+const FONT_SANS = "'Cairo', 'Segoe UI', system-ui, sans-serif"; // body
 const FONT_SERIF = "'Lexend', 'Segoe UI', system-ui, sans-serif";     // display/headings
 const FONT_MONO = "'Space Mono', 'Roboto Mono', ui-monospace, monospace";
 
@@ -58,7 +58,7 @@ const ED = {
   muted: "#66666B",    // neutral grey text
   line: "#CFCFCF",     // neutral grey hairline
   display: "'Lexend', 'Segoe UI', system-ui, sans-serif",
-  body: "'EB Garamond', Georgia, 'Times New Roman', serif",
+  body: "'Cairo', 'Segoe UI', system-ui, sans-serif",
 };
 // Muted editorial palette for each card's top color-banner (deterministic per study).
 const ED_BAND = ["#B5502E", "#3C6E5A", "#4A5B9E", "#8A6D3B", "#7C4A73", "#2F6D77", "#A65A4E", "#586A3A"];
@@ -500,14 +500,14 @@ function AgreementGate({ onAccept }) {
   const field = { width: "100%", background: "rgba(237,235,228,.06)", border: "1px solid rgba(237,235,228,.2)", borderRadius: 8, padding: "11px 13px", color: "#EDEBE4", fontFamily: FONT_SANS, fontSize: 14, outline: "none" };
   const flabel = { fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".12em", textTransform: "uppercase", color: "#8C887E", marginBottom: 6, display: "block" };
   const hasContact = TERMS_CONTACT && TERMS_CONTACT[0] !== "[";
-  const h3 = { fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 600, color: "#EDEBE4", margin: "0 0 6px", letterSpacing: "-.01em" };
+  const h3 = { fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 400, color: "#EDEBE4", margin: "0 0 6px", letterSpacing: "-.01em" };
   const p = { fontSize: 13, lineHeight: 1.6, color: "#B7B2A8", margin: 0 };
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "#080A21", color: "#EDEBE4", display: "flex", alignItems: "center", justifyContent: "center", overflow: "auto", padding: "32px 20px" }}>
       <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
       <div style={{ position: "relative", width: "min(640px, 100%)", background: "rgba(18,17,13,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(237,235,228,.14)", borderRadius: 8, padding: "clamp(24px, 4vw, 40px)", maxHeight: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
         <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 14 }}>Confidential Beta · Access Agreement</div>
-        <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(28px, 4vw, 40px)", letterSpacing: "-.03em", lineHeight: 1.02, margin: 0 }}>Before you enter</h1>
+        <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: "clamp(28px, 4vw, 40px)", letterSpacing: "-.03em", lineHeight: 1.02, margin: 0 }}>Before you enter</h1>
         <p style={{ fontSize: 14, color: "#B7B2A8", lineHeight: 1.55, margin: "14px 0 0" }}>
           Access to this site is by invitation only and subject to the terms below. Please read them before continuing.
         </p>
@@ -631,7 +631,7 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: FONT_SANS, background: C.paper, color: C.ink, minHeight: "100%" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lexend:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap');
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Lexend:wght@400&family=Space+Mono:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
         button:focus-visible { outline: 2px solid ${C.accent}; outline-offset: 2px; }
         a { color: ${C.brand}; }
@@ -760,7 +760,7 @@ function TopNav({ page, go, overlay }) {
       <div style={{ maxWidth: 1180, margin: "0 auto", padding: "11px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
         <button onClick={() => go("landing")} style={{ display: "flex", alignItems: "center", gap: 9, border: "none", background: "transparent", cursor: "pointer", padding: 0 }}>
           <span style={{ width: 10, height: 10, borderRadius: 2, background: wordColor, display: "inline-block" }} />
-          <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>BENCHLY</span>
+          <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>Benchly</span>
         </button>
         <div style={{ display: "flex", gap: 2 }}>
           {NAV.map((n) => {
@@ -885,7 +885,7 @@ function Accordion({ q, a, dark }) {
   return (
     <div style={{ borderTop: `1px solid ${line}` }}>
       <button onClick={() => setOpen(!open)} style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "22px 0", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
-        <span style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 500, color: ink, letterSpacing: "-.015em" }}>{q}</span>
+        <span style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 400, color: ink, letterSpacing: "-.015em" }}>{q}</span>
         <span style={{ fontFamily: FONT_SANS, fontSize: 24, color: muted, lineHeight: 1, flexShrink: 0 }}>{open ? "-" : "+"}</span>
       </button>
       {open && <div style={{ fontSize: 15.5, lineHeight: 1.65, color: muted, padding: "0 0 24px", maxWidth: 760 }}>{a}</div>}
@@ -900,7 +900,7 @@ function Footer({ go }) {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
             <span style={{ width: 10, height: 10, borderRadius: 2, background: "#E7E1D4", display: "inline-block" }} />
-            <span style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: 19, letterSpacing: "-.02em" }}>BENCHLY</span>
+            <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 19, letterSpacing: "-.02em" }}>Benchly</span>
           </div>
           <p style={{ maxWidth: 420, marginTop: 16, fontSize: 14.5, lineHeight: 1.6, color: "#B7B0A2" }}>
             A curated, growing index of how AI models are evaluated on mental-health tasks, a few of which you can run yourself.
@@ -930,7 +930,7 @@ function Footer({ go }) {
 function Logo({ src, name, h = 32, color }) {
   const [err, setErr] = useState(false);
   if (err) {
-    return <span style={{ fontFamily: FONT_SERIF, fontWeight: 700, fontSize: 17, letterSpacing: "-.01em", color: color || C.ink }}>{name}</span>;
+    return <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 17, letterSpacing: "-.01em", color: color || C.ink }}>{name}</span>;
   }
   return (
     <img src={src} alt={name} onError={() => setErr(true)}
@@ -958,7 +958,7 @@ const DASH_LINE = "rgba(237,235,228,.12)";   // hairline divider on dark
 function StatCell({ n, label }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      <div style={{ fontFamily: FONT_SERIF, fontWeight: 700, letterSpacing: "-.03em", lineHeight: 0.9, color: DASH_INK, fontSize: "clamp(38px, 5vw, 56px)" }}><CountUp to={n} /></div>
+      <div style={{ fontFamily: FONT_SERIF, fontWeight: 400, letterSpacing: "-.03em", lineHeight: 0.9, color: DASH_INK, fontSize: "clamp(38px, 5vw, 56px)" }}><CountUp to={n} /></div>
       <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: DASH_MUTED, lineHeight: 1.4, maxWidth: 128 }}>{label}</div>
     </div>
   );
@@ -968,7 +968,7 @@ function DashCard({ label, title, children }) {
   return (
     <div style={{ borderRadius: 18, padding: "24px 26px 28px", background: DASH_PANEL }}>
       <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", color: DASH_MUTED }}>{label}</div>
-      <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 600, letterSpacing: "-.02em", color: DASH_INK, margin: "8px 0 24px" }}>{title}</h3>
+      <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 400, letterSpacing: "-.02em", color: DASH_INK, margin: "8px 0 24px" }}>{title}</h3>
       {children}
     </div>
   );
@@ -1108,7 +1108,7 @@ function OrbitCards({ items, go }) {
         .cg-r{left:100%;flex-direction:row-reverse}
         .cg-line{width:2.4em;height:.11em;background:rgba(237,235,228,.75);flex-shrink:0}
         .cg-dot{width:.5em;height:.5em;border-radius:999px;background:#FFFFFF;flex-shrink:0}
-        .cg-label{font-family:'Lexend','Segoe UI',system-ui,sans-serif;font-weight:500;font-size:1em;color:#FFFFFF;line-height:1.45;white-space:nowrap;background:rgba(11,10,9,.92);border:.09em solid rgba(237,235,228,.32);border-radius:.5em;padding:.5em .85em}
+        .cg-label{font-family:'Lexend','Segoe UI',system-ui,sans-serif;font-weight:400;font-size:1em;color:#FFFFFF;line-height:1.45;white-space:nowrap;background:rgba(11,10,9,.92);border:.09em solid rgba(237,235,228,.32);border-radius:.5em;padding:.5em .85em}
         .cg-l .cg-label{text-align:right;margin-right:.7em}
         .cg-r .cg-label{text-align:left;margin-left:.7em}
         .cg-sub{display:block;font-family:'Space Mono','Roboto Mono',ui-monospace,monospace;font-weight:400;font-size:.85em;color:#B7B2A8;margin-top:.15em}
@@ -1172,7 +1172,7 @@ function TaskTypeCards() {
           }}>
             <div style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, letterSpacing: ".1em", color: accent }}>{String(i + 1).padStart(2, "0")}</div>
             <div style={{ width: 26, height: 2, borderRadius: 2, background: accent, opacity: 0.85, margin: "11px 0 13px" }} />
-            <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 700, letterSpacing: "-.01em", color: DASH_INK, margin: 0, lineHeight: 1.2 }}>{c.name}</h3>
+            <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 400, letterSpacing: "-.01em", color: DASH_INK, margin: 0, lineHeight: 1.2 }}>{c.name}</h3>
             <p style={{ fontFamily: FONT_SANS, fontSize: 13.5, lineHeight: 1.55, color: "#EDEBE4", margin: "11px 0 0" }}>{c.desc}</p>
           </div>
         );
@@ -1229,8 +1229,8 @@ function LandingPage({ go, data }) {
 
             {/* top-centered title + entry buttons */}
             <div style={{ position: "relative", maxWidth: 780, margin: "0 auto", textAlign: "center" }}>
-              <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 700, lineHeight: 1.02, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 720, textWrap: "balance" }}>
-                <span className="heroin" style={{ display: "block", fontSize: "clamp(19px, 2.6vw, 30px)", fontWeight: 500, letterSpacing: "-.02em", color: "#B7B2A8", marginBottom: 12, animationDelay: ".05s" }}>The Mental Health</span>
+              <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, lineHeight: 1.02, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 720, textWrap: "balance" }}>
+                <span className="heroin" style={{ display: "block", fontSize: "clamp(19px, 2.6vw, 30px)", fontWeight: 400, letterSpacing: "-.02em", color: "#B7B2A8", marginBottom: 12, animationDelay: ".05s" }}>The Mental Health</span>
                 <span className="heroin" style={{ display: "block", fontSize: "clamp(42px, 7.4vw, 92px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
               </h1>
               <p className="heroin" style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "22px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
@@ -1249,7 +1249,7 @@ function LandingPage({ go, data }) {
             <div className="heroin" style={{ position: "absolute", left: 32, right: 32, bottom: 40, animationDelay: ".62s", willChange: "transform, opacity, filter" }}>
               <div className="herobottom">
                 <div>
-                  <div style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 54px)", fontWeight: 700, letterSpacing: "-.03em", lineHeight: 1 }}><CountUp to={total} suffix="+" /></div>
+                  <div style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 54px)", fontWeight: 400, letterSpacing: "-.03em", lineHeight: 1 }}><CountUp to={total} suffix="+" /></div>
                   <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: "#8C887E", marginTop: 8, lineHeight: 1.5 }}>Benchmarks catalogued<br />(arXiv · PubMed · medRxiv)</div>
                 </div>
               </div>
@@ -1309,7 +1309,7 @@ function LandingPage({ go, data }) {
           </div>
         </div>
         <div>
-          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", lineHeight: 1.08, margin: 0, color: DASH_INK }}>
+          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 400, letterSpacing: "-.03em", lineHeight: 1.08, margin: 0, color: DASH_INK }}>
             Built by medical students, guided by clinicians.
           </h2>
           <p style={{ fontSize: 16, lineHeight: 1.65, color: DASH_MUTED, marginTop: 20, maxWidth: 640 }}>
@@ -1327,7 +1327,7 @@ function LandingPage({ go, data }) {
       <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 28 }}>
           <div>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0", color: DASH_INK }}>Start here</h2>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 400, letterSpacing: "-.03em", margin: "0", color: DASH_INK }}>Start here</h2>
           </div>
           <button onClick={() => go("catalog")} style={{ border: "none", background: "transparent", color: C.lime, fontWeight: 600, fontSize: "inherit", cursor: "pointer", padding: 0, fontFamily: "inherit" }}>All benchmarks →</button>
         </div>
@@ -1337,13 +1337,13 @@ function LandingPage({ go, data }) {
       {/* Tasks Type — task-category dashboard with staggered entrance */}
       <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "68px 0" }}>
         <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".18em", textTransform: "uppercase", color: DASH_MUTED, marginBottom: 12 }}>Tasks Type</div>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0 0 28px", color: DASH_INK }}>Tasks models are tested on</h2>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 400, letterSpacing: "-.03em", margin: "0 0 28px", color: DASH_INK }}>Tasks models are tested on</h2>
         <TaskTypeCards />
       </section>
 
       {/* How it's built — process */}
       <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0" }}>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0", color: DASH_INK }}>How the catalog is built</h2>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 400, letterSpacing: "-.03em", margin: "0", color: DASH_INK }}>How the catalog is built</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 28, marginTop: 28 }}>
           {[
             { n: "01", t: "Find", d: "A scheduled job scans arXiv, PubMed, and medRxiv for new mental-health LLM papers and skips anything already seen." },
@@ -1351,8 +1351,8 @@ function LandingPage({ go, data }) {
             { n: "03", t: "Publish & appraise", d: "Confident entries publish automatically; uncertain ones wait for a reviewer. Humans grade benchmark quality by hand." },
           ].map((s) => (
             <div key={s.n}>
-              <div style={{ fontFamily: FONT_SERIF, fontSize: 42, fontWeight: 600, color: "rgba(237,235,228,.16)", letterSpacing: "-.03em" }}>{s.n}</div>
-              <h3 style={{ fontFamily: FONT_SERIF, fontSize: 20, fontWeight: 600, margin: "6px 0 8px", letterSpacing: "-.02em", color: DASH_INK }}>{s.t}</h3>
+              <div style={{ fontFamily: FONT_SERIF, fontSize: 42, fontWeight: 400, color: "rgba(237,235,228,.16)", letterSpacing: "-.03em" }}>{s.n}</div>
+              <h3 style={{ fontFamily: FONT_SERIF, fontSize: 20, fontWeight: 400, margin: "6px 0 8px", letterSpacing: "-.02em", color: DASH_INK }}>{s.t}</h3>
               <p style={{ fontSize: 14.5, lineHeight: 1.6, color: DASH_MUTED, margin: 0 }}>{s.d}</p>
             </div>
           ))}
@@ -1361,7 +1361,7 @@ function LandingPage({ go, data }) {
 
       {/* FAQ */}
       <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0" }}>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 600, letterSpacing: "-.03em", margin: "0 0 22px", color: DASH_INK }}>Frequently asked</h2>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 400, letterSpacing: "-.03em", margin: "0 0 22px", color: DASH_INK }}>Frequently asked</h2>
         <div style={{ borderBottom: `1px solid ${DASH_LINE}` }}>
           {FAQS.map((f) => <Accordion key={f.q} q={f.q} a={f.a} dark />)}
         </div>
@@ -1369,7 +1369,7 @@ function LandingPage({ go, data }) {
 
       {/* Final CTA */}
       <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "80px 0 48px", textAlign: "center" }}>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 600, letterSpacing: "-.04em", lineHeight: 1.02, margin: "0 auto", maxWidth: 780, color: DASH_INK }}>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 400, letterSpacing: "-.04em", lineHeight: 1.02, margin: "0 auto", maxWidth: 780, color: DASH_INK }}>
           See how AI is really tested on mental health.
         </h2>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 30, flexWrap: "wrap" }}>
@@ -1451,7 +1451,7 @@ function RatingSummaryCard({ d, index }) {
         <span style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, color: C.muted }}>{String(index + 1).padStart(2, "0")}</span>
         <ArrowRight size={15} color={C.muted} />
       </div>
-      <div style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 600, letterSpacing: "-.01em", color: C.ink }}>{d.name}</div>
+      <div style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 400, letterSpacing: "-.01em", color: C.ink }}>{d.name}</div>
       <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".02em", color: C.accent }}>{d.question}</div>
       <div style={{ fontSize: 13, lineHeight: 1.5, color: C.muted }}>{d.short}</div>
     </button>
@@ -1467,7 +1467,7 @@ function RubricScore({ d, index }) {
       <div style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
         <span style={{ fontFamily: FONT_MONO, fontSize: 14, fontWeight: 700, color: C.muted, flexShrink: 0 }}>{String(index + 1).padStart(2, "0")}</span>
         <div>
-          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 26, fontWeight: 600, letterSpacing: "-.02em", margin: 0 }}>{d.name}</h3>
+          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 26, fontWeight: 400, letterSpacing: "-.02em", margin: 0 }}>{d.name}</h3>
           {d.question && <div style={{ fontFamily: FONT_MONO, fontSize: 12, letterSpacing: ".02em", color: C.accent, marginTop: 5 }}>{d.question}</div>}
         </div>
       </div>
@@ -1538,7 +1538,7 @@ function MethodPage({ go }) {
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 32px 56px" }}>
           <section style={{ padding: "104px 0 8px", maxWidth: 760 }}>
             <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 18 }}>Methodology</div>
-            <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(38px, 5.5vw, 66px)", lineHeight: 0.98, letterSpacing: "-.04em", margin: 0 }}>How the catalog works</h1>
+            <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: "clamp(38px, 5.5vw, 66px)", lineHeight: 0.98, letterSpacing: "-.04em", margin: 0 }}>How the catalog works</h1>
             <p style={{ fontSize: 16.5, color: "#B7B2A8", lineHeight: 1.6, margin: "22px 0 0" }}>
               {LAUNCH.methodRubric
                 ? "Two things happen here: an automated pipeline gathers and organizes the benchmarks, then people rate each one against a clear rubric. Below is the pipeline; further down is exactly how the ratings are decided."
@@ -1559,7 +1559,7 @@ function MethodPage({ go }) {
                 <li key={i} style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 20, padding: "22px 0", borderTop: `1px solid rgba(237,235,228,.14)` }}>
                   <span style={{ fontFamily: FONT_MONO, fontSize: 13, fontWeight: 700, color: C.lime, paddingTop: 5 }}>{String(i + 1).padStart(2, "0")}</span>
                   <div>
-                    <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(20px, 2.6vw, 27px)", fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.1, margin: 0, color: "#EDEBE4" }}>{s.t}</h2>
+                    <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(20px, 2.6vw, 27px)", fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.1, margin: 0, color: "#EDEBE4" }}>{s.t}</h2>
                     <p style={{ fontSize: 15, lineHeight: 1.6, color: "#B7B2A8", margin: "8px 0 0", maxWidth: 640 }}>{s.d}</p>
                   </div>
                 </li>
@@ -1576,7 +1576,7 @@ function MethodPage({ go }) {
       <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 24px 24px" }}>
         <section id="sec-rubric" style={{ scrollMarginTop: 16, padding: "56px 0 8px" }}>
           <SectionLabel>The evaluation rubric</SectionLabel>
-          <h2 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(26px, 3.4vw, 42px)", lineHeight: 1.06, letterSpacing: "-.03em", margin: "12px 0 0" }}>
+          <h2 style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: "clamp(26px, 3.4vw, 42px)", lineHeight: 1.06, letterSpacing: "-.03em", margin: "12px 0 0" }}>
             How we rate a benchmark
           </h2>
           <p style={{ fontSize: 15.5, color: C.ink, lineHeight: 1.6, margin: "18px 0 0", maxWidth: 680 }}>
@@ -1629,7 +1629,7 @@ function InfoBlock({ icon, title, children }) {
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
         {icon}
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: 20, fontWeight: 600, margin: 0 }}>{title}</h2>
+        <h2 style={{ fontFamily: FONT_SERIF, fontSize: 20, fontWeight: 400, margin: 0 }}>{title}</h2>
       </div>
       <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.55, margin: "10px 0 0" }}>{children}</p>
     </div>
@@ -1698,10 +1698,10 @@ function CatalogPage({ data, error }) {
           <RigorToggle on={showRigor} onToggle={() => setShowRigor((v) => !v)} />
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 20, flexWrap: "wrap" }}>
-          <h1 style={{ fontFamily: ED.display, fontWeight: 600, fontSize: catFilter ? "clamp(34px, 5.4vw, 66px)" : "clamp(46px, 8vw, 94px)", lineHeight: 0.96, letterSpacing: "-.04em", margin: 0, color: ED.ink, maxWidth: "13ch" }}>
+          <h1 style={{ fontFamily: ED.display, fontWeight: 400, fontSize: catFilter ? "clamp(34px, 5.4vw, 66px)" : "clamp(46px, 8vw, 94px)", lineHeight: 0.96, letterSpacing: "-.04em", margin: 0, color: ED.ink, maxWidth: "13ch" }}>
             {catFilter || "All benchmarks"}
           </h1>
-          <span style={{ fontFamily: ED.display, fontWeight: 500, fontSize: "clamp(32px, 5vw, 58px)", letterSpacing: "-.03em", color: ED.ink, lineHeight: 1 }}>
+          <span style={{ fontFamily: ED.display, fontWeight: 400, fontSize: "clamp(32px, 5vw, 58px)", letterSpacing: "-.03em", color: ED.ink, lineHeight: 1 }}>
             ({String(visible.length).padStart(2, "0")})
           </span>
         </div>
@@ -1849,7 +1849,7 @@ function BenchTile({ b, catColor, showRigor, onClick }) {
       {/* tall solid-color poster: name top-left + rigor/run; tasks inside at bottom */}
       <div style={{ height: 380, flexShrink: 0, borderRadius: 8, background: band, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 22 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
-          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 24, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.08, margin: 0, color: onDark, overflowWrap: "anywhere", hyphens: "auto", minWidth: 0 }}>
+          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 24, fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.08, margin: 0, color: onDark, overflowWrap: "anywhere", hyphens: "auto", minWidth: 0 }}>
             {b.displayName || b.name}
           </h3>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 5, flexShrink: 0 }}>
@@ -1916,7 +1916,7 @@ function BenchRow({ b, showRigor, onClick }) {
       <span style={{ width: 11, height: 11, borderRadius: 2, background: band, marginTop: 9 }} />
       <div>
         <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
-          <h3 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(20px, 2.4vw, 28px)", fontWeight: 600, letterSpacing: "-.025em", lineHeight: 1.1, margin: 0, color: ED.ink }}>{b.name}</h3>
+          <h3 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(20px, 2.4vw, 28px)", fontWeight: 400, letterSpacing: "-.025em", lineHeight: 1.1, margin: 0, color: ED.ink }}>{b.name}</h3>
           {runHrefFor(b) && (
             <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: C.ink, background: C.lime, borderRadius: 999, padding: "3px 9px" }}>Runnable</span>
           )}
@@ -1956,7 +1956,7 @@ function BenchCard({ b, showRigor, onClick }) {
         <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".07em", textTransform: "uppercase", color: ED.muted }}>
           {[b.venue, b.year].filter(Boolean).join(" · ") || "Benchmark"}
         </div>
-        <h3 style={{ fontFamily: ED.display, fontSize: 21, fontWeight: 600, lineHeight: 1.12, letterSpacing: "-.02em", margin: 0, color: ED.ink }}>
+        <h3 style={{ fontFamily: ED.display, fontSize: 21, fontWeight: 400, lineHeight: 1.12, letterSpacing: "-.02em", margin: 0, color: ED.ink }}>
           {b.name}
         </h3>
         {b.measures && <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: ED.muted }}>{b.measures}</p>}
@@ -2070,7 +2070,7 @@ function Detail({ b, showRigor, onClose }) {
         {/* header: title + slug on the left, date + venue on the right */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, paddingRight: 28 }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", minWidth: 0 }}>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.05, margin: 0 }}>{b.displayName || b.name}</h2>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.05, margin: 0 }}>{b.displayName || b.name}</h2>
             {slug && <span style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.muted }}>{slug}</span>}
           </div>
           {(dateStr || b.venue) && (
@@ -2149,7 +2149,7 @@ function Detail({ b, showRigor, onClose }) {
                   <button onClick={() => setExpanded((s) => ({ ...s, [i]: !open }))} style={{ width: "100%", background: "none", border: "none", cursor: "pointer", textAlign: "left", padding: "16px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 14 }}>
                     <span style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", minWidth: 0 }}>
                       <span style={{ color: C.muted, fontSize: 11, width: 10, flexShrink: 0 }}>{open ? "▾" : "▸"}</span>
-                      <span style={{ fontFamily: FONT_SERIF, fontSize: 16.5, fontWeight: 600, letterSpacing: "-.01em", color: C.ink }}>{c.name}</span>
+                      <span style={{ fontFamily: FONT_SERIF, fontSize: 16.5, fontWeight: 400, letterSpacing: "-.01em", color: C.ink }}>{c.name}</span>
                       {(c.tasks || []).map((t) => (
                         <span key={t} style={tinyChip}>
                           <span style={{ width: 6, height: 6, borderRadius: 999, background: CATEGORY_COLORS[t] || CATEGORY_COLOR_FALLBACK, flexShrink: 0 }} />
