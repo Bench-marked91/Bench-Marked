@@ -722,9 +722,9 @@ export default function App() {
       ) : (
         <>
       <div style={(page === "landing" || page === "method")
-        ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "linear-gradient(to bottom, rgba(11,10,9,.62), rgba(11,10,9,0))" }
-        : { position: "sticky", top: 0, zIndex: 40 }}>
-        <div style={{ background: page === "catalog" ? "rgba(8,10,33,.9)" : "transparent", color: "rgba(237,235,228,.72)", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
+        ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "#080A21" }
+        : { position: "sticky", top: 0, zIndex: 40, background: "#080A21" }}>
+        <div style={{ background: "transparent", color: "rgba(237,235,228,.72)", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
           Live data from the team catalog · rigor tiers are provisional (draft rubric) pending human appraisal
         </div>
         <TopNav page={page} go={go} overlay={true} />
