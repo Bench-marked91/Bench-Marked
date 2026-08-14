@@ -1274,7 +1274,7 @@ function LandingPage({ go, data }) {
                 <span className="heroin" style={{ display: "block", fontSize: "clamp(42px, 7.4vw, 92px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
               </h1>
               <p className="heroin" style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "22px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
-                We index how AI models are really tested on mental-health tasks: what each benchmark measures, and how far to trust it.
+                We aggregate all published benchmarks that test AI models on mental health tasks into one catalog, so you don’t have to.
               </p>
               <div className="heroin" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 28, flexWrap: "wrap", animationDelay: ".46s" }}>
                 <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "12px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
