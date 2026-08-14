@@ -992,19 +992,21 @@ function DashCard({ title, children }) {
 // (the same hues as the catalog cards) so the chart is colorful and legible;
 // every bar is directly labeled, so color reinforces rather than carries alone.
 function TaskBars({ rows }) {
+  const [ref, shown] = useInView();
   const max = rows.length ? rows[0][1] : 1;
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      {rows.map(([name, n]) => {
+    <div ref={ref} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      {rows.map(([name, n], i) => {
         const col = CATEGORY_COLORS[name] || CATEGORY_COLOR_FALLBACK;
         return (
           <div key={name} className="dashbar" title={`${name}: ${n}`} style={{ display: "flex", flexDirection: "column", gap: 7 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
               <span style={{ fontFamily: FONT_SANS, fontSize: 12.5, color: PANEL_INK, lineHeight: 1.3 }}>{name}</span>
-              <span style={{ fontFamily: FONT_MONO, fontSize: 12.5, fontWeight: 700, color: col, flexShrink: 0 }}>{n}</span>
+              <span style={{ fontFamily: FONT_MONO, fontSize: 12.5, fontWeight: 700, color: col, flexShrink: 0, opacity: shown ? 1 : 0, transition: `opacity .4s ease ${0.25 + i * 0.07}s` }}>{n}</span>
             </div>
             <div style={{ height: 12, borderRadius: 999, background: PANEL_TRACK, overflow: "hidden" }}>
-              <div style={{ width: `${(n / max) * 100}%`, height: "100%", background: col, borderRadius: 999, minWidth: 6 }} />
+              {/* grows on scroll-into-view via transform (no layout thrash) */}
+              <div style={{ width: `${(n / max) * 100}%`, height: "100%", background: col, borderRadius: 999, minWidth: 6, transform: shown ? "scaleX(1)" : "scaleX(0)", transformOrigin: "left center", transition: `transform .9s cubic-bezier(.22,.61,.36,1) ${i * 0.07}s` }} />
             </div>
           </div>
         );
@@ -1013,11 +1015,30 @@ function TaskBars({ rows }) {
   );
 }
 
+// Fires once when the element scrolls into view; used to let the charts draw
+// themselves. Respects reduced-motion (renders finished immediately).
+function useInView(threshold = 0.35) {
+  const ref = useRef(null);
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const reduce = typeof window !== "undefined" && window.matchMedia
+      && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !("IntersectionObserver" in window)) { setShown(true); return; }
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setShown(true); io.disconnect(); } }, { threshold });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return [ref, shown];
+}
+
 // Filled line graph of benchmarks per year. Gap years plot as zero so the
 // growth curve reads honestly. Single series: deep-amber 2.5px line over a
 // soft amber area fade, dots with a surface ring, values labeled selectively
-// (peak + latest) with the rest on hover.
+// (peak + latest) with the rest on hover. Draws itself on scroll-into-view.
 function GrowthLine({ rows }) {
+  const [ref, shown] = useInView();
   const W = 560, H = 210, PAD_L = 40, PAD_R = 40, PAD_T = 30, PAD_B = 30;
   const innerW = W - PAD_L - PAD_R, innerH = H - PAD_T - PAD_B;
   const max = rows.reduce((m, [, n]) => Math.max(m, n), 0) || 1;
@@ -1028,6 +1049,7 @@ function GrowthLine({ rows }) {
   const pts = rows.map(([, n], i) => `${px(i).toFixed(1)},${py(n).toFixed(1)}`);
   const areaPath = `M ${px(0).toFixed(1)},${baseline} L ${pts.join(" L ")} L ${px(rows.length - 1).toFixed(1)},${baseline} Z`;
   return (
+    <div ref={ref}>
     <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }} role="img" aria-label={`Benchmarks per year: ${rows.map(([y, n]) => `${y} ${n}`).join(", ")}`}>
       <defs>
         <linearGradient id="growthfill" x1="0" y1="0" x2="0" y2="1">
@@ -1036,20 +1058,30 @@ function GrowthLine({ rows }) {
         </linearGradient>
       </defs>
       <line x1={PAD_L} y1={baseline} x2={W - PAD_R} y2={baseline} stroke={PANEL_TRACK} strokeWidth="1" />
-      {rows.length > 1 && <path d={areaPath} fill="url(#growthfill)" />}
-      {rows.length > 1 && <path d={`M ${pts.join(" L ")}`} fill="none" stroke="#E0782F" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />}
+      {rows.length > 1 && (
+        <path d={areaPath} fill="url(#growthfill)"
+          style={{ opacity: shown ? 1 : 0, transition: "opacity .9s ease 1.15s" }} />
+      )}
+      {rows.length > 1 && (
+        <path d={`M ${pts.join(" L ")}`} fill="none" stroke="#E0782F" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round"
+          pathLength={1}
+          style={{ strokeDasharray: 1, strokeDashoffset: shown ? 0 : 1, transition: "stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1) .15s" }} />
+      )}
       {rows.map(([y, n], i) => (
         <g key={y}>
-          <circle cx={px(i)} cy={py(n)} r={n ? 4 : 3} fill={n ? "#E0782F" : PANEL_MUTED} stroke={PANEL_BG} strokeWidth="2" />
+          <circle cx={px(i)} cy={py(n)} r={n ? 4 : 3} fill={n ? "#E0782F" : PANEL_MUTED} stroke={PANEL_BG} strokeWidth="2"
+            style={{ opacity: shown ? 1 : 0, transition: `opacity .35s ease ${(0.25 + (i / rows.length) * 1.3).toFixed(2)}s` }} />
           {/* larger invisible hit target with a native tooltip */}
           <circle cx={px(i)} cy={py(n)} r="14" fill="transparent">
             <title>{`${y}: ${n} benchmark${n === 1 ? "" : "s"}`}</title>
           </circle>
-          <text x={px(i)} y={py(n) - 12} textAnchor="middle" style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, fill: n ? PANEL_INK : PANEL_MUTED }}>{n}</text>
+          <text x={px(i)} y={py(n) - 12} textAnchor="middle"
+            style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, fill: n ? PANEL_INK : PANEL_MUTED, opacity: shown ? 1 : 0, transition: `opacity .35s ease ${(0.35 + (i / rows.length) * 1.3).toFixed(2)}s` }}>{n}</text>
           <text x={px(i)} y={H - 8} textAnchor="middle" style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".04em", fill: PANEL_MUTED }}>{y}</text>
         </g>
       ))}
     </svg>
+    </div>
   );
 }
 
