@@ -53,11 +53,11 @@ const SOURCE_OPTIONS = ["Open", "Mixed", "Restricted", "Closed"];
  * ------------------------------------------------------------------ */
 const ED = {
   bg: "#080A21",                   // catalog canvas — solid dark navy
-  card: "#FFFFFF",                 // benchmark tiles — always white
+  card: "#DEEBF7",                 // benchmark tiles — light blue
   ink: "#EDEBE4",                  // on-canvas text (bone)
   muted: "#8C887E",                // on-canvas secondary text
   line: "rgba(237,235,228,.16)",   // hairlines on the dark canvas
-  cardInk: "#080807",              // on-tile text
+  cardInk: "#080A21",              // on-tile text — dark navy titles
   cardMuted: "#66666B",            // on-tile secondary text
   display: "'Lexend', 'Segoe UI', system-ui, sans-serif",
   body: "'Cairo', 'Segoe UI', system-ui, sans-serif",
@@ -1809,7 +1809,7 @@ function VChip({ label, on, onClick }) {
   return (
     <button onClick={onClick} style={{
       alignSelf: "flex-start", fontFamily: ED.body, fontSize: 15, fontWeight: 500, cursor: "pointer",
-      color: on ? ED.cardInk : ED.ink, background: on ? "#FFFFFF" : "rgba(237,235,228,.08)",
+      color: on ? ED.cardInk : ED.ink, background: on ? ED.card : "rgba(237,235,228,.08)",
       border: "none", borderRadius: 5, padding: "8px 15px", textAlign: "left", lineHeight: 1.2,
     }}>{label}</button>
   );
@@ -1881,7 +1881,7 @@ function BenchTile({ b, catColor, showRigor, onClick }) {
         })}
       </div>
       {/* bottom action */}
-      <span className="edarrow" style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: ED.body, fontSize: 13.5, fontWeight: 600, color: ED.cardInk, borderTop: "1px solid #EBEBEB", paddingTop: 12 }}>
+      <span className="edarrow" style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: ED.body, fontSize: 13.5, fontWeight: 600, color: ED.cardInk, borderTop: "1px solid rgba(8,10,33,.12)", paddingTop: 12 }}>
         View details <span>→</span>
       </span>
     </button>
