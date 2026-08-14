@@ -320,12 +320,13 @@ const LAUNCH = {
   rateRigorHeroButton: false, // landing hero: "How we rate rigor" button
   methodRubric: false,        // methodology page: "How we rate a benchmark" rubric section
   heroStat: false,            // landing hero: "39+ benchmarks catalogued" bottom stat
+  ratings: false,             // rating features: card rating chips, Ratings toggle, rating sort, rigor FAQ/banner copy
 };
 
 // FAQ content (from PLAN.md / TEAM-SUMMARY.md).
 const FAQS = [
   { q: "What is this catalog?", a: "A curated, growing index of benchmarks used to evaluate large language models on clinical mental-health tasks: what each one measures, how it was built, and how rigorous it looks. It's drawn from our team's research sheet and kept current by an automated find → filter → extract pipeline with human review." },
-  { q: "How are the rigor tiers computed?", a: "They're provisional, from a draft five-dimension rubric: construct validity, ground-truth quality, sample size, population realism, and transparency. A tier is only assigned when at least three dimensions have data; otherwise a benchmark is shown as Unrated. Human appraisal will eventually replace the automatic tiers." + (LAUNCH.methodRubric ? " See the Rubric page." : "") },
+  ...(LAUNCH.ratings ? [{ q: "How are the rigor tiers computed?", a: "They're provisional, from a draft five-dimension rubric: construct validity, ground-truth quality, sample size, population realism, and transparency. A tier is only assigned when at least three dimensions have data; otherwise a benchmark is shown as Unrated. Human appraisal will eventually replace the automatic tiers." + (LAUNCH.methodRubric ? " See the Rubric page." : "") }] : []),
   { q: "Can I run a benchmark myself?", a: "Yes. A few benchmarks have a “Run this benchmark” button. You bring your own API key (OpenAI or Anthropic), the test runs entirely in your browser, your key is never stored or sent to us, and you see your model's score. More benchmarks become runnable over time, one at a time." },
   { q: "Where does the data come from?", a: "New papers are found automatically from arXiv, PubMed, and medRxiv, filtered for relevance, and their facts extracted into a consistent schema. Quality appraisal is done by human reviewers, not the machine." },
   { q: "What does it cost to run a benchmark?", a: "Only your own model API usage, typically a few cents for a small sample, since you choose how many items to run. The catalog itself is free to browse." },
@@ -725,7 +726,9 @@ export default function App() {
         ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "#080A21" }
         : { position: "sticky", top: 0, zIndex: 40, background: "#080A21" }}>
         <div style={{ background: "transparent", color: "rgba(237,235,228,.72)", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
-          Live data from the team catalog · rigor tiers are provisional (draft rubric) pending human appraisal
+          {LAUNCH.ratings
+            ? "Live data from the team catalog · rigor tiers are provisional (draft rubric) pending human appraisal"
+            : "Live data from the team catalog · kept current by an automated pipeline with human review"}
         </div>
         <TopNav page={page} go={go} overlay={true} />
       </div>
@@ -1119,14 +1122,16 @@ function OrbitCards({ items, go }) {
       {items.map((b, i) => (
         <div key={b.id} ref={(el) => (wrapRefs.current[i] = el)}
           style={{ position: "absolute", top: "50%", left: "50%", width: 250, willChange: "transform, opacity, filter" }}>
-          <BenchTile b={b} showRigor={true} catColor={null} onClick={() => go("catalog")} />
+          <BenchTile b={b} showRigor={LAUNCH.ratings} catColor={null} onClick={() => go("catalog")} />
           <div className="cardguide" aria-hidden="true">
             <div className="cg-item cg-l" style={{ top: 26 }}>
               <span className="cg-label">Benchmark name</span><span className="cg-line" /><span className="cg-dot" />
             </div>
+            {LAUNCH.ratings && (
             <div className="cg-item cg-r" style={{ top: 26 }}>
               <span className="cg-label">Rigor ratings<span className="cg-sub">safety · clinical · method</span></span><span className="cg-line" /><span className="cg-dot" />
             </div>
+            )}
             <div className="cg-item cg-l" style={{ top: 262 }}>
               <span className="cg-label">Task tags<span className="cg-sub">color = category · filter with these</span></span><span className="cg-line" /><span className="cg-dot" />
             </div>
@@ -1647,7 +1652,7 @@ function CatalogPage({ data, error }) {
   const [sort, setSort] = useState("name"); // name | year | rigor | size
   const [catFilter, setCatFilter] = useState(null); // null = all categories
   const [selected, setSelected] = useState(null);
-  const [showRigor, setShowRigor] = useState(true); // toggle the rigor rating display
+  const [showRigor, setShowRigor] = useState(LAUNCH.ratings); // toggle the rigor rating display (parked when LAUNCH.ratings is false)
 
   const q = query.trim().toLowerCase();
 
@@ -1696,7 +1701,7 @@ function CatalogPage({ data, error }) {
           <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: ED.muted }}>
             Mental-health LLM benchmarks
           </div>
-          <RigorToggle on={showRigor} onToggle={() => setShowRigor((v) => !v)} />
+          {LAUNCH.ratings && <RigorToggle on={showRigor} onToggle={() => setShowRigor((v) => !v)} />}
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 20, flexWrap: "wrap" }}>
           <h1 style={{ fontFamily: ED.display, fontWeight: 400, fontSize: catFilter ? "clamp(34px, 5.4vw, 66px)" : "clamp(46px, 8vw, 94px)", lineHeight: 0.96, letterSpacing: "-.04em", margin: 0, color: ED.ink, maxWidth: "13ch" }}>
@@ -1740,7 +1745,7 @@ function CatalogPage({ data, error }) {
             <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: ED.body, fontSize: 13.5, padding: "9px 12px", border: `1px solid ${ED.line}`, borderRadius: 8, background: "#12142E", color: ED.ink, cursor: "pointer" }}>
               <option value="name">Sort: Name (A-Z)</option>
               <option value="year">Sort: Year (newest)</option>
-              <option value="rigor">Sort: Rating (best first)</option>
+              {LAUNCH.ratings && <option value="rigor">Sort: Rating (best first)</option>}
               <option value="size">Sort: Size (largest)</option>
             </select>
           </div>
