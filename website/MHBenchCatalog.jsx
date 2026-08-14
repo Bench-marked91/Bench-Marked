@@ -52,11 +52,13 @@ const SOURCE_OPTIONS = ["Open", "Mixed", "Restricted", "Closed"];
  *  the existing `C` / FONT_* look.
  * ------------------------------------------------------------------ */
 const ED = {
-  bg: "#EBEBEB",       // off-white canvas
-  card: "#E2E2E2",     // neutral grey surface (inputs / toggle)
-  ink: "#080807",      // ink
-  muted: "#66666B",    // neutral grey text
-  line: "#CFCFCF",     // neutral grey hairline
+  bg: "#080A21",                   // catalog canvas — solid dark navy
+  card: "#FFFFFF",                 // benchmark tiles — always white
+  ink: "#EDEBE4",                  // on-canvas text (bone)
+  muted: "#8C887E",                // on-canvas secondary text
+  line: "rgba(237,235,228,.16)",   // hairlines on the dark canvas
+  cardInk: "#080807",              // on-tile text
+  cardMuted: "#66666B",            // on-tile secondary text
   display: "'Lexend', 'Segoe UI', system-ui, sans-serif",
   body: "'Cairo', 'Segoe UI', system-ui, sans-serif",
 };
@@ -722,10 +724,10 @@ export default function App() {
       <div style={(page === "landing" || page === "method")
         ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "linear-gradient(to bottom, rgba(11,10,9,.62), rgba(11,10,9,0))" }
         : { position: "sticky", top: 0, zIndex: 40 }}>
-        <div style={{ background: (page === "landing" || page === "method") ? "transparent" : "#DCDCDC", color: (page === "landing" || page === "method") ? "rgba(237,235,228,.72)" : "#5C5C5C", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
+        <div style={{ background: page === "catalog" ? "rgba(8,10,33,.9)" : "transparent", color: "rgba(237,235,228,.72)", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
           Live data from the team catalog · rigor tiers are provisional (draft rubric) pending human appraisal
         </div>
-        <TopNav page={page} go={go} overlay={page === "landing" || page === "method"} />
+        <TopNav page={page} go={go} overlay={true} />
       </div>
 
       {data === null ? (
@@ -1125,11 +1127,11 @@ function OrbitCards({ items, go }) {
             <div className="cg-item cg-r" style={{ top: 26 }}>
               <span className="cg-label">Rigor ratings<span className="cg-sub">safety · clinical · method</span></span><span className="cg-line" /><span className="cg-dot" />
             </div>
-            <div className="cg-item cg-l" style={{ top: 175 }}>
-              <span className="cg-label">Color = task category</span><span className="cg-line" /><span className="cg-dot" />
+            <div className="cg-item cg-l" style={{ top: 262 }}>
+              <span className="cg-label">Task tags<span className="cg-sub">color = category · filter with these</span></span><span className="cg-line" /><span className="cg-dot" />
             </div>
-            <div className="cg-item cg-r" style={{ top: 305 }}>
-              <span className="cg-label">Tasks<span className="cg-sub">filter the catalog by these</span></span><span className="cg-line" /><span className="cg-dot" />
+            <div className="cg-item cg-r" style={{ top: 316 }}>
+              <span className="cg-label">View details<span className="cg-sub">opens the full entry</span></span><span className="cg-line" /><span className="cg-dot" />
             </div>
           </div>
         </div>
@@ -1218,14 +1220,12 @@ function LandingPage({ go, data }) {
           see git history / pre-1.0 tag to restore it). */}
       <div style={{ position: "relative", zIndex: 1 }}>
       {/* Dark full-screen hero — giant wordmark (Monolog-style) on the solid navy base. */}
+
       <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 40px" }}>
             {/* Load-in choreography: one staged entrance for the hero — each
                 piece rises and sharpens in sequence. Respects reduced-motion. */}
-            <style>{`
-              @keyframes heroin { from { opacity: 0; transform: translateY(22px); filter: blur(5px); } to { opacity: 1; transform: none; filter: none; } }
-              .heroin { animation: heroin .9s cubic-bezier(.16,1,.3,1) both; }
-              @media (prefers-reduced-motion: reduce) { .heroin { animation: none; } }
-            `}</style>
+
+
 
             {/* top-centered title + entry buttons */}
             <div style={{ position: "relative", maxWidth: 780, margin: "0 auto", textAlign: "center" }}>
@@ -1257,6 +1257,7 @@ function LandingPage({ go, data }) {
             )}
 
       </section>
+
 
       {/* By the numbers — dark data dashboard (replaces the old rigor stats) */}
       <section style={{ color: DASH_INK }}>
@@ -1734,9 +1735,9 @@ function CatalogPage({ data, error }) {
             <div style={{ position: "relative" }}>
               <Search size={14} color={ED.muted} style={{ position: "absolute", left: 12, top: 11 }} />
               <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search…"
-                style={{ width: "100%", padding: "9px 12px 9px 32px", fontFamily: ED.body, fontSize: 13.5, border: `1px solid ${ED.line}`, borderRadius: 8, background: ED.card, color: ED.ink, boxSizing: "border-box" }} />
+                style={{ width: "100%", padding: "9px 12px 9px 32px", fontFamily: ED.body, fontSize: 13.5, border: `1px solid ${ED.line}`, borderRadius: 8, background: "rgba(237,235,228,.07)", color: ED.ink, boxSizing: "border-box" }} />
             </div>
-            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: ED.body, fontSize: 13.5, padding: "9px 12px", border: `1px solid ${ED.line}`, borderRadius: 8, background: ED.card, color: ED.ink, cursor: "pointer" }}>
+            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: ED.body, fontSize: 13.5, padding: "9px 12px", border: `1px solid ${ED.line}`, borderRadius: 8, background: "#12142E", color: ED.ink, cursor: "pointer" }}>
               <option value="name">Sort: Name (A-Z)</option>
               <option value="year">Sort: Year (newest)</option>
               <option value="rigor">Sort: Rating (best first)</option>
@@ -1752,7 +1753,7 @@ function CatalogPage({ data, error }) {
             ))}
           </div>
           {visible.length === 0 && !error && (
-            <div style={{ textAlign: "center", color: ED.muted, padding: "48px 20px", border: `1px dashed ${ED.line}`, borderRadius: 8, background: ED.card }}>
+            <div style={{ textAlign: "center", color: ED.muted, padding: "48px 20px", border: `1px dashed ${ED.line}`, borderRadius: 8, background: "rgba(237,235,228,.04)" }}>
               <Search size={26} color={C.unrated} />
               <div style={{ fontSize: 15, fontWeight: 600, color: ED.ink, marginTop: 10 }}>No matches</div>
               <div style={{ fontSize: 13, marginTop: 4 }}>Try a different search term or clear the category filter.</div>
@@ -1779,14 +1780,14 @@ function RigorToggle({ on, onToggle }) {
       style={{
         display: "inline-flex", alignItems: "center", gap: 10, cursor: "pointer",
         fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase",
-        color: ED.ink, background: ED.card, border: `1px solid ${ED.line}`,
+        color: ED.ink, background: "rgba(237,235,228,.08)", border: `1px solid ${ED.line}`,
         borderRadius: 999, padding: "7px 8px 7px 14px", lineHeight: 1,
       }}
     >
       <span>Ratings</span>
       <span style={{
         position: "relative", width: 38, height: 21, borderRadius: 999, flexShrink: 0,
-        background: on ? ED.ink : "rgba(8,8,7,0.14)", transition: "background .18s ease",
+        background: on ? C.lime : "rgba(237,235,228,.25)", transition: "background .18s ease",
       }}>
         <span style={{
           position: "absolute", top: 3, left: 3, width: 15, height: 15, borderRadius: 999,
@@ -1798,12 +1799,12 @@ function RigorToggle({ on, onToggle }) {
   );
 }
 
-// Vertical filter chip (left rail) — light chip, active is solid ink.
+// Vertical filter chip (left rail) — dark canvas chip, active is solid white.
 function VChip({ label, on, onClick }) {
   return (
     <button onClick={onClick} style={{
       alignSelf: "flex-start", fontFamily: ED.body, fontSize: 15, fontWeight: 500, cursor: "pointer",
-      color: on ? "#fff" : ED.ink, background: on ? ED.ink : "rgba(8,8,7,0.06)",
+      color: on ? ED.cardInk : ED.ink, background: on ? "#FFFFFF" : "rgba(237,235,228,.08)",
       border: "none", borderRadius: 5, padding: "8px 15px", textAlign: "left", lineHeight: 1.2,
     }}>{label}</button>
   );
@@ -1831,59 +1832,52 @@ function ratingRank(b) {
 // listed inside at the bottom (plain text, no pills). Short description spans
 // full width below. Uniform height: the grid stretches every card, CTA pinned.
 function BenchTile({ b, catColor, showRigor, onClick }) {
-  const condTag = { fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".05em", textTransform: "uppercase", color: ED.ink, background: "rgba(8,8,7,0.07)", borderRadius: 999, padding: "3px 9px" };
+  // White tile on the dark canvas. Category color lives in the task tags
+  // (Vals-style tinted pills), not the card surface. Whole tile is clickable;
+  // "View details" at the bottom names the action.
   const runnable = !!runHrefFor(b);
-  // Card color always means TASK CATEGORY: the filtered category color when a
-  // filter is active, else the card's own primary-task color (or lime for
-  // runnable). The three ratings are shown as chips, not as the color.
-  const band = catColor || (runnable ? C.lime : categoryColor(b));
-  const onDark = readableOn(band);
   const ratings = benchRatings(b);
   const tasks = (b.tasks && b.tasks.length) ? b.tasks : [deriveCategory(b)];
-  const desc = b.measures || b.clinicalUseCase || "";
+  const objective = b.objective || b.measures || b.clinicalUseCase || "";
   return (
     <button onClick={onClick} className="edtile" style={{
-      width: "100%", height: "100%", textAlign: "left", cursor: "pointer", background: "transparent",
-      border: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10,
+      width: "100%", height: "100%", minHeight: 360, textAlign: "left", cursor: "pointer",
+      background: ED.card, border: "none", borderRadius: 10, padding: "22px 22px 18px",
+      display: "flex", flexDirection: "column", gap: 12,
     }}>
-      {/* tall solid-color poster: name top-left + rigor/run; tasks inside at bottom */}
-      <div style={{ height: 380, flexShrink: 0, borderRadius: 8, background: band, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 22 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
-          <h3 style={{ fontFamily: FONT_SERIF, fontSize: 24, fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.08, margin: 0, color: onDark, overflowWrap: "anywhere", hyphens: "auto", minWidth: 0 }}>
-            {b.displayName || b.name}
-          </h3>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 5, flexShrink: 0 }}>
-            {showRigor && ratings && [["Safety", ratings.safety], ["Clinical", ratings.clinical], ["Method", ratings.methodology]].map(([label, tier]) => tier ? (
-              <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: FONT_MONO, fontSize: 9.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#F3F1EA", background: "rgba(8,8,7,0.34)", borderRadius: 999, padding: "3px 8px", whiteSpace: "nowrap" }}>
-                <span style={{ opacity: 0.72 }}>{label}</span>
-                <span style={{ width: 9, height: 9, borderRadius: 999, background: TIER_COLORS[tier] || "rgba(243,241,234,.55)" }} />
-              </span>
-            ) : null)}
-            {runnable && (
-              <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: onDark, border: `1px solid ${onDark}`, borderRadius: 999, padding: "2px 9px" }}>Run</span>
-            )}
-          </div>
-        </div>
-        <div>
-          <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: ".1em", textTransform: "uppercase", color: onDark, opacity: 0.6, marginBottom: 8 }}>Tasks</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-            {tasks.map((t) => (
-              <span key={t} style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".03em", textTransform: "uppercase", color: onDark, lineHeight: 1.35 }}>{t}</span>
-            ))}
-          </div>
+      {/* name top-left + rating chips top-right */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
+        <h3 style={{ fontFamily: ED.display, fontSize: 21, fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.15, margin: 0, color: ED.cardInk, overflowWrap: "anywhere", hyphens: "auto", minWidth: 0 }}>
+          {b.displayName || b.name}
+        </h3>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 5, flexShrink: 0 }}>
+          {showRigor && ratings && [["Safety", ratings.safety], ["Clinical", ratings.clinical], ["Method", ratings.methodology]].map(([label, tier]) => tier ? (
+            <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: FONT_MONO, fontSize: 9.5, letterSpacing: ".04em", textTransform: "uppercase", color: ED.cardMuted, background: "rgba(8,8,7,0.05)", borderRadius: 999, padding: "3px 8px", whiteSpace: "nowrap" }}>
+              <span style={{ opacity: 0.8 }}>{label}</span>
+              <span style={{ width: 9, height: 9, borderRadius: 999, background: TIER_COLORS[tier] || C.unrated }} />
+            </span>
+          ) : null)}
         </div>
       </div>
-      {/* short description — full width */}
-      {desc && (
-        <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: ED.muted, display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{desc}</p>
+      {/* objective — directly below the name */}
+      {objective && (
+        <p style={{ margin: 0, fontFamily: ED.body, fontSize: 13.5, lineHeight: 1.55, color: ED.cardMuted, display: "-webkit-box", WebkitLineClamp: 5, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{objective}</p>
       )}
-      {b.conditions.length > 0 && (
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-          {b.conditions.map((t) => <span key={"c" + t} style={condTag}>{t}</span>)}
-        </div>
-      )}
-      <span className="edarrow" style={{ marginTop: "auto", paddingTop: 4, display: "inline-flex", alignItems: "center", gap: 7, fontFamily: ED.body, fontSize: 13.5, fontWeight: 600, color: ED.ink }}>
-        View benchmark <span>→</span>
+      {/* task tags — tinted rounded rectangles, one accent color per category */}
+      <div style={{ marginTop: "auto", display: "flex", flexWrap: "wrap", gap: 6 }}>
+        {runnable && (
+          <span style={{ background: C.lime, color: C.ink, borderRadius: 7, padding: "4px 10px", fontFamily: ED.body, fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>Runnable</span>
+        )}
+        {tasks.map((t) => {
+          const col = CATEGORY_COLORS[t] || CATEGORY_COLOR_FALLBACK;
+          return (
+            <span key={t} style={{ background: `${col}1F`, color: col, borderRadius: 7, padding: "4px 10px", fontFamily: ED.body, fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>{t}</span>
+          );
+        })}
+      </div>
+      {/* bottom action */}
+      <span className="edarrow" style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: ED.body, fontSize: 13.5, fontWeight: 600, color: ED.cardInk, borderTop: "1px solid #EBEBEB", paddingTop: 12 }}>
+        View details <span>→</span>
       </span>
     </button>
   );
