@@ -978,9 +978,11 @@ const PANEL_MUTED = "#4A6E8F";
 const PANEL_TRACK = "rgba(28,71,115,.12)";
 function DashCard({ title, children }) {
   return (
-    <div style={{ borderRadius: 18, padding: "24px 26px 28px", background: PANEL_BG }}>
+    <div style={{ borderRadius: 18, padding: "24px 26px 28px", background: PANEL_BG, display: "flex", flexDirection: "column" }}>
       <h3 style={{ fontFamily: FONT_SERIF, fontSize: 21, fontWeight: 400, letterSpacing: "-.02em", color: PANEL_INK, margin: "0 0 24px" }}>{title}</h3>
-      {children}
+      {/* center the content in the card's remaining height, so a short chart
+          sits mid-card instead of leaving a large empty band at the bottom */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>{children}</div>
     </div>
   );
 }
