@@ -304,6 +304,7 @@ const TIER_COLORS = { Strong: "#3C6E5A", Moderate: "#8A6D3B", Weak: "#B5502E" };
 const LAUNCH = {
   rateRigorHeroButton: false, // landing hero: "How we rate rigor" button
   methodRubric: false,        // methodology page: "How we rate a benchmark" rubric section
+  heroStat: false,            // landing hero: "39+ benchmarks catalogued" bottom stat
 };
 
 // FAQ content (from PLAN.md / TEAM-SUMMARY.md).
@@ -1210,7 +1211,9 @@ function LandingPage({ go, data }) {
             <style>{`
               @keyframes heroin { from { opacity: 0; transform: translateY(22px); filter: blur(5px); } to { opacity: 1; transform: none; filter: none; } }
               .heroin { animation: heroin .9s cubic-bezier(.16,1,.3,1) both; }
-              @media (prefers-reduced-motion: reduce) { .heroin { animation: none; } }
+              @keyframes scrollcue { 0% { transform: translateY(0); opacity: 0; } 25% { opacity: 1; } 75% { opacity: 1; } 100% { transform: translateY(30px); opacity: 0; } }
+              .scrollcue-seg { animation: scrollcue 2.1s cubic-bezier(.45,0,.35,1) infinite; }
+              @media (prefers-reduced-motion: reduce) { .heroin { animation: none; } .scrollcue-seg { animation: none; transform: translateY(15px); opacity: 1; } }
             `}</style>
 
             {/* top-centered title + entry buttons */}
@@ -1230,7 +1233,8 @@ function LandingPage({ go, data }) {
               </div>
             </div>
 
-            {/* bottom stat row — pinned to the bottom so the intro stays centered */}
+            {/* bottom stat row — parked behind LAUNCH.heroStat */}
+            {LAUNCH.heroStat && (
             <div className="heroin" style={{ position: "absolute", left: 32, right: 32, bottom: 40, animationDelay: ".62s", willChange: "transform, opacity, filter" }}>
               <div className="herobottom">
                 <div>
@@ -1239,6 +1243,19 @@ function LandingPage({ go, data }) {
                 </div>
               </div>
             </div>
+            )}
+
+            {/* scroll cue — bottom-center marker guiding visitors down; also a button */}
+            <button
+              onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
+              aria-label="Scroll down"
+              className="heroin"
+              style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", bottom: 26, animationDelay: ".8s", background: "transparent", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: 6 }}>
+              <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".22em", textTransform: "uppercase", color: "#8C887E" }}>Scroll</span>
+              <span style={{ position: "relative", width: 1, height: 46, background: "rgba(237,235,228,.18)", overflow: "hidden", display: "block" }}>
+                <span className="scrollcue-seg" style={{ position: "absolute", top: 0, left: 0, width: 1, height: 16, background: "#EDEBE4", display: "block" }} />
+              </span>
+            </button>
       </section>
 
       {/* By the numbers — dark data dashboard (replaces the old rigor stats) */}
