@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-11T00:00:00+11:00",
+  "title": "Design System: BENCHLY",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Paper Grey", "canonical": "#EBEBEB", "tonalRamp": ["#1f1f1f", "#3d3d3d", "#5c5c5c", "#7a7a7a", "#999999", "#b8b8b8", "#d6d6d6", "#f2f2f2"] },
+      "ink": { "role": "primary", "displayName": "Registry Ink", "canonical": "#080807", "tonalRamp": ["#080807", "#262624", "#454541", "#63635e", "#82827b", "#a0a098", "#bfbfb5", "#ddddd2"] },
+      "lime": { "role": "primary", "displayName": "Signature Lime", "canonical": "#F1FE67", "tonalRamp": ["#2a2e00", "#4c5300", "#6e7800", "#909d0f", "#b2c22e", "#d4e74d", "#f1fe67", "#f9ffb3"] },
+      "night": { "role": "neutral", "displayName": "Night", "canonical": "#0b0a09", "tonalRamp": ["#0b0a09", "#22211f", "#393835", "#504f4b", "#676661", "#7e7d77", "#95948d", "#acaba3"] },
+      "bone": { "role": "neutral", "displayName": "Bone", "canonical": "#EDEBE4", "tonalRamp": ["#26251f", "#44423a", "#626055", "#807d70", "#9e9b8b", "#bcb9a6", "#dad7c1", "#f4f2e9"] },
+      "tier-strong": { "role": "tertiary", "displayName": "Forest (Strong)", "canonical": "#3C6E5A", "tonalRamp": ["#12211b", "#1e3a2f", "#2a5243", "#366b57", "#42836b", "#5e9b83", "#84b3a0", "#abcbbd"] },
+      "tier-moderate": { "role": "tertiary", "displayName": "Ochre (Moderate)", "canonical": "#8A6D3B", "tonalRamp": ["#2a2112", "#453619", "#604b20", "#7b6027", "#96752e", "#ac8d4d", "#c2a674", "#d8bf9b"] },
+      "tier-limited": { "role": "tertiary", "displayName": "Rust (Limited)", "canonical": "#B5502E", "tonalRamp": ["#331608", "#54240d", "#753212", "#964017", "#b74e1c", "#c96f45", "#da906e", "#ecb197"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page heroes and landing headlines. Space Grotesk, tight -.03em tracking." },
+      "label": { "displayName": "Mono Kicker", "purpose": "Uppercase Space Mono kickers introducing every section and field — the ledger's stamp." }
+    },
+    "shadows": [
+      { "name": "gate-blur", "value": "backdrop-filter: blur(6px)", "purpose": "Access-gate modal only; system is otherwise flat." }
+    ],
+    "motion": [
+      { "name": "lift-hover", "value": "transform: translateY(-2px); transition: transform .2s", "purpose": "Subtle hover lift on chart bars and cards (.lift class)." }
+    ],
+    "breakpoints": [
+      { "name": "content-max", "value": "1200px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink pill for standard primary actions.",
+      "html": "<button class=\"ds-btn-primary\">View catalog</button>",
+      "css": ".ds-btn-primary { background: #080807; color: #fff; border: none; border-radius: 999px; padding: 13px 28px; font-family: 'Inter', system-ui, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: opacity .15s; } .ds-btn-primary:hover { opacity: .85; } .ds-btn-primary:focus-visible { outline: 2px solid #080807; outline-offset: 2px; }"
+    },
+    {
+      "name": "Lime CTA",
+      "kind": "button",
+      "refersTo": "button-lime",
+      "description": "The one highlighter — reserved for the single most important action per region.",
+      "html": "<button class=\"ds-btn-lime\">Browse the catalog →</button>",
+      "css": ".ds-btn-lime { background: #F1FE67; color: #080807; border: none; border-radius: 999px; padding: 12px 26px; font-family: 'Inter', system-ui, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: filter .15s; } .ds-btn-lime:hover { filter: brightness(.96); } .ds-btn-lime:focus-visible { outline: 2px solid #080807; outline-offset: 2px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary pill with 1px ink border (light world).",
+      "html": "<button class=\"ds-btn-outline\">How we rate rigor</button>",
+      "css": ".ds-btn-outline { background: transparent; color: #080807; border: 1px solid #080807; border-radius: 999px; padding: 12px 26px; font-family: 'Inter', system-ui, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .15s; } .ds-btn-outline:hover { background: rgba(8,8,7,.06); }"
+    },
+    {
+      "name": "Mono Kicker Label",
+      "kind": "custom",
+      "description": "Uppercase Space Mono section/field label — the system's signature texture.",
+      "html": "<div class=\"ds-kicker\">Rigor Rating · Method</div>",
+      "css": ".ds-kicker { font-family: 'Space Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #66666B; }"
+    },
+    {
+      "name": "Tier Badge",
+      "kind": "chip",
+      "description": "Rigor tier indicator: colored tick marks plus mono label in the tier color.",
+      "html": "<span class=\"ds-tier\"><span class=\"ds-tier-tick\"></span><span class=\"ds-tier-tick\"></span><span class=\"ds-tier-tick\"></span><span class=\"ds-tier-tick\"></span><span class=\"ds-tier-label\">Strong</span></span>",
+      "css": ".ds-tier { display: inline-flex; align-items: center; gap: 3px; } .ds-tier-tick { width: 6px; height: 12px; border-radius: 1px; background: #3C6E5A; display: inline-block; } .ds-tier-label { font-family: 'Space Mono', ui-monospace, monospace; font-size: 11px; font-weight: 600; color: #3C6E5A; margin-left: 5px; }"
+    },
+    {
+      "name": "Catalog Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Surface card with category color top-band and hairline border.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-band\"></div><div class=\"ds-card-body\"><div class=\"ds-card-title\">PsychBench-Dx</div><div class=\"ds-card-desc\">Diagnostic reasoning over 196 psychiatry vignettes.</div></div></div>",
+      "css": ".ds-card { background: #E2E2E2; border: 1px solid #CFCFCF; border-radius: 8px; overflow: hidden; width: 260px; } .ds-card-band { height: 8px; background: #4F7183; } .ds-card-body { padding: 18px; } .ds-card-title { font-family: 'Space Grotesk', 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: #080807; letter-spacing: -.01em; margin-bottom: 6px; } .ds-card-desc { font-family: 'Inter', system-ui, sans-serif; font-size: 13px; color: #66666B; line-height: 1.5; }"
+    },
+    {
+      "name": "Dark Field",
+      "kind": "input",
+      "description": "Night-world input: translucent bone fill with mono kicker label.",
+      "html": "<div><label class=\"ds-field-label\">Organization</label><input class=\"ds-field\" placeholder=\"Acme Labs\" /></div>",
+      "css": ".ds-field-label { font-family: 'Space Mono', ui-monospace, monospace; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: #8C887E; margin-bottom: 6px; display: block; } .ds-field { width: 220px; background: rgba(237,235,228,.06); border: 1px solid rgba(237,235,228,.2); border-radius: 8px; padding: 11px 13px; color: #EDEBE4; font-family: 'Inter', system-ui, sans-serif; font-size: 14px; outline: none; } .ds-field:focus-visible { border-color: rgba(237,235,228,.5); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Research Ledger",
+    "overview": "BENCHLY reads like a rigorous, modern registry: evidence recorded in near-black ink on off-white grey paper, with exactly one highlighter — signature lime — reserved for the moments that matter. Monochrome by conviction, sharp and contemporary in voice, with muted semantic tier and category colors doing the only other talking. Two inverted registers share one voice: the light catalog world for browsing, the night world for landing, methodology, and the access gate.",
+    "keyCharacteristics": [
+      "Monochrome ink-on-paper base; color is always semantic or the single lime accent",
+      "Sharp tech-editorial type: Space Grotesk display, Inter body, Space Mono uppercase labels",
+      "Pill-shaped interactive elements against rectangular hairline-bordered data surfaces",
+      "Two inverted registers (paper catalog / night landing) sharing one voice"
+    ],
+    "rules": [
+      { "name": "The One Highlighter Rule", "body": "Lime appears only where the user should act or look next — never as decoration, never more than one lime element per viewport region. Its rarity is the point.", "section": "colors" },
+      { "name": "The Semantic Color Rule", "body": "Every non-neutral color on screen must mean something (a tier, a category, or the accent). No mood colors.", "section": "colors" },
+      { "name": "The Mono Kicker Rule", "body": "Every section and form field is introduced by a Space Mono uppercase label with wide tracking. It is the ledger's stamp.", "section": "typography" },
+      { "name": "The Flat Ledger Rule", "body": "No box-shadows at rest. Separation comes from tone and hairline, matching the printed-registry metaphor.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep lime (#F1FE67) paired exclusively with ink text and limited to one focal action per region.",
+      "Do introduce every section/field with a Space Mono uppercase kicker (.12em+ tracking).",
+      "Do use pills for anything clickable and small radii (8–18px) for anything that holds content.",
+      "Do pull semantic colors from the existing tier and category palettes rather than inventing new hues."
+    ],
+    "donts": [
+      "Don't add box-shadows at rest or gradients outside the lime data-bars.",
+      "Don't introduce new accent colors — the system is monochrome plus lime plus semantic hues.",
+      "Don't use light text on lime, or lime on the light paper background in large fields.",
+      "Don't swap the substituted fonts (Space Grotesk / Space Mono / Inter) for serifs or geometric display faces."
+    ]
+  }
+}

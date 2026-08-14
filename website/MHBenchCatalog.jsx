@@ -1029,20 +1029,34 @@ function OrbitCards({ items, go }) {
   useEffect(() => {
     const N = items.length;
     if (!N) return;
-    const RX = 300, RY = 68, BASE = 0.54, PERIOD = 42000; // slow revolution
+    const RX = 300, RY = 68, BASE = 0.54, PERIOD = 68000; // slow revolution
     const apply = (base) => {
+      // Pass 1: depths, to find the front card. While its guide callouts are
+      // visible the other cards fade far back so the labels never sit on top
+      // of a readable card; everything eases on the same curve (t).
+      const depths = [];
+      let frontI = 0;
+      for (let i = 0; i < N; i++) {
+        const a = base + (i / N) * Math.PI * 2;
+        depths[i] = (Math.sin(a) + 1) / 2;           // 0 = back/top, 1 = front/bottom
+        if (depths[i] > depths[frontI]) frontI = i;
+      }
+      const t = Math.min(1, Math.max(0, (depths[frontI] - 0.9) / 0.09));
       for (let i = 0; i < N; i++) {
         const el = wrapRefs.current[i];
         if (!el) continue;
         const a = base + (i / N) * Math.PI * 2;
         const x = Math.cos(a) * RX;
         const y = Math.sin(a) * RY;
-        const depth = (Math.sin(a) + 1) / 2;         // 0 = back/top, 1 = front/bottom
+        const depth = depths[i];
         const s = BASE * (0.8 + depth * 0.34);
         el.style.transform = `translate(-50%,-50%) translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${s.toFixed(3)})`;
-        el.style.opacity = (0.5 + depth * 0.5).toFixed(3);
+        const baseO = 0.5 + depth * 0.5;
+        el.style.opacity = (i === frontI ? baseO : baseO * (1 - 0.8 * t)).toFixed(3);
         el.style.zIndex = String(Math.round(depth * 100));
         el.style.filter = depth < 0.5 ? `blur(${((0.5 - depth) * 3.4).toFixed(2)}px)` : "none";
+        el.style.setProperty("--inv", (1 / s).toFixed(3));
+        el.style.setProperty("--guide-o", (i === frontI ? t : 0).toFixed(3));
       }
     };
     const reduce = typeof window !== "undefined" && window.matchMedia
@@ -1060,10 +1074,40 @@ function OrbitCards({ items, go }) {
 
   return (
     <div style={{ position: "relative", height: 640, margin: "0 auto", maxWidth: 1040, overflow: "hidden" }}>
+      {/* How-to-read-a-card guide: callout chips ride on each card and fade in
+          as it reaches the front; the orbit loop fades the OTHER cards back at
+          the same time so the labels never overlap a readable card. */}
+      <style>{`
+        .cardguide{position:absolute;inset:0;opacity:var(--guide-o,0);pointer-events:none}
+        .cg-item{position:absolute;display:flex;align-items:center;font-size:calc(13px * var(--inv,1))}
+        .cg-l{right:100%;flex-direction:row}
+        .cg-r{left:100%;flex-direction:row-reverse}
+        .cg-line{width:2.4em;height:.11em;background:rgba(237,235,228,.75);flex-shrink:0}
+        .cg-dot{width:.5em;height:.5em;border-radius:999px;background:#FFFFFF;flex-shrink:0}
+        .cg-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:600;font-size:1em;color:#FFFFFF;line-height:1.45;white-space:nowrap;background:rgba(11,10,9,.92);border:.09em solid rgba(237,235,228,.32);border-radius:.5em;padding:.5em .85em}
+        .cg-l .cg-label{text-align:right;margin-right:.7em}
+        .cg-r .cg-label{text-align:left;margin-left:.7em}
+        .cg-sub{display:block;font-family:'Space Mono','Roboto Mono',ui-monospace,monospace;font-weight:400;font-size:.85em;color:#B7B2A8;margin-top:.15em}
+        @media (max-width: 860px){.cardguide{display:none}}
+      `}</style>
       {items.map((b, i) => (
         <div key={b.id} ref={(el) => (wrapRefs.current[i] = el)}
           style={{ position: "absolute", top: "50%", left: "50%", width: 250, willChange: "transform, opacity, filter" }}>
-          <BenchTile b={b} showRigor={false} catColor={null} onClick={() => go("catalog")} />
+          <BenchTile b={b} showRigor={true} catColor={null} onClick={() => go("catalog")} />
+          <div className="cardguide" aria-hidden="true">
+            <div className="cg-item cg-l" style={{ top: 26 }}>
+              <span className="cg-label">Benchmark name</span><span className="cg-line" /><span className="cg-dot" />
+            </div>
+            <div className="cg-item cg-r" style={{ top: 26 }}>
+              <span className="cg-label">Rigor ratings<span className="cg-sub">safety · clinical · method</span></span><span className="cg-line" /><span className="cg-dot" />
+            </div>
+            <div className="cg-item cg-l" style={{ top: 175 }}>
+              <span className="cg-label">Color = task category</span><span className="cg-line" /><span className="cg-dot" />
+            </div>
+            <div className="cg-item cg-r" style={{ top: 305 }}>
+              <span className="cg-label">Tasks<span className="cg-sub">filter the catalog by these</span></span><span className="cg-line" /><span className="cg-dot" />
+            </div>
+          </div>
         </div>
       ))}
     </div>
@@ -1138,7 +1182,10 @@ function LandingPage({ go, data }) {
 
   const runnableCount = data.filter((b) => runHrefFor(b)).length;
   const featured = [...data]
-    .sort((a, b) => (runHrefFor(b) ? 1 : 0) - (runHrefFor(a) ? 1 : 0) || (b.sizeNum || 0) - (a.sizeNum || 0))
+    .sort((a, b) =>
+      (runHrefFor(b) ? 1 : 0) - (runHrefFor(a) ? 1 : 0) ||
+      (benchRatings(b) ? 1 : 0) - (benchRatings(a) ? 1 : 0) ||
+      (b.sizeNum || 0) - (a.sizeNum || 0))
     .slice(0, 6);
 
   return (
@@ -1149,30 +1196,38 @@ function LandingPage({ go, data }) {
       {/* Dark full-screen hero — giant wordmark (Monolog-style). Shares the
           page-wide pagefx smoke, so there's a single continuous gradient. */}
       <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 40px" }}>
+            {/* Load-in choreography: one staged entrance for the hero — each
+                piece rises and sharpens in sequence. Respects reduced-motion. */}
+            <style>{`
+              @keyframes heroin { from { opacity: 0; transform: translateY(22px); filter: blur(5px); } to { opacity: 1; transform: none; filter: none; } }
+              .heroin { animation: heroin .9s cubic-bezier(.16,1,.3,1) both; }
+              @media (prefers-reduced-motion: reduce) { .heroin { animation: none; } }
+            `}</style>
 
-        {/* top-centered title + entry buttons */}
-        <div style={{ position: "relative", maxWidth: 780, margin: "0 auto", textAlign: "center" }}>
-          <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(34px, 6vw, 78px)", lineHeight: 1.03, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 640 }}>
-            The Mental Health Benchmark Catalog
-          </h1>
-          <p style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "22px auto 0", maxWidth: 520 }}>
-            We index how AI models are really tested on mental-health tasks: what each benchmark measures, and how far to trust it.
-          </p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 28, flexWrap: "wrap" }}>
-            <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "12px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
-            <button onClick={() => go("method")} style={{ background: "transparent", color: "#EDEBE4", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
-          </div>
-        </div>
-
-        {/* bottom stat row — pinned to the bottom so the intro stays centered */}
-        <div style={{ position: "absolute", left: 32, right: 32, bottom: 40 }}>
-          <div className="herobottom">
-            <div>
-              <div style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 54px)", fontWeight: 700, letterSpacing: "-.03em", lineHeight: 1 }}><CountUp to={total} suffix="+" /></div>
-              <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: "#8C887E", marginTop: 8, lineHeight: 1.5 }}>Benchmarks catalogued<br />(arXiv · PubMed · medRxiv)</div>
+            {/* top-centered title + entry buttons */}
+            <div style={{ position: "relative", maxWidth: 780, margin: "0 auto", textAlign: "center" }}>
+              <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 700, lineHeight: 1.02, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 720, textWrap: "balance" }}>
+                <span className="heroin" style={{ display: "block", fontSize: "clamp(19px, 2.6vw, 30px)", fontWeight: 500, letterSpacing: "-.02em", color: "#B7B2A8", marginBottom: 12, animationDelay: ".05s" }}>The Mental Health</span>
+                <span className="heroin" style={{ display: "block", fontSize: "clamp(42px, 7.4vw, 92px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
+              </h1>
+              <p className="heroin" style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "22px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
+                We index how AI models are really tested on mental-health tasks: what each benchmark measures, and how far to trust it.
+              </p>
+              <div className="heroin" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 28, flexWrap: "wrap", animationDelay: ".46s" }}>
+                <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "12px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
+                <button onClick={() => go("method")} style={{ background: "transparent", color: "#EDEBE4", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
+              </div>
             </div>
-          </div>
-        </div>
+
+            {/* bottom stat row — pinned to the bottom so the intro stays centered */}
+            <div className="heroin" style={{ position: "absolute", left: 32, right: 32, bottom: 40, animationDelay: ".62s", willChange: "transform, opacity, filter" }}>
+              <div className="herobottom">
+                <div>
+                  <div style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 54px)", fontWeight: 700, letterSpacing: "-.03em", lineHeight: 1 }}><CountUp to={total} suffix="+" /></div>
+                  <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: "#8C887E", marginTop: 8, lineHeight: 1.5 }}>Benchmarks catalogued<br />(arXiv · PubMed · medRxiv)</div>
+                </div>
+              </div>
+            </div>
       </section>
 
       {/* By the numbers — dark data dashboard (replaces the old rigor stats) */}
