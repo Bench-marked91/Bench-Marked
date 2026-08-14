@@ -296,10 +296,20 @@ const RUBRIC_SCORES = [
 // Tier colors for the three-score ratings.
 const TIER_COLORS = { Strong: "#3C6E5A", Moderate: "#8A6D3B", Weak: "#B5502E" };
 
+/* ------------------------------------------------------------------ *
+ *  LAUNCH SWITCHBOARD — controls which sections ship in the current
+ *  release. Parked sections stay fully working in this file; flip a
+ *  value from false to true to bring one back in a later launch.
+ * ------------------------------------------------------------------ */
+const LAUNCH = {
+  rateRigorHeroButton: false, // landing hero: "How we rate rigor" button
+  methodRubric: false,        // methodology page: "How we rate a benchmark" rubric section
+};
+
 // FAQ content (from PLAN.md / TEAM-SUMMARY.md).
 const FAQS = [
   { q: "What is this catalog?", a: "A curated, growing index of benchmarks used to evaluate large language models on clinical mental-health tasks: what each one measures, how it was built, and how rigorous it looks. It's drawn from our team's research sheet and kept current by an automated find → filter → extract pipeline with human review." },
-  { q: "How are the rigor tiers computed?", a: "They're provisional, from a draft five-dimension rubric: construct validity, ground-truth quality, sample size, population realism, and transparency. A tier is only assigned when at least three dimensions have data; otherwise a benchmark is shown as Unrated. Human appraisal will eventually replace the automatic tiers. See the Rubric page." },
+  { q: "How are the rigor tiers computed?", a: "They're provisional, from a draft five-dimension rubric: construct validity, ground-truth quality, sample size, population realism, and transparency. A tier is only assigned when at least three dimensions have data; otherwise a benchmark is shown as Unrated. Human appraisal will eventually replace the automatic tiers." + (LAUNCH.methodRubric ? " See the Rubric page." : "") },
   { q: "Can I run a benchmark myself?", a: "Yes. A few benchmarks have a “Run this benchmark” button. You bring your own API key (OpenAI or Anthropic), the test runs entirely in your browser, your key is never stored or sent to us, and you see your model's score. More benchmarks become runnable over time, one at a time." },
   { q: "Where does the data come from?", a: "New papers are found automatically from arXiv, PubMed, and medRxiv, filtered for relevance, and their facts extracted into a consistent schema. Quality appraisal is done by human reviewers, not the machine." },
   { q: "What does it cost to run a benchmark?", a: "Only your own model API usage, typically a few cents for a small sample, since you choose how many items to run. The catalog itself is free to browse." },
@@ -1215,7 +1225,9 @@ function LandingPage({ go, data }) {
               </p>
               <div className="heroin" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 28, flexWrap: "wrap", animationDelay: ".46s" }}>
                 <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "12px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
-                <button onClick={() => go("method")} style={{ background: "transparent", color: "#EDEBE4", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
+                {LAUNCH.rateRigorHeroButton && (
+                  <button onClick={() => go("method")} style={{ background: "transparent", color: "#EDEBE4", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
+                )}
               </div>
             </div>
 
@@ -1512,12 +1524,15 @@ function MethodPage({ go }) {
             <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 18 }}>Methodology</div>
             <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 600, fontSize: "clamp(38px, 5.5vw, 66px)", lineHeight: 0.98, letterSpacing: "-.04em", margin: 0 }}>How the catalog works</h1>
             <p style={{ fontSize: 16.5, color: "#B7B2A8", lineHeight: 1.6, margin: "22px 0 0" }}>
-              Two things happen here: an automated pipeline gathers and organizes the benchmarks, then people rate each
-              one against a clear rubric. Below is the pipeline; further down is exactly how the ratings are decided.
+              {LAUNCH.methodRubric
+                ? "Two things happen here: an automated pipeline gathers and organizes the benchmarks, then people rate each one against a clear rubric. Below is the pipeline; further down is exactly how the ratings are decided."
+                : "An automated pipeline gathers and organizes the benchmarks, then human reviewers appraise each one before it goes live. Below is the pipeline, step by step."}
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 26 }}>
               <button onClick={() => scrollToId("sec-pipeline")} style={{ appearance: "none", cursor: "pointer", background: "transparent", border: "1px solid rgba(237,235,228,.28)", borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#EDEBE4" }}>The pipeline</button>
-              <button onClick={() => scrollToId("sec-rubric")} style={{ appearance: "none", cursor: "pointer", background: C.lime, border: `1px solid ${C.lime}`, borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#080A21", fontWeight: 700 }}>How we rate benchmarks →</button>
+              {LAUNCH.methodRubric && (
+                <button onClick={() => scrollToId("sec-rubric")} style={{ appearance: "none", cursor: "pointer", background: C.lime, border: `1px solid ${C.lime}`, borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#080A21", fontWeight: 700 }}>How we rate benchmarks →</button>
+              )}
             </div>
           </section>
 
@@ -1538,7 +1553,9 @@ function MethodPage({ go }) {
         </div>
       </div>
 
-      {/* Rubric (light) — the three-score framework, on the off-white canvas */}
+      {/* Rubric (light) — the three-score framework, on the off-white canvas.
+          Parked behind LAUNCH.methodRubric for a later release. */}
+      {LAUNCH.methodRubric && (
       <div style={{ background: "#EBEBEB" }}>
       <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 24px 24px" }}>
         <section id="sec-rubric" style={{ scrollMarginTop: 16, padding: "56px 0 8px" }}>
@@ -1582,6 +1599,7 @@ function MethodPage({ go }) {
         </section>
       </div>
       </div>
+      )}
     </>
   );
 }
