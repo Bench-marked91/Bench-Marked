@@ -1085,33 +1085,6 @@ function GrowthLine({ rows }) {
   );
 }
 
-// Terminal-style typewriter: types `text` character by character after
-// `startDelay`, with a blinking block cursor that fades out when done.
-// Reduced-motion renders the finished sentence immediately.
-function TypeLine({ text, startDelay = 850, speed = 20 }) {
-  const [i, setI] = useState(0);
-  const [started, setStarted] = useState(false);
-  useEffect(() => {
-    const reduce = typeof window !== "undefined" && window.matchMedia
-      && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) { setI(text.length); setStarted(true); return; }
-    const t0 = setTimeout(() => setStarted(true), startDelay);
-    return () => clearTimeout(t0);
-  }, []);
-  useEffect(() => {
-    if (!started || i >= text.length) return;
-    const t = setTimeout(() => setI(i + 1), speed);
-    return () => clearTimeout(t);
-  }, [started, i]);
-  const done = i >= text.length;
-  return (
-    <span>
-      {text.slice(0, i)}
-      <span aria-hidden="true" style={{ display: "inline-block", width: 7, height: "1.05em", verticalAlign: "text-bottom", marginLeft: 2, background: "#EF9043", animation: "typeblink 1s steps(1) infinite", opacity: done ? 0 : 1, transition: done ? "opacity .8s ease 1.4s" : "none" }} />
-    </span>
-  );
-}
-
 // Minimalist count-up: rapidly ticks 0 -> `to` on mount and lands there,
 // easeOut at a ~30fps cadence. Flat and clean (no shadow); tabular figures keep
 // the width steady. Respects reduced-motion by snapping to the final value.
@@ -1317,44 +1290,23 @@ function LandingPage({ go, data }) {
       {/* Dark full-screen hero — giant wordmark (Monolog-style) on the solid navy base. */}
 
 
-      <section
-        onMouseMove={(e) => { const t = e.currentTarget, r = t.getBoundingClientRect(); t.style.setProperty("--mx", (e.clientX - r.left) + "px"); t.style.setProperty("--my", (e.clientY - r.top) + "px"); }}
-        style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 48px" }}>
+      <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 48px" }}>
             {/* Load-in choreography: one staged entrance for the hero — each
                 piece rises and sharpens in sequence. Respects reduced-motion. */}
             <style>{`
               @keyframes heroin { from { opacity: 0; transform: translateY(22px); filter: blur(5px); } to { opacity: 1; transform: none; filter: none; } }
               .heroin { animation: heroin .9s cubic-bezier(.16,1,.3,1) both; }
-              @keyframes typeblink { 50% { opacity: 0; } }
-              .lamp-wm { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 6px; pointer-events: none; user-select: none; overflow: hidden; }
-              .lamp-wm span { font-family: 'Lexend', 'Segoe UI', system-ui, sans-serif; font-weight: 400; font-size: clamp(36px, 6.4vw, 88px); line-height: 1.05; letter-spacing: -.03em; white-space: nowrap; color: #EDEBE4; text-align: center; }
-              .lamp-base { opacity: .04; }
-              .lamp-lit { opacity: .13;
-                -webkit-mask-image: radial-gradient(circle 260px at var(--mx, 50%) var(--my, 45%), #000 0%, transparent 72%);
-                mask-image: radial-gradient(circle 260px at var(--mx, 50%) var(--my, 45%), #000 0%, transparent 72%); }
               @media (prefers-reduced-motion: reduce) { .heroin { animation: none; } }
             `}</style>
 
-            {/* reading-lamp watermark: the nine task categories, revealed under the cursor */}
-            <div className="lamp-wm lamp-base" aria-hidden="true">
-              {TASK_ORDER.map((t) => <span key={t}>{t}</span>)}
-            </div>
-            <div className="lamp-wm lamp-lit" aria-hidden="true">
-              {TASK_ORDER.map((t) => <span key={t}>{t}</span>)}
-            </div>
-
             {/* one centered composition: lockup, copy, CTA, then the numbers */}
-            <div style={{ position: "relative", zIndex: 1, maxWidth: 860, margin: "0 auto", textAlign: "center" }}>
+            <div style={{ position: "relative", maxWidth: 860, margin: "0 auto", textAlign: "center" }}>
               <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, lineHeight: 1.02, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 720, textWrap: "balance" }}>
                 <span className="heroin" style={{ display: "block", fontSize: "clamp(19px, 2.6vw, 30px)", fontWeight: 400, letterSpacing: "-.02em", color: "#B7B2A8", marginBottom: 12, animationDelay: ".05s" }}>The Mental Health</span>
                 <span className="heroin" style={{ display: "block", fontSize: "clamp(42px, 7.4vw, 92px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
               </h1>
-              {/* typewriter subtitle — full text reserves the space invisibly so nothing shifts */}
-              <p style={{ position: "relative", fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "22px auto 0", maxWidth: 520 }}>
-                <span style={{ visibility: "hidden" }}>We aggregate all published benchmarks that test AI models on mental health tasks into one catalog, so you don’t have to.</span>
-                <span style={{ position: "absolute", inset: 0 }}>
-                  <TypeLine text="We aggregate all published benchmarks that test AI models on mental health tasks into one catalog, so you don’t have to." />
-                </span>
+              <p className="heroin" style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "22px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
+                We aggregate all published benchmarks that test AI models on mental health tasks into one catalog, so you don’t have to.
               </p>
               <div className="heroin" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 28, flexWrap: "wrap", animationDelay: ".46s" }}>
                 <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "12px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
@@ -1366,7 +1318,7 @@ function LandingPage({ go, data }) {
             </div>
 
             {/* by the numbers — big figures spread across the bottom of the hero */}
-            <div className="heroin" style={{ position: "absolute", left: 32, right: 32, bottom: 44, zIndex: 1, animationDelay: ".62s" }}>
+            <div className="heroin" style={{ position: "absolute", left: 32, right: 32, bottom: 44, animationDelay: ".62s" }}>
               <div style={{ maxWidth: 1160, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "30px 48px" }}>
                 {[
                   [total, "+", "Benchmarks catalogued"],
