@@ -201,9 +201,9 @@ function App() {
   results.forEach((r) => { perClass[r.gold].n++; if (r.correct) perClass[r.gold].ok++; });
 
   return (
-    <div style={{ maxWidth: 860, margin: "0 auto", padding: "34px 20px 80px", fontFamily: "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif", color: "#080807" }}>
+    <div style={{ maxWidth: 860, margin: "0 auto", padding: "34px 20px 80px", fontFamily: "'EB Garamond', Georgia, 'Times New Roman', serif", color: "#080807" }}>
       <a href="./" style={{ color: "#7C766B", textDecoration: "none", fontSize: 13, fontFamily: "'Roboto Mono', monospace", letterSpacing: ".04em" }}>← BACK TO CATALOG</a>
-      <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 5vw, 44px)", fontWeight: 600, letterSpacing: "-.035em", lineHeight: 1.02, margin: "16px 0 6px" }}>Run this benchmark</h1>
+      <h1 style={{ fontFamily: "'Lexend', sans-serif", fontSize: "clamp(30px, 5vw, 44px)", fontWeight: 600, letterSpacing: "-.035em", lineHeight: 1.02, margin: "16px 0 6px" }}>Run this benchmark</h1>
       <div style={{ fontSize: 18, fontWeight: 600, color: "#3C3830" }}>{bench.benchmark}</div>
       <p style={{ color: "#475467", fontSize: 14, lineHeight: 1.55 }}>
         {bench.task} This is <b>our recreation</b> of{" "}
@@ -275,7 +275,7 @@ function App() {
           <div style={{ height: 8, background: "#eef2f6", borderRadius: 99, overflow: "hidden", margin: "10px 0 16px" }}>
             <div style={{ height: "100%", width: `${(done / size) * 100}%`, background: "#17150F", transition: "width .2s" }} />
           </div>
-          <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 52, fontWeight: 600, letterSpacing: "-.03em", color: "#080807" }}>{acc.toFixed(1)}%</div>
+          <div style={{ fontFamily: "'Lexend', sans-serif", fontSize: 52, fontWeight: 600, letterSpacing: "-.03em", color: "#080807" }}>{acc.toFixed(1)}%</div>
           <div style={{ color: "#667085", fontSize: 14, marginBottom: 16 }}>accuracy — {nCorrect} of {results.length} correct</div>
 
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>

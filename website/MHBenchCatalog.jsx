@@ -31,10 +31,10 @@ const C = {
   unrated: "#938F8A",    // black-50
 };
 
-// Fonts substituted for their licensed webfonts: Khteka→Space Grotesk (display),
-// Suisse Mono→Space Mono. Body stays Inter (clean neo-grotesque).
-const FONT_SANS = "'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
-const FONT_SERIF = "'Space Grotesk', 'Inter', system-ui, sans-serif"; // display/headings
+// Site fonts: Lexend for titles/display, EB Garamond for body text,
+// Space Mono for labels/metadata.
+const FONT_SANS = "'EB Garamond', Georgia, 'Times New Roman', serif"; // body
+const FONT_SERIF = "'Lexend', 'Segoe UI', system-ui, sans-serif";     // display/headings
 const FONT_MONO = "'Space Mono', 'Roboto Mono', ui-monospace, monospace";
 
 const TIER = {
@@ -57,8 +57,8 @@ const ED = {
   ink: "#080807",      // ink
   muted: "#66666B",    // neutral grey text
   line: "#CFCFCF",     // neutral grey hairline
-  display: "'Space Grotesk', 'Inter', system-ui, sans-serif",
-  body: "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+  display: "'Lexend', 'Segoe UI', system-ui, sans-serif",
+  body: "'EB Garamond', Georgia, 'Times New Roman', serif",
 };
 // Muted editorial palette for each card's top color-banner (deterministic per study).
 const ED_BAND = ["#B5502E", "#3C6E5A", "#4A5B9E", "#8A6D3B", "#7C4A73", "#2F6D77", "#A65A4E", "#586A3A"];
@@ -618,7 +618,7 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: FONT_SANS, background: C.paper, color: C.ink, minHeight: "100%" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap');
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lexend:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
         button:focus-visible { outline: 2px solid ${C.accent}; outline-offset: 2px; }
         a { color: ${C.brand}; }
@@ -1095,7 +1095,7 @@ function OrbitCards({ items, go }) {
         .cg-r{left:100%;flex-direction:row-reverse}
         .cg-line{width:2.4em;height:.11em;background:rgba(237,235,228,.75);flex-shrink:0}
         .cg-dot{width:.5em;height:.5em;border-radius:999px;background:#FFFFFF;flex-shrink:0}
-        .cg-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:600;font-size:1em;color:#FFFFFF;line-height:1.45;white-space:nowrap;background:rgba(11,10,9,.92);border:.09em solid rgba(237,235,228,.32);border-radius:.5em;padding:.5em .85em}
+        .cg-label{font-family:'Lexend','Segoe UI',system-ui,sans-serif;font-weight:500;font-size:1em;color:#FFFFFF;line-height:1.45;white-space:nowrap;background:rgba(11,10,9,.92);border:.09em solid rgba(237,235,228,.32);border-radius:.5em;padding:.5em .85em}
         .cg-l .cg-label{text-align:right;margin-right:.7em}
         .cg-r .cg-label{text-align:left;margin-left:.7em}
         .cg-sub{display:block;font-family:'Space Mono','Roboto Mono',ui-monospace,monospace;font-weight:400;font-size:.85em;color:#B7B2A8;margin-top:.15em}
