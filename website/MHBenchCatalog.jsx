@@ -1205,27 +1205,25 @@ function LandingPage({ go, data }) {
           see git history / pre-1.0 tag to restore it). */}
       <div style={{ position: "relative", zIndex: 1 }}>
       {/* Dark full-screen hero — giant wordmark (Monolog-style) on the solid navy base. */}
-      <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 40px" }}>
+      <section style={{ position: "relative", color: "#EDEBE4", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "112px 32px 12px" }}>
             {/* Load-in choreography: one staged entrance for the hero — each
                 piece rises and sharpens in sequence. Respects reduced-motion. */}
             <style>{`
               @keyframes heroin { from { opacity: 0; transform: translateY(22px); filter: blur(5px); } to { opacity: 1; transform: none; filter: none; } }
               .heroin { animation: heroin .9s cubic-bezier(.16,1,.3,1) both; }
-              @keyframes scrollcue { 0% { transform: translateY(0); opacity: 0; } 25% { opacity: 1; } 75% { opacity: 1; } 100% { transform: translateY(30px); opacity: 0; } }
-              .scrollcue-seg { animation: scrollcue 2.1s cubic-bezier(.45,0,.35,1) infinite; }
-              @media (prefers-reduced-motion: reduce) { .heroin { animation: none; } .scrollcue-seg { animation: none; transform: translateY(15px); opacity: 1; } }
+              @media (prefers-reduced-motion: reduce) { .heroin { animation: none; } }
             `}</style>
 
             {/* top-centered title + entry buttons */}
             <div style={{ position: "relative", maxWidth: 780, margin: "0 auto", textAlign: "center" }}>
               <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 700, lineHeight: 1.02, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 720, textWrap: "balance" }}>
-                <span className="heroin" style={{ display: "block", fontSize: "clamp(19px, 2.6vw, 30px)", fontWeight: 500, letterSpacing: "-.02em", color: "#B7B2A8", marginBottom: 12, animationDelay: ".05s" }}>The Mental Health</span>
-                <span className="heroin" style={{ display: "block", fontSize: "clamp(42px, 7.4vw, 92px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
+                <span className="heroin" style={{ display: "block", fontSize: "clamp(16px, 2vw, 22px)", fontWeight: 500, letterSpacing: "-.02em", color: "#B7B2A8", marginBottom: 8, animationDelay: ".05s" }}>The Mental Health</span>
+                <span className="heroin" style={{ display: "block", fontSize: "clamp(32px, 5vw, 60px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
               </h1>
-              <p className="heroin" style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "22px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
+              <p className="heroin" style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "16px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
                 We index how AI models are really tested on mental-health tasks: what each benchmark measures, and how far to trust it.
               </p>
-              <div className="heroin" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 28, flexWrap: "wrap", animationDelay: ".46s" }}>
+              <div className="heroin" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 22, flexWrap: "wrap", animationDelay: ".46s" }}>
                 <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "12px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
                 {LAUNCH.rateRigorHeroButton && (
                   <button onClick={() => go("method")} style={{ background: "transparent", color: "#EDEBE4", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
@@ -1245,24 +1243,13 @@ function LandingPage({ go, data }) {
             </div>
             )}
 
-            {/* scroll cue — bottom-center marker guiding visitors down; also a button */}
-            <button
-              onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
-              aria-label="Scroll down"
-              className="heroin"
-              style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", bottom: 26, animationDelay: ".8s", background: "transparent", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: 6 }}>
-              <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".22em", textTransform: "uppercase", color: "#8C887E" }}>Scroll</span>
-              <span style={{ position: "relative", width: 1, height: 46, background: "rgba(237,235,228,.18)", overflow: "hidden", display: "block" }}>
-                <span className="scrollcue-seg" style={{ position: "absolute", top: 0, left: 0, width: 1, height: 16, background: "#EDEBE4", display: "block" }} />
-              </span>
-            </button>
       </section>
 
       {/* By the numbers — dark data dashboard (replaces the old rigor stats) */}
       <section style={{ color: DASH_INK }}>
         <style>{`.dashbar{transition:opacity .16s ease,transform .16s ease}.dashbar:hover{opacity:.8}`}</style>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 32px 82px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "36px 32px 82px" }}>
+          <div className="heroin" style={{ display: "flex", alignItems: "center", gap: 12, animationDelay: ".6s" }}>
             <span style={{ width: 20, height: 20, borderRadius: 999, background: C.lime, flexShrink: 0 }} />
             <span style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".18em", textTransform: "uppercase", color: DASH_MUTED }}>By the numbers</span>
           </div>
