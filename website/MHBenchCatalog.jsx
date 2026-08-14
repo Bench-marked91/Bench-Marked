@@ -1756,6 +1756,21 @@ function CatalogPage({ data, error }) {
       {/* Two columns: left vertical filter + controls, right horizontal tile gallery */}
       <div className="catlayout">
         <aside style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {/* search + sort first */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 22 }}>
+            <div style={{ position: "relative" }}>
+              <Search size={14} color={ED.muted} style={{ position: "absolute", left: 12, top: 11 }} />
+              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search…"
+                style={{ width: "100%", padding: "9px 12px 9px 32px", fontFamily: ED.body, fontSize: 13.5, border: `1px solid ${ED.line}`, borderRadius: 8, background: "rgba(237,235,228,.07)", color: ED.ink, boxSizing: "border-box" }} />
+            </div>
+            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: ED.body, fontSize: 13.5, padding: "9px 12px", border: `1px solid ${ED.line}`, borderRadius: 8, background: "#2A5580", color: ED.ink, cursor: "pointer" }}>
+              <option value="name">Sort: Name (A-Z)</option>
+              <option value="year">Sort: Year (newest)</option>
+              {LAUNCH.ratings && <option value="rigor">Sort: Rating (best first)</option>}
+              <option value="size">Sort: Size (largest)</option>
+            </select>
+          </div>
+
           <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 8 }}>
             <span style={{ width: 9, height: 9, borderRadius: 999, background: ED.ink, display: "inline-block" }} />
             <span style={{ fontFamily: FONT_MONO, fontSize: 12, letterSpacing: ".08em", textTransform: "uppercase", color: ED.ink }}>Filter by category</span>
@@ -1764,20 +1779,6 @@ function CatalogPage({ data, error }) {
           {categories.map((c) => (
             <VChip key={c} label={c} on={catFilter === c} onClick={() => setCatFilter(catFilter === c ? null : c)} />
           ))}
-
-          <div style={{ marginTop: 22, display: "flex", flexDirection: "column", gap: 10 }}>
-            <div style={{ position: "relative" }}>
-              <Search size={14} color={ED.muted} style={{ position: "absolute", left: 12, top: 11 }} />
-              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search…"
-                style={{ width: "100%", padding: "9px 12px 9px 32px", fontFamily: ED.body, fontSize: 13.5, border: `1px solid ${ED.line}`, borderRadius: 8, background: "rgba(237,235,228,.07)", color: ED.ink, boxSizing: "border-box" }} />
-            </div>
-            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: ED.body, fontSize: 13.5, padding: "9px 12px", border: `1px solid ${ED.line}`, borderRadius: 8, background: "#12142E", color: ED.ink, cursor: "pointer" }}>
-              <option value="name">Sort: Name (A-Z)</option>
-              <option value="year">Sort: Year (newest)</option>
-              {LAUNCH.ratings && <option value="rigor">Sort: Rating (best first)</option>}
-              <option value="size">Sort: Size (largest)</option>
-            </select>
-          </div>
         </aside>
 
         <div style={{ minWidth: 0 }}>
