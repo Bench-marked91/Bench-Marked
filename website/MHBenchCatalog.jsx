@@ -1283,17 +1283,20 @@ function LandingPage({ go, data }) {
                 )}
               </div>
 
-              {/* by the numbers — centered strip, part of the hero */}
-              <div className="heroin" style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flexWrap: "wrap", gap: "30px 64px", marginTop: 58, animationDelay: ".62s" }}>
+            </div>
+
+            {/* by the numbers — big figures spread across the bottom of the hero */}
+            <div className="heroin" style={{ position: "absolute", left: 32, right: 32, bottom: 44, animationDelay: ".62s" }}>
+              <div style={{ maxWidth: 1160, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "30px 48px" }}>
                 {[
                   [total, "+", "Benchmarks catalogued"],
                   [TASK_ORDER.length, "", "Task categories"],
                   [openCount, "", "Open-source"],
                   [multiTurn, "", "Multi-turn"],
                 ].map(([n, suffix, label]) => (
-                  <div key={label} style={{ textAlign: "center", minWidth: 110 }}>
-                    <div style={{ fontFamily: FONT_SERIF, fontWeight: 400, letterSpacing: "-.03em", lineHeight: 1, fontSize: "clamp(30px, 3.6vw, 46px)", color: "#EDEBE4" }}><CountUp to={n} suffix={suffix} /></div>
-                    <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: "#B9CDDE", marginTop: 9, lineHeight: 1.4 }}>{label}</div>
+                  <div key={label} style={{ textAlign: "center", minWidth: 150, flex: "1 1 150px" }}>
+                    <div style={{ fontFamily: FONT_SERIF, fontWeight: 400, letterSpacing: "-.03em", lineHeight: 1, fontSize: "clamp(40px, 5.2vw, 72px)", color: "#EDEBE4" }}><CountUp to={n} suffix={suffix} /></div>
+                    <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "#B9CDDE", marginTop: 10, lineHeight: 1.4 }}>{label}</div>
                   </div>
                 ))}
               </div>
