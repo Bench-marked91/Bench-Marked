@@ -1,13 +1,13 @@
 ---
 name: BENCHLY
-description: Mental-health AI benchmark catalog — a rigorous monochrome ledger with one lime highlighter
+description: Mental-health AI benchmark catalog — a rigorous monochrome ledger with one amber highlighter
 colors:
   paper: "#EBEBEB"
   surface: "#E2E2E2"
   ink: "#080807"
   muted: "#66666B"
   hairline: "#CFCFCF"
-  lime: "#F1FE67"
+  amber: "#EF9043"
   dark-panel: "#181715"
   night: "#0b0a09"
   bone: "#EDEBE4"
@@ -58,8 +58,8 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.chip}"
     padding: "12px 26px"
-  button-lime:
-    backgroundColor: "{colors.lime}"
+  button-amber:
+    backgroundColor: "{colors.amber}"
     textColor: "{colors.ink}"
     rounded: "{rounded.chip}"
     padding: "12px 26px"
@@ -75,12 +75,12 @@ components:
 
 **Creative North Star: "The Research Ledger"**
 
-BENCHLY reads like a rigorous, modern registry: evidence recorded in near-black ink on off-white grey paper, with exactly one highlighter — signature lime (#F1FE67) — reserved for the moments that matter (primary CTAs, the dashboard's data bars). The system is monochrome by conviction, sharp and contemporary in voice (Space Grotesk display, Space Mono metadata), and lets its muted category and tier colors do the only other talking. Whitespace is generous; borders are hairlines; nothing decorative competes with the data.
+BENCHLY reads like a rigorous, modern registry: evidence recorded in near-black ink on off-white grey paper, with exactly one highlighter — signature amber (#EF9043) — reserved for the moments that matter (primary CTAs, the dashboard's data bars). The system is monochrome by conviction, sharp and contemporary in voice (Space Grotesk display, Space Mono metadata), and lets its muted category and tier colors do the only other talking. Whitespace is generous; borders are hairlines; nothing decorative competes with the data.
 
-The site runs two registers of the same ledger: the light catalog world (paper `#EBEBEB`, ink `#080807`) for browsing and comparing, and the night world (`#0b0a09` / `#080A21`, bone text `#EDEBE4`) for the landing, methodology, and access-gate pages — same typography, same pill shapes, same lime accent, inverted mood.
+The site runs two registers of the same ledger: the light catalog world (paper `#EBEBEB`, ink `#080807`) for browsing and comparing, and the night world (`#0b0a09` / `#080A21`, bone text `#EDEBE4`) for the landing, methodology, and access-gate pages — same typography, same pill shapes, same amber accent, inverted mood.
 
 **Key Characteristics:**
-- Monochrome ink-on-paper base; color is always semantic (tier, category) or the single lime accent
+- Monochrome ink-on-paper base; color is always semantic (tier, category) or the single amber accent
 - Sharp tech-editorial type: Space Grotesk display with tight tracking, Inter body, Space Mono uppercase labels
 - Pill-shaped interactive elements against rectangular, hairline-bordered data surfaces
 - Two inverted registers (paper catalog / night landing) sharing one voice
@@ -91,7 +91,7 @@ A monochrome ledger with one highlighter and a strictly semantic supporting cast
 
 ### Primary
 - **Ink** (#080807): Primary text, primary buttons, nav, chart bars. The brand color IS the text color — monochrome like a printed registry.
-- **Signature Lime** (#F1FE67): The one highlighter. Primary CTAs ("Browse the catalog"), gate accept button, dashboard bar gradients (#F4FF7A → #CBDE46). Always carries ink text, never light text.
+- **Signature Amber** (#EF9043): The one highlighter. Primary CTAs ("Browse the catalog"), gate accept button, dashboard bar gradients (#F5A55F → #E0782F). Always carries ink text, never light text.
 
 ### Neutral
 - **Paper** (#EBEBEB): Page background of the catalog world.
@@ -106,7 +106,7 @@ A monochrome ledger with one highlighter and a strictly semantic supporting cast
 - **Category palette**: eight muted editorial hues (rust #B4553E, dusty blue #4F7183, ochre #8F6E2E, moss #5F7A55, coffee #8A6D4B, indigo #6B6191, teal #3F7E74, mauve #8A5560) — one per task category, used for card color-bands and category coding. Tuned to sit on the paper background and carry light text.
 
 ### Named Rules
-**The One Highlighter Rule.** Lime appears only where the user should act or look next — never as decoration, never more than one lime element per viewport region. Its rarity is the point.
+**The One Highlighter Rule.** Amber appears only where the user should act or look next — never as decoration, never more than one amber element per viewport region. Its rarity is the point.
 **The Semantic Color Rule.** Every non-neutral color on screen must mean something (a tier, a category, or the accent). No mood colors.
 
 ## Typography
@@ -129,7 +129,7 @@ A monochrome ledger with one highlighter and a strictly semantic supporting cast
 
 ## Layout
 
-Max content width 1200px, centered, 24px side padding. Generous vertical whitespace between sections; data-dense within panels. Catalog cards sit in a responsive grid with a color top-band per category. The dashboard uses dark rounded panels (radius 16–18px) with lime bar charts. Spacing rhythm is loose multiples of 6–8px (8/12/18/24).
+Max content width 1200px, centered, 24px side padding. Generous vertical whitespace between sections; data-dense within panels. Catalog cards sit in a responsive grid with a color top-band per category. The dashboard uses dark rounded panels (radius 16–18px) with amber bar charts. Spacing rhythm is loose multiples of 6–8px (8/12/18/24).
 
 ## Elevation & Depth
 
@@ -146,7 +146,7 @@ Two form languages, deliberately opposed: **interactive elements are pills** (bo
 ### Buttons
 - **Shape:** Full pill (999px)
 - **Primary:** Ink background, white text, 13px 28px padding, 14px/600 Inter
-- **Lime CTA:** Lime background, ink text, 700 weight — reserved for the single most important action
+- **Amber CTA:** Amber background, ink text, 700 weight — reserved for the single most important action
 - **Outline:** Transparent with 1px ink border (light world) or `rgba(237,235,228,.35)` border with bone text (dark world)
 - **Disabled:** `rgba(237,235,228,.15)` background, half-opacity text, not-allowed cursor
 
@@ -156,7 +156,7 @@ Two form languages, deliberately opposed: **interactive elements are pills** (bo
 
 ### Cards / Containers
 - **Catalog card:** Surface background, 1px hairline border, 8px radius, 18px padding; category color top-band; 26×2px accent underline strip
-- **Dark dashboard panel:** 16–18px radius, dark background, lime gradient bars, bone text
+- **Dark dashboard panel:** 16–18px radius, dark background, amber gradient bars, bone text
 - **Border:** 1px hairline (#CFCFCF light / translucent bone dark)
 
 ### Inputs / Fields
@@ -169,13 +169,13 @@ Two form languages, deliberately opposed: **interactive elements are pills** (bo
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep lime (#F1FE67) paired exclusively with ink text and limited to one focal action per region.
+- **Do** keep amber (#EF9043) paired exclusively with ink text and limited to one focal action per region.
 - **Do** introduce every section/field with a Space Mono uppercase kicker (.12em+ tracking).
 - **Do** use pills for anything clickable and small radii (8–18px) for anything that holds content.
 - **Do** pull semantic colors from the existing tier and category palettes rather than inventing new hues.
 
 ### Don't:
-- **Don't** add box-shadows at rest or gradients outside the lime data-bars.
-- **Don't** introduce new accent colors — the system is monochrome plus lime plus semantic hues.
-- **Don't** use light text on lime, or lime on the light paper background in large fields.
+- **Don't** add box-shadows at rest or gradients outside the amber data-bars.
+- **Don't** introduce new accent colors — the system is monochrome plus amber plus semantic hues.
+- **Don't** use light text on amber, or amber on the light paper background in large fields.
 - **Don't** swap the substituted fonts (Space Grotesk / Space Mono / Inter) for serifs or geometric display faces.

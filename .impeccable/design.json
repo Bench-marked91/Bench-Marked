@@ -6,7 +6,7 @@
     "colorMeta": {
       "paper": { "role": "neutral", "displayName": "Paper Grey", "canonical": "#EBEBEB", "tonalRamp": ["#1f1f1f", "#3d3d3d", "#5c5c5c", "#7a7a7a", "#999999", "#b8b8b8", "#d6d6d6", "#f2f2f2"] },
       "ink": { "role": "primary", "displayName": "Registry Ink", "canonical": "#080807", "tonalRamp": ["#080807", "#262624", "#454541", "#63635e", "#82827b", "#a0a098", "#bfbfb5", "#ddddd2"] },
-      "lime": { "role": "primary", "displayName": "Signature Lime", "canonical": "#F1FE67", "tonalRamp": ["#2a2e00", "#4c5300", "#6e7800", "#909d0f", "#b2c22e", "#d4e74d", "#f1fe67", "#f9ffb3"] },
+      "amber": { "role": "primary", "displayName": "Signature Amber", "canonical": "#EF9043", "tonalRamp": ["#3a1f06", "#5e340d", "#824a15", "#a55f1e", "#c87527", "#e0812f", "#EF9043", "#fbd2ac"] },
       "night": { "role": "neutral", "displayName": "Night", "canonical": "#0b0a09", "tonalRamp": ["#0b0a09", "#22211f", "#393835", "#504f4b", "#676661", "#7e7d77", "#95948d", "#acaba3"] },
       "bone": { "role": "neutral", "displayName": "Bone", "canonical": "#EDEBE4", "tonalRamp": ["#26251f", "#44423a", "#626055", "#807d70", "#9e9b8b", "#bcb9a6", "#dad7c1", "#f4f2e9"] },
       "tier-strong": { "role": "tertiary", "displayName": "Forest (Strong)", "canonical": "#3C6E5A", "tonalRamp": ["#12211b", "#1e3a2f", "#2a5243", "#366b57", "#42836b", "#5e9b83", "#84b3a0", "#abcbbd"] },
@@ -37,12 +37,12 @@
       "css": ".ds-btn-primary { background: #080807; color: #fff; border: none; border-radius: 999px; padding: 13px 28px; font-family: 'Inter', system-ui, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: opacity .15s; } .ds-btn-primary:hover { opacity: .85; } .ds-btn-primary:focus-visible { outline: 2px solid #080807; outline-offset: 2px; }"
     },
     {
-      "name": "Lime CTA",
+      "name": "Amber CTA",
       "kind": "button",
-      "refersTo": "button-lime",
+      "refersTo": "button-amber",
       "description": "The one highlighter — reserved for the single most important action per region.",
-      "html": "<button class=\"ds-btn-lime\">Browse the catalog →</button>",
-      "css": ".ds-btn-lime { background: #F1FE67; color: #080807; border: none; border-radius: 999px; padding: 12px 26px; font-family: 'Inter', system-ui, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: filter .15s; } .ds-btn-lime:hover { filter: brightness(.96); } .ds-btn-lime:focus-visible { outline: 2px solid #080807; outline-offset: 2px; }"
+      "html": "<button class=\"ds-btn-amber\">Browse the catalog →</button>",
+      "css": ".ds-btn-amber { background: #EF9043; color: #080807; border: none; border-radius: 999px; padding: 12px 26px; font-family: 'Inter', system-ui, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: filter .15s; } .ds-btn-amber:hover { filter: brightness(.96); } .ds-btn-amber:focus-visible { outline: 2px solid #080807; outline-offset: 2px; }"
     },
     {
       "name": "Outline Button",
@@ -84,29 +84,29 @@
   ],
   "narrative": {
     "northStar": "The Research Ledger",
-    "overview": "BENCHLY reads like a rigorous, modern registry: evidence recorded in near-black ink on off-white grey paper, with exactly one highlighter — signature lime — reserved for the moments that matter. Monochrome by conviction, sharp and contemporary in voice, with muted semantic tier and category colors doing the only other talking. Two inverted registers share one voice: the light catalog world for browsing, the night world for landing, methodology, and the access gate.",
+    "overview": "BENCHLY reads like a rigorous, modern registry: evidence recorded in near-black ink on off-white grey paper, with exactly one highlighter — signature amber — reserved for the moments that matter. Monochrome by conviction, sharp and contemporary in voice, with muted semantic tier and category colors doing the only other talking. Two inverted registers share one voice: the light catalog world for browsing, the night world for landing, methodology, and the access gate.",
     "keyCharacteristics": [
-      "Monochrome ink-on-paper base; color is always semantic or the single lime accent",
+      "Monochrome ink-on-paper base; color is always semantic or the single amber accent",
       "Sharp tech-editorial type: Space Grotesk display, Inter body, Space Mono uppercase labels",
       "Pill-shaped interactive elements against rectangular hairline-bordered data surfaces",
       "Two inverted registers (paper catalog / night landing) sharing one voice"
     ],
     "rules": [
-      { "name": "The One Highlighter Rule", "body": "Lime appears only where the user should act or look next — never as decoration, never more than one lime element per viewport region. Its rarity is the point.", "section": "colors" },
+      { "name": "The One Highlighter Rule", "body": "Amber appears only where the user should act or look next — never as decoration, never more than one amber element per viewport region. Its rarity is the point.", "section": "colors" },
       { "name": "The Semantic Color Rule", "body": "Every non-neutral color on screen must mean something (a tier, a category, or the accent). No mood colors.", "section": "colors" },
       { "name": "The Mono Kicker Rule", "body": "Every section and form field is introduced by a Space Mono uppercase label with wide tracking. It is the ledger's stamp.", "section": "typography" },
       { "name": "The Flat Ledger Rule", "body": "No box-shadows at rest. Separation comes from tone and hairline, matching the printed-registry metaphor.", "section": "elevation" }
     ],
     "dos": [
-      "Do keep lime (#F1FE67) paired exclusively with ink text and limited to one focal action per region.",
+      "Do keep amber (#EF9043) paired exclusively with ink text and limited to one focal action per region.",
       "Do introduce every section/field with a Space Mono uppercase kicker (.12em+ tracking).",
       "Do use pills for anything clickable and small radii (8–18px) for anything that holds content.",
       "Do pull semantic colors from the existing tier and category palettes rather than inventing new hues."
     ],
     "donts": [
-      "Don't add box-shadows at rest or gradients outside the lime data-bars.",
-      "Don't introduce new accent colors — the system is monochrome plus lime plus semantic hues.",
-      "Don't use light text on lime, or lime on the light paper background in large fields.",
+      "Don't add box-shadows at rest or gradients outside the amber data-bars.",
+      "Don't introduce new accent colors — the system is monochrome plus amber plus semantic hues.",
+      "Don't use light text on amber, or amber on the light paper background in large fields.",
       "Don't swap the substituted fonts (Space Grotesk / Space Mono / Inter) for serifs or geometric display faces."
     ]
   }

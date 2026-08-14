@@ -254,7 +254,7 @@ function App() {
 
         <div style={{ marginTop: 18, display: "flex", gap: 10 }}>
           {!running ? (
-            <button onClick={run} style={{ background: "#F1FE67", color: "#080807", border: "1px solid #080807", borderRadius: 999, padding: "11px 26px", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
+            <button onClick={run} style={{ background: "#EF9043", color: "#080807", border: "1px solid #080807", borderRadius: 999, padding: "11px 26px", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
               ▶ Run benchmark
             </button>
           ) : (

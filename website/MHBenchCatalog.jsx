@@ -23,7 +23,7 @@ const C = {
   line: "#CFCFCF",       // neutral grey — hairline borders
   brand: "#080807",      // primary = ink (buttons, nav)
   accent: "#080807",     // emphasis = ink (monochrome, like Monolog)
-  lime: "#F1FE67",       // their signature highlight (use with dark text)
+  lime: "#EF9043",       // signature accent (amber-orange; use with dark text — was neon lime)
   dark: "#181715",       // card-bg — dark surfaces (footer)
   strong: "#3C6E5A",
   moderate: "#8A6D3B",
@@ -995,7 +995,7 @@ function GrowthBars({ rows }) {
         <div key={y} className="dashbar" title={`${y}: ${n} benchmark${n === 1 ? "" : "s"}`} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div style={{ width: "100%", height: 172, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", gap: 7 }}>
             <span style={{ fontFamily: FONT_MONO, fontSize: 11.5, fontWeight: 700, color: n ? DASH_INK : DASH_MUTED }}>{n}</span>
-            <div style={{ width: "100%", maxWidth: 52, height: `${(n / max) * 82}%`, minHeight: n ? 6 : 3, background: n ? "linear-gradient(180deg,#F4FF7A,#CBDE46)" : "rgba(237,235,228,.10)", borderRadius: "8px 8px 3px 3px" }} />
+            <div style={{ width: "100%", maxWidth: 52, height: `${(n / max) * 82}%`, minHeight: n ? 6 : 3, background: n ? "linear-gradient(180deg,#F5A55F,#E0782F)" : "rgba(237,235,228,.10)", borderRadius: "8px 8px 3px 3px" }} />
           </div>
           <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".04em", color: DASH_MUTED, marginTop: 8 }}>{y}</span>
         </div>
