@@ -77,7 +77,7 @@ components:
 
 Benchly reads like a rigorous, modern registry: evidence recorded in near-black ink on off-white grey paper, with exactly one highlighter — signature amber (#EF9043) — reserved for the moments that matter (primary CTAs, the dashboard's data bars). The system is monochrome by conviction, sharp and contemporary in voice (Lexend display, Cairo body, Space Mono metadata), and lets its muted category and tier colors do the only other talking. Whitespace is generous; borders are hairlines; nothing decorative competes with the data.
 
-The site runs two registers of the same ledger: the light catalog world (paper `#EBEBEB`, ink `#080807`) for browsing and comparing, and the night world (`#0b0a09` / `#080A21`, bone text `#EDEBE4`) for the landing, methodology, and access-gate pages — same typography, same pill shapes, same amber accent, inverted mood.
+The site runs two registers of the same ledger: the light catalog world (paper `#EBEBEB`, ink `#080807`) for browsing and comparing, and the night world (`#0b0a09` / `#1C4773`, bone text `#EDEBE4`) for the landing, methodology, and access-gate pages — same typography, same pill shapes, same amber accent, inverted mood.
 
 **Key Characteristics:**
 - Monochrome ink-on-paper base; color is always semantic (tier, category) or the single amber accent
@@ -98,7 +98,7 @@ A monochrome ledger with one highlighter and a strictly semantic supporting cast
 - **Surface** (#E2E2E2): Cards, inputs, toggles.
 - **Muted** (#66666B): Secondary text on paper.
 - **Hairline** (#CFCFCF): Borders and dividers — always 1px.
-- **Night** (#0b0a09, with #080A21 variant): Landing/method/gate page backgrounds and the dark footer (#181715).
+- **Night** (#0b0a09, with #1C4773 variant): Landing/method/gate page backgrounds and the dark footer (#181715).
 - **Bone** (#EDEBE4): Primary text on night surfaces; **Bone Muted** (#8C887E) for secondary. Translucent bone (`rgba(237,235,228,.06–.35)`) forms dark-world fields and outlines.
 
 ### Tertiary (semantic only)

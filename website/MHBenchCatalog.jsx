@@ -52,12 +52,12 @@ const SOURCE_OPTIONS = ["Open", "Mixed", "Restricted", "Closed"];
  *  the existing `C` / FONT_* look.
  * ------------------------------------------------------------------ */
 const ED = {
-  bg: "#080A21",                   // catalog canvas — solid dark navy
+  bg: "#1C4773",                   // catalog canvas — solid dark navy
   card: "#DEEBF7",                 // benchmark tiles — light blue
   ink: "#EDEBE4",                  // on-canvas text (bone)
-  muted: "#8C887E",                // on-canvas secondary text
+  muted: "#B9CDDE",                // on-canvas secondary text
   line: "rgba(237,235,228,.16)",   // hairlines on the dark canvas
-  cardInk: "#080A21",              // on-tile text — dark navy titles
+  cardInk: "#1C4773",              // on-tile text — dark navy titles
   cardMuted: "#66666B",            // on-tile secondary text
   display: "'Lexend', 'Segoe UI', system-ui, sans-serif",
   body: "'Cairo', 'Segoe UI', system-ui, sans-serif",
@@ -501,15 +501,15 @@ function AgreementGate({ onAccept }) {
   };
 
   const field = { width: "100%", background: "rgba(237,235,228,.06)", border: "1px solid rgba(237,235,228,.2)", borderRadius: 8, padding: "11px 13px", color: "#EDEBE4", fontFamily: FONT_SANS, fontSize: 14, outline: "none" };
-  const flabel = { fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".12em", textTransform: "uppercase", color: "#8C887E", marginBottom: 6, display: "block" };
+  const flabel = { fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".12em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 6, display: "block" };
   const hasContact = TERMS_CONTACT && TERMS_CONTACT[0] !== "[";
   const h3 = { fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 400, color: "#EDEBE4", margin: "0 0 6px", letterSpacing: "-.01em" };
   const p = { fontSize: 13, lineHeight: 1.6, color: "#B7B2A8", margin: 0 };
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "#080A21", color: "#EDEBE4", display: "flex", alignItems: "center", justifyContent: "center", overflow: "auto", padding: "32px 20px" }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "#1C4773", color: "#EDEBE4", display: "flex", alignItems: "center", justifyContent: "center", overflow: "auto", padding: "32px 20px" }}>
       <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
       <div style={{ position: "relative", width: "min(640px, 100%)", background: "rgba(18,17,13,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(237,235,228,.14)", borderRadius: 8, padding: "clamp(24px, 4vw, 40px)", maxHeight: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
-        <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 14 }}>Confidential Beta · Access Agreement</div>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".16em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 14 }}>Confidential Beta · Access Agreement</div>
         <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: "clamp(28px, 4vw, 40px)", letterSpacing: "-.03em", lineHeight: 1.02, margin: 0 }}>Before you enter</h1>
         <p style={{ fontSize: 14, color: "#B7B2A8", lineHeight: 1.55, margin: "14px 0 0" }}>
           Access to this site is by invitation only and subject to the terms below. Please read them before continuing.
@@ -553,7 +553,7 @@ function AgreementGate({ onAccept }) {
         </div>
         <div style={{ marginTop: 18, borderTop: "1px solid rgba(237,235,228,.1)", paddingTop: 14 }}>
           {!adminOpen ? (
-            <button onClick={() => setAdminOpen(true)} style={{ background: "none", border: "none", color: "#8C887E", fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", cursor: "pointer", padding: 0 }}>
+            <button onClick={() => setAdminOpen(true)} style={{ background: "none", border: "none", color: "#B9CDDE", fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", cursor: "pointer", padding: 0 }}>
               I'm an admin →
             </button>
           ) : (
@@ -723,8 +723,8 @@ export default function App() {
       ) : (
         <>
       <div style={(page === "landing" || page === "method")
-        ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "#080A21" }
-        : { position: "sticky", top: 0, zIndex: 40, background: "#080A21" }}>
+        ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "#1C4773" }
+        : { position: "sticky", top: 0, zIndex: 40, background: "#1C4773" }}>
         <div style={{ background: "transparent", color: "rgba(237,235,228,.72)", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
           {LAUNCH.ratings
             ? "Live data from the team catalog · rigor tiers are provisional (draft rubric) pending human appraisal"
@@ -951,9 +951,9 @@ function Logo({ src, name, h = 32, color }) {
  * plus a stat-tile row. Per the dataviz method: one hue per chart (no
  * rainbow), category identity carried by a small color dot + a direct label,
  * recessive tracks, rounded bar ends, value labels, hover tooltips.          */
-const DASH_BG = "#080A21";
+const DASH_BG = "#1C4773";
 const DASH_INK = "#EDEBE4";
-const DASH_MUTED = "#8C887E";
+const DASH_MUTED = "#B9CDDE";
 const DASH_TRACK = "rgba(237,235,228,.07)";
 const DASH_PANEL = "rgba(237,235,228,.035)"; // soft borderless panel fill
 const DASH_LINE = "rgba(237,235,228,.12)";   // hairline divider on dark
@@ -1221,7 +1221,7 @@ function LandingPage({ go, data }) {
 
   return (
     <div style={{ position: "relative", color: DASH_INK, background: DASH_BG }}>
-      {/* Solid #080A21 background (the pagefx smoke overlay was removed for 1.0;
+      {/* Solid #1C4773 background (the pagefx smoke overlay was removed for 1.0;
           see git history / pre-1.0 tag to restore it). */}
       <div style={{ position: "relative", zIndex: 1 }}>
       {/* Dark full-screen hero — giant wordmark (Monolog-style) on the solid navy base. */}
@@ -1255,7 +1255,7 @@ function LandingPage({ go, data }) {
               <div className="herobottom">
                 <div>
                   <div style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 54px)", fontWeight: 400, letterSpacing: "-.03em", lineHeight: 1 }}><CountUp to={total} suffix="+" /></div>
-                  <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: "#8C887E", marginTop: 8, lineHeight: 1.5 }}>Benchmarks catalogued<br />(arXiv · PubMed · medRxiv)</div>
+                  <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: "#B9CDDE", marginTop: 8, lineHeight: 1.5 }}>Benchmarks catalogued<br />(arXiv · PubMed · medRxiv)</div>
                 </div>
               </div>
             </div>
@@ -1540,10 +1540,10 @@ function MethodPage({ go }) {
   return (
     <>
       {/* Dark hero + compact numbered pipeline */}
-      <div style={{ background: "#080A21", color: "#EDEBE4" }}>
+      <div style={{ background: "#1C4773", color: "#EDEBE4" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 32px 56px" }}>
           <section style={{ padding: "104px 0 8px", maxWidth: 760 }}>
-            <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: "#8C887E", marginBottom: 18 }}>Methodology</div>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 18 }}>Methodology</div>
             <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: "clamp(38px, 5.5vw, 66px)", lineHeight: 0.98, letterSpacing: "-.04em", margin: 0 }}>How the catalog works</h1>
             <p style={{ fontSize: 16.5, color: "#B7B2A8", lineHeight: 1.6, margin: "22px 0 0" }}>
               {LAUNCH.methodRubric
@@ -1553,13 +1553,13 @@ function MethodPage({ go }) {
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 26 }}>
               <button onClick={() => scrollToId("sec-pipeline")} style={{ appearance: "none", cursor: "pointer", background: "transparent", border: "1px solid rgba(237,235,228,.28)", borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#EDEBE4" }}>The pipeline</button>
               {LAUNCH.methodRubric && (
-                <button onClick={() => scrollToId("sec-rubric")} style={{ appearance: "none", cursor: "pointer", background: C.lime, border: `1px solid ${C.lime}`, borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#080A21", fontWeight: 700 }}>How we rate benchmarks →</button>
+                <button onClick={() => scrollToId("sec-rubric")} style={{ appearance: "none", cursor: "pointer", background: C.lime, border: `1px solid ${C.lime}`, borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#1C4773", fontWeight: 700 }}>How we rate benchmarks →</button>
               )}
             </div>
           </section>
 
           <section id="sec-pipeline" style={{ scrollMarginTop: 16, marginTop: 40 }}>
-            <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#8C887E", marginBottom: 6 }}>The pipeline · 5 steps</div>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 6 }}>The pipeline · 5 steps</div>
             <ol style={{ listStyle: "none", margin: 0, padding: 0 }}>
               {STEPS.map((s, i) => (
                 <li key={i} style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 20, padding: "22px 0", borderTop: `1px solid rgba(237,235,228,.14)` }}>
