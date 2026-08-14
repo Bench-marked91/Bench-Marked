@@ -2007,8 +2007,8 @@ function BenchCard({ b, showRigor, onClick }) {
 function Fact({ label, value, wide }) {
   return (
     <div style={{ gridColumn: wide ? "1 / -1" : "auto" }}>
-      <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: PANEL_MUTED, marginBottom: 5 }}>{label}</div>
-      <div style={{ fontSize: 14.5, lineHeight: 1.5, color: PANEL_INK }}>{value}</div>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: PANEL_INK, marginBottom: 6, paddingBottom: 5, borderBottom: "1px solid rgba(28,71,115,.18)" }}>{label}</div>
+      <div style={{ fontSize: 14.5, lineHeight: 1.55, color: PANEL_INK }}>{value}</div>
     </div>
   );
 }
@@ -2084,7 +2084,7 @@ function Detail({ b, showRigor, onClose }) {
 
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(20,32,28,0.44)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 50 }}>
-      <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", width: "min(760px, 100%)", maxHeight: "90vh", background: PANEL_BG, color: PANEL_INK, border: `1px solid ${line}`, borderRadius: 10, boxShadow: "0 24px 60px rgba(8,8,7,0.30)", overflowY: "auto", padding: 32 }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", width: "min(980px, 100%)", maxHeight: "90vh", background: PANEL_BG, color: PANEL_INK, border: `1px solid ${line}`, borderRadius: 10, boxShadow: "0 24px 60px rgba(8,8,7,0.30)", overflowY: "auto", padding: 36 }}>
         <button onClick={onClose} aria-label="Close" style={{ position: "absolute", top: 16, right: 16, border: "none", background: "transparent", cursor: "pointer", color: PANEL_MUTED, padding: 4 }}>
           <X size={20} />
         </button>
@@ -2172,10 +2172,10 @@ function Detail({ b, showRigor, onClose }) {
                     )}
                   </button>
                   {open && (
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "18px 28px", padding: "0 0 22px 20px" }}>
+                    <div style={{ background: "rgba(255,255,255,.5)", borderRadius: 10, padding: "20px 22px", margin: "0 0 20px 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "20px 32px" }}>
                       {c.dataSource && <Fact label="Data / question source" value={c.dataSource} wide />}
-                      {c.groundTruth && <Fact label="Ground truth" value={c.groundTruth} />}
-                      {c.evaluation && <Fact label="Evaluation" value={c.evaluation} />}
+                      {c.groundTruth && <Fact label="Ground truth" value={c.groundTruth} wide />}
+                      {c.evaluation && <Fact label="Evaluation" value={c.evaluation} wide />}
                       {c.population && <Fact label="Population" value={c.population} />}
                       {c.turn && <Fact label="Interaction" value={c.turn === "Single" ? "Single-turn" : c.turn} />}
                       {!c.dataSource && !c.groundTruth && !c.evaluation && !c.population && !c.turn && (
