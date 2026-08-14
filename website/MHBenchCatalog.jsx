@@ -1200,11 +1200,10 @@ function LandingPage({ go, data }) {
 
   return (
     <div style={{ position: "relative", color: DASH_INK, background: DASH_BG }}>
-      {/* Live pulsing smoke behind the whole page (fixed to the viewport). */}
-      <div className="pagefx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
+      {/* Solid #080A21 background (the pagefx smoke overlay was removed for 1.0;
+          see git history / pre-1.0 tag to restore it). */}
       <div style={{ position: "relative", zIndex: 1 }}>
-      {/* Dark full-screen hero — giant wordmark (Monolog-style). Shares the
-          page-wide pagefx smoke, so there's a single continuous gradient. */}
+      {/* Dark full-screen hero — giant wordmark (Monolog-style) on the solid navy base. */}
       <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 40px" }}>
             {/* Load-in choreography: one staged entrance for the hero — each
                 piece rises and sharpens in sequence. Respects reduced-motion. */}
