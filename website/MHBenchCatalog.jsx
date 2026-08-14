@@ -321,6 +321,8 @@ const LAUNCH = {
   methodRubric: false,        // methodology page: "How we rate a benchmark" rubric section
   heroStat: false,            // landing hero: "39+ benchmarks catalogued" bottom stat
   ratings: false,             // rating features: card rating chips, Ratings toggle, rating sort, rigor FAQ/banner copy
+  tasksType: false,           // landing: "Tasks models are tested on" category grid
+  howItsBuilt: false,         // landing: "How the catalog is built" 3-step section
 };
 
 // FAQ content (from PLAN.md / TEAM-SUMMARY.md).
@@ -1369,14 +1371,17 @@ function LandingPage({ go, data }) {
         <OrbitCards items={featured.slice(0, 5)} go={go} />
       </section>
 
-      {/* Tasks Type — task-category dashboard with staggered entrance */}
+      {/* Tasks Type — parked behind LAUNCH.tasksType */}
+      {LAUNCH.tasksType && (
       <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "68px 0" }}>
         <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".18em", textTransform: "uppercase", color: DASH_MUTED, marginBottom: 12 }}>Tasks Type</div>
         <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 400, letterSpacing: "-.03em", margin: "0 0 28px", color: DASH_INK }}>Tasks models are tested on</h2>
         <TaskTypeCards />
       </section>
+      )}
 
-      {/* How it's built — process */}
+      {/* How it's built — parked behind LAUNCH.howItsBuilt */}
+      {LAUNCH.howItsBuilt && (
       <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0" }}>
         <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 400, letterSpacing: "-.03em", margin: "0", color: DASH_INK }}>How the catalog is built</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 28, marginTop: 28 }}>
@@ -1393,6 +1398,7 @@ function LandingPage({ go, data }) {
           ))}
         </div>
       </section>
+      )}
 
       {/* FAQ */}
       <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0" }}>
@@ -2018,19 +2024,8 @@ function Detail({ b, showRigor, onClose }) {
   const [tab, setTab] = useState("main");
   const [expanded, setExpanded] = useState({}); // per-component (default: collapsed, name only)
   const runHref = runHrefFor(b); // module-level map
-  const slug = (b.displayName || b.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
   const objective = b.objective || b.measures || "";
   const dateStr = b.pubDate || b.year || "";
-
-  // Quick-glance metric chips: [label, value].
-  const chips = [
-    ["Tasks", (b.tasks && b.tasks.length) ? String(b.tasks.length) : ""],
-    ["Items", b.sizeNum ? b.sizeNum.toLocaleString() : ""],
-    ["Lang", b.language],
-    ["Turn", b.turn || b.turnRaw],
-    ["Access", b.source || b.sourceRaw],
-    ["Eval", b.evaluation],
-  ].filter(([, v]) => v);
 
   // Single-benchmark papers: show the same field set as a component would, built
   // from the paper's own data (or its single component entry if one exists).
@@ -2090,17 +2085,14 @@ function Detail({ b, showRigor, onClose }) {
 
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(20,32,28,0.44)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 50 }}>
-      <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", width: "min(760px, 100%)", maxHeight: "90vh", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 8, boxShadow: "0 24px 60px rgba(8,8,7,0.30)", overflowY: "auto", padding: 32 }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", width: "min(760px, 100%)", maxHeight: "90vh", background: C.surface, color: C.ink, border: `1px solid ${C.line}`, borderRadius: 8, boxShadow: "0 24px 60px rgba(8,8,7,0.30)", overflowY: "auto", padding: 32 }}>
         <button onClick={onClose} aria-label="Close" style={{ position: "absolute", top: 16, right: 16, border: "none", background: "transparent", cursor: "pointer", color: C.muted, padding: 4 }}>
           <X size={20} />
         </button>
 
-        {/* header: title + slug on the left, date + venue on the right */}
+        {/* header: title on the left, date + journal on the right */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, paddingRight: 28 }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", minWidth: 0 }}>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.05, margin: 0 }}>{b.displayName || b.name}</h2>
-            {slug && <span style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.muted }}>{slug}</span>}
-          </div>
+          <h2 style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.05, margin: 0, color: C.ink, minWidth: 0 }}>{b.displayName || b.name}</h2>
           {(dateStr || b.venue) && (
             <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: C.muted, textAlign: "right", lineHeight: 1.5, flexShrink: 0 }}>
               {dateStr && <div>{dateStr}</div>}
@@ -2114,31 +2106,13 @@ function Detail({ b, showRigor, onClose }) {
           <p style={{ margin: "16px 0 0", fontSize: 15, lineHeight: 1.6, color: C.ink, maxWidth: 640 }}>{objective}</p>
         )}
 
-        {/* quick-glance metric chips */}
-        {chips.length > 0 && (
+        {/* language + access */}
+        {(b.language || b.source || b.sourceRaw) && (
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 18 }}>
-            {chips.map(([label, value, dot]) => (
+            {[["Language", b.language], ["Access", b.source || b.sourceRaw]].filter(([, v]) => v).map(([label, value]) => (
               <span key={label} style={chipStyle}>
                 <span style={chipLabel}>{label}</span>
-                {dot && <span style={{ width: 7, height: 7, borderRadius: 999, background: dot }} />}
                 <span style={chipValue}>{value}</span>
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* task categories (colored dots) + conditions */}
-        {(b.tasks?.length > 0 || b.conditions?.length > 0) && (
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
-            {b.tasks.map((t) => (
-              <span key={"t" + t} style={smallChip}>
-                <span style={{ width: 7, height: 7, borderRadius: 999, background: CATEGORY_COLORS[t] || CATEGORY_COLOR_FALLBACK, flexShrink: 0 }} />
-                <span style={{ fontFamily: FONT_SANS, fontSize: 11, color: C.ink }}>{t}</span>
-              </span>
-            ))}
-            {b.conditions.map((c) => (
-              <span key={"c" + c} style={smallChip}>
-                <span style={{ fontFamily: FONT_SANS, fontSize: 11, color: C.muted }}>{c}</span>
               </span>
             ))}
           </div>
@@ -2147,8 +2121,8 @@ function Detail({ b, showRigor, onClose }) {
         {/* tabs (with the three ratings pinned to the right for single-benchmark papers) */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 20, borderBottom: `1px solid ${C.line}`, marginTop: 26, flexWrap: "wrap" }}>
           <div style={{ display: "flex", gap: 26, flexWrap: "wrap" }}>
-            {tabBtn("main", hasComponents ? "Components" : "Details", String(hasComponents ? components.length : detailFields.length).padStart(2, "0"))}
-            {tabBtn("extra", "Extra info", String(extraFields.length).padStart(2, "0"))}
+            {tabBtn("main", "Sub-tasks", String(hasComponents ? components.length : detailFields.length).padStart(2, "0"))}
+            {tabBtn("extra", "Source Info", String(extraFields.length).padStart(2, "0"))}
           </div>
           {showRigor && primaryRatings && (
             <span style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", paddingBottom: 11 }}>
@@ -2171,7 +2145,6 @@ function Detail({ b, showRigor, onClose }) {
             </div>
             {components.map((c, i) => {
               const open = !!expanded[i];
-              const meta = [c.items && `${c.items} items`, c.lang, c.turn].filter(Boolean).join(" · ");
               return (
                 <div key={c.name} style={{ borderTop: `1px solid ${C.line}` }}>
                   <button onClick={() => setExpanded((s) => ({ ...s, [i]: !open }))} style={{ width: "100%", background: "none", border: "none", cursor: "pointer", textAlign: "left", padding: "16px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 14 }}>
@@ -2184,7 +2157,6 @@ function Detail({ b, showRigor, onClose }) {
                           <span style={{ fontFamily: FONT_SANS, fontSize: 10, color: C.muted }}>{t}</span>
                         </span>
                       ))}
-                      {meta && <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, color: C.muted, whiteSpace: "nowrap" }}>{meta}</span>}
                     </span>
                     {/* three rubric ratings on the right */}
                     {showRigor && c.ratings && (
