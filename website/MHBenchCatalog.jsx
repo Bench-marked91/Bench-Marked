@@ -158,29 +158,41 @@ function runHrefFor(b) {
    category filter and the row tags. Falls back to "General" when nothing matches. */
 function deriveCategory(b) {
   const t = `${b.name || ""} ${b.measures || ""} ${b.groundTruth || ""}`.toLowerCase();
-  if (/crisis|suicid|self-harm|self harm|\bharm\b|safety/.test(t)) return "Crisis & Safety";
-  if (/psychotherap|counsel|\btherap|motivational interview/.test(t)) return "Psychotherapy Quality";
-  if (/diagnos/.test(t)) return "Diagnosis";
-  if (/\brisk\b/.test(t)) return "Risk Detection";
-  if (/screen|detect|classif|identif|predict/.test(t)) return "Screening & Detection";
-  if (/emotion|sentiment|affect/.test(t)) return "Emotion & Sentiment";
-  if (/reason/.test(t)) return "Clinical Reasoning";
-  if (/exam|\bmcq\b|knowledge|board|\bqa\b|question/.test(t)) return "Medical Knowledge";
-  if (/bias|equit|fair|demograph|hallucinat/.test(t)) return "Bias & Equity";
+  if (/crisis|suicid|self-harm|self harm|\bharm\b|\brisk\b/.test(t)) return "Crisis Response";
+  if (/bias|equit|fair|demograph|hallucinat|safety/.test(t)) return "Safety & Bias";
+  if (/treat|medicat|prescri|interven/.test(t)) return "Treatment";
+  if (/psychotherap|counsel|\btherap|motivational interview/.test(t)) return "Counseling";
+  if (/diagnos|reason/.test(t)) return "Diagnosis";
+  if (/document|extract|record|note/.test(t)) return "Clinical Documentation";
+  if (/screen|detect|classif|identif|predict|emotion|sentiment|affect/.test(t)) return "Symptom Detection";
+  if (/exam|\bmcq\b|knowledge|board|\bqa\b|question/.test(t)) return "Knowledge";
   return "General";
 }
 
 // Task taxonomy shown on the landing "what it covers" grid and used as the
-// catalog's category filter. Matches scripts/generate_names.py (TASK_CRITERIA).
+// catalog's category filter. Data files may still carry the original long
+// names (scripts/generate_names.py TASK_CRITERIA); TASK_RENAME maps them to
+// the short display taxonomy at load time.
+const TASK_RENAME = {
+  "Risk & Crisis Response": "Crisis Response",
+  "Safety, Bias & Robustness": "Safety & Bias",
+  "Diagnostic Reasoning": "Diagnosis",
+  "Symptom Detection & Severity Assessment": "Symptom Detection",
+  "Therapeutic Conversation & Counseling": "Counseling",
+  "Patient Communication & Education": "Patient Communication",
+  "Clinical Documentation & Extraction": "Clinical Documentation",
+  "Knowledge & Board Exams": "Knowledge",
+};
 const CATEGORY_INFO = [
-  { name: "Risk & Crisis Response", desc: "Evaluates whether a model can recognize suicide, self-harm, and acute crisis, and respond safely with appropriate triage and escalation." },
-  { name: "Diagnostic Reasoning", desc: "Assesses clinical reasoning from a case presentation through to a diagnosis, differential, or formulation." },
-  { name: "Symptom Detection & Severity Assessment", desc: "Measures how accurately a model infers the presence and severity of symptoms from speech, interviews, or written text." },
-  { name: "Therapeutic Conversation & Counseling", desc: "Evaluates the quality and appropriateness of multi-turn counseling and psychotherapeutic dialogue." },
-  { name: "Clinical Documentation & Extraction", desc: "Tests classification and information extraction from real-world clinical records and documentation." },
-  { name: "Knowledge & Board Exams", desc: "Assesses declarative clinical knowledge through multiple-choice, OSCE, and board-style examination items." },
-  { name: "Patient Communication & Education", desc: "Evaluates the accuracy, reliability, and readability of patient-facing explanations and educational responses." },
-  { name: "Safety, Bias & Robustness", desc: "Probes for bias, hallucination, and the reliability of safety guardrails under adversarial or edge-case conditions." },
+  { name: "Crisis Response", desc: "Evaluates whether a model can recognize suicide, self-harm, and acute crisis, and respond safely with appropriate triage and escalation." },
+  { name: "Safety & Bias", desc: "Probes for bias, hallucination, and the reliability of safety guardrails under adversarial or edge-case conditions." },
+  { name: "Diagnosis", desc: "Assesses clinical reasoning from a case presentation through to a diagnosis, differential, or formulation." },
+  { name: "Symptom Detection", desc: "Measures how accurately a model infers the presence and severity of symptoms from speech, interviews, or written text." },
+  { name: "Treatment", desc: "Assesses treatment planning and management decisions, from intervention selection to medication and follow-up recommendations." },
+  { name: "Counseling", desc: "Evaluates the quality and appropriateness of multi-turn counseling and psychotherapeutic dialogue." },
+  { name: "Patient Communication", desc: "Evaluates the accuracy, reliability, and readability of patient-facing explanations and educational responses." },
+  { name: "Clinical Documentation", desc: "Tests classification and information extraction from real-world clinical records and documentation." },
+  { name: "Knowledge", desc: "Assesses declarative clinical knowledge through multiple-choice, OSCE, and board-style examination items." },
 ];
 const TASK_ORDER = CATEGORY_INFO.map((c) => c.name);
 
@@ -188,14 +200,15 @@ const TASK_ORDER = CATEGORY_INFO.map((c) => c.name);
 // catalog reads as color-coded by category. Tuned to sit on the beige page and
 // carry light text.
 const CATEGORY_COLORS = {
-  "Risk & Crisis Response": "#B4553E",                    // rust
-  "Diagnostic Reasoning": "#4F7183",                      // dusty blue
-  "Symptom Detection & Severity Assessment": "#8F6E2E",   // ochre
-  "Therapeutic Conversation & Counseling": "#5F7A55",     // moss
-  "Clinical Documentation & Extraction": "#8A6D4B",       // coffee
-  "Knowledge & Board Exams": "#6B6191",                   // indigo
-  "Patient Communication & Education": "#3F7E74",         // teal
-  "Safety, Bias & Robustness": "#8A5560",                 // mauve
+  "Crisis Response": "#B4553E",        // rust
+  "Safety & Bias": "#8A5560",          // mauve
+  "Diagnosis": "#4F7183",              // dusty blue
+  "Symptom Detection": "#8F6E2E",      // ochre
+  "Treatment": "#7D5378",              // plum
+  "Counseling": "#5F7A55",             // moss
+  "Patient Communication": "#3F7E74",  // teal
+  "Clinical Documentation": "#8A6D4B", // coffee
+  "Knowledge": "#6B6191",              // indigo
 };
 const CATEGORY_COLOR_FALLBACK = "#6E6A62"; // neutral warm grey (uncategorized)
 function categoryColor(b) {
@@ -597,7 +610,7 @@ export default function App() {
           score: scoreBenchmark(b),
           displayName: n.displayName || b.name,
           conditions: n.conditions || [],
-          tasks: n.tasks || [],
+          tasks: (n.tasks || []).map((task) => TASK_RENAME[task] || task),
           objective: m.objective || "",
           paperTitle: m.paperTitle || "",
           pubDate: m.publicationDate || "",
@@ -1205,7 +1218,7 @@ function LandingPage({ go, data }) {
           see git history / pre-1.0 tag to restore it). */}
       <div style={{ position: "relative", zIndex: 1 }}>
       {/* Dark full-screen hero — giant wordmark (Monolog-style) on the solid navy base. */}
-      <section style={{ position: "relative", color: "#EDEBE4", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "112px 32px 12px" }}>
+      <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 40px" }}>
             {/* Load-in choreography: one staged entrance for the hero — each
                 piece rises and sharpens in sequence. Respects reduced-motion. */}
             <style>{`
@@ -1217,13 +1230,13 @@ function LandingPage({ go, data }) {
             {/* top-centered title + entry buttons */}
             <div style={{ position: "relative", maxWidth: 780, margin: "0 auto", textAlign: "center" }}>
               <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 700, lineHeight: 1.02, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 720, textWrap: "balance" }}>
-                <span className="heroin" style={{ display: "block", fontSize: "clamp(16px, 2vw, 22px)", fontWeight: 500, letterSpacing: "-.02em", color: "#B7B2A8", marginBottom: 8, animationDelay: ".05s" }}>The Mental Health</span>
-                <span className="heroin" style={{ display: "block", fontSize: "clamp(32px, 5vw, 60px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
+                <span className="heroin" style={{ display: "block", fontSize: "clamp(19px, 2.6vw, 30px)", fontWeight: 500, letterSpacing: "-.02em", color: "#B7B2A8", marginBottom: 12, animationDelay: ".05s" }}>The Mental Health</span>
+                <span className="heroin" style={{ display: "block", fontSize: "clamp(42px, 7.4vw, 92px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
               </h1>
-              <p className="heroin" style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "16px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
+              <p className="heroin" style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "22px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
                 We index how AI models are really tested on mental-health tasks: what each benchmark measures, and how far to trust it.
               </p>
-              <div className="heroin" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 22, flexWrap: "wrap", animationDelay: ".46s" }}>
+              <div className="heroin" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 28, flexWrap: "wrap", animationDelay: ".46s" }}>
                 <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "12px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
                 {LAUNCH.rateRigorHeroButton && (
                   <button onClick={() => go("method")} style={{ background: "transparent", color: "#EDEBE4", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
@@ -1248,8 +1261,8 @@ function LandingPage({ go, data }) {
       {/* By the numbers — dark data dashboard (replaces the old rigor stats) */}
       <section style={{ color: DASH_INK }}>
         <style>{`.dashbar{transition:opacity .16s ease,transform .16s ease}.dashbar:hover{opacity:.8}`}</style>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "36px 32px 82px" }}>
-          <div className="heroin" style={{ display: "flex", alignItems: "center", gap: 12, animationDelay: ".6s" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 32px 82px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <span style={{ width: 20, height: 20, borderRadius: 999, background: C.lime, flexShrink: 0 }} />
             <span style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".18em", textTransform: "uppercase", color: DASH_MUTED }}>By the numbers</span>
           </div>

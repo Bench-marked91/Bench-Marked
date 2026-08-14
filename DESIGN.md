@@ -18,18 +18,18 @@ colors:
   tier-unrated: "#938F8A"
 typography:
   display:
-    fontFamily: "'Space Grotesk', 'Inter', system-ui, sans-serif"
+    fontFamily: "'Lexend', 'Segoe UI', system-ui, sans-serif"
     fontSize: "clamp(28px, 4vw, 40px)"
     fontWeight: 600
     lineHeight: 1.02
     letterSpacing: "-.03em"
   headline:
-    fontFamily: "'Space Grotesk', 'Inter', system-ui, sans-serif"
+    fontFamily: "'Lexend', 'Segoe UI', system-ui, sans-serif"
     fontSize: "19px"
     fontWeight: 600
     letterSpacing: "-.02em"
   body:
-    fontFamily: "'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontFamily: "'EB Garamond', Georgia, 'Times New Roman', serif"
     fontSize: "14px"
     fontWeight: 400
     lineHeight: 1.55
@@ -75,13 +75,13 @@ components:
 
 **Creative North Star: "The Research Ledger"**
 
-BENCHLY reads like a rigorous, modern registry: evidence recorded in near-black ink on off-white grey paper, with exactly one highlighter — signature amber (#EF9043) — reserved for the moments that matter (primary CTAs, the dashboard's data bars). The system is monochrome by conviction, sharp and contemporary in voice (Space Grotesk display, Space Mono metadata), and lets its muted category and tier colors do the only other talking. Whitespace is generous; borders are hairlines; nothing decorative competes with the data.
+BENCHLY reads like a rigorous, modern registry: evidence recorded in near-black ink on off-white grey paper, with exactly one highlighter — signature amber (#EF9043) — reserved for the moments that matter (primary CTAs, the dashboard's data bars). The system is monochrome by conviction, sharp and contemporary in voice (Lexend display, EB Garamond body, Space Mono metadata), and lets its muted category and tier colors do the only other talking. Whitespace is generous; borders are hairlines; nothing decorative competes with the data.
 
 The site runs two registers of the same ledger: the light catalog world (paper `#EBEBEB`, ink `#080807`) for browsing and comparing, and the night world (`#0b0a09` / `#080A21`, bone text `#EDEBE4`) for the landing, methodology, and access-gate pages — same typography, same pill shapes, same amber accent, inverted mood.
 
 **Key Characteristics:**
 - Monochrome ink-on-paper base; color is always semantic (tier, category) or the single amber accent
-- Sharp tech-editorial type: Space Grotesk display with tight tracking, Inter body, Space Mono uppercase labels
+- Humanist-modern display over a classical serif body: Lexend headlines with tight tracking, EB Garamond text, Space Mono uppercase labels
 - Pill-shaped interactive elements against rectangular, hairline-bordered data surfaces
 - Two inverted registers (paper catalog / night landing) sharing one voice
 
@@ -111,11 +111,11 @@ A monochrome ledger with one highlighter and a strictly semantic supporting cast
 
 ## Typography
 
-**Display Font:** Space Grotesk (with Inter fallback) — substitute for licensed Khteka
-**Body Font:** Inter (system-ui fallback)
-**Label/Mono Font:** Space Mono (Roboto Mono fallback) — substitute for licensed Suisse Mono
+**Display Font:** Lexend ('Segoe UI' / system-ui fallback)
+**Body Font:** EB Garamond (Georgia fallback)
+**Label/Mono Font:** Space Mono (Roboto Mono fallback)
 
-**Character:** Sharp tech-editorial. Tightly-tracked grotesque display headlines against a quiet neo-grotesque body, with monospace uppercase kickers doing the wayfinding — the voice of a modern research instrument, not a medical brochure.
+**Character:** Humanist-modern display against a classical serif body: Lexend's open, legibility-first headlines over EB Garamond's bookish warmth, with monospace uppercase kickers doing the wayfinding — a research instrument with a library voice.
 
 ### Hierarchy
 - **Display** (600, clamp(28px–40px), 1.02, -.03em): Page heroes ("Before you enter", landing headline).
@@ -145,7 +145,7 @@ Two form languages, deliberately opposed: **interactive elements are pills** (bo
 
 ### Buttons
 - **Shape:** Full pill (999px)
-- **Primary:** Ink background, white text, 13px 28px padding, 14px/600 Inter
+- **Primary:** Ink background, white text, 13px 28px padding, 14px/600 EB Garamond
 - **Amber CTA:** Amber background, ink text, 700 weight — reserved for the single most important action
 - **Outline:** Transparent with 1px ink border (light world) or `rgba(237,235,228,.35)` border with bone text (dark world)
 - **Disabled:** `rgba(237,235,228,.15)` background, half-opacity text, not-allowed cursor
@@ -164,7 +164,7 @@ Two form languages, deliberately opposed: **interactive elements are pills** (bo
 - **Light world:** surface-grey fill, hairline border, same geometry
 
 ### Navigation
-- **Style:** Ink wordmark (Space Grotesk 600, 18px) with 10px square color swatch; Inter 13px items, weight 600 when active; page-context banner strip (mono 11.5px) below on catalog pages; dark footer (#181715) with bone-muted mono metadata
+- **Style:** Ink wordmark (Lexend 600, 18px) with 10px square color swatch; EB Garamond 13px items, weight 600 when active; page-context banner strip (mono 11.5px) below on catalog pages; dark footer (#181715) with bone-muted mono metadata
 
 ## Do's and Don'ts
 
@@ -178,4 +178,4 @@ Two form languages, deliberately opposed: **interactive elements are pills** (bo
 - **Don't** add box-shadows at rest or gradients outside the amber data-bars.
 - **Don't** introduce new accent colors — the system is monochrome plus amber plus semantic hues.
 - **Don't** use light text on amber, or amber on the light paper background in large fields.
-- **Don't** swap the substituted fonts (Space Grotesk / Space Mono / Inter) for serifs or geometric display faces.
+- **Don't** substitute the committed faces (Lexend / EB Garamond / Space Mono) or add new font families.
