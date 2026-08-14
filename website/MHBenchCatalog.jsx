@@ -1015,7 +1015,7 @@ function TaskBars({ rows }) {
 // soft amber area fade, dots with a surface ring, values labeled selectively
 // (peak + latest) with the rest on hover.
 function GrowthLine({ rows }) {
-  const W = 560, H = 210, PAD_L = 14, PAD_R = 14, PAD_T = 30, PAD_B = 30;
+  const W = 560, H = 210, PAD_L = 40, PAD_R = 40, PAD_T = 30, PAD_B = 30;
   const innerW = W - PAD_L - PAD_R, innerH = H - PAD_T - PAD_B;
   const max = rows.reduce((m, [, n]) => Math.max(m, n), 0) || 1;
   const step = rows.length > 1 ? innerW / (rows.length - 1) : 0;
@@ -1024,8 +1024,6 @@ function GrowthLine({ rows }) {
   const baseline = H - PAD_B;
   const pts = rows.map(([, n], i) => `${px(i).toFixed(1)},${py(n).toFixed(1)}`);
   const areaPath = `M ${px(0).toFixed(1)},${baseline} L ${pts.join(" L ")} L ${px(rows.length - 1).toFixed(1)},${baseline} Z`;
-  const peakIdx = rows.reduce((best, [, n], i) => (n > rows[best][1] ? i : best), 0);
-  const lastIdx = rows.length - 1;
   return (
     <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }} role="img" aria-label={`Benchmarks per year: ${rows.map(([y, n]) => `${y} ${n}`).join(", ")}`}>
       <defs>
@@ -1044,9 +1042,7 @@ function GrowthLine({ rows }) {
           <circle cx={px(i)} cy={py(n)} r="14" fill="transparent">
             <title>{`${y}: ${n} benchmark${n === 1 ? "" : "s"}`}</title>
           </circle>
-          {(i === peakIdx || i === lastIdx) && n > 0 && (
-            <text x={px(i)} y={py(n) - 12} textAnchor="middle" style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, fill: PANEL_INK }}>{n}</text>
-          )}
+          <text x={px(i)} y={py(n) - 12} textAnchor="middle" style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, fill: n ? PANEL_INK : PANEL_MUTED }}>{n}</text>
           <text x={px(i)} y={H - 8} textAnchor="middle" style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".04em", fill: PANEL_MUTED }}>{y}</text>
         </g>
       ))}
