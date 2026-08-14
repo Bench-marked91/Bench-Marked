@@ -87,7 +87,7 @@
     "overview": "Benchly reads like a rigorous, modern registry: evidence recorded in near-black ink on off-white grey paper, with exactly one highlighter — signature amber — reserved for the moments that matter. Monochrome by conviction, sharp and contemporary in voice, with muted semantic tier and category colors doing the only other talking. Two inverted registers share one voice: the light catalog world for browsing, the night world for landing, methodology, and the access gate.",
     "keyCharacteristics": [
       "Monochrome ink-on-paper base; color is always semantic or the single amber accent",
-      "Humanist-modern display over a classical serif body: Lexend headlines, Cairo text, Space Mono uppercase labels",
+      "Two humanist sans voices: regular-weight Lexend headlines with tight tracking, rounded Cairo text, Space Mono uppercase labels",
       "Pill-shaped interactive elements against rectangular hairline-bordered data surfaces",
       "Two inverted registers (paper catalog / night landing) sharing one voice"
     ],

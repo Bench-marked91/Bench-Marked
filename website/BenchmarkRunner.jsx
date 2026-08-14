@@ -273,7 +273,7 @@ function App() {
             <div style={{ fontSize: 13, color: "#667085" }}>{done}/{size} done</div>
           </div>
           <div style={{ height: 8, background: "#eef2f6", borderRadius: 99, overflow: "hidden", margin: "10px 0 16px" }}>
-            <div style={{ height: "100%", width: `${(done / size) * 100}%`, background: "#17150F", transition: "width .2s" }} />
+            <div style={{ height: "100%", width: "100%", transform: `scaleX(${size ? done / size : 0})`, transformOrigin: "left", background: "#17150F", transition: "transform .2s" }} />
           </div>
           <div style={{ fontFamily: "'Lexend', sans-serif", fontSize: 52, fontWeight: 400, letterSpacing: "-.03em", color: "#080807" }}>{acc.toFixed(1)}%</div>
           <div style={{ color: "#667085", fontSize: 14, marginBottom: 16 }}>accuracy — {nCorrect} of {results.length} correct</div>
