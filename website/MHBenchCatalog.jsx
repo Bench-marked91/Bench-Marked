@@ -1008,22 +1008,47 @@ function TaskBars({ rows }) {
   );
 }
 
-// Vertical bars over time in brand lime with a soft top gradient and rounded
-// caps. Gap years render as an empty slot so the growth curve reads honestly.
-function GrowthBars({ rows }) {
+// Filled line graph of benchmarks per year. Gap years plot as zero so the
+// growth curve reads honestly. Single series: deep-amber 2.5px line over a
+// soft amber area fade, dots with a surface ring, values labeled selectively
+// (peak + latest) with the rest on hover.
+function GrowthLine({ rows }) {
+  const W = 560, H = 210, PAD_L = 14, PAD_R = 14, PAD_T = 30, PAD_B = 30;
+  const innerW = W - PAD_L - PAD_R, innerH = H - PAD_T - PAD_B;
   const max = rows.reduce((m, [, n]) => Math.max(m, n), 0) || 1;
+  const step = rows.length > 1 ? innerW / (rows.length - 1) : 0;
+  const px = (i) => PAD_L + i * step;
+  const py = (n) => PAD_T + (1 - n / max) * innerH;
+  const baseline = H - PAD_B;
+  const pts = rows.map(([, n], i) => `${px(i).toFixed(1)},${py(n).toFixed(1)}`);
+  const areaPath = `M ${px(0).toFixed(1)},${baseline} L ${pts.join(" L ")} L ${px(rows.length - 1).toFixed(1)},${baseline} Z`;
+  const peakIdx = rows.reduce((best, [, n], i) => (n > rows[best][1] ? i : best), 0);
+  const lastIdx = rows.length - 1;
   return (
-    <div style={{ display: "flex", alignItems: "flex-end", gap: 10 }}>
-      {rows.map(([y, n]) => (
-        <div key={y} className="dashbar" title={`${y}: ${n} benchmark${n === 1 ? "" : "s"}`} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div style={{ width: "100%", height: 172, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", gap: 7 }}>
-            <span style={{ fontFamily: FONT_MONO, fontSize: 11.5, fontWeight: 700, color: n ? PANEL_INK : PANEL_MUTED }}>{n}</span>
-            <div style={{ width: "100%", maxWidth: 52, height: `${(n / max) * 82}%`, minHeight: n ? 6 : 3, background: n ? "linear-gradient(180deg,#F5A55F,#E0782F)" : "rgba(28,71,115,.12)", borderRadius: "8px 8px 3px 3px" }} />
-          </div>
-          <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".04em", color: PANEL_MUTED, marginTop: 8 }}>{y}</span>
-        </div>
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }} role="img" aria-label={`Benchmarks per year: ${rows.map(([y, n]) => `${y} ${n}`).join(", ")}`}>
+      <defs>
+        <linearGradient id="growthfill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#EF9043" stopOpacity="0.38" />
+          <stop offset="100%" stopColor="#EF9043" stopOpacity="0.03" />
+        </linearGradient>
+      </defs>
+      <line x1={PAD_L} y1={baseline} x2={W - PAD_R} y2={baseline} stroke={PANEL_TRACK} strokeWidth="1" />
+      {rows.length > 1 && <path d={areaPath} fill="url(#growthfill)" />}
+      {rows.length > 1 && <path d={`M ${pts.join(" L ")}`} fill="none" stroke="#E0782F" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />}
+      {rows.map(([y, n], i) => (
+        <g key={y}>
+          <circle cx={px(i)} cy={py(n)} r={n ? 4 : 3} fill={n ? "#E0782F" : PANEL_MUTED} stroke={PANEL_BG} strokeWidth="2" />
+          {/* larger invisible hit target with a native tooltip */}
+          <circle cx={px(i)} cy={py(n)} r="14" fill="transparent">
+            <title>{`${y}: ${n} benchmark${n === 1 ? "" : "s"}`}</title>
+          </circle>
+          {(i === peakIdx || i === lastIdx) && n > 0 && (
+            <text x={px(i)} y={py(n) - 12} textAnchor="middle" style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, fill: PANEL_INK }}>{n}</text>
+          )}
+          <text x={px(i)} y={H - 8} textAnchor="middle" style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".04em", fill: PANEL_MUTED }}>{y}</text>
+        </g>
       ))}
-    </div>
+    </svg>
   );
 }
 
@@ -1296,7 +1321,7 @@ function LandingPage({ go, data }) {
               </div>
             </DashCard>
             <DashCard title="Benchmarks by year">
-              {growth.length ? <GrowthBars rows={growth} /> : null}
+              {growth.length ? <GrowthLine rows={growth} /> : null}
             </DashCard>
           </div>
         </div>
