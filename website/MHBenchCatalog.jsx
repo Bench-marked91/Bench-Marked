@@ -1684,7 +1684,7 @@ const linkBtn = { border: "none", background: "transparent", color: C.brand, fon
  * ------------------------------------------------------------------ */
 function CatalogPage({ data, error }) {
   const [query, setQuery] = useState("");
-  const [sort, setSort] = useState("name"); // name | year | rigor | size
+  const [sort, setSort] = useState("year"); // name | year | rigor | size — newest first by default
   const [catFilter, setCatFilter] = useState(null); // null = all categories
   const [selected, setSelected] = useState(null);
   const [showRigor, setShowRigor] = useState(LAUNCH.ratings); // toggle the rigor rating display (parked when LAUNCH.ratings is false)
@@ -2012,8 +2012,8 @@ function BenchCard({ b, showRigor, onClick }) {
 function Fact({ label, value, wide }) {
   return (
     <div style={{ gridColumn: wide ? "1 / -1" : "auto" }}>
-      <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: C.muted, marginBottom: 5 }}>{label}</div>
-      <div style={{ fontSize: 14.5, lineHeight: 1.5, color: C.ink }}>{value}</div>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: PANEL_MUTED, marginBottom: 5 }}>{label}</div>
+      <div style={{ fontSize: 14.5, lineHeight: 1.5, color: PANEL_INK }}>{value}</div>
     </div>
   );
 }
@@ -2040,17 +2040,23 @@ function Detail({ b, showRigor, onClose }) {
   // Single-benchmark papers: the three ratings live on the paper's single component
   // (or on the benchmark itself). Shown inline on the tab row so they're easy to see.
   const primaryRatings = !hasComponents ? (primary.ratings || b.ratings || null) : null;
-  const detailFields = [
-    ["Data / question source", primary.dataSource, true],
-    ["Ground truth", primary.groundTruth, true],
-    ["Evaluation", primary.evaluation, true],
-    ["Population", primary.population],
-    ["Interaction", primTurn ? (primTurn === "Single" ? "Single-turn" : primTurn) : ""],
-  ].filter(([, v]) => v);
+  // Sub-tasks list: real components when the paper bundles several; otherwise a
+  // single synthesized entry named after the benchmark, so every popup uses the
+  // same collapsible style.
+  const subTasks = hasComponents ? components : [{
+    name: b.displayName || b.name,
+    tasks: b.tasks || [],
+    dataSource: primary.dataSource || "",
+    groundTruth: primary.groundTruth || "",
+    evaluation: primary.evaluation || "",
+    population: primary.population || "",
+    turn: primTurn || "",
+    ratings: primaryRatings || undefined,
+  }];
 
   // Extra info tab = the citation / reference details.
   const paperLinkEl = b.paperLink ? (
-    <a href={b.paperLink} target="_blank" rel="noreferrer" style={{ color: C.brand, wordBreak: "break-word", textDecoration: "none" }}>{b.paperLink}</a>
+    <a href={b.paperLink} target="_blank" rel="noreferrer" style={{ color: PANEL_INK, wordBreak: "break-word", textDecoration: "underline" }}>{b.paperLink}</a>
   ) : null;
   const extraFields = [
     ["Paper title", b.paperTitle || b.name, true],
@@ -2061,40 +2067,38 @@ function Detail({ b, showRigor, onClose }) {
     ["Citation (AMA)", b.citation, true],
   ].filter(([, v]) => v);
 
+  // Popup runs on the site theme: light-blue card, steel-blue inks.
+  const line = "rgba(28,71,115,.2)";
   // Squared outline chips for the quick-glance metrics.
-  const chipStyle = { display: "inline-flex", alignItems: "center", gap: 7, background: "transparent", border: `1px solid ${C.line}`, borderRadius: 5, padding: "5px 10px" };
-  const chipLabel = { fontFamily: FONT_MONO, fontSize: 9.5, letterSpacing: ".1em", textTransform: "uppercase", color: C.muted };
-  const chipValue = { fontFamily: FONT_SANS, fontSize: 12.5, fontWeight: 700, color: C.ink };
-  // Small rounded PILL chips for the task-type / condition row (different shape
-  // than the squared metric chips, so the categories stand out).
-  const smallChip = { display: "inline-flex", alignItems: "center", gap: 6, background: "transparent", border: `1px solid ${C.line}`, borderRadius: 999, padding: "3px 11px" };
+  const chipStyle = { display: "inline-flex", alignItems: "center", gap: 7, background: "transparent", border: `1px solid ${line}`, borderRadius: 5, padding: "5px 10px" };
+  const chipLabel = { fontFamily: FONT_MONO, fontSize: 9.5, letterSpacing: ".1em", textTransform: "uppercase", color: PANEL_MUTED };
+  const chipValue = { fontFamily: FONT_SANS, fontSize: 12.5, fontWeight: 700, color: PANEL_INK };
   // Even smaller pill for the per-component task tags.
-  const tinyChip = { display: "inline-flex", alignItems: "center", gap: 5, background: "transparent", border: `1px solid ${C.line}`, borderRadius: 999, padding: "1px 8px" };
+  const tinyChip = { display: "inline-flex", alignItems: "center", gap: 5, background: "transparent", border: `1px solid ${line}`, borderRadius: 999, padding: "1px 8px" };
 
-  const tabBtn = (key, label, n) => (
+  const tabBtn = (key, label) => (
     <button onClick={() => setTab(key)} style={{
       padding: "0 0 12px", background: "none", border: "none", cursor: "pointer", marginBottom: -1,
-      borderBottom: tab === key ? `2px solid ${C.ink}` : "2px solid transparent",
-      color: tab === key ? C.ink : C.muted, fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600,
+      borderBottom: tab === key ? `2px solid ${PANEL_INK}` : "2px solid transparent",
+      color: tab === key ? PANEL_INK : PANEL_MUTED, fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600,
       display: "inline-flex", alignItems: "center", gap: 7,
     }}>
       {label}
-      <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: tab === key ? C.ink : C.muted, opacity: 0.7 }}>{n}</span>
     </button>
   );
 
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(20,32,28,0.44)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 50 }}>
-      <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", width: "min(760px, 100%)", maxHeight: "90vh", background: C.surface, color: C.ink, border: `1px solid ${C.line}`, borderRadius: 8, boxShadow: "0 24px 60px rgba(8,8,7,0.30)", overflowY: "auto", padding: 32 }}>
-        <button onClick={onClose} aria-label="Close" style={{ position: "absolute", top: 16, right: 16, border: "none", background: "transparent", cursor: "pointer", color: C.muted, padding: 4 }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", width: "min(760px, 100%)", maxHeight: "90vh", background: PANEL_BG, color: PANEL_INK, border: `1px solid ${line}`, borderRadius: 10, boxShadow: "0 24px 60px rgba(8,8,7,0.30)", overflowY: "auto", padding: 32 }}>
+        <button onClick={onClose} aria-label="Close" style={{ position: "absolute", top: 16, right: 16, border: "none", background: "transparent", cursor: "pointer", color: PANEL_MUTED, padding: 4 }}>
           <X size={20} />
         </button>
 
         {/* header: title on the left, date + journal on the right */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, paddingRight: 28 }}>
-          <h2 style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.05, margin: 0, color: C.ink, minWidth: 0 }}>{b.displayName || b.name}</h2>
+          <h2 style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.05, margin: 0, color: PANEL_INK, minWidth: 0 }}>{b.displayName || b.name}</h2>
           {(dateStr || b.venue) && (
-            <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: C.muted, textAlign: "right", lineHeight: 1.5, flexShrink: 0 }}>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: PANEL_MUTED, textAlign: "right", lineHeight: 1.5, flexShrink: 0 }}>
               {dateStr && <div>{dateStr}</div>}
               {b.venue && <div>{b.venue}</div>}
             </div>
@@ -2103,7 +2107,7 @@ function Detail({ b, showRigor, onClose }) {
 
         {/* objective */}
         {objective && (
-          <p style={{ margin: "16px 0 0", fontSize: 15, lineHeight: 1.6, color: C.ink, maxWidth: 640 }}>{objective}</p>
+          <p style={{ margin: "16px 0 0", fontSize: 15, lineHeight: 1.6, color: PANEL_INK, maxWidth: 640 }}>{objective}</p>
         )}
 
         {/* language + access */}
@@ -2119,42 +2123,43 @@ function Detail({ b, showRigor, onClose }) {
         )}
 
         {/* tabs (with the three ratings pinned to the right for single-benchmark papers) */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 20, borderBottom: `1px solid ${C.line}`, marginTop: 26, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 20, borderBottom: `1px solid ${line}`, marginTop: 26, flexWrap: "wrap" }}>
           <div style={{ display: "flex", gap: 26, flexWrap: "wrap" }}>
-            {tabBtn("main", "Sub-tasks", String(hasComponents ? components.length : detailFields.length).padStart(2, "0"))}
-            {tabBtn("extra", "Source Info", String(extraFields.length).padStart(2, "0"))}
+            {tabBtn("main", "Sub-tasks")}
+            {tabBtn("extra", "Source Info")}
           </div>
           {showRigor && primaryRatings && (
             <span style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", paddingBottom: 11 }}>
               {[["Safety", primaryRatings.safety], ["Clinical", primaryRatings.clinical], ["Method", primaryRatings.methodology]].map(([label, tier]) => tier ? (
                 <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                  <span style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: ".06em", textTransform: "uppercase", color: C.muted }}>{label}</span>
+                  <span style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: ".06em", textTransform: "uppercase", color: PANEL_MUTED }}>{label}</span>
                   <span style={{ width: 7, height: 7, borderRadius: 999, background: TIER_COLORS[tier] || C.unrated, flexShrink: 0 }} />
-                  <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, fontWeight: 700, color: TIER_COLORS[tier] || C.muted }}>{tier}</span>
+                  <span style={{ fontFamily: FONT_MONO, fontSize: 10.5, fontWeight: 700, color: TIER_COLORS[tier] || PANEL_MUTED }}>{tier}</span>
                 </span>
               ) : null)}
             </span>
           )}
         </div>
 
-        {tab === "main" && hasComponents ? (
-          /* Components: one collapsible row per sub-benchmark */
+        {tab === "main" ? (
+          /* Sub-tasks: one collapsible row each (single-benchmark papers get one
+             row named after the benchmark, same style) */
           <div style={{ marginTop: 20 }}>
-            <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".1em", textTransform: "uppercase", color: C.muted, marginBottom: 2 }}>
-              {components.length} sub-tasks in this benchmark
+            <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".1em", textTransform: "uppercase", color: PANEL_MUTED, marginBottom: 2 }}>
+              {subTasks.length} sub-task{subTasks.length === 1 ? "" : "s"} in this benchmark
             </div>
-            {components.map((c, i) => {
+            {subTasks.map((c, i) => {
               const open = !!expanded[i];
               return (
-                <div key={c.name} style={{ borderTop: `1px solid ${C.line}` }}>
+                <div key={c.name} style={{ borderTop: `1px solid ${line}` }}>
                   <button onClick={() => setExpanded((s) => ({ ...s, [i]: !open }))} style={{ width: "100%", background: "none", border: "none", cursor: "pointer", textAlign: "left", padding: "16px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 14 }}>
                     <span style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", minWidth: 0 }}>
-                      <span style={{ color: C.muted, fontSize: 11, width: 10, flexShrink: 0 }}>{open ? "▾" : "▸"}</span>
-                      <span style={{ fontFamily: FONT_SERIF, fontSize: 16.5, fontWeight: 400, letterSpacing: "-.01em", color: C.ink }}>{c.name}</span>
+                      <span style={{ color: PANEL_MUTED, fontSize: 11, width: 10, flexShrink: 0 }}>{open ? "▾" : "▸"}</span>
+                      <span style={{ fontFamily: FONT_SERIF, fontSize: 16.5, fontWeight: 400, letterSpacing: "-.01em", color: PANEL_INK }}>{c.name}</span>
                       {(c.tasks || []).map((t) => (
                         <span key={t} style={tinyChip}>
                           <span style={{ width: 6, height: 6, borderRadius: 999, background: CATEGORY_COLORS[t] || CATEGORY_COLOR_FALLBACK, flexShrink: 0 }} />
-                          <span style={{ fontFamily: FONT_SANS, fontSize: 10, color: C.muted }}>{t}</span>
+                          <span style={{ fontFamily: FONT_SANS, fontSize: 10, color: PANEL_MUTED }}>{t}</span>
                         </span>
                       ))}
                     </span>
@@ -2163,9 +2168,9 @@ function Detail({ b, showRigor, onClose }) {
                       <span style={{ display: "flex", flexDirection: "column", gap: 3, alignItems: "flex-end", flexShrink: 0 }}>
                         {[["Safety", c.ratings.safety], ["Clinical", c.ratings.clinical], ["Method", c.ratings.methodology]].map(([label, tier]) => tier ? (
                           <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                            <span style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: ".06em", textTransform: "uppercase", color: C.muted }}>{label}</span>
+                            <span style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: ".06em", textTransform: "uppercase", color: PANEL_MUTED }}>{label}</span>
                             <span style={{ width: 7, height: 7, borderRadius: 999, background: TIER_COLORS[tier] || C.unrated, flexShrink: 0 }} />
-                            <span style={{ fontFamily: FONT_MONO, fontSize: 10, fontWeight: 700, color: TIER_COLORS[tier] || C.muted, minWidth: 52, textAlign: "right" }}>{tier}</span>
+                            <span style={{ fontFamily: FONT_MONO, fontSize: 10, fontWeight: 700, color: TIER_COLORS[tier] || PANEL_MUTED, minWidth: 52, textAlign: "right" }}>{tier}</span>
                           </span>
                         ) : null)}
                       </span>
@@ -2178,6 +2183,9 @@ function Detail({ b, showRigor, onClose }) {
                       {c.evaluation && <Fact label="Evaluation" value={c.evaluation} />}
                       {c.population && <Fact label="Population" value={c.population} />}
                       {c.turn && <Fact label="Interaction" value={c.turn === "Single" ? "Single-turn" : c.turn} />}
+                      {!c.dataSource && !c.groundTruth && !c.evaluation && !c.population && !c.turn && (
+                        <div style={{ color: PANEL_MUTED, fontSize: 13.5, gridColumn: "1 / -1" }}>No additional information recorded for this benchmark yet.</div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -2185,18 +2193,13 @@ function Detail({ b, showRigor, onClose }) {
             })}
           </div>
         ) : (
-          /* facts grid — single-benchmark details (Details tab) or citation (Extra info) */
-          (() => {
-            const fields = tab === "extra" ? extraFields : detailFields;
-            return (
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px 28px", marginTop: 24 }}>
-                {fields.map(([k, v, wide]) => <Fact key={k} label={k} value={v} wide={wide} />)}
-                {fields.length === 0 && (
-                  <div style={{ color: C.muted, fontSize: 13.5, gridColumn: "1 / -1" }}>No additional information recorded for this benchmark yet.</div>
-                )}
-              </div>
-            );
-          })()
+          /* Source Info: citation / reference facts */
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px 28px", marginTop: 24 }}>
+            {extraFields.map(([k, v, wide]) => <Fact key={k} label={k} value={v} wide={wide} />)}
+            {extraFields.length === 0 && (
+              <div style={{ color: PANEL_MUTED, fontSize: 13.5, gridColumn: "1 / -1" }}>No source information recorded for this benchmark yet.</div>
+            )}
+          </div>
         )}
 
         {/* actions */}
@@ -2207,7 +2210,7 @@ function Detail({ b, showRigor, onClose }) {
             </a>
           )}
           {b.paperLink && (
-            <a href={b.paperLink} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: FONT_SANS, fontSize: 13, fontWeight: 600, color: runHref ? C.ink : "#fff", background: runHref ? C.paper : C.brand, border: runHref ? `1px solid ${C.line}` : "none", padding: "12px 18px", borderRadius: 999, textDecoration: "none" }}>
+            <a href={b.paperLink} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: FONT_SANS, fontSize: 13, fontWeight: 600, color: runHref ? PANEL_INK : "#fff", background: runHref ? "rgba(255,255,255,.55)" : PANEL_INK, border: runHref ? `1px solid ${line}` : "none", padding: "12px 18px", borderRadius: 999, textDecoration: "none" }}>
               View source paper <ExternalLink size={14} />
             </a>
           )}
