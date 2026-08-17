@@ -1,0 +1,35 @@
+{
+  "relevance_flag": "Might Be Related",
+  "benchmark_name": "Deep Multimodal Wearable Sensor Fusion for Detection of Body-Focused Repetitive Behaviors",
+  "paper_link": "http://arxiv.org/abs/2608.09830v1",
+  "open_vs_closed_source": "",
+  "month_year": "August 2026",
+  "authors": [
+    "Samaneh Rezaeimanesh",
+    "Mohsen Behradfar",
+    "Mohammad Fili",
+    "Guiping Hu"
+  ],
+  "institutions": "Department of Systems Engineering and Operations Research, George Mason University, Fairfax, VA 22030, USA",
+  "journal_venue": "Preprint \u2014 arXiv (submitted to IEEE for possible publication)",
+  "ground_truth_source": "CMI \u2013 Detect Behavior with Sensor Data dataset (Child Mind Institute / Kaggle competition); sequences labeled with gesture type (Target/Non-Target), gesture identity, orientation, behavior phase, sequence counter, and subject identifier",
+  "size_of_benchmark": "8,151 unique sequences from 81 participants (train: 5,810; val: 714; test: 1,627)",
+  "what_assessed_skills": "Detection and fine-grained classification of body-focused repetitive behaviors (BFRBs) vs. non-BFRB gestures from multimodal wrist-worn sensor data; multimodal sensor fusion; spatio-temporal feature learning; model interpretability",
+  "tasks_assessed": "Binary BFRB detection (Target vs. Non-Target); 9-class BFRB gesture classification (each BFRB gesture vs. grouped Non-Target); post-hoc interpretability via SHAP; hierarchical clustering of misclassification patterns",
+  "population_represented": "81 participants (adults and children) recruited through the Child Mind Institute's Healthy Brain Network; demographics include age, sex, handedness, height, and arm measurements",
+  "languages": "Not applicable (sensor data, no natural language)",
+  "num_domains": "",
+  "single_vs_multi_turn": "Single-Turn",
+  "evaluation_method": "Automated evaluation on held-out test set (1,627 sequences from 16 participants); metrics: F1 score, Precision, Recall, Specificity, ROC-AUC for binary and macro-averaged 9-class settings; SHAP-based feature attribution; hierarchical clustering of confusion matrices",
+  "num_llms_assessed": "0",
+  "llms_evaluated": "None \u2014 study uses deep learning models (CNN-GRU, BiGRU autoencoders, MLP Meta-Learner), not LLMs",
+  "mental_health_conditions": "Body-focused repetitive behaviors (BFRBs): trichotillomania (hair pulling), excoriation disorder (skin picking/pinching); associated with obsessive-compulsive and anxiety disorders",
+  "performance_scores": "ALL-MODALITY binary: F1=0.985, Precision=0.977, Recall=0.992, Specificity=0.960, ROC-AUC=0.997; ALL-MODALITY 9-class macro: F1=0.700, Precision=0.709, Recall=0.704, Specificity=0.973, ROC-AUC=0.963; IMU binary F1=0.972; THM binary F1=0.945; ToF binary F1=0.960",
+  "short_summary": "This paper proposes a multimodal deep learning framework for detecting and classifying body-focused repetitive behaviors (BFRBs) such as hair pulling and skin picking using wrist-worn sensor data from the Child Mind Institute's Helios device. The system fuses IMU, thermopile (THM), and time-of-flight (ToF) sensor streams via a hybrid CNN-GRU architecture with modality-specific autoencoder pretraining and a late-fusion MLP classifier. No LLMs are evaluated; instead, the framework competes against unimodal baselines (IMU-only, THM-only, ToF-only). Evaluation on a subject-grouped held-out test set uses F1, precision, recall, specificity, and ROC-AUC for binary and 9-class tasks. The multimodal model achieves F1=0.985 (binary) and macro F1=0.700 (9-class), outperforming all unimodal baselines, with SHAP analysis showing ToF and IMU as dominant modalities.",
+  "missing_or_uncertain_fields": [
+    "llms_evaluated \u2014 no LLMs assessed; study uses traditional deep learning models only",
+    "num_llms_assessed \u2014 0, paper does not evaluate any LLMs",
+    "open_vs_closed_source \u2014 not applicable (no LLMs tested)",
+    "languages \u2014 not applicable (sensor/wearable data study)"
+  ]
+}

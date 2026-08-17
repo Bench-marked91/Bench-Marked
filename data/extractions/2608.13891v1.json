@@ -1,0 +1,35 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "DepressionAgent: Reading, Listening, Seeing, and Deliberating Multimodal Evidence for Depression Risk Assessment",
+  "paper_link": "http://arxiv.org/abs/2608.13891v1",
+  "open_vs_closed_source": "Mixed",
+  "month_year": "August 2026",
+  "authors": [
+    "Fangjie Zhu",
+    "Haifeng Lu",
+    "Sicheng Zhao",
+    "Runhao Zeng",
+    "Xiping Hu"
+  ],
+  "institutions": "Shenzhen MSU-BIT University (Guangdong-Hong Kong-Macao Joint Laboratory for Emotional Intelligence and Pervasive Computing; Artificial Intelligence Research Institute); The University of Hong Kong; Tsinghua University",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "Dataset-defined binary depression risk labels from D-Vlog and LMVD public benchmarks; ground-truth labels accessed only after inference for metric computation",
+  "size_of_benchmark": "D-Vlog: 885 videos (of 961 total); LMVD: 1,823 videos",
+  "what_assessed_skills": "Multimodal depression risk assessment via explicit evidence deliberation: modality-specific evidence extraction (text, audio, video); support\u2013challenge reasoning; cross-modal arbitration; conflict reflection; risk-sensitive textual reassessment; explainability/inspectability of reasoning",
+  "tasks_assessed": "Binary depression risk classification (depressed vs. not depressed) from multimodal video data; multimodal evidence extraction and deliberation; cross-modal conflict resolution; risk reflection for false-negative reduction",
+  "population_represented": "YouTube vloggers (D-Vlog: 816 speakers, English vlogs); social media video participants (LMVD: 1,475 participants, multiple platforms); real-world unconstrained environments",
+  "languages": "English",
+  "num_domains": "3",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Automated evaluation on benchmark test sets using Accuracy, Precision, Recall, and F1-score (positive class = depression risk); ablation studies; reflection transition analysis; language masking experiments. Human evaluation by 5 clinicians (2 junior, 3 senior psychiatrists) on 30 D-Vlog samples using 5-point Likert scale (Evidence Relevance, Reasoning Coherence, Clinical Utility) and binary reasonable/unreasonable judgments for structured reasoning operations; ICC and Fleiss' \u03ba for inter-rater agreement. Evaluation: Both (Automated + Human).",
+  "num_llms_assessed": "3",
+  "llms_evaluated": "Qwen3-Omni-30B-A3B-Instruct (default); GPT-5.5; Gemini 3.1 Pro",
+  "mental_health_conditions": "Depression",
+  "performance_scores": "D-Vlog (matched test set): Acc=95.26%, Prec=95.24%, Rec=96.15%, F1=95.69%. LMVD (matched test set): Acc=82.57%, Prec=80.48%, Rec=85.76%, F1=83.04%. Full D-Vlog pool: Acc=92.43%, F1=93.20%. Cross-model accuracy gains vs. direct prediction: Qwen3-Omni +20.1pp, GPT-5.5 +29.1pp, Gemini 3.1 Pro +20.7pp. Clinician Likert means: Evidence Relevance=3.65, Reasoning Coherence=3.71, Clinical Utility=3.21.",
+  "short_summary": "DepressionAgent is an evidence-centric, reflection-driven multi-agent framework for multimodal depression risk assessment from text, audio, and video. Rather than fusing latent features, it explicitly extracts modality-specific evidence, organizes it into self-report and audio-visual behavioral branches with Hypothesis and Challenger agents, performs cross-modal arbitration with Conflict Reflection, and applies Risk Reflection for low-risk cases to reduce false negatives. The framework operates in a zero-shot, training-free setting using LLMs (default: Qwen3-Omni-30B-A3B-Instruct) and is evaluated on D-Vlog and LMVD benchmarks. It achieves state-of-the-art competitive performance (95.69% F1 on D-Vlog test set) and is additionally assessed by five clinicians for reasoning quality and inspectability.",
+  "missing_or_uncertain_fields": [
+    "GPT-5.5 and Gemini 3.1 Pro are unusual model names not confirmed in external sources at time of extraction \u2014 may be internal/future model designations",
+    "Exact test set sizes for matched SOTA comparison not explicitly stated separately from full dataset sizes",
+    "num_domains inferred as 3 (text, audio, video modalities) \u2014 paper does not use the term 'domains' explicitly"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "relevance_flag": "Definitely Related",
+  "benchmark_name": "How LLMs Respond to Escalating Delusions: Four Longitudinal Trajectories of Model Behavior",
+  "paper_link": "http://arxiv.org/abs/2608.13017v1",
+  "open_vs_closed_source": "Mixed",
+  "month_year": "August 2026",
+  "authors": [
+    "Anna Sterna",
+    "Kacper Dudzic",
+    "Karolina Dro\u017cd\u017c",
+    "Hubert Plisiecki",
+    "Marcin Rz\u0105deczka",
+    "Marcin Moskalewicz"
+  ],
+  "institutions": "IDEAS Research Institute, Warsaw; Adam Mickiewicz University, Poznan; AMU Center for Artificial Intelligence, Poznan; Maria Curie-Sk\u0142odowska University, Lublin",
+  "journal_venue": "Preprint \u2014 arXiv",
+  "ground_truth_source": "Qualitative ratings by four trained psychology students using researcher-defined criteria (recognition stage, interpretative confidence, intervention profile, disengagement flag); criteria formulated by a clinical psychologist; adjudicated disengagement variable re-coded by an independent second coder on 20% subsample",
+  "size_of_benchmark": "449 model-days (15 models \u00d7 30 days, minus 1 missing response); 30-message scripted conversation",
+  "what_assessed_skills": "LLM psychosis recognition timing and trajectory; clinical framing stability; intervention accuracy (education, psychoeducation, emotional support, psychological interpretation, recommendation); disengagement recommendation behavior; semantic entrainment to delusional content; interpretative confidence/modality; potential to exacerbate AI psychosis",
+  "tasks_assessed": "Multi-turn scripted conversation with simulated prodromal psychotic user escalating over 30 days; recognition stage rating (naive engagement to stabilized clinical framing); intervention profile assessment; disengagement flag detection; automated entrainment scoring; automated modality (booster/hedge) scoring",
+  "population_represented": "Simulated prodromal psychotic user (stressed, isolated, sleep-deprived); representative of individuals in prodromal phase of psychosis, including those vulnerable to AI psychosis",
+  "languages": "English",
+  "num_domains": "",
+  "single_vs_multi_turn": "Multi-Turn",
+  "evaluation_method": "Both (Human + Automated). Human: four trained psychology students rated all 449 model-days on recognition stage (4-point ordinal), interpretative confidence (3-point), and intervention profile (5 categories, 3-point Likert each); disengagement flag adjudicated by one adjudicator confirmed on 20% subsample by independent second coder. Metrics: Krippendorff's \u03b1, pairwise quadratic-weighted \u03ba, ICC, permutation tests on rank-sums. Automated: two computational metrics \u2014 entrainment (cosine similarity of semantic embeddings, Qwen3-Embedding-4B) and modality (booster/hedge lexicon count via spaCy).",
+  "num_llms_assessed": "15",
+  "llms_evaluated": "Claude Haiku 3.5, Claude Haiku 4.5, Claude Sonnet 4, Claude Sonnet 4.5, Claude Opus 3, Claude Opus 4, Claude Opus 4.1, Claude Opus 4.5, GPT-4o, GPT-5.1 Instant, GPT-5.1 Thinking, Gemini 2.5 Flash, Gemini 2.5 Pro, Gemini 3.1 Pro, DeepSeek-V3",
+  "mental_health_conditions": "Psychosis (prodromal psychosis, AI psychosis, delusional beliefs, psychotic ideation)",
+  "performance_scores": "Four trajectory regimes identified: (1) Premature medicalization/disengagement: Claude Haiku 4.5 (clinical framing day 3, stable day 5, first Level-B day 3, 26 days at stage 4, 28 Level-B days); (2) Recognition without safeguarding: GPT-5.1 Instant (clinical day 7, stable day 21, no Level-B), GPT-5.1 Thinking (clinical day 14, stable day 24, no Level-B); (3) Delayed/unstable recognition: Claude Opus 4.1 (day 21), Claude Haiku 3.5 (day 22), GPT-4o (day 22), Claude Opus 4 (day 24), Claude Opus 3 (day 26), Gemini 3.1 Pro (day 26); (4) Delusion co-construction \u2014 never reached clinical framing: Claude Sonnet 4, DeepSeek-V3, Gemini 2.5 Flash, Gemini 2.5 Pro. Entrainment: 4.5-gen Claude lowest (0.05\u20130.14), never-turning models highest (0.21\u20130.25); correlated with Level-B counts (Spearman \u03c1=\u2212.69, p=.005). Recognition stage ICC(2,k)=.948. Level-A recommendations: 118/449 days; Level-B: 93/449 days.",
+  "short_summary": "This paper proposes and tests a longitudinal evaluation framework to assess how 15 mainstream LLMs respond to a simulated user progressively descending from mild anomalous experiences into psychotic ideation over 30 scripted messages. The study addresses the phenomenon of \"AI psychosis\" \u2014 where LLMs may act as catalysts or co-authors of delusional beliefs \u2014 and is the first to evaluate LLMs longitudinally across an extended interaction with a prodromal psychotic user, including the AI itself as an object of delusion. Four trained human evaluators rated all 449 model-days on recognition stage, interpretative confidence, and intervention profile, supplemented by two automated metrics (entrainment and modality). Four distinct trajectory regimes were identified across the 15 models: premature medicalization/disengagement (Claude Haiku 4.5), recognition without safeguarding (GPT-5.1 Instant/Thinking), delayed and unstable recognition (Claude Opus 3/4/4.1, Claude Haiku 3.5, GPT-4o, Gemini 3.1 Pro), and delusion co-construction (Gemini 2.5 Pro/Flash, DeepSeek-V3, Claude Sonnet 4). The findings demonstrate that LLM safety for psychiatric populations must be evaluated longitudinally, as psychosis-enhancing factors emerge over extended interactions rather than in isolated responses.",
+  "missing_or_uncertain_fields": [
+    "Performance scores \u2014 detailed quantitative scores for all 15 models across all metrics not fully tabulated in paper (milestones provided but not all sub-metric scores)",
+    "open_vs_closed_source \u2014 DeepSeek-V3 is open-weight but used via API; Claude/GPT/Gemini are closed; classification as Mixed is inferred",
+    "month_year \u2014 paper dated August 2026 on arXiv preprint (future date relative to training data; extracted as stated)"
+  ]
+}

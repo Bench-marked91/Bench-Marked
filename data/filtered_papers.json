@@ -1,236 +1,359 @@
 [
   {
-    "id": "2608.07316v1",
-    "title": "Natural Language Processing Psychometrics",
-    "summary": "Natural Language Processing (NLP) models predicting mental health outcomes rarely specify what they measure: contextual knowledge, emotional content, or syntactic structure. NLP Psychometrics treats psychological prediction from text as a psychometric problem, linking scores to interpretable linguistic evidence and testing beyond the training text format. Nine LLMs, conditioned on controlled personas (cognitive digital shadows), completed psychometric questionnaires with textual explanations per item. We extracted emotional profiles and syntactic-semantic structure via textual forma mentis networks, combined with personality and sociodemographic variables in ablated random forest (RF) regressors, using SHAP to identify which features drove performance and in which direction. Full RF models explained up to 70.8% of variance in life satisfaction (SWLS), 55.7% in depression (PHQ-9), and, for DASS-21, 68.5% depression, 76.0% anxiety, 72.4% stress. Sociodemographics alone explained no meaningful variance in depression, anxiety, or stress, but did so for life satisfaction, where emotion features and income were the strongest predictors; neuroticism and network topology instead dominated depression and anxiety, reversing direction between them. Without retraining, RF models separated diaries from low- and high-score personas ($r$ up to 0.91) and, using only network/emotion features, classified clinical from control participants in real transcripts with up to 68% accuracy. These results show the promise and limits of synthetic data: LLM personas can expose model biases, recover patterns consistent with clinical rumination, and support psychometric prediction from human text without a matched questionnaire, but cannot substitute for human validation. NLP Psychometrics makes these distinctions explicit, measurable, and testable through interpretable AI and network/emotional features.",
-    "published": "2026-08-07T15:10:57Z",
+    "id": "2608.14273v1",
+    "title": "Designing Mobile and Wearable Sensor-Fused Conversational Agents for Health and Wellbeing",
+    "summary": "Mobile and wearable devices increasingly collect continuous wellbeing data, including sleep, activity, heart rate, stress, blood glucose, and blood pressure. Yet access to such data does not automatically help people interpret their condition or change behavior. Many health applications remain dashboard-first, presenting charts, thresholds, goals, and alerts while leaving users to decide what a change means and what action should follow. Conversely, generic LLM-based conversational agents (CAs) can provide fluent advice, but without personal sensor grounding, they cannot detect individualized patterns or provide contextual guidance. This three-hour tutorial teaches participants how to move from passive monitoring to actionable wellbeing dialogue. Participants examine a dashboard that combines wearable health-data visualization with conversational-agent feedback, then use Wearable Sensor-Dialogue Wellbeing Agent Studio (WSDWAS) to simulate wearables, generate sensor snapshots, configure agent personas and prompt blocks, and compare dialogue styles. Grounded in Positive Computing, the tutorial emphasizes autonomy, competence, privacy, safety, and boundaries between wellbeing support and medical advice.",
+    "published": "2026-08-14T12:55:25Z",
     "authors": [
-      "Edoardo Sebastiano De Duro",
-      "Emma Franchino",
-      "Massimo Stella"
+      "Hansoo Lee",
+      "Pablo Fonseca",
+      "Md Haseen Akhtar"
     ],
-    "abstract_url": "http://arxiv.org/abs/2608.07316v1",
-    "pdf_url": "https://arxiv.org/pdf/2608.07316v1",
-    "source": "arXiv",
-    "relevance": "Definitely Related",
-    "relevance_reason": "The paper evaluates multiple LLMs on clinical mental health outcomes (depression via PHQ-9, anxiety/stress via DASS-21, life satisfaction via SWLS) and demonstrates their ability to predict and classify clinical vs. control participants in a healthcare-oriented assessment context."
-  },
-  {
-    "id": "2608.07092v1",
-    "title": "International Transfer of Stochastic Cortical Self-Reconstruction",
-    "summary": "Stochastic cortical self-reconstruction (SCSR) enables personalized mapping of gray matter atrophy, a hallmark of neurodegenerative disorders such as Alzheimer's disease (AD), onto high-resolution cortical surfaces. Unlike conventional normative modeling approaches, which typically operate at a coarse regional level and remain inherently constrained by the covariates included during training, SCSR estimates an individualized healthy reference directly from the observed cortical thickness at the vertex level. This allows the detection of subtle, subject-specific deviations from healthy cortical shape. In this work, we investigate the generalization and transferability of SCSR, originally trained on UK Biobank (UKB) data, to an independent Chinese population dataset. Specifically, we evaluate the ability of SCSR-derived Z-scores to discriminate between healthy scans, individuals with mild cognitive impairment (MCI), and patients with AD, while also assessing model robustness across the lifespan. We compare four training strategies: direct application of the UKB-trained model, fine-tuning on Chinese data, training from scratch, and joint training on UKB and Chinese cohorts. As reconstruction backbones, we consider both a multilayer perceptron (MLP) and a Spherical UNet (SUNet). Our results demonstrate that SCSR provides robust detection of cortical atrophy in the Chinese population across all evaluated models. The highest discriminative performance was achieved by the fine-tuned SUNet model (average pairwise AUC = 0.848), followed closely by the UKB-trained SUNet. Moreover, reconstruction errors remained low across the lifespan, even when the training population exhibited a substantially narrower age distribution, indicating strong cross-population transferability.",
-    "published": "2026-08-07T10:41:52Z",
-    "authors": [
-      "Fabian Bongratz",
-      "Zhizheng Zhuo",
-      "Chao Zhang",
-      "Yaou Liu",
-      "Dennis M. Hedderich",
-      "Christian Wachinger"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2608.07092v1",
-    "pdf_url": "https://arxiv.org/pdf/2608.07092v1",
+    "abstract_url": "http://arxiv.org/abs/2608.14273v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.14273v1",
     "source": "arXiv",
     "relevance": "Might Be Related",
-    "relevance_reason": "The paper evaluates an AI model (SCSR) on detecting cortical atrophy in neurodegenerative disease (Alzheimer's/MCI), but focuses on neuroimaging analysis and biomarker detection rather than clinical diagnosis, screening, or symptom assessment tasks typical of mental-health-focused benchmarking."
+    "relevance_reason": "Involves wellbeing broadly and conversational AI but does not explicitly evaluate an LLM on a DSM-5 mental health condition or clinical task; stress is mentioned but the focus is on general wellness monitoring rather than clinical mental health assessment or diagnosis."
   },
   {
-    "id": "2608.06785v1",
-    "title": "Multi-Perspective Triad Interaction Graph Neural Network for Cognitive Distortion Detection",
-    "summary": "Cognitive distortion detection is a key task in computational mental health, yet existing approaches often overlook the psychological structure of distorted thoughts. We propose MTI-GNN (Multi-Perspective Triad Interaction Graph Neural Network), which models Beck's cognitive triad---negative views of the self, world, and future---as complementary perspectives for classification. An LLM decomposes each utterance into the three perspectives, from which perspective-specific similarity graphs are constructed and encoded by a Multi-Perspective GNN. A Triad Interaction module models cross-perspective dependencies through sequential source-conditioned updates and feature-wise gating, while Prototype-Guided Perspective Fusion performs label-conditioned aggregation. Label-expanded supervision incorporates all available distortion annotations during training. We evaluate MTI-GNN on 9,764 samples from four Korean, English, and Chinese datasets spanning ten distortion categories. MTI-GNN significantly outperforms all supervised variants and exceeds eight prompted generative models under zero-shot and few-shot settings. Leave-one-perspective-out ablations show that all three perspectives contribute significantly, while human expert evaluation provides preliminary evidence of their alignment with the intended cognitive dimensions.",
-    "published": "2026-08-07T04:06:50Z",
+    "id": "2608.13990v1",
+    "title": "Content Depth Matters in Short-Video Recommendation: Rethinking the Attention Economy",
+    "summary": "Driven by the attention economy, short-video Recommender Systems (RSs) are primarily optimized to maximize user engagement by promoting videos that capture attention within seconds. These systems inherently favor shallow-content videos that are effective at attracting immediate attention. However, growing evidence suggests that prolonged exposure to such content may negatively affect users' cognitive engagement and mental well-being, raising concerns about the long-term societal impact of the short-video platform. To tackle this challenge, this paper introduces a new metric, the \\textbf{Content Depth Score (CDS)}, to quantify the content depth of short videos. CDS measures the extent to which a video is expected to stimulate higher-order cognitive processes, using a seven-level scale grounded in established theories of cognitive psychology and learning. As an initial step toward this vision, we present \\textbf{SCOPE-Bench}, the first benchmark for content-depth evaluation in short-video recommendation. Built upon a large-scale open-source short-video dataset, SCOPE-Bench provides CDS annotations for 150K videos, enabling systematic evaluation of RSs from a cognitive-content perspective. Leveraging SCOPE-Bench, we evaluate 13 representative RSs and reveal a consistent preference for shallow-content videos. Moreover, we find that these algorithms recommending cognitively deep content are only marginally better than random selection, highlighting a previously overlooked limitation of existing recommendation objectives. Our code and datasets are available at https://liweidengdavid.github.io/SCOPE-Bench/.",
+    "published": "2026-08-14T06:13:40Z",
     "authors": [
-      "Jun Seo Kim",
-      "Hye Hyeon Kim"
+      "Liwei Deng",
+      "Jing Jiang",
+      "Zhiwei Li",
+      "Yang Wang",
+      "Guodong Long"
     ],
-    "abstract_url": "http://arxiv.org/abs/2608.06785v1",
-    "pdf_url": "https://arxiv.org/pdf/2608.06785v1",
+    "abstract_url": "http://arxiv.org/abs/2608.13990v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.13990v1",
+    "source": "arXiv",
+    "relevance": "Not Related",
+    "relevance_reason": "While the paper discusses mental well-being in relation to short-video content, it does not evaluate an AI model on a clinical mental-health task, diagnosis, screening, or symptom assessment for a DSM-5 condition."
+  },
+  {
+    "id": "2608.13891v1",
+    "title": "DepressionAgent: Reading, Listening, Seeing, and Deliberating Multimodal Evidence for Depression Risk Assessment",
+    "summary": "Multimodal depression risk assessment requires jointly interpreting textual, acoustic, and visual cues that are often subtle, non-specific, context-dependent, and potentially inconsistent across modalities. Existing multimodal approaches predominantly learn latent representations through feature fusion, leaving the evidence underlying a prediction and the treatment of cross-modal disagreement largely implicit. We propose DepressionAgent, an evidence-centric agentic framework that transforms multimodal depression assessment from implicit feature fusion into explicit evidence deliberation. DepressionAgent first converts textual, acoustic, and visual inputs into modality-specific evidence, and then organizes self-report and behavioral evidence into parallel support--challenge deliberation branches. Cross-modal arbitration explicitly examines agreement and disagreement between the two branches, with conflict reflection revisiting inconsistent assessments before decision making. A subsequent risk reflection mechanism provides an independent textual second opinion for initially low-risk cases to reduce potentially missed risk signals. Without depression-specific supervised training or parameter fine-tuning, DepressionAgent achieves competitive performance on multiple public benchmarks. Extensive ablations, cross-model evaluations, qualitative analyses, and clinician assessments further demonstrate the effectiveness and inspectability of the proposed framework.",
+    "published": "2026-08-14T02:44:31Z",
+    "authors": [
+      "Fangjie Zhu",
+      "Haifeng Lu",
+      "Sicheng Zhao",
+      "Runhao Zeng",
+      "Xiping Hu"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.13891v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.13891v1",
     "source": "arXiv",
     "relevance": "Definitely Related",
-    "relevance_reason": "The paper evaluates an AI model (MTI-GNN) on cognitive distortion detection, a clinical task directly relevant to depression and anxiety disorders, using psychological frameworks (Beck's cognitive triad) on mental-health datasets."
+    "relevance_reason": "The paper evaluates an AI model (DepressionAgent) on depression risk assessment using multimodal data, with clinical evaluation including clinician assessments, meeting all criteria for a clinical/healthcare-oriented mental health AI benchmark study."
   },
   {
-    "id": "2608.06110v1",
+    "id": "2608.13695v1",
+    "title": "Language-Specific Gaps in AI Safety Training Datasets",
+    "summary": "Large language model providers routinely cite multilingual safety benchmarks spanning a dozen or more languages as evidence that their models are safe for non-English-speaking users. We show that these collection-level coverage claims frequently do not survive inspection at the level of an individual language. Auditing 21 resources across 25 language slices, of which 20 count as datasets under our counting rules, spanning three languages chosen to represent low- (Hausa), mid- (Swahili), and high-resource (French) tiers, we find that gaps in provenance, annotation reliability, access, harm-taxonomy coverage, and data reuse recur in patterns that partially, but not fully, track resource level. Using a controlled within-pipeline comparison, we show a Hausa-language slice falling below its own paper's translation-quality acceptance threshold while the same pipeline's Swahili output clears the same bar comfortably; this is evidence that these gaps are measurable and addressable, not inherent. We further show that self-harm and sexual-content categories have no native-language coverage in either African-language tier we studied, a total rather than gradated gap that a purely resource-level account does not predict. We connect these findings to a documented, persistent asymmetry in multilingual jailbreak robustness (single-turn attacks largely mitigated, multi-turn attacks still effective), arguing that this asymmetry is structurally consistent with where our audit finds training and evaluation data thinnest. We contribute a reusable slice-level audit methodology, a cross-tier empirical comparison, and concrete recommendations for dataset creators, model providers, and venues aiming to make ``multilingual coverage'' claims verifiable rather than merely stated. Dataset: https://huggingface.co/datasets/ChialukaOnuoha/safety-slice-audit",
+    "published": "2026-08-13T18:40:22Z",
+    "authors": [
+      "Chialuka Prisca-Mary Onuoha",
+      "Bright Etornam Sunu",
+      "Rashidat Sikiru"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.13695v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.13695v1",
+    "source": "arXiv",
+    "relevance": "Not Related",
+    "relevance_reason": "The paper focuses on AI safety training datasets and multilingual coverage gaps, with no evaluation of AI models on mental-health tasks or DSM-5 conditions."
+  },
+  {
+    "id": "2608.13676v1",
+    "title": "EEG-PRISM: Physiologically-Grounded Interpretability of Predictions by EEG Foundation Models",
+    "summary": "Objective: Foundation models represent the next advancement in AI for EEG analysis; however current explainable AI techniques provide attribution scores in the time-channel input space, which is mismatched to clinical intuition about EEG. Thus, there is a critical need for a universal method that can extend the interpretability of any foundation model to alternative and physiologically relevant domains without modifying or retraining the underlying model. Methods: EEG-PRISM leverages linear transformations and established backpropagation rules to map time-channel attribution scores into alternative domains. We derive mappings to the frequency domain via an invertible DFT and to the source domain via an approximately invertible EEG generative model. We evaluate EEG-PRISM in simulated and real data, assessing recovery of ground-truth phenomena across domains with five foundation models and four AI explainers. Results: In simulation, EEG-PRISM achieves near-perfect spectral recovery and 69.2% spatial accuracy. In epilepsy, EEG-PRISM correctly determines that delta-theta activity is most salient and correctly localizes the seizure onset region with 50% accuracy. In autism, EEG-PRISM localizes the predictive delta-alpha biomarkers to frontal and temporal regions, consistent with prior work. Conclusion: EEG-PRISM is a theoretically-grounded post-hoc attribution method with accurate mapping into the spectral and spatial domains. It supports window-level analysis of transient events (e.g., seizures) and group-level identification of clinically relevant biomarkers (e.g., autism), thus advancing interpretable EEG foundation models. Significance: This work enables physiologically-grounded interpretation of EEG foundation models and supports clinically relevant insights such as event localization and biomarker identification.",
+    "published": "2026-08-13T18:17:47Z",
+    "authors": [
+      "Deeksha M Shama",
+      "Punnisa Amornsirikul",
+      "Archana Venkataraman"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.13676v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.13676v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "The paper evaluates AI (foundation models) on EEG data for epilepsy and autism conditions, but the primary focus is on developing an interpretability method (EEG-PRISM) rather than benchmarking model performance on clinical tasks; it is a resource/method paper that could support clinical applications but does not directly evaluate diagnosis, screening, or patient monitoring outcomes."
+  },
+  {
+    "id": "2608.13425v1",
+    "title": "Motor, Cognitive, or Corpus? What Survives Cross-Lingual Transfer in Speech-Based Parkinsons Disease Detection",
+    "summary": "Self-supervised learning (SSL) speech representations achieve strong performance for Parkinson's disease (PD) detection within individual corpora. However, it remains unclear whether these models capture disease-related characteristics or exploit dataset-specific confounds, particularly since most SSL backbones are pretrained exclusively on healthy speech. To investigate this question, we perform a layer-wise analysis of nine SSL speech backbones using a low-capacity logistic regression probe across three languages. We structure the evaluation as multiple scenarios that progressively introduce distribution shifts in participant identity, recording conditions, language, and pathology. Our results reveal two key findings. First, layer selection is highly corpus-dependent: the optimal representation layer is determined primarily by the source dataset rather than by the SSL architecture itself. Second, the transferred discriminative signal lacks pathological specificity: classifiers trained to detect PD assign similarly high probabilities to both PD and dementia speech in the target corpus. These results highlight critical limitations that must be addressed before speech-based pathology recognition models can be reliably deployed in clinical settings.",
+    "published": "2026-08-13T16:15:32Z",
+    "authors": [
+      "Serli Kopar",
+      "Sam Gijsen",
+      "Abner Hernandez",
+      "Paula Andrea Perez-Toro",
+      "Kerstin Ritter"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.13425v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.13425v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "Involves AI evaluation on a neurological disorder (Parkinson's disease) with clinical application potential, but Parkinson's disease is a neurodegenerative motor disorder rather than a DSM-5 mental health condition, and the paper focuses on technical SSL representation analysis rather than clinical mental-health benchmarking."
+  },
+  {
+    "id": "2608.13168v1",
+    "title": "Which LLM Is Your Ideal Companion? Evaluating Emotional Companion Capabilities of LLMs Based on Adult Attachment Theory",
+    "summary": "As large language models (LLMs) are increasingly applied for emotional companionship, evaluating their behavior and capabilities in intimate relationships has become a pressing issue. However, existing assessments primarily characterize general personality traits, providing limited insight into model behavior within intimate and emotionally sensitive contexts. Therefore, we introduce adult attachment theory into LLM evaluation and use the Experiences in Close Relationships-Revised (ECR-R) scale to characterize attachment anxiety and avoidance. To evaluate emotional companionship capabilities of LLMs in realistic interaction scenarios, we present an emotional companionship benchmark, ECBench, spanning four scenarios including emotional support, collaborative tasks, conflict resolution, and social guidance, across friendship and romantic relationships. ECBench is utilized to assess model behavior using 11 dialogue-quality metrics and three evaluation methods. We evaluate the attachment tendencies of 32 LLMs and select representative models to investigate how these tendencies manifest in contextualized multi-turn interactions and whether they can be shaped through prompting. Our study provides a theoretical lens from psychology, along with practical tools to understand and select LLMs for emotional companionship.",
+    "published": "2026-08-13T12:32:33Z",
+    "authors": [
+      "Junkai Zhou",
+      "Shiting Guan",
+      "Zhaoyi Zhang"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.13168v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.13168v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "The paper evaluates LLMs using attachment theory and psychological scales (ECR-R), but focuses on general emotional companionship capability rather than clinical diagnosis, screening, or treatment of a specific DSM-5 mental health condition."
+  },
+  {
+    "id": "2608.13017v1",
+    "title": "How LLMs Respond to Escalating Delusions: Four Longitudinal Trajectories of Model Behavior",
+    "summary": "The widespread use of LLMs among psychiatric populations has raised concerns regarding their safety and potential iatrogenic impact in the context of AI psychosis. While growing literature conceptualizes AI psychosis and documents case studies, empirical evidence tracing AI-exacerbated psychotic processes remains scarce. We propose and test a longitudinal qualitative evaluation design, supported by automated metrics, to assess mainstream LLMs' potential to exacerbate psychosis. Fifteen widely used LLMs were prompted across 30 days using the same 30-message script, simulating progression from mild anomalous experiences to psychotic ideation. Four trained evaluators independently rated 449 model-days, assessing (1) recognition stage (from naive engagement to stabilized clinical framing), (2) interpretative confidence, and (3) intervention profile (from education to treatment recommendation). Two computational metrics-entrainment and modality-were devised to increase evaluation reliability. Direct recommendations to disengage from the LLM were flagged and re-coded via adjudication using a strict two-level definition. Across model generations and vendors, we identified four response trajectories: (1) premature medicalization and disengagement (Claude Haiku 4.5); (2) recognition without safeguarding, marked by LLM self-sufficiency in offering help (GPT Instant/Thinking); (3) delayed and unstable recognition, marked by late, non-progressive conceptualization (Claude Opus 3/4/4.1, Claude Haiku 3.5, GPT-4o, Gemini 3.1 Pro); and (4) delusion co-construction through active engagement with delusional content (Gemini 2.5 Pro/Flash, DeepSeek-V3, Claude Sonnet 4). Our findings indicate that LLMs' potential to exacerbate AI psychosis should be operationalized as a combination of recognition timing, stability, and intervention accuracy and evaluated longitudinally, focusing on temporal dynamics.",
+    "published": "2026-08-13T09:36:40Z",
+    "authors": [
+      "Anna Sterna",
+      "Kacper Dudzic",
+      "Karolina Dro\u017cd\u017c",
+      "Hubert Plisiecki",
+      "Marcin Rz\u0105deczka",
+      "Marcin Moskalewicz"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.13017v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.13017v1",
+    "source": "arXiv",
+    "relevance": "Definitely Related",
+    "relevance_reason": "The paper evaluates mainstream LLMs' responses to escalating psychotic ideation (a DSM-5 condition) through a longitudinal clinical assessment design, directly testing whether AI models exacerbate psychosis in psychiatric populations."
+  },
+  {
+    "id": "2608.12062v1",
+    "title": "Preference Tree Optimization: Enhancing Goal-Oriented Dialogue with Look-Ahead Simulations",
+    "summary": "Developing dialogue systems capable of engaging in multi-turn, goal-oriented conversations remains a significant challenge, especially in specialized domains with limited data. This research proposes a novel framework called Preference Tree Optimization (PTO), designed to iteratively improve agent models in such dialogue systems, by generating preference data using a method called Preference Tree with Look-Ahead. Focusing on Motivational Interviewing (MI) -- a counseling technique aimed at facilitating behavioral change -- we leverage virtual patients and an oracle evaluator to simulate conversations and generate rich preference datasets. By combining this method with Direct Preference Optimization (DPO), we aim to enhance the agent's decision-making capabilities over iterative training cycles. The proposed framework addresses data scarcity and advances the development of more nuanced and effective dialogue systems in goal-oriented domains. Experimental evaluations demonstrate that the PTO framework enhances dialogue agents' performance in goal-oriented conversations within the domain of Motivational Interviewing (MI). Models trained with PTO consistently outperformed the baseline in key metrics such as session satisfaction and working alliance. Additionally, incorporating look-ahead simulations led to improved long-term planning and more effective conversational strategies, with deeper look-ahead configurations yielding the most stable and high-scoring results.",
+    "published": "2026-08-12T13:48:30Z",
+    "authors": [
+      "Lior Baruch",
+      "Moshe Butman",
+      "Kfir Bar",
+      "Doron Friedman"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.12062v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.12062v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "The paper evaluates an AI dialogue system on motivational interviewing (a counseling technique for behavioral change), but does not explicitly map to a DSM-5 mental health condition or evaluate clinical diagnosis/screening; it focuses on dialogue quality and working alliance rather than condition-specific clinical outcomes."
+  },
+  {
+    "id": "2608.11955v2",
+    "title": "Philosophical vertigo with artificial intelligence",
+    "summary": "Large language models are already adept at engaging users in long, emotionally salient conversations across ordinary and existential domains. They are also capable of inducing a potent sense of connection with a human-like entity, even when the user knows their interlocutor is artificial. For some users, these conversations can unsettle assumptions about mind, reality, agency and authority, producing forms of ontological shock and epistemic destabilisation in which inherited criteria become newly available for doubt or revision. Independent of direct use, exposure to public discourse about AI and the disorienting pace of their evolution might extend this destabilisation by changing the cultural background against which artificial minds are encountered and interpreted. We describe this condition as philosophical vertigo: a loosening of the ordinary criteria by which people stabilise meaning and orient themselves to reality. Drawing on philosophy, psychiatry, cognitive science, AI safety and religious studies, we outline pathways through which philosophical vertigo may arise, become affectively saturated, and eventually propagate through human-AI interaction and online communities. Against this background, clinical reports of AI-associated delusions can be seen as sentinel events making visible themes and mechanisms that may also operate at a population level in less severe or non-clinical forms. We argue that AI systems themselves will increasingly participate in the reconstruction of our shared epistemic environment because they readily supply narrative material and personalised interpretive scaffolding at precisely the moment when users' conceptual assumptions may already be loosened. We conclude by considering possible trajectories for the ecology of belief and shared reality, and proposing philosophical corrigibility as a civic response for navigating this emerging social condition.",
+    "published": "2026-08-12T11:40:50Z",
+    "authors": [
+      "Thomas A. Pollak",
+      "Hamilton Morrin",
+      "Murray Shanahan"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.11955v2",
+    "pdf_url": "https://arxiv.org/pdf/2608.11955v2",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "The paper discusses AI-induced psychological effects and mentions clinical delusions, but does not evaluate an AI model on a specific mental-health task; instead, it provides philosophical and theoretical analysis of AI's potential psychological impacts."
+  },
+  {
+    "id": "2608.11830v1",
+    "title": "Quantifying the Relationship Between Clinical Safety and Environmental Impact in Therapeutic LLMs",
+    "summary": "The deployment of large language models (LLMs) in mental health contexts raises questions about the relationship between clinical safety and environmental cost. In this paper, we examine this relationship by combining K-Bench clinical safety scores with EcoLogits life-cycle assessment estimates across 47 supported model configurations. We evaluate model performance and environmental impact across four dimensions: energy use, carbon emissions, water consumption, and abiotic depletion. The results indicate a non-linear trade-off at the upper end of the safety distribution: a 2.61 percentage-point increase in clinical safety score corresponded to an approximately 60-fold increase in estimated energy use per million output tokens. Row-level analyses further suggest that additional test-time compute did not consistently improve clinical safety and, in some configurations, was associated with lower clinical safety scores. These findings suggest that relying solely on larger models or additional inference-time computation may be an inefficient strategy for improving safety in therapeutic AI systems. We discuss the implications for sustainable deployment and highlight dynamic model selection, including model cascading, as a potential approach for reducing environmental impact while preserving clinical performance in higher-risk cases.",
+    "published": "2026-08-12T09:14:26Z",
+    "authors": [
+      "Alireza A. Safaei",
+      "Laura M. Vowels",
+      "Matthew J. Vowels",
+      "Apoorv Jha",
+      "Shekoufeh Rahimi"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.11830v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.11830v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "The paper evaluates LLMs on clinical safety in mental health contexts using K-Bench scores, but does not explicitly benchmark or evaluate an AI model's performance on a specific clinical task (diagnosis, screening, therapy, or symptom assessment); instead, it focuses on the relationship between safety scores and environmental impact."
+  },
+  {
+    "id": "2608.11762v1",
+    "title": "A comparison of CNN architectures for Alzheimer's disease detection in single-view MRI scans",
+    "summary": "Alzheimer's disease is a leading cause of death with no cure. Therefore, early detection is critical to slow progression and preserve quality of life. Diagnosis relies on medical history, cognitive tests, physical exams, and MRI brain scans, making deep learning suitable for Alzheimer's classification. This work proposes a benchmark that evaluates ten different convolutional neural network (CNN) architectures (including ResNet, DenseNet, MobileNet, EfficientNet, and VGG family models) under the same held-out test split protocol. A two-stage transfer learning and full fine-tuning pipeline is introduced to perform training using a class-balanced subset (3,900 images) derived from the OASIS medical imaging dataset, comprising 86,437 single-view MRI brain scans labeled into four classifications of Alzheimer's disease: Non-Demented, Very Mild Dementia, Mild Dementia, and Moderate Dementia. The best results were achieved by VGG16, with a 0.9637 validation accuracy and a 0.9533 test accuracy score. A key finding documented in this work is the difficulty of classifying the transition from Non-Demented to Very Mild Demented stages, observed consistently across all ten architectures.",
+    "published": "2026-08-12T08:01:15Z",
+    "authors": [
+      "Hiram Zuniga",
+      "Ulises Orozco-Rosas",
+      "Kenia Picos"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.11762v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.11762v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "While the paper evaluates AI models on a clinical neuroimaging task, Alzheimer's disease is a neurodegenerative condition rather than a core DSM-5 mental health disorder, placing it in the adjacent-to-mental-health category."
+  },
+  {
+    "id": "2608.11420v1",
+    "title": "Social Chain of Thought: A Multi-Agent Architecture Grounded in Medical Differential Diagnosis Methodology",
+    "summary": "Medical diagnostic reasoning is a high-impact use case for LLMs that carries significant implications for the health and wellbeing of users. When OpenAI (2026) reports that more than 5% of ChatGPT messages globally are healthcare-related, the transparency of these systems becomes a serious design concern. This is especially true for complex cases, where differential diagnosis often requires integrating multiple forms of specialist reasoning. Existing work has proposed multi-agent approaches to medical diagnosis, but it remains unclear when such systems are needed, why they help, and where they outperform monolithic inference. We introduce Social Chain of Thought (SCoT),a multi-round pipeline for medical differential diagnosis that structures multi-agent interaction as a deliberative framework for collabora. tive LLM reasoning. Evaluating SCoT against single-agent baselines, one-agent pipeline ablations, and best-of-n scaling, we show that its recall advantage is not reproduced by monolithic inference alone. SCoT is most successful in the hardest diagnostic cases, where multiple rounds of specialist conversation help recover ground-truth diagnoses and converge on a higher-recall differential.",
+    "published": "2026-08-11T20:38:03Z",
+    "authors": [
+      "Del Coburn",
+      "Scott Sanner",
+      "Dan Silver"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.11420v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.11420v1",
+    "source": "arXiv",
+    "relevance": "Not Related",
+    "relevance_reason": "The paper focuses on general medical differential diagnosis methodology without evaluation on any DSM-5 mental health conditions or mental-health-specific clinical tasks."
+  },
+  {
+    "id": "2608.11391v1",
+    "title": "\"I Don't Want My Mental Health App To Give Me Mental Health Barriers\": Unpacking The Need For Digital Mental Health Tracking Services With And For The Blind Community",
+    "summary": "Digital mental health (DMH) tracking services promise continuous, personalized support for well-being, but their design often assumes sighted users. For the blind community, this assumption produces a distinct pattern of exclusion: services whose accessibility cannot be evaluated without first paying for them, community features that exclude the users they purport to support, and interfaces that leave users digitally literate but functionally blocked. We report on an explanatory sequential mixed-methods study of blind users' experiences with DMH tracking services in the United States. In the first phase, 93 legally blind adults completed a survey about their usage patterns, adoption decisions, and data-agency preferences; in the second, 10 survey respondents participated in semi-structured interviews. We analyzed closed-ended responses using descriptive statistics and the Kruskal-Wallis test, and open-ended and interview data using inductive thematic analysis, interpreting findings through Norman and Skinner's eHealth Literacy framework. Participants identified mindfulness, sleep, and goal-tracking services as their most-used categories, but also described recurring exclusion from the community-support features that other users value most. We argue that the framework's \"computer literacy\" dimension is insufficient on its own: many of our participants possessed the literacy but were blocked from applying it by design choices that predate the user. We contribute design recommendations for transparent pre-purchase accessibility evaluation, accessibility-native rather than retrofitted interfaces, and user-controlled data agency -- recommendations intended not to accommodate blind users but to design DMH tracking services with them from the start.",
+    "published": "2026-08-11T19:57:47Z",
+    "authors": [
+      "Omar Khan",
+      "JooYoung Seo"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.11391v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.11391v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "The paper examines digital mental health tracking services and their accessibility for blind users, but does not evaluate an AI model on mental-health tasks; it is primarily a user-experience and accessibility study of existing DMH apps rather than a benchmark or evaluation of AI/LLM performance on clinical mental health tasks."
+  },
+  {
+    "id": "2608.10338v1",
+    "title": "ResonaVis: Visualizing Interactive Music Data to Support Reflective Music Composition for Therapeutic Contexts",
+    "summary": "Designing music for therapeutic contexts requires navigating complex relationships between musical structure and listeners' sensory responses, yet composers often lack structured representations of these interactions, relying instead on intuition. We present ResonaVis, an interactive visualization system that helps composers analyze interaction and audio data from prior sessions with children with Autism Spectrum Disorder (ASD), informing future compositions. ResonaVis integrates audio features and interaction logs to capture how children engage with layered musical compositions, representing this engagement through coordinated visualizations of temporal transitions, layer co-occurrence, rhythmic activity, and spectral characteristics. Rather than prescribing strategies or supporting therapy sessions directly, the system surfaces patterns in past session data to support data-informed reflection during composition. We evaluated ResonaVis through a mixed-methods study with eight music students and a follow-up case study with two experienced composers. Results demonstrate good usability (SUS = 72.23), exceeding benchmarks for early prototypes, and show that participants could identify interaction patterns, reason about layer relationships, and make informed compositional decisions with high perceived performance and low frustration. Confidence in interpreting interaction and acoustic data for ASD-focused composition increased significantly across multiple dimensions (p < 0.05), with qualitative findings suggesting a shift toward more adaptive, data-informed composition. This work contributes a visualization design space for therapeutic music interaction data, an integrated system for compositional reflection, and empirical evidence that visualization tools support analytical reasoning and confidence in data-informed creative practice. (Abstract shortened for arXiv.)",
+    "published": "2026-08-11T00:42:04Z",
+    "authors": [
+      "Abhishek Karwankar",
+      "Elise Ruggiero",
+      "Daniel Stevens",
+      "Matthew Louis Mauriello"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.10338v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.10338v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "While the paper involves ASD (a DSM-5 condition) and music composition for therapeutic contexts, it does not evaluate an AI/LLM model on a mental-health task; instead, it presents a visualization tool to help composers analyze music-session data."
+  },
+  {
+    "id": "2608.09830v1",
+    "title": "Deep Multimodal Wearable Sensor Fusion for Detection of Body-Focused Repetitive Behaviors",
+    "summary": "Body-focused repetitive behaviors, such as hair pulling and skin picking, are compulsive motor actions commonly associated with obsessive-compulsive and anxiety disorders. Their early, objective detection remains difficult because the movements are subtle and overlap with ordinary, non-pathological gestures. We developed and evaluated a multimodal deep learning framework to detect and classify these behaviors from wrist-worn sensor data. The data, collected by the Child Mind Institute using the Helios wrist-worn device, combine inertial measurement units, thermopile sensors, and time-of-flight sensors, capturing kinematic, thermal, and proximity information. The framework combined a convolutional neural network with a gated recurrent unit, alongside modality-specific autoencoders and a late-fusion classifier, to exploit temporal and spatial dynamics. It achieved an F1 score of 0.985 and an area under the receiver operating characteristic curve of 0.997 for binary detection, distinguishing these behaviors from other activities, and a macro-averaged F1 score of 0.700 with an area under the curve of 0.963 across a nine-class scheme that distinguished each individual behavior from a single grouped Non-Target class, improving over single-modality baselines. Post-hoc interpretability based on Shapley additive explanations showed that the time-of-flight and inertial modalities dominated discriminative power by capturing spatial proximity and dynamic movement, while hierarchical clustering indicated that misclassifications were driven primarily by the anatomical region of the gesture. These findings demonstrate that multimodal sensor fusion enables accurate, objective, and continuous behavioral monitoring. This work establishes a foundation for real-time, wearable-assisted mental health diagnostics and personalized interventions in biomedical research and clinical care.",
+    "published": "2026-08-10T16:48:37Z",
+    "authors": [
+      "Samaneh Rezaeimanesh",
+      "Mohsen Behradfar",
+      "Mohammad Fili",
+      "Guiping Hu"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.09830v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.09830v1",
+    "source": "arXiv",
+    "relevance": "Definitely Related",
+    "relevance_reason": "The paper evaluates a deep learning framework on detecting body-focused repetitive behaviors (hair pulling, skin picking), which are associated with obsessive-compulsive and anxiety disorders (DSM-5 conditions), using wearable sensor data for clinical behavioral monitoring and mental health diagnostics."
+  },
+  {
+    "id": "2608.08926v1",
+    "title": "Decoding Phenotypes: A Framework for Fusing Genomic Language Models and Neuroimaging",
+    "summary": "Neuroimaging and genetic testing are two important clinical references for nervous system diseases, offering complementary diagnostic information. However, integrating genomic and neuroimaging data for precise disease diagnosis is challenging due to cross-modality heterogeneity. Existing imaging-genetics approaches mainly encode genetic information as hard-coded labels, which lose the local sequence context around disease-associated variants. To address this limitation, we propose GeneFuse, a multimodal learning framework that aligns genetic representations from pre-trained Genomic Language Models (GLMs) with features extracted from images. GeneFuse integrates two components: (1) Genotype-Conditioned Feature Modulation (GCFM), a FiLM-inspired module that uses genomic embeddings to modulate image feature maps; and (2) Uncertainty-aware Genomic Residual Fusion (U-GRF), a fusion strategy that uses imaging-derived predictive uncertainty to gate the contribution of genotypic features. We evaluate GeneFuse on early cognitive decline identification (NC vs. MCI) and dementia screening (NC vs. AD). In the APOE-centered setting, GeneFuse achieves AUROCs of 0.77 and 0.83, outperforming existing imaging-genetics fusion methods. These results indicate that GLM-derived genomic embeddings provide additional information to imaging.",
+    "published": "2026-08-09T21:40:17Z",
+    "authors": [
+      "Tianli Tao",
+      "Ziyang Wang",
+      "Emma Robinson",
+      "Rachel Sparks",
+      "Le Zhang"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.08926v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.08926v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "Involves neuroimaging and genomic AI models evaluated on cognitive decline/dementia screening, but dementia/MCI are neurological rather than core DSM-5 mental health conditions, and the primary focus is multimodal fusion methodology rather than mental health assessment per se."
+  },
+  {
+    "id": "2608.08657v1",
+    "title": "Charting Public Health: A Taxonomic Study of Visualization Practices in the Public Health Field",
+    "summary": "Public health organizations regularly produce and publish data visualizations to raise awareness of critical issues, influence decision-making processes, and promote overall well-being. However, the design practices shaping these visualizations in real-world settings remain largely unexamined, limiting the research community's ability to evaluate their effectiveness, accessibility, and alignment with communication goals. To address this gap, we construct and analyze a large-scale corpus of over 4,000 real-world data visualizations drawn from more than two dozen websites associated with U.S. and international public health organizations. We evaluate salient design characteristics like chart type, visualization accessibility, use of embellishments like iconography, and design flaws. This work contributes to understanding real-world decisions in designing data visualizations and supports public health officials in improving data visualization-related communications. Visualizations in our finalized corpus and the labeled dataset can be found at https://github.com/washuvis/ChartingPublicHealth.",
+    "published": "2026-08-09T12:03:20Z",
+    "authors": [
+      "Mia Hines",
+      "Alvitta Ottley"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.08657v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.08657v1",
+    "source": "arXiv",
+    "relevance": "Not Related",
+    "relevance_reason": "This paper studies data visualization design practices in public health organizations but does not involve AI/LLM evaluation, mental health conditions, or clinical tasks."
+  },
+  {
+    "id": "2608.08607v1",
+    "title": "North Africa's Missing Framework: NLP-Driven Mental Healthcare in Algeria and Implications for Low-resource Settings",
+    "summary": "Mental health disorders are a leading cause of disability worldwide, yet Natural Language Processing (NLP) research for mental healthcare has remained concentrated in high-income, English-language settings. North Africa, and Algeria in particular, is largely absent from this literature despite its unique linguistic, historical, and healthcare context. We present the first conceptual framework examining the potential role of NLP within Algeria's mental healthcare system. Drawing on narrative synthesis of global NLP mental health research, Algerian healthcare literature, and low-resource NLP methodologies, we identify four structural barriers to mental healthcare: the language-of-care gap, geographic inequities in access, stigma-related barriers to help-seeking, and the absence of research and digital infrastructure. We then map existing NLP capabilities to each barrier, outlining their potential applications, implementation constraints, and the technical, institutional, and governance requirements necessary for deployment. Based on this analysis, we propose a research and policy roadmap that prioritizes data resources, multilingual language technologies, evaluation frameworks, and regulatory capacity. Although grounded in the Algerian context, the framework addresses challenges common to many multilingual, low-resource, and post-colonial settings. This work provides a foundation for future research on culturally and linguistically appropriate NLP for mental healthcare and offers a practical roadmap for developing responsible AI-enabled mental health systems in underrepresented regions.",
+    "published": "2026-08-09T09:39:12Z",
+    "authors": [
+      "Meriem Laifa",
+      "Abdallah Bengueddoudj"
+    ],
+    "abstract_url": "http://arxiv.org/abs/2608.08607v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.08607v1",
+    "source": "arXiv",
+    "relevance": "Might Be Related",
+    "relevance_reason": "The paper presents a conceptual framework for NLP in mental healthcare but does not evaluate or benchmark an AI model on actual mental health tasks or datasets."
+  },
+  {
+    "id": "2608.06110v2",
     "title": "ECHO: A Locally-Deployable Agentic Health Assistant with Temporal Memory, Safety Guardrails, and Speech Assessment",
-    "summary": "This paper presents ECHO (Enhanced Care \\& Health Observer), a locally-deployable conversational health assistant for long-term chronic care management. ECHO integrates three complementary software modules developed under shared supervision as a unified system. The core module is an agentic chatbot built on a ReAct loop orchestrated via LangGraph, equipped with 17 clinical tools and a temporal knowledge graph for persistent cross-session memory; it achieves a 94.9\\% tool-execution pass rate across a 59-scenario benchmark with GPT-5 Mini. A two-stage hybrid safety layer intercepts all incoming queries: a rule-based layer handles explicit crisis signals and jailbreak attempts in under 1ms, while a signed graph neural network (GNN) with APPNP-style propagation classifies boundary cases by clinical intent, achieving 88.8\\% accuracy and 90.6\\% unsafe recall on a 2,537-query annotated Turkish health dataset while outperforming zero-shot LLM baselines including Llama 3.3 70B. A multimodal speech assessment module combining Whisper acoustic encoding and BERT text encoding with cross-attention fusion estimates emotion, depression, and pain, reaching a mean macro F1 of 0.652. The full system is implemented as a web application that can run entirely on consumer hardware, with no patient data transmitted to external services, supporting compliance with GDPR and KVKK.",
+    "summary": "This paper presents ECHO (Enhanced Care & Health Observer), a locally-deployable conversational health assistant for long-term chronic care management. ECHO integrates three complementary software modules developed under shared supervision as a unified system. The core module is an agentic chatbot built on a ReAct loop orchestrated via LangGraph, equipped with 17 clinical tools and a temporal knowledge graph for persistent cross-session memory; it achieves a 94.9% tool-execution pass rate across a 59-scenario benchmark with GPT-5 Mini. A two-stage hybrid safety layer intercepts all incoming queries: a rule-based layer handles explicit crisis signals and jailbreak attempts in under 1ms, while a signed graph neural network (GNN) with APPNP-style propagation classifies boundary cases by clinical intent, achieving 88.8% accuracy and 90.6% unsafe recall on a 2,537-query annotated Turkish health dataset while outperforming zero-shot LLM baselines including Llama 3.3 70B. A multimodal speech assessment module combining Whisper acoustic encoding and BERT text encoding with cross-attention fusion estimates emotion, depression, and pain, reaching a mean macro F1 of 0.652. The full system is implemented as a web application that can run entirely on consumer hardware, with no patient data transmitted to external services, supporting compliance with GDPR and KVKK.",
     "published": "2026-08-06T14:44:12Z",
     "authors": [
       "Abdulkadir K\u00fcl\u00e7e",
       "Alihan Esen",
-      "Ca\u011fla Fikir",
+      "\u00c7a\u011fla Fikir",
       "Berke Kurt",
       "Kuzey Arar",
       "G\u00f6khan Ercan",
       "Faik Boray Tek"
     ],
-    "abstract_url": "http://arxiv.org/abs/2608.06110v1",
-    "pdf_url": "https://arxiv.org/pdf/2608.06110v1",
+    "abstract_url": "http://arxiv.org/abs/2608.06110v2",
+    "pdf_url": "https://arxiv.org/pdf/2608.06110v2",
     "source": "arXiv",
     "relevance": "Definitely Related",
-    "relevance_reason": "The paper evaluates an AI system (ECHO) on clinical mental-health tasks including depression assessment via multimodal speech analysis, and presents a healthcare-oriented conversational assistant with safety features for chronic care management."
+    "relevance_reason": "The paper evaluates an AI system (ECHO) on mental health tasks including depression assessment via speech analysis, includes clinical safety evaluation, and is designed for chronic care management in a clinical/healthcare context."
   },
   {
-    "id": "2608.05391v1",
-    "title": "Adaptive Arena-based Contestable Argumentative Network-of-Experts for Open-Ended Care Plan Coordination",
-    "summary": "Care plan coordination demands synthesizing heterogeneous clinical, functional, and psychosocial information across multiple professional disciplines, where monolithic LLM pipelines cannot perform in a transparent or safe manner. We present CANOE (Contestable Argumentative Network-of-Experts), a multi-agent neuro-symbolic framework that addresses these limitations through five modules: complexity assessment, adaptive team recruitment, role-based argumentative computation via an Arena-based Quantitative Bipolar Argumentation Framework (A-QBAF), human-in-the-loop contestation, and care-plan synthesis. Role-specialized agents generate supporting and attacking arguments for candidate interventions; conflicts are resolved through arena-based clash resolution before acceptability scores propagate across the argumentation graph. Care planners may accept, reject, edit, or add arguments, and the framework will deterministically recompute the final plan. Evaluation on Discharge Me! and MedicalRAG using ROUGE-L, AlignScore, MEDCON F1, FKGL, and LLM-as-a-judge shows that medically fine-tuned models achieve the strongest clinical correctness and safety, while CANOE's argumentative structure provides faithful explanation and human contestability.",
-    "published": "2026-08-05T20:18:45Z",
+    "id": "2608.07567v1",
+    "title": "Temporal Generalization in fNIRS-Based Autism Classification: A Cross-Time-Window Transfer Benchmark",
+    "summary": "Functional near-infrared spectroscopy (fNIRS) is a promising modality for autism spectrum disorder (ASD) classification, yet existing approaches assume temporally aligned evaluation. In practice, the optimal observation window varies across subjects due to differences in hemodynamic delay and neurovascular coupling, creating a temporal distribution shift that degrades performance. We formalize this as a \\textit{cross-time-window transfer problem}, introducing a protocol that varies window length (2.5--10\\,s) and offset within biological motion trials. Using topographic map representations of fNIRS recordings, we benchmark three vision architectures under two zero-shot baselines and eight adaptation strategies under leave-one-subject-out cross-validation ($N{=}124$). Key findings: (1) zero-shot cross-window accuracy is near chance (54--69\\%); (2) ${\\approx}5\\%$ subject-specific fine-tuning recovers 90--96\\%, while a subject-specific upper bound reaches 97--100\\%, identifying inter-subject variability as the dominant barrier; (3) domain-adversarial and self-supervised strategies achieve 78--90\\% without target-subject data; and (4) discriminative information is recoverable from windows as short as 2.5\\,s. These findings provide a practical roadmap for deploying fNIRS-based ASD classifiers under realistic temporal variability.",
+    "published": "2026-08-03T18:50:55Z",
     "authors": [
-      "Truong Thanh Hung Nguyen",
-      "Hoang-Loc Cao",
-      "Phuc Ho",
-      "Phuc Truong Loc Nguyen",
-      "Ren\u00e9 Richard",
-      "Hung Cao"
+      "Marios Petrov",
+      "Sahana Vinayak",
+      "Targol Bakhtiarvand",
+      "Moses Smith Guddah",
+      "Adham Atyabi",
+      "Frederick Shic",
+      "Kevin A. Pelphrey"
     ],
-    "abstract_url": "http://arxiv.org/abs/2608.05391v1",
-    "pdf_url": "https://arxiv.org/pdf/2608.05391v1",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "Paper involves AI/LLM evaluation on a healthcare task (care plan coordination) but does not explicitly target a DSM-5 mental health condition or demonstrate clinical evaluation of mental-health-specific outcomes; the psychosocial component mentioned is general rather than condition-specific."
-  },
-  {
-    "id": "2608.05004v1",
-    "title": "DelusionEval: Measuring Delusion-Linked Behaviors in AI Chatbots",
-    "summary": "Mental health professionals have raised concerns about risks of psychological harm from interaction with large language models (LLMs), including \"delusional spirals\" in which concerning human and LLM behaviors reinforce each other over time. With growing public use of LLM-powered chatbots, there is an urgent need to build evaluations grounded in real-world episodes of psychological harm experienced by users. We developed DelusionEval, an evaluation protocol that tests a model's tendencies to exhibit behaviors linked to promoting user delusions. We prompt each model with 589 unique conversation histories from 18 participants, comprising 12,591 messages from users who experienced delusions and psychological harm. We find that the tendency of an evaluated LLM to exhibit delusion-linked behavior does not reliably correlate with model size, release date, or the presence of test-time reasoning. However, extending the context of prior messages substantially increases rates of delusion-linked behaviors, providing evidence for the importance of context in LLM safety evaluation. For example, the rate of failing to discourage self-harm when the user expresses suicidal ideation increases from 30.0% to 41.1% when an additional 350 messages are prepended to the conversation history. All model families (e.g., GPT, Claude) exhibit substantial rates of delusion-linked behaviors. Within families, later, larger, or higher-reasoning models are not uniformly better across all behavior categories. Our results raise concerns regarding the potential psychological impact of LLMs and the need for more rigorous studies of real-world human-AI interaction.",
-    "published": "2026-08-05T16:11:08Z",
-    "authors": [
-      "Jared Moore",
-      "Andrea Mock",
-      "Yifan Mai",
-      "Jacy Reese Anthis",
-      "Ryan Louie",
-      "William Agnew",
-      "Ashish Mehta",
-      "Kevin Klyman",
-      "Percy Liang",
-      "Nick Haber",
-      "Eric Lin",
-      "Desmond C. Ong"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2608.05004v1",
-    "pdf_url": "https://arxiv.org/pdf/2608.05004v1",
+    "abstract_url": "http://arxiv.org/abs/2608.07567v1",
+    "pdf_url": "https://arxiv.org/pdf/2608.07567v1",
     "source": "arXiv",
     "relevance": "Definitely Related",
-    "relevance_reason": "The paper evaluates LLM behaviors related to delusions (a DSM-5 psychotic disorder symptom) and their potential to cause psychological harm, using real conversation data from users who experienced delusions, directly assessing clinical safety in human-AI interaction."
-  },
-  {
-    "id": "2608.02283v1",
-    "title": "Embodied Empathy: A Multimodal AR and LLM-Powered System for Self-Attachment Psychotherapy with Self-Initiated Humour",
-    "summary": "The growing global demand for mental health support increasingly exceeds the supply of qualified practitioners, creating an urgent need for scalable digital interventions that can deliver meaningful emotional connection. In response, we present a novel multimodal application that operationalises the Self-Initiated Humour Protocol (SIHP) within a Self-Attachment Technique (SAT) framework. Our mobile application integrates customisable 3D childhood avatars, augmented reality, and an LLM-driven virtual therapist capable of automated emotion mirroring. An eight-day user study (N=16) indicates the system's feasibility and improvements in self-reported mood. Results show that personalised avatars and text-to-speech output strengthen emotional bonding and perceived empathy. Although emotion mirroring boosts engagement, its effectiveness depends heavily on classification accuracy and animation intensity. Moreover, findings indicate a shift in user expectations--from reactive chatbots to proactive conversational facilitators. We conclude with design implications for leveraging AI and AR to cultivate embodied empathy in digital mental health tools.",
-    "published": "2026-08-03T14:15:35Z",
-    "authors": [
-      "Xinyan Ye",
-      "Gwyneth Phang",
-      "Anandha Gopalan",
-      "Abbas Edalat"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2608.02283v1",
-    "pdf_url": "https://arxiv.org/pdf/2608.02283v1",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "The paper evaluates an LLM-powered system for mental health support with a small user study showing feasibility and mood improvements, but lacks explicit evaluation against a DSM-5 condition and clinical outcome measures typical of formal clinical benchmarking."
-  },
-  {
-    "id": "2608.02046v2",
-    "title": "CompanionBench: A Theory-Anchored, Real-World-Grounded Benchmark for AI Emotional Companionship",
-    "summary": "LLM companions are deployed at scale in personally consequential settings, yet poorly evaluated. Existing benchmarks use hand-authored scenarios and prompted simulators, aggregate empathy into one score, and overlook judge biases such as same-family favoritism and scale drift. We introduce CompanionBench, an interactive bilingual benchmark. To our knowledge, it is the first companion benchmark to ground both its scenarios and a trained user simulator in de-identified real-world data. A hidden disclosure gate branches each persona's trajectory on the agent's own behavior, controlling the interaction state space without scripting dialogue. We operationalize ten capabilities derived from 25 theories across psychology and counseling, four of them not graded explicitly by prior work: holding ambiguity, selfobject responsiveness, positive resonance and calibrated challenge. Agents are assessed on two complementary axes: a subjective ten-capability rubric and a deterministic measure of whether deeper disclosure was earned. A cross-family panel dilutes same-family favoritism; an Item Response Theory model separates agent quality from judge severity. Theory fixes what to measure and how personas are structured; real data supply events, history, and profiles -- coverage from theory, authenticity from data. Rankings are reproducible in both languages (rho = 0.996 ZH / 0.953 EN). Evaluating 28 agents reveals capability-level differences obscured by aggregate scores. Emotion regulation and calibrated challenge remain common weaknesses; holding ambiguity discriminates most. Role-play agents rank near the bottom: immersion does not imply relational competence. Across agents, the dominant failure mode is substituting surface warmth for substantive relational support. We will release 500 Chinese-English parallel pairs and the evaluation code.",
-    "published": "2026-08-03T10:44:04Z",
-    "authors": [
-      "Yao Liu",
-      "Guangjia Chai",
-      "Yuming Huang",
-      "Jihao Huang",
-      "Lei Wang",
-      "Junchen Wan"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2608.02046v2",
-    "pdf_url": "https://arxiv.org/pdf/2608.02046v2",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "The paper evaluates LLMs on emotional companionship and empathy tasks grounded in psychology/counseling theories, but does not explicitly evaluate against a DSM-5 mental health condition or clinical diagnostic/screening tasks; it focuses on general emotional support capabilities rather than clinical mental health assessment or treatment."
-  },
-  {
-    "id": "2608.02692v1",
-    "title": "PatTree: a novel approach for automated creation of multimodal, graph-based patient representations for medical classification tasks",
-    "summary": "Access to holistic, multimodal data improves the performance of Artificial Intelligence (AI) in medical classification tasks compared to utilizing single modalities or data sources. However, the inherent heterogeneity and complexity of clinical real-world data pose significant challenges to structured data analysis and AI application. This heterogeneity includes missing values, multiple time points, diverse modalities, and inconsistent formats and semantics. Data harmonization prior to data integration tackles this challenge but remains resource-intensive and error-prone, limiting the scalability and reproducibility of holistic, AI-driven decision support on clinical real-world data. We therefore propose PatTree, a graph-based, holistic representation of patients that can be derived from real-world clinical data through the automated structuring of multimodal clinical data. PatTree enables early-stage data integration without relying on pre-standardized inputs. While representing heterogeneous clinical data within a unified knowledge graph, PatTree preserves the semantic relationships between data elements across modalities and data sources, facilitating interoperability and machine-interpretable data access. Using a subset of the ADNI-1 cohort (n = 763), we demonstrate that classification of patients is directly feasible on PatTree reaching state-of-the-art classification performance. In the three-class classification task distinguishing Alzheimer's disease, mild cognitive impairment, and cognitively normal individuals, we achieve a balanced accuracy of 98.5% and an F$_1$ score of 0.987 on the held-out test set. Our results show that assumption-free, automated structuring of multimodal medical data can serve as a scalable foundation for clinical AI pipelines bypassing tedious data preparation and standardization.",
-    "published": "2026-08-03T09:44:35Z",
-    "authors": [
-      "Julia Gehrmann",
-      "Lars Quakulinski",
-      "Hamza Naseem",
-      "Oya Beyan"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2608.02692v1",
-    "pdf_url": "https://arxiv.org/pdf/2608.02692v1",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "Paper evaluates AI on a neurodegenerative dataset (Alzheimer's disease, mild cognitive impairment) which is adjacent to mental health rather than a core DSM-5 psychiatric condition, and focuses on data representation methodology rather than clinical evaluation of mental-health-specific tasks."
-  },
-  {
-    "id": "2608.01688v1",
-    "title": "Beyond Score-Based Gamification: Designing Spatiotemporal and Musical Experiences for VR Neck Rehabilitation",
-    "summary": "Pain-related anxiety and fear of movement are major barriers to adherence and therapeutic outcomes in rehabilitation exercises for chronic neck pain. Virtual reality enables the design of immersive experiences that can transform repetitive therapeutic movements into engaging and emotionally supportive interactions. In this exploratory work, we investigate how experience-oriented gamification can reduce anxiety and improve user experience during VR-based neck range-of-motion exercises. We introduce two novel interaction paradigms that embed therapeutic neck movements within multisensory VR experiences. The first paradigm, Spatiotemporal Progression, couples head-tracked trajectories with environmental progression in a tropical island setting, where movement segments dynamically transform time of day, weather, and spatial location as experiential rewards. The second paradigm, Musical Interaction, maps movement segments to meditative music notes layered with relaxing ambient soundscapes. We evaluate these designs against a conventional score-based gamification baseline in a controlled user study with 20 non-patient participants. We assess usability and user experience through subjective measures, exercise performance with motion tracking, and anxiety modulation using the Subjective Units of Distress Scale, heart rate, and skin conductance. Our findings suggest that, in comparison with traditional score-based gamification design, immersive environmental and musical feedback show better potential to reduce anxiety and improve user experience, with little to no impact on successful performance of the exercise. Our preliminary results highlight the potential value of experience-based interaction design for VR rehabilitation, suggesting an alternative to performance-centric gamification that prioritizes emotional engagement without compromising therapeutic efficacy.",
-    "published": "2026-08-03T04:30:35Z",
-    "authors": [
-      "David Perron",
-      "Pascal Spiegler",
-      "Haitham Abdel-Salam",
-      "Chanelle Montpetit",
-      "Gabriel Vigliensoni",
-      "Maryse Fortin",
-      "Yiming Xiao"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2608.01688v1",
-    "pdf_url": "https://arxiv.org/pdf/2608.01688v1",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "The paper addresses pain-related anxiety in rehabilitation but does not involve AI model evaluation; it is a VR interaction design study with human participants using traditional psychometric measures (SUDS, heart rate, skin conductance) rather than benchmarking an AI/LLM system on mental health tasks."
-  },
-  {
-    "id": "2608.00151v2",
-    "title": "Optimising for Flourishing: Flourishing Metrics and Return on Flourishing as Success Criteria for Artificial Intelligence and Post-AGI Economic Systems",
-    "summary": "Current evaluation frameworks for artificial intelligence focus mainly on capability, safety, and proxies such as adoption, engagement, efficiency, productivity, and financial return. These criteria are necessary but insufficient because they do not establish whether increasingly powerful systems improve or degrade human and planetary well-being. Through an integrative conceptual synthesis, we argue that human flourishing should serve as a primary success criterion for artificial intelligence, the global race to develop increasingly capable AI systems, and prospective post-AGI economic systems. We make three contributions. First, Flourishing Metrics provides an extensible framework spanning physical, emotional, financial, relational, spiritual, and planetary well-being, combining validated subjective measures with representative behavioural, organisational, community, and environmental indicators. Second, Return on Flourishing (RoF) extends return on investment by evaluating the counterfactual contribution of interventions, policies, and AI systems to flourishing relative to their resources, risks, and opportunity costs. Third, we develop distribution-sensitive safeguards and show how RoF could guide AI-enabled work redesign, institutional appraisal, assurance, and post-deployment monitoring through business pilots. We formalise flourishing as a dynamic system variable while emphasising the need for democratic specification, empirical calibration, independent validation, and protection against unacceptable losses within particular dimensions or stakeholder groups. RoF is proposed not as a universal reward function, but as a value-accounting and decision architecture for assessing whether intelligence, automation, and economic transformation generate durable human and planetary progress.",
-    "published": "2026-07-31T17:00:47Z",
-    "authors": [
-      "Keyun Ruan",
-      "Jonathan D. Teubner",
-      "John M. Bremen"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2608.00151v2",
-    "pdf_url": "https://arxiv.org/pdf/2608.00151v2",
-    "source": "arXiv",
-    "relevance": "Not Related",
-    "relevance_reason": "The paper proposes a general framework for evaluating AI systems based on human flourishing metrics, but does not involve mental health conditions, clinical evaluation of mental health tasks, or benchmarking AI on mental health-specific assessments."
-  },
-  {
-    "id": "2607.25232v2",
-    "title": "Neurai-VN Benchmark: Standardized Machine Learning Models for Multimodal Digital Phenotyping in Mental Health Classification",
-    "summary": "Digital phenotyping (DP) using smartphones and wearable devices has shown considerable potential for mental health monitoring. However, progress remains difficult to evaluate due to heterogeneous datasets, inconsistent preprocessing pipelines. In this work, we present a reproducible benchmark built upon the Neurai-VN dataset, a high-resolution, multimodal dataset comprising passive sensing and active assessment from wearable and smartphone devices, collected from 100 Vietnamese adults over two weeks. We define four binary classification tasks evaluated using standardized subject-wise cross-validation. Representative linear, tree-based, and neural baseline models are evaluated systematically across predefined feature-group configurations. Mean subject-level F1 scores across five cross-validation folds reached 0.71 for Healthy Control vs. Depression and Healthy Control vs. Clinical, while Healthy Control vs. Anxiety and Depression vs. Anxiety achieved 0.69 and 0.56, respectively. These baseline results provide reproducible baselines for future research on multimodal DP for mental health classification tasks.",
-    "published": "2026-07-28T03:20:26Z",
-    "authors": [
-      "Quoc-Cuong Pham",
-      "Hoang-Thuy-Duong Vu",
-      "Thi-Thanh-Huong Ha",
-      "Huy-Hieu Pham"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2607.25232v2",
-    "pdf_url": "https://arxiv.org/pdf/2607.25232v2",
-    "source": "arXiv",
-    "relevance": "Definitely Related",
-    "relevance_reason": "The paper evaluates standardized machine learning models on a multimodal dataset for classifying DSM-5 mental health conditions (depression, anxiety) in a clinical context using digital phenotyping for mental health monitoring and classification."
-  },
-  {
-    "id": "2607.24519v2",
-    "title": "What EEG Foundation Models Encode: Dataset Identity and a Negative-Control Suite for Clinical Benchmarks",
-    "summary": "Pretrained EEG foundation models are proposed for clinical decoding, but whether reported gains transfer across populations or survive negative controls is unclear. We benchmark LaBraM, EEGMamba, CBraMod, REVE, LEAD, BENDR, and BIOT on five clinical tasks across four datasets. Primary analyses use frozen linear probes with subject-disjoint LOSO or grouped five-fold validation. Because CAUEEG releases no patient identifiers, it is evaluated at recording level with a patient-disjoint sensitivity. We challenge apparent gains using stronger classical comparators, label permutation, scrambled-label fine-tuning, and random-initialisation controls. In a matched 19-channel CAUEEG evaluation (Normal/MCI/Dementia; N = 1,187 recordings), classical features achieve 0.734 macro-AUROC versus 0.699 for BIOT, 0.669 for CBraMod, and 0.568 for REVE. A patient-disjoint sensitivity retains the classical-over-REVE ordering (0.717 versus 0.565). Dataset identity is decoded from frozen REVE embeddings at or near ceiling across Western-Korean and Western-Western pairs, including after PCA-50 and removal of line-frequency and amplitude-scale information. This establishes dataset membership, not a causal site or population effect. A matched random-initialised encoder exceeds pretrained REVE on CAUEEG (0.659 versus 0.570). On CHB-MIT cross-subject ictal detection (n = 23), REVE reaches 0.793, versus 0.739 for the best enhanced nonlinear comparator, 0.701 for random initialisation, and 0.505 for raw-signal random features. Because preprocessing removes absolute amplitude, this does not establish superiority over every plausible handcrafted baseline. Conclusions change materially after montage matching, patient-overlap checks, stronger comparators, and representation controls. We distill these checks into a reporting protocol for clinical EEG foundation-model studies.",
-    "published": "2026-07-27T14:59:42Z",
-    "authors": [
-      "Marzieh Zare"
-    ],
-    "abstract_url": "http://arxiv.org/abs/2607.24519v2",
-    "pdf_url": "https://arxiv.org/pdf/2607.24519v2",
-    "source": "arXiv",
-    "relevance": "Might Be Related",
-    "relevance_reason": "Evaluates EEG foundation models on clinical tasks including dementia/MCI classification, but focuses primarily on methodological validation and negative controls rather than benchmarking AI performance on a mental-health DSM-5 condition; dementia/MCI are neurological rather than psychiatric conditions."
+    "relevance_reason": "The paper evaluates machine learning models on autism spectrum disorder (ASD) classification using neuroimaging data (fNIRS) in a clinical context, meeting all criteria: DSM-5 mental health condition (autism), AI model evaluation on a diagnostic task, and healthcare-oriented clinical application."
   }
 ]
