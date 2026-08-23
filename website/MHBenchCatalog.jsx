@@ -18,11 +18,11 @@ import { ExternalLink, X, ArrowUpDown, Search, ArrowRight, ShieldCheck, Layers }
 const C = {
   paper: "#EBEBEB",      // off-white grey — page background (matches catalog)
   surface: "#E2E2E2",    // neutral grey — cards / surfaces
-  ink: "#080807",        // black-400 — primary text
+  ink: "#080A21",        // black-400 — primary text
   muted: "#66666B",      // neutral grey — secondary text
   line: "#CFCFCF",       // neutral grey — hairline borders
-  brand: "#080807",      // primary = ink (buttons, nav)
-  accent: "#080807",     // emphasis = ink (monochrome, like Monolog)
+  brand: "#080A21",      // primary = ink (buttons, nav)
+  accent: "#080A21",     // emphasis = ink (monochrome, like Monolog)
   lime: "#EF9043",       // signature accent (amber-orange; use with dark text — was neon lime)
   dark: "#181715",       // card-bg — dark surfaces (footer)
   strong: "#3C6E5A",
@@ -54,7 +54,7 @@ const SOURCE_OPTIONS = ["Open", "Mixed", "Restricted", "Closed"];
 const ED = {
   bg: "#1C4773",                   // catalog canvas — solid dark navy
   card: "#DEEBF7",                 // benchmark tiles — light blue
-  ink: "#EDEBE4",                  // on-canvas text (bone)
+  ink: "#FFFFFF",                  // on-canvas text (bone)
   muted: "#B9CDDE",                // on-canvas secondary text
   line: "rgba(237,235,228,.16)",   // hairlines on the dark canvas
   cardInk: "#1C4773",              // on-tile text — dark navy titles
@@ -153,7 +153,7 @@ const RUNNABLE = {
   "https://doi.org/10.3389/fdgth.2026.1790533": "./run.html", // Depression subtype (tweets)
 };
 function runHrefFor(b) {
-  return b ? RUNNABLE[b.paperLink] : undefined;
+  return LAUNCH.runnable && b ? RUNNABLE[b.paperLink] : undefined;
 }
 
 /* Lightweight task categorization (keyword heuristic) — powers the catalog
@@ -324,15 +324,16 @@ const LAUNCH = {
   tasksType: false,           // landing: "Tasks models are tested on" category grid
   howItsBuilt: false,         // landing: "How the catalog is built" 3-step section
   startHere: false,           // landing: "Start here" rotating cards + reading guide
+  runnable: false,            // "Run this benchmark" feature: Runnable badges, run button, featured sort boost
 };
 
 // FAQ content (from PLAN.md / TEAM-SUMMARY.md).
 const FAQS = [
   { q: "What is this catalog?", a: "A curated, growing index of benchmarks used to evaluate large language models on clinical mental-health tasks: what each one measures, how it was built, and how rigorous it looks. It's drawn from our team's research sheet and kept current by an automated find → filter → extract pipeline with human review." },
   ...(LAUNCH.ratings ? [{ q: "How are the rigor tiers computed?", a: "They're provisional, from a draft five-dimension rubric: construct validity, ground-truth quality, sample size, population realism, and transparency. A tier is only assigned when at least three dimensions have data; otherwise a benchmark is shown as Unrated. Human appraisal will eventually replace the automatic tiers." + (LAUNCH.methodRubric ? " See the Rubric page." : "") }] : []),
-  { q: "Can I run a benchmark myself?", a: "Yes. A few benchmarks have a “Run this benchmark” button. You bring your own API key (OpenAI or Anthropic), the test runs entirely in your browser, your key is never stored or sent to us, and you see your model's score. More benchmarks become runnable over time, one at a time." },
+  ...(LAUNCH.runnable ? [{ q: "Can I run a benchmark myself?", a: "Yes. A few benchmarks have a “Run this benchmark” button. You bring your own API key (OpenAI or Anthropic), the test runs entirely in your browser, your key is never stored or sent to us, and you see your model's score. More benchmarks become runnable over time, one at a time." }] : []),
   { q: "Where does the data come from?", a: "New papers are found automatically from arXiv, PubMed, and medRxiv, filtered for relevance, and their facts extracted into a consistent schema. Quality appraisal is done by human reviewers, not the machine." },
-  { q: "What does it cost to run a benchmark?", a: "Only your own model API usage, typically a few cents for a small sample, since you choose how many items to run. The catalog itself is free to browse." },
+  ...(LAUNCH.runnable ? [{ q: "What does it cost to run a benchmark?", a: "Only your own model API usage, typically a few cents for a small sample, since you choose how many items to run. The catalog itself is free to browse." }] : []),
   { q: "Is this a clinical tool?", a: "No. It's a research catalog. Any runnable benchmark is a recreation for model evaluation only, not a diagnostic tool and not medical advice." },
 ];
 
@@ -503,18 +504,18 @@ function AgreementGate({ onAccept }) {
     }
   };
 
-  const field = { width: "100%", background: "rgba(237,235,228,.06)", border: "1px solid rgba(237,235,228,.2)", borderRadius: 8, padding: "11px 13px", color: "#EDEBE4", fontFamily: FONT_SANS, fontSize: 14, outline: "none" };
+  const field = { width: "100%", background: "rgba(237,235,228,.06)", border: "1px solid rgba(237,235,228,.2)", borderRadius: 8, padding: "11px 13px", color: "#FFFFFF", fontFamily: FONT_SANS, fontSize: 14, outline: "none" };
   const flabel = { fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".12em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 6, display: "block" };
   const hasContact = TERMS_CONTACT && TERMS_CONTACT[0] !== "[";
-  const h3 = { fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 400, color: "#EDEBE4", margin: "0 0 6px", letterSpacing: "-.01em" };
-  const p = { fontSize: 13, lineHeight: 1.6, color: "#B7B2A8", margin: 0 };
+  const h3 = { fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 400, color: "#FFFFFF", margin: "0 0 6px", letterSpacing: "-.01em" };
+  const p = { fontSize: 13, lineHeight: 1.6, color: "#FFFFFF", margin: 0 };
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "#1C4773", color: "#EDEBE4", display: "flex", alignItems: "center", justifyContent: "center", overflow: "auto", padding: "32px 20px" }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "#1C4773", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", overflow: "auto", padding: "32px 20px" }}>
       <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
       <div style={{ position: "relative", width: "min(640px, 100%)", background: "rgba(18,17,13,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(237,235,228,.14)", borderRadius: 8, padding: "clamp(24px, 4vw, 40px)", maxHeight: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
         <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".16em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 14 }}>Confidential Beta · Access Agreement</div>
         <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: "clamp(28px, 4vw, 40px)", letterSpacing: "-.03em", lineHeight: 1.02, margin: 0 }}>Before you enter</h1>
-        <p style={{ fontSize: 14, color: "#B7B2A8", lineHeight: 1.55, margin: "14px 0 0" }}>
+        <p style={{ fontSize: 14, color: "#FFFFFF", lineHeight: 1.55, margin: "14px 0 0" }}>
           Access to this site is by invitation only and subject to the terms below. Please read them before continuing.
         </p>
         <div style={{ marginTop: 18, overflowY: "auto", display: "flex", flexDirection: "column", gap: 18, borderTop: "1px solid rgba(237,235,228,.12)", borderBottom: "1px solid rgba(237,235,228,.12)", padding: "18px 8px 18px 0" }}>
@@ -545,7 +546,7 @@ function AgreementGate({ onAccept }) {
             <input id="gate-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" autoComplete="email" style={field} />
           </div>
         </div>
-        <label style={{ display: "flex", gap: 10, alignItems: "flex-start", marginTop: 16, cursor: "pointer", fontSize: 13.5, color: "#EDEBE4", lineHeight: 1.5 }}>
+        <label style={{ display: "flex", gap: 10, alignItems: "flex-start", marginTop: 16, cursor: "pointer", fontSize: 13.5, color: "#FFFFFF", lineHeight: 1.5 }}>
           <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} style={{ marginTop: 3, flexShrink: 0 }} />
           <span>I have read and accept the confidentiality agreement, the work-in-progress disclaimer, and the copyright &amp; intellectual-property terms above.</span>
         </label>
@@ -570,7 +571,7 @@ function AgreementGate({ onAccept }) {
                 autoFocus
                 style={{ ...field, width: 200, borderColor: adminErr ? "#e06a6a" : "rgba(237,235,228,.2)" }}
               />
-              <button onClick={adminEnter} style={{ background: "rgba(237,235,228,.15)", color: "#EDEBE4", border: "none", borderRadius: 999, padding: "11px 20px", fontFamily: FONT_SANS, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
+              <button onClick={adminEnter} style={{ background: "rgba(237,235,228,.15)", color: "#FFFFFF", border: "none", borderRadius: 999, padding: "11px 20px", fontFamily: FONT_SANS, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
                 Enter
               </button>
               {adminErr && <span style={{ color: "#e06a6a", fontSize: 12, alignSelf: "center" }}>Incorrect passcode.</span>}
@@ -666,7 +667,8 @@ export default function App() {
         .navlink:hover .navroll > span:first-child{ transform: translateY(-100%); }
         .navlink:hover .navroll > span:last-child{ transform: translateY(0); }
         .sr-only{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-        .catlayout{ display: grid; grid-template-columns: 210px 1fr; gap: 44px; align-items: start; }
+        .catsearch::placeholder{ color: #FFFFFF; opacity: 1; }
+        .catlayout{ display: grid; grid-template-columns: 240px 1fr; gap: 44px; align-items: start; }
         @media (max-width: 760px){ .catlayout{ grid-template-columns: 1fr; gap: 24px; } }
         .herobottom{ display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-top: 34px; }
         @media (max-width: 680px){ .herobottom{ grid-template-columns: 1fr; gap: 22px; } }
@@ -674,7 +676,7 @@ export default function App() {
         @media (max-width: 820px){ .processrow{ grid-template-columns: 1fr; gap: 22px; padding: 40px 0; } }
 
         /* Live smoky grey/black gradient (animated blurred blobs + halftone). */
-        .herofx{ position: absolute; inset: 0; overflow: hidden; background: #0b0a09; pointer-events: none; }
+        .herofx{ position: absolute; inset: 0; overflow: hidden; background: #080A21; pointer-events: none; }
         .herofx b{ position: absolute; display: block; border-radius: 50%; filter: blur(72px); mix-blend-mode: screen; will-change: transform, opacity; }
         .herofx .s1{ width: 85vw; height: 85vw; top: -22%; left: -12%; opacity: .55;
           background: radial-gradient(circle at center, #74736c 0%, rgba(116,115,108,0) 60%); }
@@ -728,11 +730,6 @@ export default function App() {
       <div style={(page === "landing" || page === "method")
         ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "#1C4773" }
         : { position: "sticky", top: 0, zIndex: 40, background: "#1C4773" }}>
-        <div style={{ background: "transparent", color: "rgba(237,235,228,.72)", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", fontWeight: 400, padding: "9px 20px", textAlign: "center" }}>
-          {LAUNCH.ratings
-            ? "Live data from the team catalog · rigor tiers are provisional (draft rubric) pending human appraisal"
-            : "Live data from the team catalog · kept current by an automated pipeline with human review"}
-        </div>
         <TopNav page={page} go={go} overlay={true} />
       </div>
 
@@ -762,20 +759,20 @@ function Loading() {
 }
 
 function TopNav({ page, go, overlay }) {
-  const wordColor = overlay ? "#EDEBE4" : C.ink;
+  const wordColor = overlay ? "#FFFFFF" : C.ink;
   return (
     <nav style={{ borderBottom: overlay ? "none" : "1px solid #D4D4D4", background: overlay ? "transparent" : "#E6E6E6" }}>
       <div style={{ maxWidth: 1180, margin: "0 auto", padding: "11px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
         <button onClick={() => go("landing")} style={{ display: "flex", alignItems: "center", gap: 9, border: "none", background: "transparent", cursor: "pointer", padding: 0 }}>
           <span style={{ width: 10, height: 10, borderRadius: 2, background: wordColor, display: "inline-block" }} />
-          <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>Benchly</span>
+          <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>Bench-Marked</span>
         </button>
         <div style={{ display: "flex", gap: 2 }}>
           {NAV.map((n) => {
             const on = page === n.id;
             return (
               <button key={n.id} className="navlink" onClick={() => go(n.id)} aria-current={on ? "page" : undefined} style={{
-                fontFamily: FONT_SANS, fontSize: 13, fontWeight: on ? 600 : 500,
+                fontFamily: FONT_SERIF, fontSize: 14, fontWeight: on ? 600 : 500,
                 color: overlay ? (on ? "#fff" : "rgba(237,235,228,.72)") : (on ? C.brand : C.muted), background: "transparent",
                 border: "none", borderBottom: `2px solid ${on ? (overlay ? C.lime : C.accent) : "transparent"}`,
                 padding: "6px 12px", cursor: "pointer",
@@ -903,28 +900,28 @@ function Accordion({ q, a, dark }) {
 
 function Footer({ go }) {
   return (
-    <footer style={{ background: C.ink, color: "#E7E1D4", marginTop: 0 }}>
+    <footer style={{ background: C.ink, color: "#FFFFFF", marginTop: 0 }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 24px 40px", display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 40 }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
-            <span style={{ width: 10, height: 10, borderRadius: 2, background: "#E7E1D4", display: "inline-block" }} />
-            <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 19, letterSpacing: "-.02em" }}>Benchly</span>
+            <span style={{ width: 10, height: 10, borderRadius: 2, background: "#FFFFFF", display: "inline-block" }} />
+            <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 19, letterSpacing: "-.02em" }}>Bench-Marked</span>
           </div>
-          <p style={{ maxWidth: 420, marginTop: 16, fontSize: 14.5, lineHeight: 1.6, color: "#B7B0A2" }}>
+          <p style={{ maxWidth: 420, marginTop: 16, fontSize: 14.5, lineHeight: 1.6, color: "#FFFFFF" }}>
             A curated, growing index of how AI models are evaluated on mental-health tasks, a few of which you can run yourself.
           </p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#B7B0A2" }}>Explore</div>
+          <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#FFFFFF" }}>Explore</div>
           {NAV.map((n) => (
-            <button key={n.id} onClick={() => go(n.id)} style={{ textAlign: "left", background: "transparent", border: "none", color: "#E7E1D4", fontFamily: FONT_SANS, fontSize: 14.5, cursor: "pointer", padding: 0 }}>
+            <button key={n.id} onClick={() => go(n.id)} style={{ textAlign: "left", background: "transparent", border: "none", color: "#FFFFFF", fontFamily: FONT_SANS, fontSize: 14.5, cursor: "pointer", padding: 0 }}>
               {n.label}
             </button>
           ))}
         </div>
       </div>
       <div style={{ borderTop: "1px solid rgba(231,225,212,.16)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 24px", fontFamily: FONT_MONO, fontSize: 11, color: "#B7B0A2", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 24px", fontFamily: FONT_SANS, fontSize: 12.5, color: "#FFFFFF", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
           <span>Data from arXiv · PubMed · medRxiv · human-reviewed</span>
           <span>Research catalog, not a clinical tool.</span>
         </div>
@@ -955,7 +952,7 @@ function Logo({ src, name, h = 32, color }) {
  * rainbow), category identity carried by a small color dot + a direct label,
  * recessive tracks, rounded bar ends, value labels, hover tooltips.          */
 const DASH_BG = "#1C4773";
-const DASH_INK = "#EDEBE4";
+const DASH_INK = "#FFFFFF";
 const DASH_MUTED = "#B9CDDE";
 const DASH_TRACK = "rgba(237,235,228,.07)";
 const DASH_PANEL = "rgba(237,235,228,.035)"; // soft borderless panel fill
@@ -1039,7 +1036,7 @@ function useInView(threshold = 0.35) {
 // (peak + latest) with the rest on hover. Draws itself on scroll-into-view.
 function GrowthLine({ rows }) {
   const [ref, shown] = useInView();
-  const W = 560, H = 210, PAD_L = 40, PAD_R = 40, PAD_T = 30, PAD_B = 30;
+  const W = 560, H = 460, PAD_L = 40, PAD_R = 40, PAD_T = 30, PAD_B = 30;
   const innerW = W - PAD_L - PAD_R, innerH = H - PAD_T - PAD_B;
   const max = rows.reduce((m, [, n]) => Math.max(m, n), 0) || 1;
   const step = rows.length > 1 ? innerW / (rows.length - 1) : 0;
@@ -1178,7 +1175,7 @@ function OrbitCards({ items, go }) {
         .cg-label{font-family:'Lexend','Segoe UI',system-ui,sans-serif;font-weight:400;font-size:1em;color:#FFFFFF;line-height:1.45;white-space:nowrap;background:rgba(11,10,9,.92);border:.09em solid rgba(237,235,228,.32);border-radius:.5em;padding:.5em .85em}
         .cg-l .cg-label{text-align:right;margin-right:.7em}
         .cg-r .cg-label{text-align:left;margin-left:.7em}
-        .cg-sub{display:block;font-family:'Space Mono','Roboto Mono',ui-monospace,monospace;font-weight:400;font-size:.85em;color:#B7B2A8;margin-top:.15em}
+        .cg-sub{display:block;font-family:'Space Mono','Roboto Mono',ui-monospace,monospace;font-weight:400;font-size:.85em;color:#FFFFFF;margin-top:.15em}
         @media (max-width: 860px){.cardguide{display:none}}
       `}</style>
       {items.map((b, i) => (
@@ -1242,7 +1239,7 @@ function TaskTypeCards() {
             <div style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, letterSpacing: ".1em", color: accent }}>{String(i + 1).padStart(2, "0")}</div>
             <div style={{ width: 26, height: 2, borderRadius: 2, background: accent, opacity: 0.85, margin: "11px 0 13px" }} />
             <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 400, letterSpacing: "-.01em", color: DASH_INK, margin: 0, lineHeight: 1.2 }}>{c.name}</h3>
-            <p style={{ fontFamily: FONT_SANS, fontSize: 13.5, lineHeight: 1.55, color: "#EDEBE4", margin: "11px 0 0" }}>{c.desc}</p>
+            <p style={{ fontFamily: FONT_SANS, fontSize: 13.5, lineHeight: 1.55, color: "#FFFFFF", margin: "11px 0 0" }}>{c.desc}</p>
           </div>
         );
       })}
@@ -1290,7 +1287,7 @@ function LandingPage({ go, data }) {
       {/* Dark full-screen hero — giant wordmark (Monolog-style) on the solid navy base. */}
 
 
-      <section style={{ position: "relative", color: "#EDEBE4", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 48px" }}>
+      <section style={{ position: "relative", color: "#FFFFFF", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 48px" }}>
             {/* Load-in choreography: one staged entrance for the hero — each
                 piece rises and sharpens in sequence. Respects reduced-motion. */}
             <style>{`
@@ -1301,17 +1298,17 @@ function LandingPage({ go, data }) {
 
             {/* one centered composition: lockup, copy, CTA, then the numbers */}
             <div style={{ position: "relative", maxWidth: 860, margin: "0 auto", textAlign: "center" }}>
-              <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, lineHeight: 1.02, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 720, textWrap: "balance" }}>
-                <span className="heroin" style={{ display: "block", fontSize: "clamp(19px, 2.6vw, 30px)", fontWeight: 400, letterSpacing: "-.02em", color: "#B7B2A8", marginBottom: 12, animationDelay: ".05s" }}>The Mental Health</span>
-                <span className="heroin" style={{ display: "block", fontSize: "clamp(42px, 7.4vw, 92px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
+              <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, lineHeight: 1.02, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 800, textWrap: "balance" }}>
+                <span className="heroin" style={{ display: "block", fontSize: "clamp(19px, 2.6vw, 30px)", fontWeight: 400, letterSpacing: "-.02em", color: "#FFFFFF", marginBottom: 12, animationDelay: ".05s" }}>The Mental Health</span>
+                <span className="heroin" style={{ display: "block", fontSize: "clamp(48px, 8.4vw, 108px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
               </h1>
-              <p className="heroin" style={{ fontFamily: FONT_MONO, fontSize: 12.5, lineHeight: 1.7, color: "#CFCCC2", margin: "22px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
+              <p className="heroin" style={{ fontFamily: FONT_SANS, fontSize: 16, lineHeight: 1.65, color: "#FFFFFF", margin: "22px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
                 We aggregate all published benchmarks that test AI models on mental health tasks into one catalog, so you don’t have to.
               </p>
               <div className="heroin" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 28, flexWrap: "wrap", animationDelay: ".46s" }}>
                 <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "12px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
                 {LAUNCH.rateRigorHeroButton && (
-                  <button onClick={() => go("method")} style={{ background: "transparent", color: "#EDEBE4", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
+                  <button onClick={() => go("method")} style={{ background: "transparent", color: "#FFFFFF", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
                 )}
               </div>
 
@@ -1327,7 +1324,7 @@ function LandingPage({ go, data }) {
                   [multiTurn, "", "Multi-turn"],
                 ].map(([n, suffix, label]) => (
                   <div key={label} style={{ textAlign: "center", minWidth: 150, flex: "1 1 150px" }}>
-                    <div style={{ fontFamily: FONT_SERIF, fontWeight: 400, letterSpacing: "-.03em", lineHeight: 1, fontSize: "clamp(40px, 5.2vw, 72px)", color: "#EDEBE4" }}><CountUp to={n} suffix={suffix} /></div>
+                    <div style={{ fontFamily: FONT_SERIF, fontWeight: 400, letterSpacing: "-.03em", lineHeight: 1, fontSize: "clamp(40px, 5.2vw, 72px)", color: "#FFFFFF" }}><CountUp to={n} suffix={suffix} /></div>
                     <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "#B9CDDE", marginTop: 10, lineHeight: 1.4 }}>{label}</div>
                   </div>
                 ))}
@@ -1349,7 +1346,7 @@ function LandingPage({ go, data }) {
                 {total} benchmarks; many cover more than one task.
               </div>
             </DashCard>
-            <DashCard title="Benchmarks by year">
+            <DashCard title="Benchmarks published by year">
               {growth.length ? <GrowthLine rows={growth} /> : null}
             </DashCard>
           </div>
@@ -1366,9 +1363,8 @@ function LandingPage({ go, data }) {
               With support from
             </div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 24 }}>
-              <Logo src="./logos/mdplus.png" name="MDplus" h={30} color="#A7B6EC" />
-              <Logo src="./logos/stanford.png" name="Stanford" h={50} color="#E19A9A" />
-              <Logo src="./logos/google.png" name="Google" h={30} color={DASH_INK} />
+              <Logo src="./logos/mdplus.webp" name="MDplus" h={30} color="#A7B6EC" />
+              <Logo src="./logos/stanford.avif" name="Stanford" h={50} color="#E19A9A" />
             </div>
           </div>
         </div>
@@ -1463,7 +1459,7 @@ const STEP_VIDEOS = [null, null, null, null, null];
 
 function StepMedia({ src }) {
   return (
-    <div style={{ position: "relative", aspectRatio: "16 / 10", borderRadius: 8, overflow: "hidden", background: "#0b0a09", border: "1px solid rgba(237,235,228,.12)" }}>
+    <div style={{ position: "relative", aspectRatio: "16 / 10", borderRadius: 8, overflow: "hidden", background: "#080A21", border: "1px solid rgba(237,235,228,.12)" }}>
       {src ? (
         <video src={src} autoPlay muted loop playsInline preload="metadata"
           style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -1604,18 +1600,18 @@ function MethodPage({ go }) {
   return (
     <>
       {/* Dark hero + compact numbered pipeline */}
-      <div style={{ background: "#1C4773", color: "#EDEBE4" }}>
+      <div style={{ background: "#1C4773", color: "#FFFFFF" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 32px 56px" }}>
           <section style={{ padding: "104px 0 8px", maxWidth: 760 }}>
             <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 18 }}>Methodology</div>
             <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: "clamp(38px, 5.5vw, 66px)", lineHeight: 0.98, letterSpacing: "-.04em", margin: 0 }}>How the catalog works</h1>
-            <p style={{ fontSize: 16.5, color: "#B7B2A8", lineHeight: 1.6, margin: "22px 0 0" }}>
+            <p style={{ fontSize: 16.5, color: "#FFFFFF", lineHeight: 1.6, margin: "22px 0 0" }}>
               {LAUNCH.methodRubric
                 ? "Two things happen here: an automated pipeline gathers and organizes the benchmarks, then people rate each one against a clear rubric. Below is the pipeline; further down is exactly how the ratings are decided."
                 : "An automated pipeline gathers and organizes the benchmarks, then human reviewers appraise each one before it goes live. Below is the pipeline, step by step."}
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 26 }}>
-              <button onClick={() => scrollToId("sec-pipeline")} style={{ appearance: "none", cursor: "pointer", background: "transparent", border: "1px solid rgba(237,235,228,.28)", borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#EDEBE4" }}>The pipeline</button>
+              <button onClick={() => scrollToId("sec-pipeline")} style={{ appearance: "none", cursor: "pointer", background: "transparent", border: "1px solid rgba(237,235,228,.28)", borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#FFFFFF" }}>The pipeline</button>
               {LAUNCH.methodRubric && (
                 <button onClick={() => scrollToId("sec-rubric")} style={{ appearance: "none", cursor: "pointer", background: C.lime, border: `1px solid ${C.lime}`, borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#1C4773", fontWeight: 700 }}>How we rate benchmarks →</button>
               )}
@@ -1629,8 +1625,8 @@ function MethodPage({ go }) {
                 <li key={i} style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 20, padding: "22px 0", borderTop: `1px solid rgba(237,235,228,.14)` }}>
                   <span style={{ fontFamily: FONT_MONO, fontSize: 13, fontWeight: 700, color: C.lime, paddingTop: 5 }}>{String(i + 1).padStart(2, "0")}</span>
                   <div>
-                    <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(20px, 2.6vw, 27px)", fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.1, margin: 0, color: "#EDEBE4" }}>{s.t}</h2>
-                    <p style={{ fontSize: 15, lineHeight: 1.6, color: "#B7B2A8", margin: "8px 0 0", maxWidth: 640 }}>{s.d}</p>
+                    <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(20px, 2.6vw, 27px)", fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.1, margin: 0, color: "#FFFFFF" }}>{s.t}</h2>
+                    <p style={{ fontSize: 15, lineHeight: 1.6, color: "#FFFFFF", margin: "8px 0 0", maxWidth: 640 }}>{s.d}</p>
                   </div>
                 </li>
               ))}
@@ -1713,7 +1709,7 @@ const linkBtn = { border: "none", background: "transparent", color: C.brand, fon
  * ------------------------------------------------------------------ */
 function CatalogPage({ data, error }) {
   const [query, setQuery] = useState("");
-  const [sort, setSort] = useState("year"); // name | year | rigor | size — newest first by default
+  const [sort, setSort] = useState("year"); // name | year | rigor — newest first by default
   const [catFilter, setCatFilter] = useState(null); // null = all categories
   const [selected, setSelected] = useState(null);
   const [showRigor, setShowRigor] = useState(LAUNCH.ratings); // toggle the rigor rating display (parked when LAUNCH.ratings is false)
@@ -1740,7 +1736,6 @@ function CatalogPage({ data, error }) {
     const arr = [...rows];
     arr.sort((a, b) => {
       if (sort === "year") return (parseInt(b.year) || 0) - (parseInt(a.year) || 0);
-      if (sort === "size") return (b.sizeNum || 0) - (a.sizeNum || 0);
       if (sort === "rigor") {
         return ratingRank(b) - ratingRank(a); // best (highest combined rating) first
       }
@@ -1768,7 +1763,7 @@ function CatalogPage({ data, error }) {
           {LAUNCH.ratings && <RigorToggle on={showRigor} onToggle={() => setShowRigor((v) => !v)} />}
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 20, flexWrap: "wrap" }}>
-          <h1 style={{ fontFamily: ED.display, fontWeight: 400, fontSize: catFilter ? "clamp(34px, 5.4vw, 66px)" : "clamp(46px, 8vw, 94px)", lineHeight: 0.96, letterSpacing: "-.04em", margin: 0, color: ED.ink, maxWidth: "13ch" }}>
+          <h1 style={{ fontFamily: ED.display, fontWeight: 400, fontSize: catFilter ? "clamp(34px, 5.4vw, 66px)" : "clamp(46px, 8vw, 94px)", lineHeight: 0.96, letterSpacing: "-.04em", margin: 0, color: ED.ink, maxWidth: "26ch", whiteSpace: "nowrap" }}>
             {catFilter || "All benchmarks"}
           </h1>
           <span style={{ fontFamily: ED.display, fontWeight: 400, fontSize: "clamp(32px, 5vw, 58px)", letterSpacing: "-.03em", color: ED.ink, lineHeight: 1 }}>
@@ -1794,21 +1789,25 @@ function CatalogPage({ data, error }) {
           {/* search + sort first */}
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 22 }}>
             <div style={{ position: "relative" }}>
-              <Search size={14} color={ED.muted} style={{ position: "absolute", left: 12, top: 11 }} />
-              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search…"
+              <Search size={14} color={ED.muted} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)" }} />
+              <input className="catsearch" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search"
                 style={{ width: "100%", padding: "9px 12px 9px 32px", fontFamily: ED.body, fontSize: 13.5, border: `1px solid ${ED.line}`, borderRadius: 8, background: "rgba(237,235,228,.07)", color: ED.ink, boxSizing: "border-box" }} />
             </div>
-            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: ED.body, fontSize: 13.5, padding: "9px 12px", border: `1px solid ${ED.line}`, borderRadius: 8, background: "#2A5580", color: ED.ink, cursor: "pointer" }}>
+            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{
+              fontFamily: ED.body, fontSize: 13.5, padding: "9px 34px 9px 12px", border: `1px solid ${ED.line}`, borderRadius: 8,
+              background: "#2A5580", color: ED.ink, cursor: "pointer", appearance: "none", WebkitAppearance: "none", MozAppearance: "none",
+              backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M1 1l4 4 4-4' stroke='%23FFFFFF' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>")`,
+              backgroundRepeat: "no-repeat", backgroundPosition: "right 18px center",
+            }}>
               <option value="name">Sort: Name (A-Z)</option>
               <option value="year">Sort: Year (newest)</option>
               {LAUNCH.ratings && <option value="rigor">Sort: Rating (best first)</option>}
-              <option value="size">Sort: Size (largest)</option>
             </select>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 8 }}>
             <span style={{ width: 9, height: 9, borderRadius: 999, background: ED.ink, display: "inline-block" }} />
-            <span style={{ fontFamily: FONT_MONO, fontSize: 12, letterSpacing: ".08em", textTransform: "uppercase", color: ED.ink }}>Filter by category</span>
+            <span style={{ fontFamily: FONT_SERIF, fontSize: 12, letterSpacing: ".08em", textTransform: "uppercase", color: ED.ink }}>Filter by category</span>
           </div>
           <VChip label="All Projects" on={!catFilter} onClick={() => setCatFilter(null)} />
           {categories.map((c) => (
@@ -1873,9 +1872,9 @@ function RigorToggle({ on, onToggle }) {
 function VChip({ label, on, onClick }) {
   return (
     <button onClick={onClick} style={{
-      alignSelf: "flex-start", fontFamily: ED.body, fontSize: 15, fontWeight: 500, cursor: "pointer",
+      alignSelf: "flex-start", fontFamily: ED.body, fontSize: 14, fontWeight: 500, cursor: "pointer",
       color: on ? ED.cardInk : ED.ink, background: on ? ED.card : "rgba(237,235,228,.08)",
-      border: "none", borderRadius: 5, padding: "8px 15px", textAlign: "left", lineHeight: 1.2,
+      border: "none", borderRadius: 5, padding: "8px 13px", textAlign: "left", lineHeight: 1.2, whiteSpace: "nowrap",
     }}>{label}</button>
   );
 }
@@ -1941,7 +1940,7 @@ function BenchTile({ b, catColor, showRigor, onClick }) {
         {tasks.map((t) => {
           const col = CATEGORY_COLORS[t] || CATEGORY_COLOR_FALLBACK;
           return (
-            <span key={t} style={{ background: `${col}1F`, color: col, borderRadius: 7, padding: "4px 10px", fontFamily: ED.body, fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>{t}</span>
+            <span key={t} style={{ background: `${col}1F`, color: col, borderRadius: 7, padding: "4px 10px", fontFamily: ED.body, fontSize: 12, fontWeight: 600, lineHeight: 1.3, whiteSpace: "nowrap" }}>{t}</span>
           );
         })}
       </div>
@@ -2101,10 +2100,10 @@ function Detail({ b, showRigor, onClose }) {
   const line = "rgba(28,71,115,.2)";
   // Squared outline chips for the quick-glance metrics.
   const chipStyle = { display: "inline-flex", alignItems: "center", gap: 7, background: "transparent", border: `1px solid ${line}`, borderRadius: 5, padding: "5px 10px" };
-  const chipLabel = { fontFamily: FONT_MONO, fontSize: 9.5, letterSpacing: ".1em", textTransform: "uppercase", color: PANEL_MUTED };
-  const chipValue = { fontFamily: FONT_SANS, fontSize: 12.5, fontWeight: 700, color: PANEL_INK };
-  // Even smaller pill for the per-component task tags.
-  const tinyChip = { display: "inline-flex", alignItems: "center", gap: 5, background: "transparent", border: `1px solid ${line}`, borderRadius: 999, padding: "1px 8px" };
+  const chipLabel = { fontFamily: FONT_SERIF, fontSize: 9.5, letterSpacing: ".1em", textTransform: "uppercase", color: PANEL_MUTED, lineHeight: 1 };
+  const chipValue = { fontFamily: FONT_SANS, fontSize: 12.5, fontWeight: 700, color: PANEL_INK, lineHeight: 1 };
+  // Pill for the per-component task tags.
+  const tinyChip = { display: "inline-flex", alignItems: "center", gap: 5, background: "transparent", border: `1px solid ${line}`, borderRadius: 999, padding: "2px 9px" };
 
   const tabBtn = (key, label) => (
     <button onClick={() => setTab(key)} style={{
@@ -2185,11 +2184,11 @@ function Detail({ b, showRigor, onClose }) {
                   <button onClick={() => setExpanded((s) => ({ ...s, [i]: !open }))} style={{ width: "100%", background: "none", border: "none", cursor: "pointer", textAlign: "left", padding: "16px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 14 }}>
                     <span style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", minWidth: 0 }}>
                       <span style={{ color: PANEL_MUTED, fontSize: 11, width: 10, flexShrink: 0 }}>{open ? "▾" : "▸"}</span>
-                      <span style={{ fontFamily: FONT_SERIF, fontSize: 16.5, fontWeight: 400, letterSpacing: "-.01em", color: PANEL_INK }}>{c.name}</span>
+                      <span style={{ fontFamily: FONT_SERIF, fontSize: 18.5, fontWeight: 500, letterSpacing: "-.01em", color: PANEL_INK }}>{c.name}</span>
                       {(c.tasks || []).map((t) => (
                         <span key={t} style={tinyChip}>
                           <span style={{ width: 6, height: 6, borderRadius: 999, background: CATEGORY_COLORS[t] || CATEGORY_COLOR_FALLBACK, flexShrink: 0 }} />
-                          <span style={{ fontFamily: FONT_SANS, fontSize: 10, color: PANEL_MUTED }}>{t}</span>
+                          <span style={{ fontFamily: FONT_SANS, fontSize: 12, color: PANEL_MUTED }}>{t}</span>
                         </span>
                       ))}
                     </span>
