@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
-import { ExternalLink, X, ArrowUpDown, Search, ArrowRight, ShieldCheck, Layers } from "lucide-react";
+import { ExternalLink, X, ArrowUpDown, Search, ArrowRight, ShieldCheck, Layers, Info, Linkedin } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
  *  MH-LLM Benchmark Catalog
@@ -154,6 +154,28 @@ const RUNNABLE = {
 };
 function runHrefFor(b) {
   return LAUNCH.runnable && b ? RUNNABLE[b.paperLink] : undefined;
+}
+
+// Parses the loose "Month YYYY" / "Mon-YY" text the pipeline sometimes puts in
+// `year` or `pubDate` into a {year, q} pair. Falls back to {year, q: null}
+// when only a bare year is known — callers bucket those as "unknown quarter".
+const MONTH_Q = {
+  jan: 1, january: 1, feb: 2, february: 2, mar: 3, march: 3, apr: 4, april: 4,
+  may: 5, jun: 6, june: 6, jul: 7, july: 7, aug: 8, august: 8,
+  sep: 9, sept: 9, september: 9, oct: 10, october: 10, nov: 11, november: 11, dec: 12, december: 12,
+};
+function quarterOf(b) {
+  for (const raw of [b.year, b.pubDate]) {
+    const s = (raw || "").trim();
+    const m = s.match(/^([A-Za-z]+)\s+(20\d\d)$/) || s.match(/^([A-Za-z]+)-(\d\d)$/);
+    if (m) {
+      const mon = MONTH_Q[m[1].toLowerCase()];
+      const yr = m[2].length === 2 ? "20" + m[2] : m[2];
+      if (mon) return { year: yr, q: Math.ceil(mon / 3) };
+    }
+  }
+  const y = ((b.year || "").match(/20\d\d/) || [])[0];
+  return y ? { year: y, q: null } : null;
 }
 
 /* Lightweight task categorization (keyword heuristic) — powers the catalog
@@ -329,12 +351,11 @@ const LAUNCH = {
 
 // FAQ content (from PLAN.md / TEAM-SUMMARY.md).
 const FAQS = [
-  { q: "What is this catalog?", a: "A curated, growing index of benchmarks used to evaluate large language models on clinical mental-health tasks: what each one measures, how it was built, and how rigorous it looks. It's drawn from our team's research sheet and kept current by an automated find → filter → extract pipeline with human review." },
-  ...(LAUNCH.ratings ? [{ q: "How are the rigor tiers computed?", a: "They're provisional, from a draft five-dimension rubric: construct validity, ground-truth quality, sample size, population realism, and transparency. A tier is only assigned when at least three dimensions have data; otherwise a benchmark is shown as Unrated. Human appraisal will eventually replace the automatic tiers." + (LAUNCH.methodRubric ? " See the Rubric page." : "") }] : []),
-  ...(LAUNCH.runnable ? [{ q: "Can I run a benchmark myself?", a: "Yes. A few benchmarks have a “Run this benchmark” button. You bring your own API key (OpenAI or Anthropic), the test runs entirely in your browser, your key is never stored or sent to us, and you see your model's score. More benchmarks become runnable over time, one at a time." }] : []),
-  { q: "Where does the data come from?", a: "New papers are found automatically from arXiv, PubMed, and medRxiv, filtered for relevance, and their facts extracted into a consistent schema. Quality appraisal is done by human reviewers, not the machine." },
-  ...(LAUNCH.runnable ? [{ q: "What does it cost to run a benchmark?", a: "Only your own model API usage, typically a few cents for a small sample, since you choose how many items to run. The catalog itself is free to browse." }] : []),
-  { q: "Is this a clinical tool?", a: "No. It's a research catalog. Any runnable benchmark is a recreation for model evaluation only, not a diagnostic tool and not medical advice." },
+  { q: "What is a benchmark?", a: "A benchmark is a standardized test used to measure, score, and compare the performance of different AI models on specific tasks." },
+  { q: "What is this catalog?", a: "A curated, growing index of benchmarks used to evaluate large language models on clinical mental health tasks. For each benchmark, we examine what it evaluates, its ground truth, data source, evaluation method, and interaction (single or multi-turn)." },
+  { q: "Where does the data come from?", a: "The data comes from preprints and published articles by the research teams who have developed the benchmarks included in the catalog." },
+  { q: "Is this a clinical tool?", a: "No. This is a research catalog. No medical or clinical advice is given on this website, and it is not intended for clinical use." },
+  { q: "Is it free?", a: "Our catalog is free to use." },
 ];
 
 /* ------------------------------------------------------------------ *
@@ -422,12 +443,14 @@ const NAV = [
   { id: "landing", label: "Overview", hash: "#/" },
   { id: "catalog", label: "Catalog", hash: "#/catalog" },
   { id: "method", label: "Methodology", hash: "#/method" },
+  { id: "about", label: "About", hash: "#/about" },
 ];
 
 function hashToPage() {
   const h = (typeof window !== "undefined" ? window.location.hash : "").replace(/^#/, "");
   if (h.startsWith("/method")) return "method";
   if (h.startsWith("/catalog")) return "catalog";
+  if (h.startsWith("/about")) return "about";
   return "landing";
 }
 
@@ -622,6 +645,7 @@ export default function App() {
           paperTitle: m.paperTitle || "",
           pubDate: m.publicationDate || "",
           citation: m.citation || "",
+          venue: m.venue || b.venue,
           components: components[b.paperLink] || components[b.id] || [],
           ratings: ratings[b.paperLink] || ratings[b.id] || null,
         };
@@ -667,6 +691,17 @@ export default function App() {
         .navlink:hover .navroll > span:first-child{ transform: translateY(-100%); }
         .navlink:hover .navroll > span:last-child{ transform: translateY(0); }
         .sr-only{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+        .info-dot{ position: relative; display: inline-flex; vertical-align: middle; cursor: help; border: none; background: none; padding: 0; }
+        .info-dot .info-tip{
+          position: absolute; bottom: calc(100% + 9px); left: 50%; transform: translateX(-50%) translateY(4px);
+          background: #1C4773; color: #FFFFFF; font-family: ${FONT_SANS}; font-size: 12px; font-weight: 400;
+          line-height: 1.45; padding: 8px 11px; border-radius: 7px; text-transform: none; letter-spacing: normal;
+          white-space: normal; width: max-content; max-width: 220px; text-align: left;
+          opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .14s ease, transform .14s ease;
+          box-shadow: 0 6px 18px rgba(20,18,14,.18); z-index: 20;
+        }
+        .info-dot .info-tip::after{ content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: #1C4773; }
+        .info-dot:hover .info-tip, .info-dot:focus-visible .info-tip{ opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
         .catsearch::placeholder{ color: #FFFFFF; opacity: 1; }
         .catlayout{ display: grid; grid-template-columns: 240px 1fr; gap: 44px; align-items: start; }
         @media (max-width: 760px){ .catlayout{ grid-template-columns: 1fr; gap: 24px; } }
@@ -727,7 +762,7 @@ export default function App() {
         <AgreementGate onAccept={() => setAccepted(true)} />
       ) : (
         <>
-      <div style={(page === "landing" || page === "method")
+      <div style={(page === "landing" || page === "method" || page === "about")
         ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "#1C4773" }
         : { position: "sticky", top: 0, zIndex: 40, background: "#1C4773" }}>
         <TopNav page={page} go={go} overlay={true} />
@@ -740,6 +775,7 @@ export default function App() {
           {page === "landing" && <LandingPage go={go} data={data} />}
           {page === "method" && <MethodPage go={go} data={data} />}
           {page === "catalog" && <CatalogPage data={data} error={error} />}
+          {page === "about" && <AboutPage go={go} />}
           <Footer go={go} />
         </>
       )}
@@ -764,8 +800,8 @@ function TopNav({ page, go, overlay }) {
     <nav style={{ borderBottom: overlay ? "none" : "1px solid #D4D4D4", background: overlay ? "transparent" : "#E6E6E6" }}>
       <div style={{ maxWidth: 1180, margin: "0 auto", padding: "11px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
         <button onClick={() => go("landing")} style={{ display: "flex", alignItems: "center", gap: 9, border: "none", background: "transparent", cursor: "pointer", padding: 0 }}>
-          <span style={{ width: 10, height: 10, borderRadius: 2, background: wordColor, display: "inline-block" }} />
-          <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>Bench-Marked</span>
+          <img src="./logos/bm-logo.png" alt="" style={{ width: 22, height: 22, borderRadius: 5, border: "2px solid #F48526", boxSizing: "border-box", display: "block" }} />
+          <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>bench-marked</span>
         </button>
         <div style={{ display: "flex", gap: 2 }}>
           {NAV.map((n) => {
@@ -901,14 +937,15 @@ function Accordion({ q, a, dark }) {
 function Footer({ go }) {
   return (
     <footer style={{ background: C.ink, color: "#FFFFFF", marginTop: 0 }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 24px 40px", display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 40 }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 24px 40px", display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr", gap: 40 }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
-            <span style={{ width: 10, height: 10, borderRadius: 2, background: "#FFFFFF", display: "inline-block" }} />
-            <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 19, letterSpacing: "-.02em" }}>Bench-Marked</span>
+            <img src="./logos/bm-logo.png" alt="" style={{ width: 24, height: 24, borderRadius: 5, border: "2px solid #F48526", boxSizing: "border-box", display: "block" }} />
+            <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 19, letterSpacing: "-.02em" }}>bench-marked</span>
+            <span style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".04em", color: "#FFFFFF", opacity: 0.55 }}>v1.0</span>
           </div>
           <p style={{ maxWidth: 420, marginTop: 16, fontSize: 14.5, lineHeight: 1.6, color: "#FFFFFF" }}>
-            A curated, growing index of how AI models are evaluated on mental-health tasks, a few of which you can run yourself.
+            A curated, growing index of benchmarks used to evaluate AI models on mental health tasks.
           </p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -919,10 +956,17 @@ function Footer({ go }) {
             </button>
           ))}
         </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#FFFFFF" }}>Contact us</div>
+          <a href="mailto:team@bench-marked.com" style={{ color: "#FFFFFF", fontFamily: FONT_SANS, fontSize: 14.5 }}>team@bench-marked.com</a>
+          <a href="PASTE_LINKEDIN_URL_HERE" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ color: "#FFFFFF", display: "inline-flex", marginTop: 2 }}>
+            <Linkedin size={19} />
+          </a>
+        </div>
       </div>
       <div style={{ borderTop: "1px solid rgba(231,225,212,.16)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 24px", fontFamily: FONT_SANS, fontSize: 12.5, color: "#FFFFFF", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span>Data from arXiv · PubMed · medRxiv · human-reviewed</span>
+          <span>© 2026 bench-marked. All rights reserved.</span>
           <span>Research catalog, not a clinical tool.</span>
         </div>
       </div>
@@ -932,14 +976,14 @@ function Footer({ go }) {
 
 // Logo that loads an image from website/logos/, falling back to a styled
 // wordmark if the file isn't present yet.
-function Logo({ src, name, h = 32, color }) {
+function Logo({ src, name, h = 32, maxW = 180, color }) {
   const [err, setErr] = useState(false);
   if (err) {
     return <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 17, letterSpacing: "-.01em", color: color || C.ink }}>{name}</span>;
   }
   return (
     <img src={src} alt={name} onError={() => setErr(true)}
-      style={{ height: h, width: "auto", maxWidth: 180, objectFit: "contain", display: "block" }} />
+      style={{ height: h, width: "auto", maxWidth: maxW, objectFit: "contain", display: "block" }} />
   );
 }
 
@@ -1263,13 +1307,22 @@ function LandingPage({ go, data }) {
     return Object.entries(c).sort((a, b) => b[1] - a[1]);
   })();
 
-  // Benchmarks per year, filled continuously so gap years show as empty.
-  const yearMap = {};
-  data.forEach((b) => { const m = (b.year || "").match(/20\d\d/); if (m) yearMap[m[0]] = (yearMap[m[0]] || 0) + 1; });
-  const yrs = Object.keys(yearMap).map(Number);
+  // Benchmarks per quarter for 2025-2026. Most records only carry "Month YYYY"
+  // (or "Mon-YY") text in `year`/`pubDate`, not a real date, and many carry no
+  // month at all — those land in a per-year "Unk" bucket rather than being
+  // guessed into a quarter.
+  const quarterCounts = {};
+  data.forEach((b) => {
+    const r = quarterOf(b);
+    if (!r || (r.year !== "2025" && r.year !== "2026")) return;
+    const key = r.q ? `${r.year}-Q${r.q}` : `${r.year}-Unk`;
+    quarterCounts[key] = (quarterCounts[key] || 0) + 1;
+  });
+  // 2026 stops at Q3 — the site's current data doesn't extend past it.
   const growth = [];
-  if (yrs.length) { for (let y = Math.min(...yrs); y <= Math.max(...yrs); y++) growth.push([String(y), yearMap[String(y)] || 0]); }
-  const sinceRecent = (yearMap["2025"] || 0) + (yearMap["2026"] || 0);
+  for (let q = 1; q <= 4; q++) growth.push([`Q${q}'25`, quarterCounts["2025-Q" + q] || 0]);
+  growth.push(["Unk'25", quarterCounts["2025-Unk"] || 0]);
+  for (let q = 1; q <= 3; q++) growth.push([`Q${q}'26`, quarterCounts["2026-Q" + q] || 0]);
 
   const runnableCount = data.filter((b) => runHrefFor(b)).length;
   const featured = [...data]
@@ -1287,7 +1340,7 @@ function LandingPage({ go, data }) {
       {/* Dark full-screen hero — giant wordmark (Monolog-style) on the solid navy base. */}
 
 
-      <section style={{ position: "relative", color: "#FFFFFF", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "104px 32px 48px" }}>
+      <section style={{ position: "relative", color: "#FFFFFF", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "72px 32px 48px" }}>
             {/* Load-in choreography: one staged entrance for the hero — each
                 piece rises and sharpens in sequence. Respects reduced-motion. */}
             <style>{`
@@ -1298,27 +1351,41 @@ function LandingPage({ go, data }) {
 
             {/* one centered composition: lockup, copy, CTA, then the numbers */}
             <div style={{ position: "relative", maxWidth: 860, margin: "0 auto", textAlign: "center" }}>
-              <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, lineHeight: 1.02, letterSpacing: "-.035em", color: "#FFFFFF", margin: "0 auto", maxWidth: 800, textWrap: "balance" }}>
-                <span className="heroin" style={{ display: "block", fontSize: "clamp(19px, 2.6vw, 30px)", fontWeight: 400, letterSpacing: "-.02em", color: "#FFFFFF", marginBottom: 12, animationDelay: ".05s" }}>The Mental Health</span>
-                <span className="heroin" style={{ display: "block", fontSize: "clamp(48px, 8.4vw, 108px)", animationDelay: ".16s" }}>Benchmark Catalog</span>
+              <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, lineHeight: 1.05, letterSpacing: "-.03em", color: "#FFFFFF", margin: "0 auto", maxWidth: 800, textWrap: "balance" }}>
+                <span className="heroin" style={{ display: "block", fontSize: "clamp(34px, 5.6vw, 68px)", animationDelay: ".16s" }}>Every mental health AI benchmark, in one place</span>
               </h1>
-              <p className="heroin" style={{ fontFamily: FONT_SANS, fontSize: 16, lineHeight: 1.65, color: "#FFFFFF", margin: "22px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
-                We aggregate all published benchmarks that test AI models on mental health tasks into one catalog, so you don’t have to.
+              <p className="heroin" style={{ fontFamily: FONT_SANS, fontSize: 16, lineHeight: 1.65, color: "#FFFFFF", margin: "14px auto 0", maxWidth: 520, animationDelay: ".32s" }}>
+                An independent catalog of published benchmarks that test how AI models handle mental health tasks.
               </p>
-              <div className="heroin" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 28, flexWrap: "wrap", animationDelay: ".46s" }}>
+              <div className="heroin" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 20, flexWrap: "wrap", animationDelay: ".46s" }}>
                 <button onClick={() => go("catalog")} style={{ background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "12px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog →</button>
                 {LAUNCH.rateRigorHeroButton && (
                   <button onClick={() => go("method")} style={{ background: "transparent", color: "#FFFFFF", border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
                 )}
               </div>
 
+              {/* trust strip — same "With support from" logos as the About section
+                  below, echoed here (Hubble-style) so credibility reads before
+                  the fold, not just after scrolling. */}
+              <div className="heroin" style={{ marginTop: 64, display: "flex", flexDirection: "column", alignItems: "center", gap: 14, animationDelay: ".54s" }}>
+                <div style={{ borderRadius: 18, padding: "22px 34px 24px", background: PANEL_BG, display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+                  <div style={{ fontFamily: FONT_SANS, fontSize: 10.5, letterSpacing: ".12em", textTransform: "uppercase", color: PANEL_MUTED }}>Rooted in research, guided by experts at</div>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 30, flexWrap: "wrap", justifyContent: "center" }}>
+                      <Logo src="./logos/mdplus.webp" name="MDplus" h={31} color="#A7B6EC" />
+                      <Logo src="./logos/stanford-som.png" name="Stanford School of Medicine" h={40} maxW={260} color="#E19A9A" />
+                    </div>
+                    <span style={{ fontFamily: FONT_SANS, fontSize: 9, letterSpacing: ".04em", color: PANEL_MUTED, textAlign: "center" }}>MDplus Catalyst Fellowship Finalist</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* by the numbers — big figures spread across the bottom of the hero */}
             <div className="heroin" style={{ position: "absolute", left: 32, right: 32, bottom: 44, animationDelay: ".62s" }}>
               <div style={{ maxWidth: 1160, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "30px 48px" }}>
                 {[
-                  [total, "+", "Benchmarks catalogued"],
+                  [total, "", "Benchmarks catalogued"],
                   [TASK_ORDER.length, "", "Task categories"],
                   [openCount, "", "Open-source"],
                   [multiTurn, "", "Multi-turn"],
@@ -1346,7 +1413,7 @@ function LandingPage({ go, data }) {
                 {total} benchmarks; many cover more than one task.
               </div>
             </DashCard>
-            <DashCard title="Benchmarks published by year">
+            <DashCard title="Benchmarks published by quarter">
               {growth.length ? <GrowthLine rows={growth} /> : null}
             </DashCard>
           </div>
@@ -1354,34 +1421,6 @@ function LandingPage({ go, data }) {
       </section>
 
     <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 20px" }}>
-
-      {/* About — the people behind the project */}
-      <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "60px 0", display: "grid", gridTemplateColumns: "0.7fr 1.3fr", gap: 40 }}>
-        <div>
-          <div style={{ marginTop: 0 }}>
-            <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: DASH_MUTED, marginBottom: 20 }}>
-              With support from
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 24 }}>
-              <Logo src="./logos/mdplus.webp" name="MDplus" h={30} color="#A7B6EC" />
-              <Logo src="./logos/stanford.avif" name="Stanford" h={50} color="#E19A9A" />
-            </div>
-          </div>
-        </div>
-        <div>
-          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3.4vw, 40px)", fontWeight: 400, letterSpacing: "-.03em", lineHeight: 1.08, margin: 0, color: DASH_INK }}>
-            Built by medical students, guided by clinicians.
-          </h2>
-          <p style={{ fontSize: 16, lineHeight: 1.65, color: DASH_MUTED, marginTop: 20, maxWidth: 640 }}>
-            Everything here (the website, the benchmark-evaluation rubric, and the sorting, naming, and
-            runnable-benchmark systems) was created by <b style={{ color: DASH_INK }}>four medical students</b> through the{" "}
-            <b style={{ color: DASH_INK }}>MDplus Catalysis Fellowship</b>.
-          </p>
-          <p style={{ fontSize: 16, lineHeight: 1.65, color: DASH_MUTED, marginTop: 14, maxWidth: 640 }}>
-            The project is mentored by <b style={{ color: DASH_INK }}>Dr. Havlik</b> (Stanford) and <b style={{ color: DASH_INK }}>Dr. Kwon</b>.
-          </p>
-        </div>
-      </section>
 
       {/* Featured — "Start here" rotating cards, parked behind LAUNCH.startHere */}
       {LAUNCH.startHere && (
@@ -1433,16 +1472,6 @@ function LandingPage({ go, data }) {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section style={{ borderTop: `1px solid ${DASH_LINE}`, padding: "80px 0 48px", textAlign: "center" }}>
-        <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 400, letterSpacing: "-.04em", lineHeight: 1.02, margin: "0 auto", maxWidth: 780, color: DASH_INK }}>
-          See how AI is really tested on mental health.
-        </h2>
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 30, flexWrap: "wrap" }}>
-          <button onClick={() => go("catalog")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.lime, color: C.ink, border: "none", borderRadius: 999, padding: "13px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Browse the catalog <ArrowRight size={15} /></button>
-          <button onClick={() => go("method")} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "transparent", color: DASH_INK, border: "1px solid rgba(237,235,228,.35)", borderRadius: 999, padding: "12px 24px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>How we rate rigor</button>
-        </div>
-      </section>
     </div>
     </div>
     </div>
@@ -1589,48 +1618,38 @@ function RubricScore({ d, index }) {
 }
 
 function MethodPage({ go }) {
-  const STEPS = [
-    { t: "We find the papers", d: "A scheduled job scans arXiv, PubMed, and medRxiv for newly released mental-health LLM papers, and skips anything it has already seen." },
-    { t: "We check relevance", d: "A fast, low-cost model reads each title and abstract and keeps only genuine LLM-in-mental-health evaluation work; off-topic papers are dropped with a logged reason." },
-    { t: "We extract the facts", d: "The full paper is read into a consistent schema (models tested, tasks, dataset size, metrics, ground truth) with a short plain-language summary. It never guesses; unclear fields stay blank." },
-    { t: "We rate the benchmark", d: "Reviewers apply a three-part rubric (Safety, Clinical Relevance, Methodological Quality), giving each benchmark three independent Strong / Moderate / Weak ratings rather than one blended score." },
-    { t: "Humans appraise & publish", d: "Reviewers finalize the ratings by hand. Confident entries publish automatically; uncertain ones wait for a person to approve them before going live." },
-  ];
-
   return (
     <>
-      {/* Dark hero + compact numbered pipeline */}
+      {/* Dark hero — literature-review methodology + roadmap */}
       <div style={{ background: "#1C4773", color: "#FFFFFF" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 32px 56px" }}>
-          <section style={{ padding: "104px 0 8px", maxWidth: 760 }}>
+        <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 32px 80px" }}>
+          <section style={{ padding: "104px 0 0" }}>
             <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".16em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 18 }}>Methodology</div>
-            <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: "clamp(38px, 5.5vw, 66px)", lineHeight: 0.98, letterSpacing: "-.04em", margin: 0 }}>How the catalog works</h1>
-            <p style={{ fontSize: 16.5, color: "#FFFFFF", lineHeight: 1.6, margin: "22px 0 0" }}>
-              {LAUNCH.methodRubric
-                ? "Two things happen here: an automated pipeline gathers and organizes the benchmarks, then people rate each one against a clear rubric. Below is the pipeline; further down is exactly how the ratings are decided."
-                : "An automated pipeline gathers and organizes the benchmarks, then human reviewers appraise each one before it goes live. Below is the pipeline, step by step."}
+            <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: "clamp(38px, 5.5vw, 62px)", lineHeight: 1.02, letterSpacing: "-.04em", margin: 0 }}>Behind bench-marked</h1>
+            <p style={{ fontSize: 16.5, color: "#FFFFFF", lineHeight: 1.65, margin: "26px 0 0" }}>
+              We identified benchmarks evaluating the performance of large language models in mental health through a structured literature review of PubMed. Records were screened against predefined inclusion and exclusion criteria to retain publications that described or evaluated a benchmark applicable to mental health tasks. Before extraction, we defined a common set of fields intended to capture the characteristics most relevant to interpreting and comparing benchmarks, including ground truth, evaluation method, and interaction type. Data were extracted from the included publications using an AI-assisted script that populated the predefined fields for each benchmark. All extracted entries were subsequently reviewed by human reviewers against the source publication to verify accuracy, resolve ambiguity, and correct or complete fields.
             </p>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 26 }}>
-              <button onClick={() => scrollToId("sec-pipeline")} style={{ appearance: "none", cursor: "pointer", background: "transparent", border: "1px solid rgba(237,235,228,.28)", borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#FFFFFF" }}>The pipeline</button>
-              {LAUNCH.methodRubric && (
-                <button onClick={() => scrollToId("sec-rubric")} style={{ appearance: "none", cursor: "pointer", background: C.lime, border: `1px solid ${C.lime}`, borderRadius: 999, padding: "8px 15px", fontFamily: FONT_MONO, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: "#1C4773", fontWeight: 700 }}>How we rate benchmarks →</button>
-              )}
-            </div>
+            <p style={{ fontSize: 14, color: "#B9CDDE", lineHeight: 1.6, margin: "18px 0 0" }}>
+              Our last literature review was conducted in August 2026.
+            </p>
           </section>
 
-          <section id="sec-pipeline" style={{ scrollMarginTop: 16, marginTop: 40 }}>
-            <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 6 }}>The pipeline · 5 steps</div>
-            <ol style={{ listStyle: "none", margin: 0, padding: 0 }}>
-              {STEPS.map((s, i) => (
-                <li key={i} style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 20, padding: "22px 0", borderTop: `1px solid rgba(237,235,228,.14)` }}>
-                  <span style={{ fontFamily: FONT_MONO, fontSize: 13, fontWeight: 700, color: C.lime, paddingTop: 5 }}>{String(i + 1).padStart(2, "0")}</span>
-                  <div>
-                    <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(20px, 2.6vw, 27px)", fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.1, margin: 0, color: "#FFFFFF" }}>{s.t}</h2>
-                    <p style={{ fontSize: 15, lineHeight: 1.6, color: "#FFFFFF", margin: "8px 0 0", maxWidth: 640 }}>{s.d}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+          <section style={{ marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(237,235,228,.14)" }}>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 22 }}>Coming soon</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
+              <div>
+                <h2 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 400, letterSpacing: "-.02em", margin: "0 0 8px", color: "#FFFFFF" }}>Benchmark Quality Evaluation</h2>
+                <p style={{ fontSize: 15, lineHeight: 1.6, color: "#FFFFFF", margin: 0 }}>
+                  We are developing a structured rating that assigns each benchmark a quality score and tier, reflecting the strength of its ground truth, evaluation design, and reporting. The goal is to let you see at a glance how much weight a given benchmark’s results can bear.
+                </p>
+              </div>
+              <div>
+                <h2 style={{ fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 400, letterSpacing: "-.02em", margin: "0 0 8px", color: "#FFFFFF" }}>Runnable Benchmarks</h2>
+                <p style={{ fontSize: 15, lineHeight: 1.6, color: "#FFFFFF", margin: 0 }}>
+                  For benchmarks released under an open-source license, we will support running them directly from our site. You’ll be able to evaluate a model against a benchmark and see results without assembling the harness yourself.
+                </p>
+              </div>
+            </div>
           </section>
         </div>
       </div>
@@ -1683,6 +1702,84 @@ function MethodPage({ go }) {
       </div>
       )}
     </>
+  );
+}
+
+function AboutPage({ go }) {
+  const p = { fontSize: 15.5, lineHeight: 1.7, color: "#FFFFFF", margin: 0, maxWidth: 700 };
+  const kicker = { fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#B9CDDE" };
+  const sectionTitle = { fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 700, letterSpacing: "-.02em", color: "#FFFFFF", margin: "0 0 16px" };
+  const bm = { fontWeight: 700, fontStyle: "italic" };
+  const link = { color: C.lime, textDecoration: "underline", textUnderlineOffset: "2px" };
+  const cite = (href, children) => <a href={href} target="_blank" rel="noopener noreferrer" style={link}>{children}</a>;
+  return (
+    <div style={{ background: "#1C4773", color: "#FFFFFF" }}>
+      <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 32px 100px" }}>
+        <section style={{ padding: "104px 0 0" }}>
+          <div style={{ ...kicker, marginBottom: 18 }}>About</div>
+          <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 700, fontSize: "clamp(38px, 5.5vw, 62px)", lineHeight: 1.04, letterSpacing: "-.04em", margin: 0 }}>About bench-marked</h1>
+          <p style={{ fontSize: 17, lineHeight: 1.6, color: "#FFFFFF", margin: "22px 0 0", maxWidth: 640, fontStyle: "italic" }}>
+            An independent catalog of mental health AI benchmarks — so safety can be verified, not just claimed.
+          </p>
+        </section>
+
+        <section style={{ marginTop: 44, display: "flex", flexDirection: "column", gap: 18 }}>
+          <p style={p}>
+            People in mental health crisis are already talking to AI. {cite("https://jamanetwork.com/journals/jamapediatrics/fullarticle/2849307", "Nearly 1 in 5 U.S. adolescents and young adults")} now use AI chatbots for mental health advice, and close to ⅔ have not told anyone they’re doing it. It’s not hard to see why. These tools are free, available at three in the morning, and allow users to express themselves without fear of judgment. AI can reach places the existing system doesn’t. But are these tools safe?
+          </p>
+          <p style={p}>
+            Today, that question is incredibly difficult to answer. Evaluation often happens in-house, and there is no FDA-equivalent review for mental health AI. With no shared standard, a developer who wants to prove their model is safe has no agreed-upon way to do it.
+          </p>
+          <p style={p}>
+            Meanwhile, the harms are no longer hypothetical. Several families have {cite("https://www.courtlistener.com/docket/69300919/garcia-v-character-technologies-inc/", "sued major AI companies")} after the {cite("https://www.nytimes.com/2025/08/26/technology/chatgpt-openai-suicide.html", "suicides of their teenagers")} who spent months confiding in chatbots. Adults in treatment are falling through the same gap: {cite("https://www.npr.org/2026/08/18/nx-s1-5929575/ai-suicide-risks-mental-health", "in one widely reported case")}, a woman disclosed suicidal intent across hundreds of pages of chat logs that no one saw until after her death. Her therapist never knew.
+          </p>
+          <p style={p}>
+            The risk is not limited to suicide. Psychiatrists have begun publishing cases of {cite("https://onlinelibrary.wiley.com/doi/10.1111/acps.70068", "AI-associated psychosis")}, where delusional thinking emerges or worsens over the course of chatbot use. And when researchers test these tools systematically, they repeatedly find patterns of {cite("https://ojs.aaai.org/index.php/AIES/article/view/36632", "mishandled crises")}, {cite("https://www.nature.com/articles/s41598-025-17242-4", "missed suicidal intent")}, and {cite("https://arxiv.org/abs/2504.18412", "stigmatizing responses")}.
+          </p>
+          <p style={p}>
+            AI chatbots have immense potential to help people, but that potential cannot be realized without proper guardrails in place to protect help-seekers.
+          </p>
+        </section>
+
+        <section style={{ marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(237,235,228,.14)" }}>
+          <h2 style={sectionTitle}>What we do</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <p style={p}>
+              <span style={bm}>bench-marked</span> pulls every published mental health AI benchmark into a single public catalog and sorts them by the tasks they were built to evaluate. Finding the strongest benchmark for a given use case no longer takes weeks or tens of thousands of dollars. Soon, you’ll also be able to run the open-source benchmarks against your own model without leaving our site.
+            </p>
+            <p style={p}>
+              If you’re building in this space, the goal is to make rigorous evaluation the path of least resistance. With <span style={bm}>bench-marked,</span> you can test your model against the best available evidence.
+            </p>
+          </div>
+        </section>
+
+        <section style={{ marginTop: 48, paddingTop: 40, borderTop: "1px solid rgba(237,235,228,.14)" }}>
+          <h2 style={sectionTitle}>Why we’re different</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <p style={p}>
+              Platforms like Stanford’s MedHELM evaluate models on general medical tasks, but crisis recognition and suicide risk assessment are not general medical tasks. No equivalent resource has been built for mental health. <span style={bm}>bench-marked</span> is here to address that gap.
+            </p>
+            <p style={p}>
+              We are independent rather than vendor-run. We organize benchmarks so they can be compared on their merits rather than presented as a flat list. Pointing to a single weak benchmark won’t serve as proof that a model is safe.
+            </p>
+          </div>
+        </section>
+
+        <section style={{ marginTop: 48, paddingTop: 40, borderTop: "1px solid rgba(237,235,228,.14)" }}>
+          <h2 style={sectionTitle}>Who we are</h2>
+          <p style={p}>
+            <span style={bm}>bench-marked</span> started as an idea from Stanford psychiatry resident Dr. John Havlik, who noticed that mental health AI lacked the independent evaluation infrastructure found elsewhere in medicine. Through the MD+ Catalyst Fellowship, four medical students guided by Dr. Havlik and Dr. Rachel Kwon built that idea into <span style={bm}>bench-marked</span>, because we believe AI has real potential to address existing gaps in our mental health care system. That potential depends on getting the evaluation right and making sure these tools are safe.
+          </p>
+        </section>
+
+        <section style={{ marginTop: 48, paddingTop: 40, borderTop: "1px solid rgba(237,235,228,.14)" }}>
+          <p style={p}>
+            Have a benchmark we’ve missed, or want to talk about using <span style={bm}>bench-marked</span> at your organization?{" "}
+            <a href="mailto:team@bench-marked.com" style={{ ...link, fontWeight: 700 }}>Get in touch.</a>
+          </p>
+        </section>
+      </div>
+    </div>
   );
 }
 
@@ -2038,10 +2135,24 @@ function BenchCard({ b, showRigor, onClick }) {
 }
 
 // One label/value fact in the detail popup. `wide` spans the full grid width.
-function Fact({ label, value, wide }) {
+// Small hover/focus tooltip — a one-sentence definition next to a Fact's label.
+function InfoDot({ text }) {
+  if (!text) return null;
+  return (
+    <span className="info-dot" tabIndex={0} aria-label={text}>
+      <Info size={13} color={PANEL_MUTED} style={{ display: "block" }} />
+      <span className="info-tip" role="tooltip">{text}</span>
+    </span>
+  );
+}
+
+function Fact({ label, value, hint, wide }) {
   return (
     <div style={{ gridColumn: wide ? "1 / -1" : "auto" }}>
-      <div style={{ fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: PANEL_INK, marginBottom: 6, paddingBottom: 5, borderBottom: "1px solid rgba(28,71,115,.18)" }}>{label}</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: PANEL_INK, marginBottom: 6, paddingBottom: 5, borderBottom: "1px solid rgba(28,71,115,.18)" }}>
+        {label}
+        <InfoDot text={hint} />
+      </div>
       <div style={{ fontSize: 14.5, lineHeight: 1.55, color: PANEL_INK }}>{value}</div>
     </div>
   );
@@ -2207,11 +2318,11 @@ function Detail({ b, showRigor, onClose }) {
                   </button>
                   {open && (
                     <div style={{ background: "rgba(255,255,255,.5)", borderRadius: 10, padding: "20px 22px", margin: "0 0 20px 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "20px 32px" }}>
-                      {c.dataSource && <Fact label="Data / question source" value={c.dataSource} wide />}
-                      {c.groundTruth && <Fact label="Ground truth" value={c.groundTruth} wide />}
-                      {c.evaluation && <Fact label="Evaluation" value={c.evaluation} wide />}
-                      {c.population && <Fact label="Population" value={c.population} />}
-                      {c.turn && <Fact label="Interaction" value={c.turn === "Single" ? "Single-turn" : c.turn} />}
+                      {c.dataSource && <Fact label="Data / question source" value={c.dataSource} hint="Where the benchmark's questions or test items originally came from." wide />}
+                      {c.groundTruth && <Fact label="Ground truth" value={c.groundTruth} hint="What's treated as the correct answer when scoring a model's response." wide />}
+                      {c.evaluation && <Fact label="Evaluation" value={c.evaluation} hint="How model outputs are actually scored or judged." wide />}
+                      {c.population && <Fact label="Population" value={c.population} hint="Who the benchmark's data or questions are drawn from or meant to represent." />}
+                      {c.turn && <Fact label="Interaction" value={c.turn === "Single" ? "Single-turn" : c.turn} hint="Whether the benchmark is a single exchange or an ongoing multi-turn conversation." />}
                       {!c.dataSource && !c.groundTruth && !c.evaluation && !c.population && !c.turn && (
                         <div style={{ color: PANEL_MUTED, fontSize: 13.5, gridColumn: "1 / -1" }}>No additional information recorded for this benchmark yet.</div>
                       )}

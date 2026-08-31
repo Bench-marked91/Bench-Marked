@@ -3,18 +3,259 @@
   "objective": "To assess whether LLMs can approximate the depth, complexity, and precision of real-world psychiatric reasoning and clinical decision-making.",
   "paperTitle": "PsychiatryBench: a multi-task benchmark for LLMs in psychiatry",
   "publicationDate": "April 2026",
-  "citation": "Fouda AE, Hassan AA, Hanafy RJ, et al. PsychiatryBench: a multi-task benchmark for LLMs in psychiatry. npj Digit Med. 2026;9:320. doi:10.1038/s41746-026-02582-w"
+  "citation": "Fouda AE, Hassan AA, Hanafy RJ, et al. PsychiatryBench: a multi-task benchmark for LLMs in psychiatry. npj Digit Med. 2026;9:320. doi:10.1038/s41746-026-02582-w",
+  "venue": "npj Digital Medicine"
  },
  "https://arxiv.org/abs/2506.08584": {
   "objective": "To systematically assess LLM behavior on authentic mental-health questions and probe LLM failure modes.",
   "paperTitle": "CounselBench: A Large-Scale Expert Evaluation and Adversarial Benchmarking of Large Language Models in Mental Health Question Answering",
   "publicationDate": "May 2026",
-  "citation": "Li Y, Yao J, Bunyi JBS, Frank AC, Hwang AH, Liu R. CounselBench: a large-scale expert evaluation and adversarial benchmarking of large language models in mental health question answering. arXiv. Preprint posted online June 10, 2025. arXiv:2506.08584. doi:10.48550/arXiv.2506.08584"
+  "citation": "Li Y, Yao J, Bunyi JBS, Frank AC, Hwang AH, Liu R. CounselBench: a large-scale expert evaluation and adversarial benchmarking of large language models in mental health question answering. arXiv. Preprint posted online June 10, 2025. arXiv:2506.08584. doi:10.48550/arXiv.2506.08584",
+  "venue": "arXiv"
  },
  "https://arxiv.org/abs/2311.09189": {
   "objective": "To provide a comprehensive suite evaluating LLMs across three dimensions of mental health: foundational knowledge, diagnosis prediction, and psychological counseling.",
   "paperTitle": "PsyEval: A Suite of Mental Health Related Tasks for Evaluating Large Language Models",
   "publicationDate": "June 2024",
-  "citation": "Jin H, Chen S, Dilixiati D, Jiang Y, Wu M, Zhu KQ. PsyEval: a suite of mental health related tasks for evaluating large language models. arXiv. Preprint posted online November 15, 2023. arXiv:2311.09189. doi:10.48550/arXiv.2311.09189"
+  "citation": "Jin H, Chen S, Dilixiati D, Jiang Y, Wu M, Zhu KQ. PsyEval: a suite of mental health related tasks for evaluating large language models. arXiv. Preprint posted online November 15, 2023. arXiv:2311.09189. doi:10.48550/arXiv.2311.09189",
+  "venue": "arXiv"
+ },
+ "https://arxiv.org/abs/2602.12871": {
+  "objective": "Evaluate if LLM's make DSM-grounded psychiatric diagnostic decisions presentations that vary in completeness and diagnostic complexity",
+  "paperTitle": "MentalBench: A DSM-Grounded Benchmark for Evaluating Psychiatric Diagnostic Capability of Large Language Models",
+  "publicationDate": "May 2026",
+  "citation": "Song H, Kang M, Shin J, et al. MentalBench: a DSM-grounded benchmark for evaluating psychiatric diagnostic capability of large language models. arXiv. Preprint published February 17, 2026. arXiv:2602.12871.",
+  "venue": "arXiv"
+ },
+ "https://arxiv.org/abs/2506.01329": {
+  "objective": "Evaluate LLM's in four crisis detection tasks: mood status recognition, suicidal ideation detection, suicide plan identification, and risk assessment with varrying quantities of reference examples to train on",
+  "paperTitle": "Evaluating Large Language Models in Crisis Detection: A Real-World Benchmark from Psychological Support Hotlines",
+  "publicationDate": "December 2025",
+  "citation": "Deng G, Rao S, Lin T, et al. Evaluating large language models in crisis detection: a real-world benchmark from psychological support hotlines. arXiv. Preprint published June 2, 2025. arXiv:2506.01329. doi:10.48550/arXiv.2506.01329.",
+  "venue": "arXiv"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12134693/": {
+  "objective": "To assess the accuracy, reliability, and predictors of accuracy of LLMs on standardized psychiatry multiple-choice questions",
+  "paperTitle": "Assessing the Accuracy and Reliability of Large Language Models in Psychiatry Using Standardized Multiple-Choice Questions: Cross-Sectional Study",
+  "publicationDate": "May 2025",
+  "citation": "Hanss K, Sarma KV, Glowinski AL, et al. Assessing the accuracy and reliability of large language models in psychiatry using standardized multiple-choice questions: cross-sectional study. J Med Internet Res. 2025;27:e69910. doi:10.2196/69910",
+  "venue": "Journal of Medical Internet Research"
+ },
+ "https://arxiv.org/abs/2605.23148": {
+  "objective": "To benchmark LLM reliability in identifying psychiatric risk from patient narratives across diagnoses, demographic subgroups, and evidence-use patterns",
+  "paperTitle": "When Symptoms Are Not Enough: Evidence-Weighting Patterns in Large Language Model Psychiatric Screening",
+  "publicationDate": "May 2026",
+  "citation": "Zhu J, Korhummel M, Jin R, Coifman KG. When symptoms are not enough: evidence-weighting patterns in large language model psychiatric screening. arXiv. Preprint posted online May 22, 2026. arXiv:2605.23148",
+  "venue": "arXiv"
+ },
+ "https://arxiv.org/abs/2510.15297": {
+  "objective": "To provide an automated evaluation of the safety of AI chatbots used in mental health contexts, with an initial focus on suicide risk (concept paper, under development)",
+  "paperTitle": "VERA-MH Concept Paper",
+  "publicationDate": "October 2025",
+  "citation": "Belli L, Bentley KH, Alexander W, et al. VERA-MH concept paper. arXiv. Preprint posted online October 17, 2025. arXiv:2510.15297",
+  "venue": "arXiv"
+ },
+ "https://journals.plos.org/digitalhealth/article?id=10.1371/journal.pdig.0001205": {
+  "objective": "To provide an interpretable framework for automatic depression severity assessment from clinical interview transcripts, evaluated on benchmark datasets",
+  "paperTitle": "Interpretable depression assessment using a large language model",
+  "publicationDate": "February 2026",
+  "citation": "Lee J-J, Han J, Woo C-W. Interpretable depression assessment using a large language model. PLOS Digit Health. 2026;5(2):e0001205. doi:10.1371/journal.pdig.0001205",
+  "venue": "PLOS Digital Health"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12101789/": {
+  "objective": "To benchmark LLM accuracy and self-reported confidence (calibration) in answering clinical multiple-choice questions across five medical specialties, including psychiatry",
+  "paperTitle": "Benchmarking the Confidence of Large Language Models in Answering Clinical Questions: Cross-Sectional Evaluation Study",
+  "publicationDate": "May 2025",
+  "citation": "Omar M, Agbareia R, Glicksberg BS, Nadkarni GN, Klang E. Benchmarking the confidence of large language models in answering clinical questions: cross-sectional evaluation study. JMIR Med Inform. 2025;13:e66917. doi:10.2196/66917",
+  "venue": "JMIR Medical Informatics"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12166901/": {
+  "objective": "To benchmark and compare closed- vs. open-source LLMs on Portuguese-language medical residency examination questions across five clinical domains including psychiatry",
+  "paperTitle": "Assessing Large Language Models for Medical Question Answering in Portuguese: Open-Source Versus Closed-Source Approaches",
+  "publicationDate": "May 2025",
+  "citation": "Abrantes J. Assessing large language models for medical question answering in Portuguese: open-source versus closed-source approaches. Cureus. 2025;17(5):e84165. doi:10.7759/cureus.84165",
+  "venue": "Cureus"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12239686/": {
+  "objective": "To develop a standardized framework (CAPE) for assessing the quality of AI psychotherapy chatbots and apply it to popular chatbots",
+  "paperTitle": "Evaluating the Quality of Psychotherapy Conversational Agents: Framework Development and Cross-Sectional Study",
+  "publicationDate": "July 2025",
+  "citation": "Sobowale K, Humphrey DK. Evaluating the quality of psychotherapy conversational agents: framework development and cross-sectional study. JMIR Form Res. 2025;9:e65605. doi:10.2196/65605",
+  "venue": "JMIR Formative Research"
+ },
+ "https://doi.org/10.64898/2026.02.03.26345402": {
+  "objective": "To evaluate the diagnostic accuracy and clinician-rated diagnostic reasoning quality of contemporary LLMs",
+  "paperTitle": "Evaluating Diagnostic Accuracy and Clinical Reasoning of Multiple Large Language Models in Psychiatry",
+  "publicationDate": "February 2026",
+  "citation": "Jin KW, Rostam-Abadi Y, Chaudhary P, et al. Evaluating Diagnostic Accuracy and Clinical Reasoning of Multiple Large Language Models in Psychiatry. medRxiv. Published online February 11, 2026. doi:10.64898/2026.02.03.26345402",
+  "venue": "medRxiv"
+ },
+ "https://medinform.jmir.org/2026/1/e86965": {
+  "objective": "To investigate how LLM-analyzed linguistic features from transcribed speech affect the accuracy and interpretability of Alzheimer disease prediction",
+  "paperTitle": "Advancing Alzheimer Disease Prediction With Large Language Model-Based Linguistic Feature Analysis: Development and Validation Study",
+  "publicationDate": "January 2026",
+  "citation": "Hsu MH, Hwang SY, Tsai YH, Chang YC, Liang CK, Chang CY. Advancing Alzheimer disease prediction with large language model-based linguistic feature analysis: development and validation study. JMIR Med Inform. 2026;14:e86965. doi:10.2196/86965",
+  "venue": "JMIR Medical Informatics"
+ },
+ "https://doi.org/10.3389/fdgth.2026.1790533": {
+  "objective": "To benchmark few-shot prompt-only LLMs against fine-tuned encoders for tweet-level classification of depression subtypes",
+  "paperTitle": "Depression subtype classification from social media posts: few-shot prompting vs. fine-tuning of large language models",
+  "publicationDate": "March 2026",
+  "citation": "AlSaad R, Alshakhs S, Thomas R. Depression subtype classification from social media posts: few-shot prompting vs. fine-tuning of large language models. Front Digit Health. 2026;8:1790533. doi:10.3389/fdgth.2026.1790533",
+  "venue": "Frontiers in Digital Health"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC11978496/": {
+  "objective": "To assess the accuracy of an LLM in measuring clinician adherence to guidelines for monitoring ADHD medication side effects from clinical notes",
+  "paperTitle": "Applying Large Language Models to Assess Quality of Care: Monitoring ADHD Medication Side Effects",
+  "publicationDate": "January 2025",
+  "citation": "Bannett Y, Gunturkun F, Pillai M, et al. Applying large language models to assess quality of care: monitoring ADHD medication side effects. Pediatrics. 2025;155(1):e2024067223. doi:10.1542/peds.2024-067223",
+  "venue": "Pediatrics"
+ },
+ "https://www.nature.com/articles/s41746-026-02584-8": {
+  "objective": "To re-test whether an upgraded LLM reduces sociodemographic decision bias and adversarial-hallucination vulnerability on fixed clinical pipelines",
+  "paperTitle": "New model, old risks: sociodemographic bias and adversarial hallucinations vulnerability in GPT-5",
+  "publicationDate": "April 2026",
+  "citation": "Omar M, Agbareia R, Apakama DU, et al. New model, old risks: sociodemographic bias and adversarial hallucinations vulnerability in GPT-5. npj Digit Med. 2026;9:200. doi:10.1038/s41746-026-02584-8",
+  "venue": "npj Digital Medicine"
+ },
+ "https://doi.org/10.2196/87586": {
+  "objective": "To evaluate whether a privacy-preserving, locally hosted LLM can accurately identify the presence and timing of self-harm from secondary mental-health EHRs",
+  "paperTitle": "Detection of Self-Harm in Electronic Mental Health Records Using Privacy-Preserving Local Language Models: Methodological Study",
+  "publicationDate": "January 2026",
+  "citation": "Kormilitzin A, Joyce DW, Tsiachristas A, Borschmann R, Kapur N, Geulayov G. Detection of self-harm in electronic mental health records using privacy-preserving local language models: methodological study. JMIR Ment Health. 2026;13:e87586. doi:10.2196/87586",
+  "venue": "JMIR Mental Health"
+ },
+ "https://doi.org/10.1371/journal.pdig.0001352": {
+  "objective": "To evaluate LLMs' ability to detect and assess psychosocial risk across suicide, intimate partner violence, and substance misuse. The three studies specifically evaluate the performance of LLMs in identifying and classifying psychosocial risk based on participant-generated vignettes (study 1), evaluate how indivudlas with lived expeirece percieved the quality and relevance of chatbot responses (study 2) and to evaluate a functional chatbot system designed to combine empathic conversation with structured risk assessment (study 3)",
+  "paperTitle": "Large language models for psychosocial risk assessment: A multi-method evaluation across suicide, intimate partner violence, and substance misuse",
+  "publicationDate": "April 2026",
+  "citation": "Vowels LM, Vohra P, Li D, et al. Large language models for psychosocial risk assessment: a multi-method evaluation across suicide, intimate partner violence, and substance misuse. PLOS Digit Health. 2026;5(4):e0001352. doi:10.1371/journal.pdig.0001352",
+  "venue": "PLOS Digital Health"
+ },
+ "https://doi.org/10.3390/diagnostics15222871": {
+  "objective": "To develop and validate a real-time, speech-driven, multilingual framework for stress detection and adaptive psychological support, moving beyond retrospective, text-only, detection-only systems",
+  "paperTitle": "StressSpeak: A Speech-Driven Framework for Real-Time Personalized Stress Detection and Adaptive Psychological Support",
+  "publicationDate": "November 2025",
+  "citation": "Umer L, Iqbal J, Ayaz Y, Imam H, Ahmad A, Asgher U. StressSpeak: a speech-driven framework for real-time personalized stress detection and adaptive psychological support. Diagnostics (Basel). 2025;15(22):2871. doi:10.3390/diagnostics15222871",
+  "venue": "Diagnostics (MDPI)"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC13256495/": {
+  "objective": "To evaluate the ability to detect and appropriately respond when their users may be experiencing a mental health crisis in 6 clinically informed categories (suicidal ideation, self-harm, anxiety crisis, violent thoughts, substance abuse or withdrawal, and risk-taking behaviors)",
+  "paperTitle": "Between Help and Harm: An Evaluation Study of Mental Health Crisis Handling by Large Language Models",
+  "publicationDate": "June 2026",
+  "citation": "Arnaiz-Rodriguez A, Baidal M, Derner E, et al. Between help and harm: an evaluation study of mental health crisis handling by large language models. JMIR Ment Health. 2026;13:e88435. doi:10.2196/88435",
+  "venue": "JMIR Mental Health"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC13263661/": {
+  "objective": "To develop an efficient, interpretable early-risk-detection model for depression that combines posting-time (sleep/circadian) patterns with LLM text analysis",
+  "paperTitle": "Early Depression Detection in Social Media: Monitoring of Individual Nighttime Dynamics and Large Language Model Analysis",
+  "publicationDate": "May 2026",
+  "citation": "Yu B, Zhang Z, Ma L, Cai J, Zhang Y. Early depression detection in social media: monitoring of individual nighttime dynamics and large language model analysis. JMIR Infodemiology. 2026;6:e87138. doi:10.2196/87138",
+  "venue": "JMIR Infodemiology"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12910072/": {
+  "objective": "To provide fine-grained, psychometrically grounded evaluation of LLMs' medical knowledge via cognitive diagnostic modeling that identifies domain-specific competency gaps",
+  "paperTitle": "Fine-grained evaluation of large language models in medicine using non-parametric cognitive diagnostic modeling",
+  "publicationDate": "January 2026",
+  "citation": "Zheng T, Liu J, Feng S, Jiang Z. Fine-grained evaluation of large language models in medicine using non-parametric cognitive diagnostic modeling. Sci Rep. 2026;16:4275. doi:10.1038/s41598-026-36627-7",
+  "venue": "Scientific Reports"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC13065625/": {
+  "objective": "To benchmark LLMs against first-year psychiatry residents on authentic institutional theory and OSCE assessments",
+  "paperTitle": "Benchmarking Large Language Models Against Psychiatry Residents Using Traditional Institutional Assessments",
+  "publicationDate": "April 2026",
+  "citation": "Sethi MIS, Suhas S, Harbishettar V, et al. Benchmarking large language models against psychiatry residents using traditional institutional assessments. Indian J Psychol Med. 2026. doi:10.1177/02537176261435658",
+  "venue": "Indian Journal of Psychological Medicine"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC10787336/?utm_source=chatgpt.com": {
+  "objective": "To explore whether an LLM (GPT-4) can perform primary screening of mild cognitive impairment from text dialogue, with a standardized clinician-designed prompt",
+  "paperTitle": "Text Dialogue Analysis for Primary Screening of Mild Cognitive Impairment: Development and Validation Study",
+  "publicationDate": "December 2023",
+  "citation": "Wang C, Liu S, Li A, Liu J. Text dialogue analysis for primary screening of mild cognitive impairment: development and validation study. J Med Internet Res. 2023;25:e51501. doi:10.2196/51501",
+  "venue": "Journal of Medical Internet Research"
+ },
+ "https://ai.jmir.org/2025/1/e75030/": {
+  "objective": "To evaluate whether incorporating structured clinical assessment scales (scoresheets) improves LLM diagnostic performance for neurobehavioral conditions from text",
+  "paperTitle": "Aiding Large Language Models Using Clinical Scoresheets for Neurobehavioral Diagnostic Classification From Text: Algorithm Development and Validation",
+  "publicationDate": "October 2025",
+  "citation": "Lin K, Rasool A, Surabhi S, et al. Aiding large language models using clinical scoresheets for neurobehavioral diagnostic classification from text: algorithm development and validation. JMIR AI. 2025;4:e75030. doi:10.2196/75030",
+  "venue": "JMIR AI"
+ },
+ "https://pubmed.ncbi.nlm.nih.gov/41933065/": {
+  "objective": "To develop and evaluate a clinically oriented mental-health safety guardrail (and clinician-labeled dataset) for identifying psychiatric crises in text conversations",
+  "paperTitle": "An AI-based mental health guardrail and dataset for identifying psychiatric crises in text-based conversations",
+  "publicationDate": "April 2026",
+  "citation": "Nelson BW, Wong C, Silvestrini MT, et al. An AI-based mental health guardrail and dataset for identifying psychiatric crises in text-based conversations. npj Digit Med. 2026;9:199. doi:10.1038/s41746-026-02579-5",
+  "venue": "npj Digital Medicine"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12968175/": {
+  "objective": "To evaluate the reliability and readability of LLM responses to frequently asked questions about perinatal depression",
+  "paperTitle": "Can large language models be trusted? Reliability and readability of responses to perinatal depression FAQs",
+  "publicationDate": "February 2026",
+  "citation": "Huang J, Yu H, Chen J, et al. Can large language models be trusted? Reliability and readability of responses to perinatal depression FAQs. Front Public Health. 2026;14:1760872. doi:10.3389/fpubh.2026.1760872",
+  "venue": "Frontiers in Public Health"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12869570/": {
+  "objective": "To move mental-health AI safety evaluation beyond small simulations by replicating published safety benchmarks and conducting an ecological audit of real user conversations",
+  "paperTitle": "Beyond Simulations: What 20,000 Real Conversations Reveal About Mental Health AI Safety",
+  "publicationDate": "January 2026",
+  "citation": "Stamatis C, Meyerhoff J, Zhang R, Tieleman O, Malgaroli M, Hull T. Beyond simulations: what 20,000 real conversations reveal about mental health AI safety. Research Square. Preprint posted online January 27, 2026. doi:10.21203/rs.3.rs-8642399/v1",
+  "venue": "Research Square (preprint)"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC12694945/": {
+  "objective": "To evaluate and compare the quality of GenAI psychotherapy chatbots widely used by youth using the CAPE-II framework",
+  "paperTitle": "Evaluating Generative AI Psychotherapy Chatbots Used by Youth: Cross-Sectional Study",
+  "publicationDate": "December 2025",
+  "citation": "Sobowale K, Humphrey DK, Zhao SY. Evaluating generative AI psychotherapy chatbots used by youth: cross-sectional study. JMIR Ment Health. 2025;12:e79838. doi:10.2196/79838",
+  "venue": "JMIR Mental Health"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC13138846/": {
+  "objective": "To benchmark LLMs' capacity to generate structured clinical consultation templates for electronic consultation",
+  "paperTitle": "Asking the Right Questions: Benchmarking Large Language Models in the Development of Clinical Consultation Templates",
+  "publicationDate": "January 2026",
+  "citation": "McCoy LG, Wu D, Khemani S, et al. Asking the right questions: benchmarking large language models in the development of clinical consultation templates. Pac Symp Biocomput. 2026;31:395-409. doi:10.1142/9789819824755_0028",
+  "venue": "Pacific Symposium on Biocomputing"
+ },
+ "https://pubmed.ncbi.nlm.nih.gov/32401222/": {
+  "objective": "To benchmark text-representation methods with AutoML for triaging social-media posts by perceived suicide risk / need for moderator attention (pre-modern-LLM era)",
+  "paperTitle": "Transfer Learning for Risk Classification of Social Media Posts: Model Evaluation Study",
+  "publicationDate": "May 2020",
+  "citation": "Howard D, Maslej MM, Lee J, Ritchie J, Woollard G, French L. Transfer learning for risk classification of social media posts: model evaluation study. J Med Internet Res. 2020;22(5):e15371. doi:10.2196/15371",
+  "venue": "Journal of Medical Internet Research"
+ },
+ "https://pubmed.ncbi.nlm.nih.gov/40868395/": {
+  "objective": "To introduce two Chinese social-media datasets and benchmark supervised learning vs. LLMs for suicidal-risk classification and cognitive-distortion detection",
+  "paperTitle": "Supervised Learning and Large Language Model Benchmarks on Mental Health Datasets: Cognitive Distortions and Suicidal Risks in Chinese Social Media",
+  "publicationDate": "August 2025",
+  "citation": "Qi H, Fu G, Li J, et al. Supervised learning and large language model benchmarks on mental health datasets: cognitive distortions and suicidal risks in Chinese social media. Bioengineering (Basel). 2025;12(8):882. doi:10.3390/bioengineering12080882",
+  "venue": "Bioengineering (MDPI)"
+ },
+ "https://pubmed.ncbi.nlm.nih.gov/41875403/": {
+  "objective": "To develop and evaluate a DSM-5-TR-grounded, LLM-powered diagnostic co-pilot (CapyEngine) for mental-disorder diagnosis",
+  "paperTitle": "Large Language Model-Powered Diagnostic Co-Pilot (\"CapyEngine\") for Mental Disorders: Development, Evaluation, and Future Optimization Study",
+  "publicationDate": "March 2026",
+  "citation": "Wang L, Jiang Y. Large language model-powered diagnostic co-pilot (\"CapyEngine\") for mental disorders: development, evaluation, and future optimization study. JMIR AI. 2026;5:e70017. doi:10.2196/70017",
+  "venue": "JMIR AI"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC11974973/#R4": {
+  "objective": "To test whether pretrained LLM text encodings mirror the genetic architecture of human psychological traits and psychiatric diagnoses",
+  "paperTitle": "Encoding of pretrained large language models mirrors the genetic architectures of human psychological traits",
+  "publicationDate": "March 2025",
+  "citation": "Xu B, Obradovich N, Zheng W, et al. Encoding of pretrained large language models mirrors the genetic architectures of human psychological traits. medRxiv. Preprint posted online March 27, 2025. doi:10.1101/2025.03.27.25324744",
+  "venue": "medRxiv (preprint)"
+ },
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC11040439/": {
+  "objective": "To assess whether Schwartz's Theory of Basic Values can measure value-like constructs in LLMs and whether these diverge from human values, with implications for mental-health integration",
+  "paperTitle": "Assessing the Alignment of Large Language Models With Human Values for Mental Health Integration: Cross-Sectional Study Using Schwartz's Theory of Basic Values",
+  "publicationDate": "April 2024",
+  "citation": "Hadar-Shoval D, Asraf K, Mizrachi Y, Haber Y, Elyoseph Z. Assessing the alignment of large language models with human values for mental health integration: cross-sectional study using Schwartz's theory of basic values. JMIR Ment Health. 2024;11:e55988. doi:10.2196/55988",
+  "venue": "JMIR Mental Health"
+ },
+ "https://www.sciencedirect.com/science/article/pii/S1532046425001285": {
+  "objective": "To develop an LLM-perplexity-based measure of semantic coherence and test whether it complements vector-distance metrics for detecting incoherent (disorganized) speech in psychosis",
+  "paperTitle": "Perplexity and proximity: Large language model perplexity complements semantic distance metrics for the detection of incoherent speech",
+  "publicationDate": "October 2025",
+  "citation": "Xu W, Pakhomov S, Heagerty P, et al. Perplexity and proximity: large language model perplexity complements semantic distance metrics for the detection of incoherent speech. J Biomed Inform. 2025;170:104899. doi:10.1016/j.jbi.2025.104899",
+  "venue": "Journal of Biomedical Informatics"
  }
 }
