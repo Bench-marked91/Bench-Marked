@@ -1413,8 +1413,11 @@ function LandingPage({ go, data }) {
               </div>
             </div>
 
-            {/* by the numbers — big figures spread across the bottom of the hero */}
-            <div className="heroin" style={{ position: "absolute", left: 32, right: 32, bottom: 44, animationDelay: ".62s" }}>
+            {/* by the numbers — big figures below the fold of the hero content.
+                Flows normally (not pinned to the section's bottom) so it can
+                never overlap the headline/logo-card above it when that
+                content wraps taller on narrow screens. */}
+            <div className="heroin" style={{ marginTop: 56, animationDelay: ".62s" }}>
               <div style={{ maxWidth: 1160, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "30px 48px" }}>
                 {[
                   [total, "", "Benchmarks catalogued"],
