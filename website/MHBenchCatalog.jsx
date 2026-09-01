@@ -454,166 +454,10 @@ function hashToPage() {
   return "landing";
 }
 
-/* ------------------------------------------------------------------ *
- *  Access gate — confidential beta agreement (shown before the site).
- *  TEMPLATE TEXT, NOT LEGAL ADVICE — have counsel review before launch.
- *  Edit the placeholders below. Bump TERMS_KEY to re-prompt everyone.
- * ------------------------------------------------------------------ */
-const TERMS_KEY = "mhbench_terms_v1";
-const USER_KEY = "mhbench_user_v1";   // stores the visitor's name/email locally
-const TERMS_OWNER = "the MDplus Catalysis Fellowship team"; // TODO: confirm the copyright/IP owner
-const TERMS_CONTACT = "[contact email]";                    // TODO: add a contact email
-const TERMS_JURISDICTION = "";                              // e.g. "the State of California, USA" (blank hides it)
-
-/* Admins: sharing this passcode lets the 4 admins skip the terms + email form.
- * NOTE: this lives in the page source, so treat it as a soft gate, not real
- * security. Change ADMIN_CODE (and bump TERMS_KEY) if it ever leaks. */
-const ADMIN_CODE = "MDPLUS4";
-
-/* Optional access log. Leave "" to store name/email only in the visitor's own
- * browser (nothing sent anywhere). To turn on real logging later, paste a
- * Google Apps Script web-app URL or a Formspree/Getform endpoint here — it will
- * receive { name, email, time, userAgent } as JSON on each acceptance. */
-const LOG_ENDPOINT = "";
-
-function logAccess(entry) {
-  try { localStorage.setItem(USER_KEY, JSON.stringify(entry)); } catch (e) { /* ignore */ }
-  if (!LOG_ENDPOINT) return;
-  try {
-    fetch(LOG_ENDPOINT, {
-      method: "POST",
-      // no-cors keeps it simple for Google Apps Script / form endpoints; we
-      // don't read the response, we just fire-and-forget the log row.
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(entry),
-    }).catch(() => {});
-  } catch (e) { /* ignore — never block access on a logging failure */ }
-}
-
-function AgreementGate({ onAccept }) {
-  const [checked, setChecked] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [adminOpen, setAdminOpen] = useState(false);
-  const [adminCode, setAdminCode] = useState("");
-  const [adminErr, setAdminErr] = useState(false);
-
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-  const nameOk = name.trim().length > 1;
-  const canEnter = checked && nameOk && emailOk;
-
-  const accept = () => {
-    if (!canEnter) return;
-    logAccess({
-      name: name.trim(),
-      email: email.trim(),
-      time: new Date().toISOString(),
-      userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
-    });
-    try { localStorage.setItem(TERMS_KEY, "yes"); } catch (e) { /* ignore */ }
-    onAccept();
-  };
-
-  const adminEnter = () => {
-    if (adminCode.trim() === ADMIN_CODE) {
-      try {
-        localStorage.setItem(TERMS_KEY, "yes");
-        localStorage.setItem(USER_KEY, JSON.stringify({ admin: true, time: new Date().toISOString() }));
-      } catch (e) { /* ignore */ }
-      onAccept();
-    } else {
-      setAdminErr(true);
-    }
-  };
-
-  const field = { width: "100%", background: "rgba(237,235,228,.06)", border: "1px solid rgba(237,235,228,.2)", borderRadius: 8, padding: "11px 13px", color: "#FFFFFF", fontFamily: FONT_SANS, fontSize: 16, outline: "none", boxSizing: "border-box" };
-  const flabel = { fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".12em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 6, display: "block" };
-  const hasContact = TERMS_CONTACT && TERMS_CONTACT[0] !== "[";
-  const h3 = { fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 400, color: "#FFFFFF", margin: "0 0 6px", letterSpacing: "-.01em" };
-  const p = { fontSize: 13, lineHeight: 1.6, color: "#FFFFFF", margin: 0 };
-  return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "#1C4773", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", overflow: "auto", padding: "32px 20px" }}>
-      <div className="herofx" aria-hidden="true"><b className="s1" /><b className="s2" /><b className="s3" /><b className="s4" /></div>
-      <div style={{ position: "relative", width: "min(640px, 100%)", background: "rgba(18,17,13,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(237,235,228,.14)", borderRadius: 8, padding: "clamp(24px, 4vw, 40px)", maxHeight: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
-        <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".16em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 14 }}>Confidential Beta · Access Agreement</div>
-        <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: "clamp(28px, 4vw, 40px)", letterSpacing: "-.03em", lineHeight: 1.02, margin: 0 }}>Before you enter</h1>
-        <p style={{ fontSize: 14, color: "#FFFFFF", lineHeight: 1.55, margin: "14px 0 0" }}>
-          Access to this site is by invitation only and subject to the terms below. Please read them before continuing.
-        </p>
-        <div style={{ marginTop: 18, overflowY: "auto", display: "flex", flexDirection: "column", gap: 18, borderTop: "1px solid rgba(237,235,228,.12)", borderBottom: "1px solid rgba(237,235,228,.12)", padding: "18px 8px 18px 0" }}>
-          <div>
-            <div style={h3}>1 · Confidential, invitation-only access</div>
-            <p style={p}>This website and all of its contents, including the benchmark catalog, evaluation rubric and scores, methodology, compiled data, and any unpublished materials (collectively, the “Confidential Materials”), are provided to you on a strictly confidential, invitation-only basis. By accessing the site you agree to (a) hold the Confidential Materials in strict confidence; (b) not disclose, publish, present, distribute, screenshot, reproduce, or otherwise share them, in whole or in part, with any third party; and (c) use them solely to review and provide feedback on this project. These obligations continue until the materials are released publicly by the project owners in writing.</p>
-          </div>
-          <div>
-            <div style={h3}>2 · Work in progress; no warranty; not medical advice</div>
-            <p style={p}>This is an early-stage, in-development prototype provided “AS IS” and “AS AVAILABLE,” without warranties of any kind, whether express or implied, including any warranty of accuracy or fitness for a particular purpose. Content is preliminary and may be incomplete, inaccurate, or changed or removed at any time without notice. Nothing on this site is medical, clinical, psychiatric, diagnostic, or professional advice, and it must not be used to make clinical or treatment decisions; it is not a medical device. If you or someone else may be in crisis, contact local emergency services or a crisis line (in the U.S., call or text 988). To the maximum extent permitted by law, the project owners and their affiliated individuals and institutions disclaim all liability arising from your access to or use of the site.</p>
-          </div>
-          <div>
-            <div style={h3}>3 · Copyright &amp; intellectual property</div>
-            <p style={p}>© 2026 {TERMS_OWNER}. All rights reserved. All original content, source code, design, text, the evaluation rubric, and compiled data are the intellectual property of their respective owners and are protected by copyright and other laws. You may not copy, reproduce, distribute, modify, create derivative works from, data-mine, scrape, or reverse-engineer any part of the site without prior written permission. Third-party materials referenced in the catalog, including research papers, datasets, model names, and the names, trademarks, and logos of third parties (such as MDplus, Stanford, and Google), remain the property of their respective owners and are used for identification and reference only; no affiliation, sponsorship, or endorsement is implied.</p>
-          </div>
-          <div>
-            <div style={h3}>4 · Acceptance</div>
-            <p style={p}>By checking the box below and selecting “I accept &amp; enter,” you acknowledge that you have read, understood, and agree to be bound by these terms{TERMS_JURISDICTION ? `, which are governed by the laws of ${TERMS_JURISDICTION}` : ""}. If you do not agree, do not access or use the site.{hasContact ? ` Questions: ${TERMS_CONTACT}.` : ""}</p>
-          </div>
-        </div>
-        <div className="gate-fields" style={{ marginTop: 18 }}>
-          <div>
-            <label style={flabel} htmlFor="gate-name">Your name</label>
-            <input id="gate-name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Full name" autoComplete="name" style={field} />
-          </div>
-          <div>
-            <label style={flabel} htmlFor="gate-email">Your email</label>
-            <input id="gate-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" autoComplete="email" style={field} />
-          </div>
-        </div>
-        <label style={{ display: "flex", gap: 10, alignItems: "flex-start", marginTop: 16, cursor: "pointer", fontSize: 13.5, color: "#FFFFFF", lineHeight: 1.5 }}>
-          <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} style={{ marginTop: 3, flexShrink: 0 }} />
-          <span>I have read and accept the confidentiality agreement, the work-in-progress disclaimer, and the copyright &amp; intellectual-property terms above.</span>
-        </label>
-        <div style={{ marginTop: 18 }}>
-          <button onClick={accept} disabled={!canEnter} style={{ background: canEnter ? C.lime : "rgba(237,235,228,.15)", color: canEnter ? C.ink : "rgba(237,235,228,.5)", border: "none", borderRadius: 999, padding: "12px 28px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, cursor: canEnter ? "pointer" : "not-allowed" }}>
-            I accept &amp; enter →
-          </button>
-        </div>
-        <div style={{ marginTop: 18, borderTop: "1px solid rgba(237,235,228,.1)", paddingTop: 14 }}>
-          {!adminOpen ? (
-            <button onClick={() => setAdminOpen(true)} style={{ background: "none", border: "none", color: "#B9CDDE", fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", cursor: "pointer", padding: 0 }}>
-              I'm an admin →
-            </button>
-          ) : (
-            <div style={{ display: "flex", gap: 8, alignItems: "flex-start", flexWrap: "wrap" }}>
-              <input
-                type="password"
-                value={adminCode}
-                onChange={(e) => { setAdminCode(e.target.value); setAdminErr(false); }}
-                onKeyDown={(e) => { if (e.key === "Enter") adminEnter(); }}
-                placeholder="Admin passcode"
-                autoFocus
-                style={{ ...field, width: 200, borderColor: adminErr ? "#e06a6a" : "rgba(237,235,228,.2)" }}
-              />
-              <button onClick={adminEnter} style={{ background: "rgba(237,235,228,.15)", color: "#FFFFFF", border: "none", borderRadius: 999, padding: "11px 20px", fontFamily: FONT_SANS, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
-                Enter
-              </button>
-              {adminErr && <span style={{ color: "#e06a6a", fontSize: 12, alignSelf: "center" }}>Incorrect passcode.</span>}
-            </div>
-          )}
-        </div>
-        <div style={{ fontFamily: FONT_MONO, fontSize: 10.5, color: "#6f6b62", marginTop: 16 }}>Confidential. Do not distribute · v1</div>
-      </div>
-    </div>
-  );
-}
-
 export default function App() {
   const [page, setPage] = useState(hashToPage());
   const [data, setData] = useState(null);   // null = loading
   const [error, setError] = useState(null);
-  const [accepted, setAccepted] = useState(() => {
-    try { return localStorage.getItem(TERMS_KEY) === "yes"; } catch (e) { return false; }
-  });
 
   useEffect(() => {
     const onHash = () => setPage(hashToPage());
@@ -694,16 +538,12 @@ export default function App() {
         .nav-links-desktop{ display: flex; gap: 2px; }
         .nav-hamburger{ display: none; }
         .footergrid{ display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
-        .gate-fields{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         @media (max-width: 720px){
           .nav-links-desktop{ display: none; }
           .nav-hamburger{ display: inline-flex; }
         }
         @media (max-width: 640px){
           .footergrid{ grid-template-columns: 1fr; gap: 28px; }
-        }
-        @media (max-width: 420px){
-          .gate-fields{ grid-template-columns: 1fr; }
         }
         .info-dot{ position: relative; display: inline-flex; vertical-align: middle; cursor: help; border: none; background: none; padding: 0; }
         .info-dot .info-tip{
@@ -772,10 +612,6 @@ export default function App() {
         }
       `}</style>
 
-      {!accepted ? (
-        <AgreementGate onAccept={() => setAccepted(true)} />
-      ) : (
-        <>
       <div style={(page === "landing" || page === "method" || page === "about")
         ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "#1C4773" }
         : { position: "sticky", top: 0, zIndex: 40, background: "#1C4773" }}>
@@ -791,8 +627,6 @@ export default function App() {
           {page === "catalog" && <CatalogPage data={data} error={error} />}
           {page === "about" && <AboutPage go={go} />}
           <Footer go={go} />
-        </>
-      )}
         </>
       )}
     </div>
@@ -991,7 +825,7 @@ function Footer({ go }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#FFFFFF" }}>Contact us</div>
           <a href="mailto:team@bench-marked.com" style={{ color: "#FFFFFF", fontFamily: FONT_SANS, fontSize: 14.5 }}>team@bench-marked.com</a>
-          <a href="PASTE_LINKEDIN_URL_HERE" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ color: "#FFFFFF", display: "inline-flex", marginTop: 2 }}>
+          <a href="https://www.linkedin.com/company/146200139/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ color: "#FFFFFF", display: "inline-flex", marginTop: 2 }}>
             <Linkedin size={19} />
           </a>
         </div>
