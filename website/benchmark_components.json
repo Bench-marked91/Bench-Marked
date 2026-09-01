@@ -671,5 +671,33 @@
    "evaluation": "Models rate each response on the same −3 to +3 scale and are compared to the human mean",
    "population": "Simulated help-seeker population (scenarios written by community contributors, not drawn from real help-seeking exchanges)"
   }
+ ],
+ "https://arxiv.org/abs/2602.12871": [
+  {
+   "name": "MentalBench",
+   "tasks": [
+    "Diagnosis",
+    "Knowledge"
+   ],
+   "turn": "Single",
+   "dataSource": "24,750 synthetic clinical cases generated from MentalKG, a DSM-5 knowledge graph of diagnostic criteria and differential diagnosis rules for 23 disorders, built and validated by two experts. Seeds sample from graph, augmented with symptom subtypes and demographic profiles, then written into narratives by three LLMs. Four case types: chart-style complete summaries (1,725), fragmented first-person self-reports (3,450), ambiguous differential pairs with discriminating evidence omitted (6,525), and the same pairs with it included (13,050).",
+   "groundTruth": "Answer key: the diagnosis / two-diagnosis set entailed by MentalKG logic presented as 4 options with distractors chosen by symptomatic overlap. Options and labels designed by domain experts and reviewed case by case.",
+   "evaluation": "Automated match against accuracy, correct only if full answer set returned. Errors classified as over-diagnosis, under-diagnosis, or incorrect.",
+   "population": "Synthetic cases"
+  }
+ ],
+ "https://arxiv.org/abs/2506.01329": [
+  {
+   "name": "PsyCrisisBench",
+   "tasks": [
+    "Crisis Response",
+    "Symptom Detection"
+   ],
+   "turn": "Single",
+   "dataSource": "540 real hotline call transcripts from the Hangzhou Psychological Assistance Hotline, drawn from 21,527 calls in 2023 after excluding invalid, information-only, and repeat calls; 270 high-risk calls plus 270 non-high-risk controls matched on call time, gender, marital status, and call type. Audio transcribed with Whisper into turn-by-turn dialogue, errors and filler words left in. A separate 520 calls from 2022 supply few-shot examples and fine-tuning data. Each transcript run 3 times per model.",
+   "groundTruth": "Four binary labels per call — mood status, suicidal ideation, suicide plan, and risk level — recorded by hotline operators trained in suicide risk assessment in structured post-call annotations. Labels were produced during service delivery, not for the study; no inter-rater reliability or adjudication reported.",
+   "evaluation": "Automated accuracy against operator-assigned labels, averaged over 3 runs and reported per task.",
+   "population": "Callers to a public psych support hotline in China, 2023"
+  }
  ]
 }
