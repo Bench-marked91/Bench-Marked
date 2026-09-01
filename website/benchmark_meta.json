@@ -1,20 +1,20 @@
 {
  "https://www.nature.com/articles/s41746-026-02582-w": {
-  "objective": "To assess whether LLMs can approximate the depth, complexity, and precision of real-world psychiatric reasoning and clinical decision-making.",
+  "objective": "To assess whether LLMs can approximate the depth, complexity, and precision of real-world psychiatric reasoning and clinical decision-making",
   "paperTitle": "PsychiatryBench: a multi-task benchmark for LLMs in psychiatry",
   "publicationDate": "April 2026",
   "citation": "Fouda AE, Hassan AA, Hanafy RJ, et al. PsychiatryBench: a multi-task benchmark for LLMs in psychiatry. npj Digit Med. 2026;9:320. doi:10.1038/s41746-026-02582-w",
   "venue": "npj Digital Medicine"
  },
  "https://arxiv.org/abs/2506.08584": {
-  "objective": "To systematically assess LLM behavior on authentic mental-health questions and probe LLM failure modes.",
+  "objective": "To systematically assess LLM behavior on authentic mental health questions and probe LLM failure modes",
   "paperTitle": "CounselBench: A Large-Scale Expert Evaluation and Adversarial Benchmarking of Large Language Models in Mental Health Question Answering",
   "publicationDate": "May 2026",
   "citation": "Li Y, Yao J, Bunyi JBS, Frank AC, Hwang AH, Liu R. CounselBench: a large-scale expert evaluation and adversarial benchmarking of large language models in mental health question answering. arXiv. Preprint posted online June 10, 2025. arXiv:2506.08584. doi:10.48550/arXiv.2506.08584",
   "venue": "arXiv"
  },
  "https://arxiv.org/abs/2311.09189": {
-  "objective": "To provide a comprehensive suite evaluating LLMs across three dimensions of mental health: foundational knowledge, diagnosis prediction, and psychological counseling.",
+  "objective": "To provide a comprehensive suite evaluating LLMs across three dimensions of mental health: foundational knowledge, diagnosis prediction, and psychological counseling",
   "paperTitle": "PsyEval: A Suite of Mental Health Related Tasks for Evaluating Large Language Models",
   "publicationDate": "June 2024",
   "citation": "Jin H, Chen S, Dilixiati D, Jiang Y, Wu M, Zhu KQ. PsyEval: a suite of mental health related tasks for evaluating large language models. arXiv. Preprint posted online November 15, 2023. arXiv:2311.09189. doi:10.48550/arXiv.2311.09189",
@@ -126,7 +126,7 @@
   "venue": "JMIR Mental Health"
  },
  "https://doi.org/10.1371/journal.pdig.0001352": {
-  "objective": "To evaluate LLMs' ability to detect and assess psychosocial risk across suicide, intimate partner violence, and substance misuse. The three studies specifically evaluate the performance of LLMs in identifying and classifying psychosocial risk based on participant-generated vignettes (study 1), evaluate how indivudlas with lived expeirece percieved the quality and relevance of chatbot responses (study 2) and to evaluate a functional chatbot system designed to combine empathic conversation with structured risk assessment (study 3)",
+  "objective": "To evaluate LLMs' ability to detect and assess psychosocial risk across suicide, intimate partner violence, and substance misuse. The three studies specifically evaluate the performance of LLMs in identifying and classifying psychosocial risk based on participant-generated vignettes (study 1), evaluate how individuals with lived experience percieved the quality and relevance of chatbot responses (study 2) and to evaluate a functional chatbot system designed to combine empathic conversation with structured risk assessment (study 3)",
   "paperTitle": "Large language models for psychosocial risk assessment: A multi-method evaluation across suicide, intimate partner violence, and substance misuse",
   "publicationDate": "April 2026",
   "citation": "Vowels LM, Vohra P, Li D, et al. Large language models for psychosocial risk assessment: a multi-method evaluation across suicide, intimate partner violence, and substance misuse. PLOS Digit Health. 2026;5(4):e0001352. doi:10.1371/journal.pdig.0001352",
@@ -224,38 +224,17 @@
   "venue": "Journal of Medical Internet Research"
  },
  "https://pubmed.ncbi.nlm.nih.gov/40868395/": {
-  "objective": "To introduce two Chinese social-media datasets and benchmark supervised learning vs. LLMs for suicidal-risk classification and cognitive-distortion detection",
+  "objective": "To establish whether prompt-driven LLMs can substitute for supervised models on psychological classification tasks using two Chinese social media datasets",
   "paperTitle": "Supervised Learning and Large Language Model Benchmarks on Mental Health Datasets: Cognitive Distortions and Suicidal Risks in Chinese Social Media",
   "publicationDate": "August 2025",
   "citation": "Qi H, Fu G, Li J, et al. Supervised learning and large language model benchmarks on mental health datasets: cognitive distortions and suicidal risks in Chinese social media. Bioengineering (Basel). 2025;12(8):882. doi:10.3390/bioengineering12080882",
   "venue": "Bioengineering (MDPI)"
  },
- "https://pubmed.ncbi.nlm.nih.gov/41875403/": {
-  "objective": "To develop and evaluate a DSM-5-TR-grounded, LLM-powered diagnostic co-pilot (CapyEngine) for mental-disorder diagnosis",
-  "paperTitle": "Large Language Model-Powered Diagnostic Co-Pilot (\"CapyEngine\") for Mental Disorders: Development, Evaluation, and Future Optimization Study",
-  "publicationDate": "March 2026",
-  "citation": "Wang L, Jiang Y. Large language model-powered diagnostic co-pilot (\"CapyEngine\") for mental disorders: development, evaluation, and future optimization study. JMIR AI. 2026;5:e70017. doi:10.2196/70017",
-  "venue": "JMIR AI"
- },
- "https://pmc.ncbi.nlm.nih.gov/articles/PMC11974973/#R4": {
-  "objective": "To test whether pretrained LLM text encodings mirror the genetic architecture of human psychological traits and psychiatric diagnoses",
-  "paperTitle": "Encoding of pretrained large language models mirrors the genetic architectures of human psychological traits",
-  "publicationDate": "March 2025",
-  "citation": "Xu B, Obradovich N, Zheng W, et al. Encoding of pretrained large language models mirrors the genetic architectures of human psychological traits. medRxiv. Preprint posted online March 27, 2025. doi:10.1101/2025.03.27.25324744",
-  "venue": "medRxiv (preprint)"
- },
- "https://pmc.ncbi.nlm.nih.gov/articles/PMC11040439/": {
-  "objective": "To assess whether Schwartz's Theory of Basic Values can measure value-like constructs in LLMs and whether these diverge from human values, with implications for mental-health integration",
-  "paperTitle": "Assessing the Alignment of Large Language Models With Human Values for Mental Health Integration: Cross-Sectional Study Using Schwartz's Theory of Basic Values",
-  "publicationDate": "April 2024",
-  "citation": "Hadar-Shoval D, Asraf K, Mizrachi Y, Haber Y, Elyoseph Z. Assessing the alignment of large language models with human values for mental health integration: cross-sectional study using Schwartz's theory of basic values. JMIR Ment Health. 2024;11:e55988. doi:10.2196/55988",
-  "venue": "JMIR Mental Health"
- },
- "https://www.sciencedirect.com/science/article/pii/S1532046425001285": {
-  "objective": "To develop an LLM-perplexity-based measure of semantic coherence and test whether it complements vector-distance metrics for detecting incoherent (disorganized) speech in psychosis",
-  "paperTitle": "Perplexity and proximity: Large language model perplexity complements semantic distance metrics for the detection of incoherent speech",
-  "publicationDate": "October 2025",
-  "citation": "Xu W, Pakhomov S, Heagerty P, et al. Perplexity and proximity: large language model perplexity complements semantic distance metrics for the detection of incoherent speech. J Biomed Inform. 2025;170:104899. doi:10.1016/j.jbi.2025.104899",
-  "venue": "Journal of Biomedical Informatics"
+ "https://www.nature.com/articles/s44277-025-00049-6": {
+  "objective": "To evaluate whether LLMs judge the appropriateness of responses to people in mental health distress the way humans do, using a continuously growing set of community-contributed prompts and public ratings.",
+  "paperTitle": "Mindbench.ai: an actionable platform to evaluate the profile and performance of large language models in a mental healthcare context",
+  "publicationDate": "November 2025",
+  "venue": "NPP-Digital Psychiatry and Neuroscience",
+  "citation": "Dwyer B, Flathers M, Sano A, et al. Mindbench.ai: an actionable platform to evaluate the profile and performance of large language models in a mental healthcare context. NPP Digit Psychiatry Neurosci. 2025;3(1):28. doi:10.1038/s44277-025-00049-6"
  }
 }

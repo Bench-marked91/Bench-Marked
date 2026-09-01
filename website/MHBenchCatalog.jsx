@@ -476,7 +476,13 @@ export default function App() {
       fetch("./benchmark_components.json?t=" + t).then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
       fetch("./benchmark_ratings.json?t=" + t).then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
     ])
-      .then(([rows, names, meta, components, ratings]) => setData(rows.map((b) => {
+      .then(([rows, names, meta, components, ratings]) => setData(rows
+        // Only show benchmarks present in the team's latest approved data set
+        // (benchmark_meta.json, rebuilt from the current Overview CSV). Older
+        // pipeline-found papers that haven't made it into that CSV yet are
+        // held back rather than shown with stale/placeholder info.
+        .filter((b) => meta[b.paperLink] || meta[b.id])
+        .map((b) => {
         const n = names[b.paperLink] || names[b.id] || {};
         const m = meta[b.paperLink] || meta[b.id] || {};
         return {
@@ -1187,7 +1193,6 @@ function LandingPage({ go, data }) {
   // 2026 stops at Q3 — the site's current data doesn't extend past it.
   const growth = [];
   for (let q = 1; q <= 4; q++) growth.push([`Q${q}'25`, quarterCounts["2025-Q" + q] || 0]);
-  growth.push(["Unk'25", quarterCounts["2025-Unk"] || 0]);
   for (let q = 1; q <= 3; q++) growth.push([`Q${q}'26`, quarterCounts["2026-Q" + q] || 0]);
 
   const runnableCount = data.filter((b) => runHrefFor(b)).length;
