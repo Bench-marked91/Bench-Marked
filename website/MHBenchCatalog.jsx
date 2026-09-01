@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
-import { ExternalLink, X, ArrowUpDown, Search, ArrowRight, ShieldCheck, Layers, Info, Linkedin } from "lucide-react";
+import { ExternalLink, X, ArrowUpDown, Search, ArrowRight, ShieldCheck, Layers, Info, Linkedin, Menu } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
  *  MH-LLM Benchmark Catalog
@@ -527,7 +527,7 @@ function AgreementGate({ onAccept }) {
     }
   };
 
-  const field = { width: "100%", background: "rgba(237,235,228,.06)", border: "1px solid rgba(237,235,228,.2)", borderRadius: 8, padding: "11px 13px", color: "#FFFFFF", fontFamily: FONT_SANS, fontSize: 14, outline: "none" };
+  const field = { width: "100%", background: "rgba(237,235,228,.06)", border: "1px solid rgba(237,235,228,.2)", borderRadius: 8, padding: "11px 13px", color: "#FFFFFF", fontFamily: FONT_SANS, fontSize: 16, outline: "none", boxSizing: "border-box" };
   const flabel = { fontFamily: FONT_MONO, fontSize: 10.5, letterSpacing: ".12em", textTransform: "uppercase", color: "#B9CDDE", marginBottom: 6, display: "block" };
   const hasContact = TERMS_CONTACT && TERMS_CONTACT[0] !== "[";
   const h3 = { fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 400, color: "#FFFFFF", margin: "0 0 6px", letterSpacing: "-.01em" };
@@ -559,7 +559,7 @@ function AgreementGate({ onAccept }) {
             <p style={p}>By checking the box below and selecting “I accept &amp; enter,” you acknowledge that you have read, understood, and agree to be bound by these terms{TERMS_JURISDICTION ? `, which are governed by the laws of ${TERMS_JURISDICTION}` : ""}. If you do not agree, do not access or use the site.{hasContact ? ` Questions: ${TERMS_CONTACT}.` : ""}</p>
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 18 }}>
+        <div className="gate-fields" style={{ marginTop: 18 }}>
           <div>
             <label style={flabel} htmlFor="gate-name">Your name</label>
             <input id="gate-name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Full name" autoComplete="name" style={field} />
@@ -691,6 +691,20 @@ export default function App() {
         .navlink:hover .navroll > span:first-child{ transform: translateY(-100%); }
         .navlink:hover .navroll > span:last-child{ transform: translateY(0); }
         .sr-only{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+        .nav-links-desktop{ display: flex; gap: 2px; }
+        .nav-hamburger{ display: none; }
+        .footergrid{ display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
+        .gate-fields{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 720px){
+          .nav-links-desktop{ display: none; }
+          .nav-hamburger{ display: inline-flex; }
+        }
+        @media (max-width: 640px){
+          .footergrid{ grid-template-columns: 1fr; gap: 28px; }
+        }
+        @media (max-width: 420px){
+          .gate-fields{ grid-template-columns: 1fr; }
+        }
         .info-dot{ position: relative; display: inline-flex; vertical-align: middle; cursor: help; border: none; background: none; padding: 0; }
         .info-dot .info-tip{
           position: absolute; bottom: calc(100% + 9px); left: 50%; transform: translateX(-50%) translateY(4px);
@@ -795,6 +809,7 @@ function Loading() {
 }
 
 function TopNav({ page, go, overlay }) {
+  const [navOpen, setNavOpen] = useState(false);
   const wordColor = overlay ? "#FFFFFF" : C.ink;
   return (
     <nav style={{ borderBottom: overlay ? "none" : "1px solid #D4D4D4", background: overlay ? "transparent" : "#E6E6E6" }}>
@@ -803,7 +818,7 @@ function TopNav({ page, go, overlay }) {
           <img src="./logos/bm-logo.png" alt="" style={{ width: 22, height: 22, borderRadius: 5, border: "2px solid #F48526", boxSizing: "border-box", display: "block" }} />
           <span style={{ fontFamily: FONT_SERIF, fontWeight: 400, fontSize: 18, color: wordColor, letterSpacing: "-.02em" }}>bench-marked</span>
         </button>
-        <div style={{ display: "flex", gap: 2 }}>
+        <div className="nav-links-desktop">
           {NAV.map((n) => {
             const on = page === n.id;
             return (
@@ -819,7 +834,24 @@ function TopNav({ page, go, overlay }) {
             );
           })}
         </div>
+        <button className="nav-hamburger" onClick={() => setNavOpen((v) => !v)} aria-label={navOpen ? "Close menu" : "Open menu"} aria-expanded={navOpen} style={{ color: wordColor, background: "transparent", border: "none", cursor: "pointer", padding: 0, minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center" }}>
+          {navOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
       </div>
+      {navOpen && (
+        <div style={{ borderTop: `1px solid ${overlay ? "rgba(237,235,228,.18)" : "#D4D4D4"}`, background: overlay ? "#1C4773" : "#E6E6E6", padding: "4px 20px 14px", display: "flex", flexDirection: "column" }}>
+          {NAV.map((n) => {
+            const on = page === n.id;
+            return (
+              <button key={n.id} onClick={() => { setNavOpen(false); go(n.id); }} aria-current={on ? "page" : undefined} style={{
+                textAlign: "left", fontFamily: FONT_SERIF, fontSize: 16, fontWeight: on ? 600 : 500,
+                color: overlay ? (on ? "#fff" : "rgba(237,235,228,.72)") : (on ? C.brand : C.muted),
+                background: "transparent", border: "none", padding: "13px 0", cursor: "pointer", minHeight: 44,
+              }}>{n.label}</button>
+            );
+          })}
+        </div>
+      )}
     </nav>
   );
 }
@@ -937,7 +969,7 @@ function Accordion({ q, a, dark }) {
 function Footer({ go }) {
   return (
     <footer style={{ background: C.ink, color: "#FFFFFF", marginTop: 0 }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 24px 40px", display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr", gap: 40 }}>
+      <div className="footergrid" style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 24px 40px" }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
             <img src="./logos/bm-logo.png" alt="" style={{ width: 24, height: 24, borderRadius: 5, border: "2px solid #F48526", boxSizing: "border-box", display: "block" }} />
@@ -1860,7 +1892,7 @@ function CatalogPage({ data, error }) {
           {LAUNCH.ratings && <RigorToggle on={showRigor} onToggle={() => setShowRigor((v) => !v)} />}
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 20, flexWrap: "wrap" }}>
-          <h1 style={{ fontFamily: ED.display, fontWeight: 400, fontSize: catFilter ? "clamp(34px, 5.4vw, 66px)" : "clamp(46px, 8vw, 94px)", lineHeight: 0.96, letterSpacing: "-.04em", margin: 0, color: ED.ink, maxWidth: "26ch", whiteSpace: "nowrap" }}>
+          <h1 style={{ fontFamily: ED.display, fontWeight: 400, fontSize: catFilter ? "clamp(18px, 5.4vw, 66px)" : "clamp(24px, 8vw, 94px)", lineHeight: 0.96, letterSpacing: "-.04em", margin: 0, color: ED.ink, maxWidth: "26ch", whiteSpace: "nowrap" }}>
             {catFilter || "All benchmarks"}
           </h1>
           <span style={{ fontFamily: ED.display, fontWeight: 400, fontSize: "clamp(32px, 5vw, 58px)", letterSpacing: "-.03em", color: ED.ink, lineHeight: 1 }}>
