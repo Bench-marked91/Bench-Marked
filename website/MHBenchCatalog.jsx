@@ -2022,12 +2022,12 @@ function InfoDot({ text }) {
 
 function Fact({ label, value, hint, wide }) {
   return (
-    <div style={{ gridColumn: wide ? "1 / -1" : "auto" }}>
+    <div style={{ gridColumn: wide ? "1 / -1" : "auto", minWidth: 0 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: PANEL_INK, marginBottom: 6, paddingBottom: 5, borderBottom: "1px solid rgba(28,71,115,.18)" }}>
         {label}
         <InfoDot text={hint} />
       </div>
-      <div style={{ fontSize: 14.5, lineHeight: 1.55, color: PANEL_INK }}>{value}</div>
+      <div style={{ fontSize: 14.5, lineHeight: 1.55, color: PANEL_INK, overflowWrap: "anywhere" }}>{value}</div>
     </div>
   );
 }
@@ -2191,7 +2191,7 @@ function Detail({ b, showRigor, onClose }) {
                     )}
                   </button>
                   {open && (
-                    <div style={{ background: "rgba(255,255,255,.5)", borderRadius: 10, padding: "20px 22px", margin: "0 0 20px 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "20px 32px" }}>
+                    <div style={{ background: "rgba(255,255,255,.5)", borderRadius: 10, padding: "20px 22px", margin: "0 0 20px 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "20px 32px" }}>
                       {c.dataSource && <Fact label="Data / question source" value={c.dataSource} hint="Where the benchmark's questions or test items originally came from." wide />}
                       {c.groundTruth && <Fact label="Ground truth" value={c.groundTruth} hint="What's treated as the correct answer when scoring a model's response." wide />}
                       {c.evaluation && <Fact label="Evaluation" value={c.evaluation} hint="How model outputs are actually scored or judged." wide />}
@@ -2208,7 +2208,7 @@ function Detail({ b, showRigor, onClose }) {
           </div>
         ) : (
           /* Source Info: citation / reference facts */
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px 28px", marginTop: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: "20px 28px", marginTop: 24 }}>
             {extraFields.map(([k, v, wide]) => <Fact key={k} label={k} value={v} wide={wide} />)}
             {extraFields.length === 0 && (
               <div style={{ color: PANEL_MUTED, fontSize: 13.5, gridColumn: "1 / -1" }}>No source information recorded for this benchmark yet.</div>
