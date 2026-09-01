@@ -2020,6 +2020,25 @@ function InfoDot({ text }) {
   );
 }
 
+// Ground-truth text is already introduced by the "Ground truth" field label,
+// so a leading "Gold:", "Gold answer key:", "No reference answers;", or
+// "No gold answer key;" restates the label and reads oddly. Strip just that
+// lead-in and keep the rest of the sentence as written.
+function cleanGroundTruth(text) {
+  if (!text) return text;
+  const leadIns = [
+    /^no\s+reference\s+answers?\.?;?\s*/i,
+    /^no\s+gold\s+answer\s+key\s*[;:.]?\s*/i,
+    /^gold\s+labels?\s*:\s*/i,       // "Gold labels: ..." — whole label + colon
+    /^gold\s+answer\s+key\s*:\s*/i, // "Gold answer key: ..." — whole label + colon
+    /^gold\s*:?\s*/i,               // "Gold: ..." or bare "Gold " (e.g. "Gold answer key from X" -> "answer key from X")
+  ];
+  for (const re of leadIns) {
+    if (re.test(text)) return text.replace(re, "").trim();
+  }
+  return text;
+}
+
 function Fact({ label, value, hint, wide }) {
   return (
     <div style={{ gridColumn: wide ? "1 / -1" : "auto", minWidth: 0 }}>
@@ -2109,7 +2128,7 @@ function Detail({ b, showRigor, onClose }) {
         </button>
 
         {/* header: title on the left, date + journal on the right */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, paddingRight: 28 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: "6px 16px", paddingRight: 28 }}>
           <h2 style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 400, letterSpacing: "-.02em", lineHeight: 1.05, margin: 0, color: PANEL_INK, minWidth: 0 }}>{b.displayName || b.name}</h2>
           {(dateStr || b.venue) && (
             <div style={{ fontFamily: FONT_MONO, fontSize: 11.5, color: PANEL_MUTED, textAlign: "right", lineHeight: 1.5, flexShrink: 0 }}>
@@ -2193,7 +2212,7 @@ function Detail({ b, showRigor, onClose }) {
                   {open && (
                     <div style={{ background: "rgba(255,255,255,.5)", borderRadius: 10, padding: "20px 22px", margin: "0 0 20px 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "20px 32px" }}>
                       {c.dataSource && <Fact label="Data / question source" value={c.dataSource} hint="Where the benchmark's questions or test items originally came from." wide />}
-                      {c.groundTruth && <Fact label="Ground truth" value={c.groundTruth} hint="What's treated as the correct answer when scoring a model's response." wide />}
+                      {c.groundTruth && <Fact label="Ground truth" value={cleanGroundTruth(c.groundTruth)} hint="What's treated as the correct answer when scoring a model's response." wide />}
                       {c.evaluation && <Fact label="Evaluation" value={c.evaluation} hint="How model outputs are actually scored or judged." wide />}
                       {c.population && <Fact label="Population" value={c.population} hint="Who the benchmark's data or questions are drawn from or meant to represent." />}
                       {c.turn && <Fact label="Interaction" value={c.turn === "Single" ? "Single-turn" : c.turn} hint="Whether the benchmark is a single exchange or an ongoing multi-turn conversation." />}
