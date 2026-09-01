@@ -164,6 +164,25 @@ const MONTH_Q = {
   may: 5, jun: 6, june: 6, jul: 7, july: 7, aug: 8, august: 8,
   sep: 9, sept: 9, september: 9, oct: 10, october: 10, nov: 11, november: 11, dec: 12, december: 12,
 };
+// Sortable year*12+month value for "newest first" sorting — b.year is often
+// "Month YYYY" text (not a bare number), so parseInt(b.year) alone silently
+// fails and treats everything as tied. Prefers pubDate (the CSV-sourced
+// publication date), falls back to year, and degrades to year-only (month 0)
+// when no month is present.
+function sortableDate(b) {
+  for (const raw of [b.pubDate, b.year]) {
+    const s = (raw || "").trim();
+    const m = s.match(/^([A-Za-z]+)\s+(20\d\d)$/) || s.match(/^([A-Za-z]+)-(\d\d)$/);
+    if (m) {
+      const mon = MONTH_Q[m[1].toLowerCase()] || 0;
+      const yr = m[2].length === 2 ? "20" + m[2] : m[2];
+      return parseInt(yr, 10) * 12 + mon;
+    }
+  }
+  const y = ((b.pubDate || "").match(/20\d\d/) || (b.year || "").match(/20\d\d/) || [])[0];
+  return y ? parseInt(y, 10) * 12 : 0;
+}
+
 function quarterOf(b) {
   for (const raw of [b.year, b.pubDate]) {
     const s = (raw || "").trim();
@@ -496,6 +515,10 @@ export default function App() {
           pubDate: m.publicationDate || "",
           citation: m.citation || "",
           venue: m.venue || b.venue,
+          authors: m.authors || b.authors,
+          language: m.language || b.language,
+          source: m.source || b.source,
+          sourceRaw: m.sourceRaw || b.sourceRaw,
           components: components[b.paperLink] || components[b.id] || [],
           ratings: ratings[b.paperLink] || ratings[b.id] || null,
         };
@@ -1701,16 +1724,16 @@ function CatalogPage({ data, error }) {
     if (catFilter) rows = rows.filter((b) => (b.tasks || []).includes(catFilter));
     if (q) {
       rows = rows.filter((b) =>
-        [b.name, b.measures, b.authors, b.groundTruth, b.population, b.venue]
+        [b.displayName, b.name, b.measures, b.authors, b.groundTruth, b.population, b.venue]
           .some((v) => (v || "").toLowerCase().includes(q)));
     }
     const arr = [...rows];
     arr.sort((a, b) => {
-      if (sort === "year") return (parseInt(b.year) || 0) - (parseInt(a.year) || 0);
+      if (sort === "year") return sortableDate(b) - sortableDate(a);
       if (sort === "rigor") {
         return ratingRank(b) - ratingRank(a); // best (highest combined rating) first
       }
-      return (a.name || "").localeCompare(b.name || "");
+      return (a.displayName || a.name || "").localeCompare(b.displayName || b.name || "");
     });
     return arr;
   }, [data, q, sort, catFilter]);
