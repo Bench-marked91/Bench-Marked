@@ -203,13 +203,25 @@ function deriveCategory(b) {
   const t = `${b.name || ""} ${b.measures || ""} ${b.groundTruth || ""}`.toLowerCase();
   if (/crisis|suicid|self-harm|self harm|\bharm\b|\brisk\b/.test(t)) return "Crisis Response";
   if (/bias|equit|fair|demograph|hallucinat|safety/.test(t)) return "Safety & Bias";
-  if (/treat|medicat|prescri|interven/.test(t)) return "Treatment";
   if (/psychotherap|counsel|\btherap|motivational interview/.test(t)) return "Counseling";
   if (/diagnos|reason/.test(t)) return "Diagnosis";
   if (/document|extract|record|note/.test(t)) return "Clinical Documentation";
   if (/screen|detect|classif|identif|predict|emotion|sentiment|affect/.test(t)) return "Symptom Detection";
   if (/exam|\bmcq\b|knowledge|board|\bqa\b|question/.test(t)) return "Knowledge";
   return "General";
+}
+
+// Interaction type. "Mixed" benchmarks include multi-turn conversations, so
+// they count as multi-turn. turnRaw values like "multiple: two prompting
+// strategies" were mis-parsed as Multi-turn upstream — they are not
+// conversations, so they are excluded.
+function isMultiTurn(b) {
+  const raw = String(b.turnRaw || "").trim().toLowerCase();
+  if (raw.startsWith("multiple")) return false;
+  return /multi|mixed/i.test(String(b.turn || ""));
+}
+function isSingleTurn(b) {
+  return !isMultiTurn(b) && /single/i.test(String(b.turn || b.turnRaw || ""));
 }
 
 // Task taxonomy shown on the landing "what it covers" grid and used as the
@@ -231,7 +243,6 @@ const CATEGORY_INFO = [
   { name: "Safety & Bias", desc: "Probes for bias, hallucination, and the reliability of safety guardrails under adversarial or edge-case conditions." },
   { name: "Diagnosis", desc: "Assesses clinical reasoning from a case presentation through to a diagnosis, differential, or formulation." },
   { name: "Symptom Detection", desc: "Measures how accurately a model infers the presence and severity of symptoms from speech, interviews, or written text." },
-  { name: "Treatment", desc: "Assesses treatment planning and management decisions, from intervention selection to medication and follow-up recommendations." },
   { name: "Counseling", desc: "Evaluates the quality and appropriateness of multi-turn counseling and psychotherapeutic dialogue." },
   { name: "Patient Communication", desc: "Evaluates the accuracy, reliability, and readability of patient-facing explanations and educational responses." },
   { name: "Clinical Documentation", desc: "Tests classification and information extraction from real-world clinical records and documentation." },
@@ -247,7 +258,6 @@ const CATEGORY_COLORS = {
   "Safety & Bias": "#8A5560",          // mauve
   "Diagnosis": "#4F7183",              // dusty blue
   "Symptom Detection": "#8F6E2E",      // ochre
-  "Treatment": "#7D5378",              // plum
   "Counseling": "#5F7A55",             // moss
   "Patient Communication": "#3F7E74",  // teal
   "Clinical Documentation": "#8A6D4B", // coffee
@@ -463,6 +473,7 @@ const NAV = [
   { id: "catalog", label: "Catalog", hash: "#/catalog" },
   { id: "method", label: "Methodology", hash: "#/method" },
   { id: "about", label: "About", hash: "#/about" },
+  { id: "fellowship", label: "Fellowship", hash: "#/fellowship" },
 ];
 
 function hashToPage() {
@@ -470,6 +481,7 @@ function hashToPage() {
   if (h.startsWith("/method")) return "method";
   if (h.startsWith("/catalog")) return "catalog";
   if (h.startsWith("/about")) return "about";
+  if (h.startsWith("/fellowship")) return "fellowship";
   return "landing";
 }
 
@@ -641,7 +653,7 @@ export default function App() {
         }
       `}</style>
 
-      <div style={(page === "landing" || page === "method" || page === "about")
+      <div style={(page === "landing" || page === "method" || page === "about" || page === "fellowship")
         ? { position: "fixed", top: 0, left: 0, right: 0, zIndex: 40, background: "#1C4773" }
         : { position: "sticky", top: 0, zIndex: 40, background: "#1C4773" }}>
         <TopNav page={page} go={go} overlay={true} />
@@ -655,6 +667,7 @@ export default function App() {
           {page === "method" && <MethodPage go={go} data={data} />}
           {page === "catalog" && <CatalogPage data={data} error={error} />}
           {page === "about" && <AboutPage go={go} />}
+          {page === "fellowship" && <FellowshipPage go={go} />}
           <Footer go={go} />
         </>
       )}
@@ -1189,7 +1202,7 @@ function TaskTypeCards() {
 function LandingPage({ go, data }) {
   const total = data.length;
   const openCount = data.filter((b) => b.source === "Open").length;
-  const multiTurn = data.filter((b) => /multi/i.test(String(b.turn || b.turnRaw || ""))).length;
+  const multiTurn = data.filter(isMultiTurn).length;
   const maxLLMs = data.reduce((m, b) => {
     const d = String(b.numLLMs || "").match(/\d+/);
     return Math.max(m, d ? parseInt(d[0], 10) : 0);
@@ -1680,6 +1693,110 @@ function AboutPage({ go }) {
   );
 }
 
+function FellowshipPage({ go }) {
+  const p = { fontSize: 15.5, lineHeight: 1.7, color: "#FFFFFF", margin: 0, maxWidth: 700 };
+  const kicker = { fontFamily: FONT_MONO, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "#B9CDDE" };
+  const sectionTitle = { fontFamily: FONT_SERIF, fontSize: 19, fontWeight: 700, letterSpacing: "-.02em", color: "#FFFFFF", margin: "0 0 16px" };
+  const bm = { fontWeight: 700, fontStyle: "italic" };
+  const link = { color: C.lime, textDecoration: "underline", textUnderlineOffset: "2px" };
+  const divider = { marginTop: 48, paddingTop: 40, borderTop: "1px solid rgba(237,235,228,.14)" };
+  const APPLY_URL = "https://docs.google.com/forms/d/e/1FAIpQLSczqjRkYki3KfSK7YZlE5L98DAg7tbTuwaMeuR1Is4StiwvcQ/viewform";
+  const applyBtn = (
+    <a href={APPLY_URL} target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", background: C.lime, color: C.ink, borderRadius: 999, padding: "12px 26px", fontFamily: FONT_SANS, fontSize: 14, fontWeight: 700, textDecoration: "none" }}>Apply now →</a>
+  );
+  const facts = [
+    ["Length", "3 months"],
+    ["Time", "Up to 5 hours per week"],
+    ["Location", "Fully remote, on your own schedule"],
+  ];
+  const duties = [
+    "Search the peer-reviewed and preprint literature for mental health LLM benchmarks",
+    "Read each study closely and extract details on dataset construction, task design, scoring, and validation",
+    "Code benchmark features using the structured codebook and enter them into the catalog",
+    "Take part in quality assurance (the core team reviews every entry a second time)",
+  ];
+  return (
+    <div style={{ background: "#1C4773", color: "#FFFFFF" }}>
+      <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 32px 100px" }}>
+        <section style={{ padding: "104px 0 0" }}>
+          <div style={{ ...kicker, marginBottom: 18 }}>Fellowship</div>
+          <h1 style={{ fontFamily: FONT_SERIF, fontWeight: 700, fontSize: "clamp(38px, 5.5vw, 62px)", lineHeight: 1.04, letterSpacing: "-.04em", margin: 0 }}>The bench-marked Fellowship</h1>
+          <p style={{ fontSize: 17, lineHeight: 1.6, color: "#FFFFFF", margin: "22px 0 0", maxWidth: 640, fontStyle: "italic" }}>
+            A 3-month remote fellowship building the evidence base for mental health AI evaluation.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 14, marginTop: 32 }}>
+            {facts.map(([k, v]) => (
+              <div key={k} style={{ background: "rgba(237,235,228,.07)", borderRadius: 10, padding: "16px 18px" }}>
+                <div style={{ ...kicker, fontSize: 10.5 }}>{k}</div>
+                <div style={{ fontSize: 15, lineHeight: 1.45, marginTop: 8 }}>{v}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: 28 }}>{applyBtn}</div>
+        </section>
+
+        <section style={divider}>
+          <h2 style={sectionTitle}>About the project</h2>
+          <p style={p}>
+            <span style={bm}>bench-marked.com</span> is an independent public resource. It collects and characterizes every published benchmark used to evaluate large language models (LLMs) in mental health. As LLMs enter clinical and consumer settings, clinicians, researchers, developers, and policymakers need to know what these systems have been tested on, how the testing was done, and which populations it covered. <span style={bm}>bench-marked</span> brings that evidence together in one open, searchable catalog. The aim is to make AI evaluation in mental health care more transparent, more rigorous, and more responsible.
+          </p>
+        </section>
+
+        <section style={divider}>
+          <h2 style={sectionTitle}>The fellowship</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <p style={p}>
+              The <span style={bm}>bench-marked</span> Fellowship is a 3-month fellowship. Fellows build the catalog’s evidence base by finding, reviewing, and coding published mental health LLM benchmarks. For each benchmark, they record how it was built, which clinical tasks and constructs it measures, how it is scored, and which populations and data sources it uses. Fellows work from a standardized codebook so that every entry is consistent and reproducible.
+            </p>
+            <p style={p}>
+              The catalog will keep growing, so we will bring on new cohorts on a rolling basis. Fellows who do strong work may be invited to continue.
+            </p>
+          </div>
+        </section>
+
+        <section style={divider}>
+          <h2 style={sectionTitle}>Fellow responsibilities</h2>
+          <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 10, maxWidth: 700 }}>
+            {duties.map((d) => (
+              <li key={d} style={{ fontSize: 15.5, lineHeight: 1.6, paddingLeft: 4 }}>{d}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section style={divider}>
+          <h2 style={sectionTitle}>Commitment</h2>
+          <p style={p}>Up to 5 hours per week for 3 months, fully remote, on your own schedule.</p>
+        </section>
+
+        <section style={divider}>
+          <h2 style={sectionTitle}>Recognition</h2>
+          <p style={p}>Fellows receive formal credit for their contributions, in proportion to their role in the project.</p>
+        </section>
+
+        <section style={divider}>
+          <h2 style={sectionTitle}>Who should apply</h2>
+          <p style={p}>
+            We welcome applicants with training or a strong interest in psychiatry, psychology, clinical medicine, AI/ML, or health research. Strong candidates read critically, pay close attention to detail, and care about methodological rigor. You don’t need prior experience with benchmarks.
+          </p>
+        </section>
+
+        <section style={divider}>
+          <h2 style={sectionTitle}>How to apply</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <p style={p}>We review applications on a rolling basis and give priority to early applicants.</p>
+            <div>{applyBtn}</div>
+            <p style={p}>
+              Please reach out to{" "}
+              <a href="mailto:team@bench-marked.com?subject=bench-marked%20Fellowship" style={{ ...link, fontWeight: 700 }}>team@bench-marked.com</a>{" "}
+              with any questions.
+            </p>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
 function TierWord({ t }) {
   return <span style={{ color: TIER[t].color, fontWeight: 600 }}>{TIER[t].label}</span>;
 }
@@ -1705,6 +1822,7 @@ function CatalogPage({ data, error }) {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("year"); // name | year | rigor — newest first by default
   const [catFilter, setCatFilter] = useState(null); // null = all categories
+  const [srcFilter, setSrcFilter] = useState(null); // null | "Open" | "Closed"
   const [selected, setSelected] = useState(null);
   const [showRigor, setShowRigor] = useState(LAUNCH.ratings); // toggle the rigor rating display (parked when LAUNCH.ratings is false)
 
@@ -1722,6 +1840,7 @@ function CatalogPage({ data, error }) {
   const visible = useMemo(() => {
     let rows = data;
     if (catFilter) rows = rows.filter((b) => (b.tasks || []).includes(catFilter));
+    if (srcFilter) rows = rows.filter((b) => b.source === srcFilter);
     if (q) {
       rows = rows.filter((b) =>
         [b.displayName, b.name, b.measures, b.authors, b.groundTruth, b.population, b.venue]
@@ -1730,13 +1849,21 @@ function CatalogPage({ data, error }) {
     const arr = [...rows];
     arr.sort((a, b) => {
       if (sort === "year") return sortableDate(b) - sortableDate(a);
+      if (sort === "single" || sort === "multi") {
+        // Matching interaction type first, then the other type, then unknown;
+        // newest first within each group.
+        const rank = (x) => (sort === "single"
+          ? (isSingleTurn(x) ? 0 : isMultiTurn(x) ? 1 : 2)
+          : (isMultiTurn(x) ? 0 : isSingleTurn(x) ? 1 : 2));
+        return rank(a) - rank(b) || sortableDate(b) - sortableDate(a);
+      }
       if (sort === "rigor") {
         return ratingRank(b) - ratingRank(a); // best (highest combined rating) first
       }
       return (a.displayName || a.name || "").localeCompare(b.displayName || b.name || "");
     });
     return arr;
-  }, [data, q, sort, catFilter]);
+  }, [data, q, sort, catFilter, srcFilter]);
 
   const rated = data.filter((b) => b.score.tier).length;
   const graded = data.filter((b) => b.overallGrade).length;
@@ -1795,6 +1922,8 @@ function CatalogPage({ data, error }) {
             }}>
               <option value="name">Sort: Name (A-Z)</option>
               <option value="year">Sort: Year (newest)</option>
+              <option value="single">Sort: Single-turn first</option>
+              <option value="multi">Sort: Multi-turn first</option>
               {LAUNCH.ratings && <option value="rigor">Sort: Rating (best first)</option>}
             </select>
           </div>
@@ -1807,6 +1936,14 @@ function CatalogPage({ data, error }) {
           {categories.map((c) => (
             <VChip key={c} label={c} on={catFilter === c} onClick={() => setCatFilter(catFilter === c ? null : c)} />
           ))}
+
+          <div style={{ display: "flex", alignItems: "center", gap: 9, margin: "22px 0 8px" }}>
+            <span style={{ width: 9, height: 9, borderRadius: 999, background: ED.ink, display: "inline-block" }} />
+            <span style={{ fontFamily: FONT_SERIF, fontSize: 12, letterSpacing: ".08em", textTransform: "uppercase", color: ED.ink }}>Filter by source</span>
+          </div>
+          <VChip label="All sources" on={!srcFilter} onClick={() => setSrcFilter(null)} />
+          <VChip label="Open source" on={srcFilter === "Open"} onClick={() => setSrcFilter(srcFilter === "Open" ? null : "Open")} />
+          <VChip label="Closed source" on={srcFilter === "Closed"} onClick={() => setSrcFilter(srcFilter === "Closed" ? null : "Closed")} />
         </aside>
 
         <div style={{ minWidth: 0 }}>
@@ -1819,7 +1956,7 @@ function CatalogPage({ data, error }) {
             <div style={{ textAlign: "center", color: ED.muted, padding: "48px 20px", border: `1px dashed ${ED.line}`, borderRadius: 8, background: "rgba(237,235,228,.04)" }}>
               <Search size={26} color={C.unrated} />
               <div style={{ fontSize: 15, fontWeight: 600, color: ED.ink, marginTop: 10 }}>No matches</div>
-              <div style={{ fontSize: 13, marginTop: 4 }}>Try a different search term or clear the category filter.</div>
+              <div style={{ fontSize: 13, marginTop: 4 }}>Try a different search term or clear the filters.</div>
             </div>
           )}
         </div>
